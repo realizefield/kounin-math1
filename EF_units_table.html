@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>高認数学 展開・因数分解（EFシリーズ）単元表</title>
+
+<!-- KaTeX (CDN) -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{
+    delimiters:[
+      {left:'$$',right:'$$',display:true},
+      {left:'$',right:'$',display:false}
+    ],
+    throwOnError:false
+  });"></script>
+
+<style>
+:root{--bg:#f0f9ff;--card:#ffffff;--text:#1e293b;--text-sub:#64748b;--border:#e2e8f0;--radius:14px;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:60px;line-height:1.6;}
+
+/* ヒーロー */
+.hero{background:linear-gradient(135deg,#1a56a0,#0e7490);color:#fff;padding:28px 20px 24px;text-align:center;}
+.hero .label{font-size:.8em;opacity:.75;letter-spacing:.12em;margin-bottom:7px;}
+.hero h1{font-size:clamp(1.1em,4vw,1.6em);font-weight:700;line-height:1.4;}
+.hero p{font-size:.88em;opacity:.85;margin-top:8px;}
+
+.g-container{max-width:760px;margin:0 auto;padding:24px 15px 60px;}
+
+/* シリーズ概要 */
+.overview-box{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);padding:16px 18px;margin-bottom:22px;font-size:.92em;line-height:1.85;box-shadow:0 1px 4px rgba(0,0,0,.06);}
+.overview-box .ot{font-size:.82em;font-weight:700;color:#0e7490;margin-bottom:7px;letter-spacing:.05em;}
+.overview-box .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:11px;}
+.overview-box .stat-cell{background:linear-gradient(135deg,#dbeafe,#cffafe);border-radius:8px;padding:9px 6px;text-align:center;}
+.overview-box .stat-num{font-size:1.4em;font-weight:700;color:#0e7490;line-height:1.2;}
+.overview-box .stat-label{font-size:.72em;color:var(--text-sub);font-weight:700;}
+
+/* セクションタイトル */
+.section-title{font-size:.82em;font-weight:700;color:var(--text-sub);letter-spacing:.08em;margin:22px 0 10px;}
+
+/* 単元カード */
+.unit-card{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);margin-bottom:14px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.06);}
+.unit-card.sub{margin-left:24px;border-left:4px solid #b45309;}
+.unit-head{display:flex;align-items:flex-start;gap:14px;padding:14px 16px;}
+.unit-badge{width:46px;height:46px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:.78em;font-weight:700;color:#fff;flex-shrink:0;line-height:1.15;text-align:center;letter-spacing:.02em;}
+.unit-info{flex:1;min-width:0;}
+.unit-info .code{font-size:.72em;font-weight:700;opacity:.65;margin-bottom:2px;letter-spacing:.05em;}
+.unit-info .title{font-size:1em;font-weight:700;line-height:1.4;}
+.unit-info .sub{font-size:.78em;color:var(--text-sub);margin-top:3px;line-height:1.5;}
+.unit-formula{margin:0 16px 12px 76px;background:#f1f5f9;border-radius:6px;padding:6px 10px;font-size:.88em;font-weight:700;color:#1e293b;display:inline-block;max-width:calc(100% - 92px);}
+.unit-card.sub .unit-formula{background:#fffbeb;color:#92400e;}
+.unit-key{margin:0 16px 10px 76px;font-size:.76em;color:var(--text-sub);font-weight:700;}
+.unit-key::before{content:"🔑 ";}
+
+/* 4ステップリンク */
+.unit-pages{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--border);}
+.page-link{display:flex;flex-direction:column;align-items:center;padding:11px 5px;text-decoration:none;color:var(--text-sub);font-size:.72em;font-weight:700;gap:4px;transition:background .15s;}
+.page-link:hover{background:#f8fafc;}
+.page-link .icon{font-size:1.3em;}
+.page-link:not(:last-child){border-right:1px solid var(--border);}
+
+/* 解説ボックス */
+.flow-section{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);padding:14px 17px;margin:20px 0;box-shadow:0 1px 4px rgba(0,0,0,.06);}
+.flow-section .ftitle{font-size:.92em;font-weight:700;color:#0e7490;margin-bottom:9px;}
+.flow-section .fbody{font-size:.86em;line-height:1.95;}
+.flow-section strong{color:#1a56a0;}
+
+/* レスポンシブ */
+@media (max-width:600px){
+  .unit-head{gap:11px;padding:12px 13px;}
+  .unit-badge{width:42px;height:42px;font-size:.72em;}
+  .unit-formula{margin-left:66px;max-width:calc(100% - 80px);font-size:.84em;}
+  .unit-key{margin-left:66px;}
+  .unit-card.sub{margin-left:14px;}
+}
+
+/* 印刷向け */
+@media print{
+  .hero{background:#1a56a0 !important;-webkit-print-color-adjust:exact;}
+  .unit-badge{-webkit-print-color-adjust:exact;}
+  body{padding-bottom:0;}
+}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="label">江原予備校・高認数学</div>
+  <h1>第1章　式の計算<br>展開と因数分解</h1>
+  <p>EFシリーズ 単元一覧（全13単元・52ファイル）</p>
+</div>
+
+<main class="g-container">
+
+  <!-- シリーズ概要 -->
+  <div class="overview-box">
+    <div class="ot">📚 シリーズ概要</div>
+    本シリーズは「式の計算（展開と因数分解）」を網羅的に学ぶ全13単元です。<br>
+    各単元は <strong>導入 → 例題 → 演習 → 確認テスト</strong> の4ステップ構成で進めます。
+    <div class="stats">
+      <div class="stat-cell">
+        <div class="stat-num">13</div>
+        <div class="stat-label">単元</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-num">52</div>
+        <div class="stat-label">学習ファイル</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-num">4</div>
+        <div class="stat-label">ステップ／単元</div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ========== 第1部：展開 ========== -->
+  <div class="section-title">▶ 第1部　展開（Expansion）— 5単元</div>
+
+  <!-- EF01 -->
+  <div class="unit-card">
+    <div class="unit-head">
+      <div class="unit-badge" style="background:#1a56a0;">EF<br>01</div>
+      <div class="unit-info">
+        <div class="code">EF01</div>
+        <div class="title">展開の基本</div>
+        <div class="sub">(χ＋a)(χ＋b) の展開・たして×かける</div>
+      </div>
+    </div>
+    <div class="unit-formula">$(x+a)(x+b) = x^2 + (a+b)x + ab$</div>
+    <div class="unit-key">「たして・かける」の基本</div>
+    <div class="unit-pages">
+      <a href="kouninmath01/intro.html" class="page-link"><span class="icon">📖</span>導入</a>
+      <a href="kouninmath01/example.html" class="page-link"><span class="icon">✏️</span>例題</a>
+      <a href="kouninmath01/drill.html" class="page-link"><span class="icon">🔧</span>演習</a>
+      <a href="kouninmath01/check.html" class="page-link"><span class="icon">✅</span>確認</a>
+    </div>
+  </div>
+
+  <!-- EF02 -->
+  <div class="unit-card">
+    <div class="unit-head">
+      <div class="unit-badge" style="background:#2563eb;">EF<br>02</div>
+      <div class="unit-info">
+        <div class="code">EF02</div>
+        <div class="title">平方公式</div>
+        <div class="sub">(χ＋a)²，(χ－a)² の展開</div>
+      </div>
+    </div>
+    <div class="unit-formula">$(x \pm a)^2 = x^2 \pm 2ax + a^2$</div>
+    <div class="unit-key">2乗の展開＝3項になる</div>
+    <div class="unit-pages">
+      <a href="kouninmath02/intro.html" class="page-link"><span class="icon">📖</span>導入</a>
+      <a href="kouninmath02/example.html" class="page-link"><span class="icon">✏️</span>例題</a>
+      <a href="kouninmath02/drill.html" class="page-link"><span class="icon">🔧</span>演習</a>
+      <a href="kouninmath02/check.html" class="page-link"><span class="icon">✅</span>確認</a>
+    </div>
+  </div>
+
+  <!-- EF03 -->
+  <div class="unit-card">
+    <div class="unit-head">
+      <div class="unit-badge" style="background:#0369a1;">EF<br>03</div>
+      <div class="unit-info">
+        <div class="code">EF03</div>
+        <div class="title">和と差の積</div>
+        <div class="sub">(χ＋a)(χ－a) の展開・真ん中が消える！</div>
+      </div>
+    </div>
+    <div class="unit-formula">$(x+a)(x-a) = x^2 - a^2$</div>
+    <div class="unit-key">2項になる！</div>
+    <div class="unit-pages">
+      <a href="kouninmath03/intro.html" class="page-link"><span class="icon">📖</span>導入</a>
+      <a href="kouninmath03/example.html" class="page-link"><span class="icon">✏️</span>例題</a>
+      <a href="kouninmath03/drill.html" class="page-link"><span class="icon">🔧</span>演習</a>
+      <a href="kouninmath03/check.html" class="page-link"><span class="icon">✅</span>確認</a>
+    </div>
+  </div>
+
+  <!-- EF04-1 -->
+  <div class="unit-card">
+    <div class="unit-head">
+      <div class="unit-badge" style="background:#0f766e;">EF<br>04-1</div>
+      <div class="unit-info">
+        <div class="code">EF04-1</div>
+        <div class="title">公式の組み合わせ展開</div>
+        <div class="sub">公式①②③を見分けて使い分ける</div>
+      </div>
+    </div>
+    <div class="unit-formula">3公式の判別と適用</div>
+    <div class="unit-key">公式選択の判断力</div>
+    <div class="unit-pages">
+      <a href="kouninmath04-1/intro.html" class="page-link"><span class="icon">📖</span>導入</a>
+      <a href="kouninmath04-1/example.html" class="page-link"><span class="icon">✏️</span>例題</a>
+      <a href="kouninmath04-1/drill.html" class="page-link"><span class="icon">🔧</span>演習</a>
+      <a href="kouninmath04-1/check.html" class="page-link"><span class="icon">✅</span>確認</a>
+    </div>
+  </div>
+
+  <!-- EF04-2 -->
+  <div class="unit-card">
+    <div class="unit-head">
+      <div class="unit-badge" style="background:#7e22ce;">EF<br>04-2</div>
+      <div class="unit-info">
+        <div class="code">EF04-2</div>
+        <div class="title">展開の置き換え</div>
+        <div class="sub">カタマリを A に置き換えて展開する</div>
+      </div>
+    </div>
+    <div class="unit-formula">例)$(x+y+a)(x+y+b)$</div>
+    <div class="unit-key">3公式 + A置換</div>
+    <div class="unit-pages">
+      <a href="kouninmath04-2/intro.html" class="page-link"><span class="icon">📖</span>導入</a>
+      <a href="kouninmath04-2/example.html" class="page-link"><span class="icon">✏️</span>例題</a>
+      <a href="kouninmath04-2/drill.html" class="page-link"><span class="icon">🔧</span>演習</a>
+      <a href="kouninmath04-2/check.html" class="page-link"><span class="icon">✅</span>確認</a>
+    </div>
+  </div>
+
+
+  <!-- ========== 第2部：因数分解 ========== -->
+  <div class="section-title">▶ 第2部　因数分解（Factorization）— 8単元</div>
+
+  <!-- EF05 -->
+  <div class="unit-card">
+    <div class="unit-head">
+      <div class="unit-badge" style="background:#6d28d9;">EF<br>05</div>
+      <div class="unit-info">
+        <div class="code">EF05</div>
+        <div class="title">因数分解①　差の積</div>
+        <div class="sub">χ²－a²＝(χ＋a)(χ－a) の因数分解</div>
+      </div>
+    </div>
+    <div class="unit-formula">$x^2 - a^2 = (x+a)(x-a)$</div>
+    <div class="unit-key">平方数を覚えよう</div>
+    <div class="unit-pages">
+      <a href="kouninmath05/intro.html" class="page-link"><span class="icon">📖</span>導入</a>
+      <a href="kouninmath05/example.html" class="page-link"><span class="icon">✏️</span>例題</a>
+      <a href="kouninmath05/drill.html" class="page-link"><span class="icon">🔧</span>演習</a>
+      <a href="kouninmath05/check.html" class="page-link"><span class="icon">✅</span>確認</a>
+    </div>
+  </div>
+
+  <!-- EF06 -->
+  <div class="unit-card">
+    <div class="unit-head">
+      <div class="unit-badge" style="background:#7c3aed;">EF<br>06</div>
+      <div class="unit-info">
+        <div class="code">EF06</div>
+        <div class="title">因数分解②　たして・かける</div>
+        <div class="sub">χ²＋bχ＋c の因数分解　3パターン総論</div>
+      </div>
+    </div>
+    <div class="unit-formula">$x^2 + bx + c \rightarrow (x+\bigcirc)(x+\square)$</div>
+    <div class="unit-key">3パターン判別フロー</div>
+    <div class="unit-pages">
+      <a href="kouninmath06/intro.html" class="page-link"><span class="icon">📖</span>導入</a>
+      <a href="kouninmath06/example.html" class="page-link"><span class="icon">✏️</span>例題</a>
+      <a href="kouninmath06/drill.html" class="page-link"><span class="icon">🔧</span>演習</a>
+      <a href="kouninmath06/check.html" class="page-link"><span class="icon">✅</span>確認</a>
+    </div>
+  </div>
+
+  <!-- EF06-1（サブ） -->
+  <div class="unit-card sub">
+    <div class="unit-head">
+      <div class="unit-badge" style="background:#16a34a;">EF<br>06-1</div>
+      <div class="unit-info">
+        <div class="code">EF06-1</div>
+        <div class="title">パターン1：両プラス</div>
+        <div class="sub">定数項＋・係数＋ の場合</div>
+      </div>
+    </div>
+    <div class="unit-formula">$(x+\bigcirc)(x+\square)$</div>
+    <div class="unit-key">かけて先・たして後</div>
+    <div class="unit-pages">
+      <a href="kouninmath06-1/intro.html" class="page-link"><span class="icon">📖</span>導入</a>
+      <a href="kouninmath06-1/example.html" class="page-link"><span class="icon">✏️</span>例題</a>
+      <a href="kouninmath06-1/drill.html" class="page-link"><span class="icon">🔧</span>演習</a>
+      <a href="kouninmath06-1/check.html" class="page-link"><span class="icon">✅</span>確認</a>
+    </div>
+  </div>
+
+  <!-- EF06-2（サブ） -->
+  <div class="unit-card sub">
+    <div class="unit-head">
+      <div class="unit-badge" style="background:#0f766e;">EF<br>06-2</div>
+      <div class="unit-info">
+        <div class="code">EF06-2</div>
+        <div class="title">パターン2：両マイナス</div>
+        <div class="sub">定数項＋・係数− の場合</div>
+      </div>
+    </div>
+    <div class="unit-formula">$(x-\bigcirc)(x-\square)$</div>
+    <div class="unit-key">負×負＝正</div>
+    <div class="unit-pages">
+      <a href="kouninmath06-2/intro.html" class="page-link"><span class="icon">📖</span>導入</a>
+      <a href="kouninmath06-2/example.html" class="page-link"><span class="icon">✏️</span>例題</a>
+      <a href="kouninmath06-2/drill.html" class="page-link"><span class="icon">🔧</span>演習</a>
+      <a href="kouninmath06-2/check.html" class="page-link"><span class="icon">✅</span>確認</a>
+    </div>
+  </div>
+
+  <!-- EF06-3（サブ） -->
+  <div class="unit-card sub">
+    <div class="unit-head">
+      <div class="unit-badge" style="background:#d97706;">EF<br>06-3</div>
+      <div class="unit-info">
+        <div class="code">EF06-3</div>
+        <div class="title">パターン3：符号が逆</div>
+        <div class="sub">定数項− の場合</div>
+      </div>
+    </div>
+    <div class="unit-formula">$(x+\bigcirc)(x-\square)$</div>
+    <div class="unit-key">大きい方＝係数と同じ符号</div>
+    <div class="unit-pages">
+      <a href="kouninmath06-3/intro.html" class="page-link"><span class="icon">📖</span>導入</a>
+      <a href="kouninmath06-3/example.html" class="page-link"><span class="icon">✏️</span>例題</a>
+      <a href="kouninmath06-3/drill.html" class="page-link"><span class="icon">🔧</span>演習</a>
+      <a href="kouninmath06-3/check.html" class="page-link"><span class="icon">✅</span>確認</a>
+    </div>
+  </div>
+
+  <!-- EF07 -->
+  <div class="unit-card">
+    <div class="unit-head">
+      <div class="unit-badge" style="background:#0e7490;">EF<br>07</div>
+      <div class="unit-info">
+        <div class="code">EF07</div>
+        <div class="title">因数分解③　完全平方</div>
+        <div class="sub">χ²±2aχ＋a²＝(χ±a)² の因数分解</div>
+      </div>
+    </div>
+    <div class="unit-formula">$x^2 \pm 2ax + a^2 = (x \pm a)^2$</div>
+    <div class="unit-key">定数項＝$a^2$、係数＝$\pm 2a$</div>
+    <div class="unit-pages">
+      <a href="kouninmath07/intro.html" class="page-link"><span class="icon">📖</span>導入</a>
+      <a href="kouninmath07/example.html" class="page-link"><span class="icon">✏️</span>例題</a>
+      <a href="kouninmath07/drill.html" class="page-link"><span class="icon">🔧</span>演習</a>
+      <a href="kouninmath07/check.html" class="page-link"><span class="icon">✅</span>確認</a>
+    </div>
+  </div>
+
+  <!-- EF08 -->
+  <div class="unit-card">
+    <div class="unit-head">
+      <div class="unit-badge" style="background:#15803d;">EF<br>08</div>
+      <div class="unit-info">
+        <div class="code">EF08</div>
+        <div class="title">因数分解④　共通因数</div>
+        <div class="sub">共通因数をくくり出す（因数分解の最初の一手）</div>
+      </div>
+    </div>
+    <div class="unit-formula">$ax + ay = a(x+y)$</div>
+    <div class="unit-key">最大公約数 × 共通文字</div>
+    <div class="unit-pages">
+      <a href="kouninmath08/intro.html" class="page-link"><span class="icon">📖</span>導入</a>
+      <a href="kouninmath08/example.html" class="page-link"><span class="icon">✏️</span>例題</a>
+      <a href="kouninmath08/drill.html" class="page-link"><span class="icon">🔧</span>演習</a>
+      <a href="kouninmath08/check.html" class="page-link"><span class="icon">✅</span>確認</a>
+    </div>
+  </div>
+
+  <!-- EF09 -->
+  <div class="unit-card">
+    <div class="unit-head">
+      <div class="unit-badge" style="background:#b45309;">EF<br>09</div>
+      <div class="unit-info">
+        <div class="code">EF09</div>
+        <div class="title">因数分解⑤　置き換え</div>
+        <div class="sub">カタマリを A に置き換えて因数分解</div>
+      </div>
+    </div>
+    <div class="unit-formula">例)$(x+y)^2 + b(x+y) + c$</div>
+    <div class="unit-key">3パターン × A置換</div>
+    <div class="unit-pages">
+      <a href="kouninmath09/intro.html" class="page-link"><span class="icon">📖</span>導入</a>
+      <a href="kouninmath09/example.html" class="page-link"><span class="icon">✏️</span>例題</a>
+      <a href="kouninmath09/drill.html" class="page-link"><span class="icon">🔧</span>演習</a>
+      <a href="kouninmath09/check.html" class="page-link"><span class="icon">✅</span>確認</a>
+    </div>
+  </div>
+
+
+  <!-- 学習の流れ -->
+  <div class="flow-section">
+    <div class="ftitle">📌 学習の流れ（推奨順）</div>
+    <div class="fbody">
+      <strong>① 展開の基礎を固める</strong>　EF01 → EF02 → EF03 → EF04-1<br>
+      <strong>② 展開の応用</strong>　EF04-2（A置換）<br>
+      <strong>③ 因数分解の基礎</strong>　EF05 → EF06（→ EF06-1 → EF06-2 → EF06-3）<br>
+      <strong>④ 因数分解の応用</strong>　EF07 → EF08 → EF09<br><br>
+      ※ EF06-1〜3 は EF06 の中で必要に応じて深掘りする構成です。
+    </div>
+  </div>
+
+  <!-- 展開↔因数分解の対応 -->
+  <div class="flow-section">
+    <div class="ftitle">🔄 展開と因数分解の対応関係</div>
+    <div class="fbody">
+      展開と因数分解は <strong>同じ公式の「逆向き」</strong> の操作です。<br><br>
+      ・EF02（平方公式の展開）　↔　EF07（完全平方の因数分解）<br>
+      ・EF03（和と差の積の展開）　↔　EF05（差の積の因数分解）<br>
+      ・EF01（たして・かけて 展開）　↔　EF06（たして・かけて 因数分解）<br>
+      ・EF04-2（展開の A置換）　↔　EF09（因数分解の A置換）
+    </div>
+  </div>
+
+  <!-- 4ステップ構成 -->
+  <div class="flow-section">
+    <div class="ftitle">🎯 各単元の4ステップ構成</div>
+    <div class="fbody">
+      <strong>📖 導入（intro）</strong>　公式・考え方の解説<br>
+      <strong>✏️ 例題（example）</strong>　ステップ式ボタンで思考を体験<br>
+      <strong>🔧 演習（drill）</strong>　ランダムセットで類題演習<br>
+      <strong>✅ 確認テスト（check）</strong>　4択クイズで合格判定（花吹雪🎉）
+    </div>
+  </div>
+
+</main>
+</body>
+</html>
