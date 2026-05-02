@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EF06 因数分解② たして・かける 【導入】</title>
+
+<!-- KaTeX (CDN) -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{
+    delimiters:[
+      {left:'$$',right:'$$',display:true},
+      {left:'$',right:'$',display:false}
+    ],
+    throwOnError:false
+  });"></script>
+
+<style>
+:root{--primary:#0f766e;--primary-light:#ccfbf1;--accent:#e8372d;--accent-light:#fff1f0;--success:#16a34a;--success-light:#dcfce7;--warn:#d97706;--warn-light:#fffbeb;--bg:#f0fdfa;--card:#ffffff;--border:#99f6e4;--text:#1e293b;--text-sub:#64748b;--radius:12px;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:60px;}
+.g-container{max-width:760px;margin:0 auto;padding:22px 15px 60px;}
+.page-header{background:var(--primary);color:#fff;padding:16px 20px 12px;text-align:center;box-shadow:0 3px 10px rgba(15,118,110,.25);}
+.page-header .unit-code{font-size:.8em;opacity:.8;letter-spacing:.1em;margin-bottom:3px;}
+.page-header h1{font-size:clamp(.98em,3vw,1.38em);font-weight:700;margin:0;line-height:1.4;}
+.step-nav{display:flex;align-items:center;justify-content:center;padding:9px 6px;background:var(--card);border-bottom:1px solid var(--border);flex-wrap:nowrap;overflow-x:auto;position:sticky;top:0;z-index:10;gap:1px;}
+.step-item{display:flex;align-items:center;gap:3px;font-size:clamp(.62em,1.6vw,.78em);color:#94a3b8;white-space:nowrap;padding:2px 4px;}
+.step-item a{color:inherit;text-decoration:none;}
+.step-item a:hover{color:var(--primary);}
+.step-item.active{color:var(--primary);font-weight:700;}
+.step-circle{width:19px;height:19px;border-radius:50%;font-size:.68em;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.step-item.active .step-circle{background:var(--primary);color:#fff;box-shadow:0 0 0 2px var(--primary-light);}
+.step-item:not(.active) .step-circle{background:#94a3b8;color:#fff;}
+.step-arrow{color:#cbd5e1;font-size:.9em;padding:0;}
+.sec{font-size:1.02em;font-weight:700;color:var(--primary);border-left:4px solid var(--primary);padding-left:11px;margin-bottom:13px;margin-top:24px;}
+.sec:first-of-type{margin-top:0;}
+.rule-box{background:linear-gradient(135deg,#f0fdfa,#ccfbf1);border:2px solid var(--primary);border-radius:14px;padding:13px 16px;margin-bottom:14px;}
+.rule-box .rtitle{font-size:.83em;font-weight:700;color:var(--primary);margin-bottom:9px;}
+.rule-box .rbody{font-size:.92em;line-height:2.3;}
+.formula-box{background:linear-gradient(135deg,#f0fdfa,#ccfbf1);border:2px solid var(--success);border-radius:14px;padding:13px 16px;margin-bottom:14px;text-align:center;font-size:1.05em;font-weight:700;line-height:2.5;}
+.formula-box .ftitle{font-size:.83em;font-weight:700;color:var(--success);margin-bottom:9px;text-align:left;}
+.tip2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:18px;}
+.tip2 div{border-radius:8px;padding:9px;font-size:.86em;font-weight:700;text-align:center;line-height:1.5;}
+.pop-note{background:#fff7ed;border:1.5px dashed #fb923c;border-radius:10px;padding:9px 13px;font-size:.87em;color:#9a3412;font-weight:700;margin-top:10px;margin-bottom:14px;line-height:1.8;}
+.pop-note::before{content:"💡 ";}
+.warn-note{background:#fef2f2;border:1.5px solid var(--accent);border-radius:10px;padding:11px 14px;font-size:.9em;color:var(--accent);font-weight:700;margin:10px 0;line-height:1.9;}
+.warn-note::before{content:"⚠️ ";}
+.ex-card{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);margin-bottom:13px;overflow:hidden;}
+.ex-head{background:var(--primary);color:#fff;padding:7px 15px;font-size:.83em;font-weight:700;}
+.ex-body{padding:13px 16px;}
+.sr{display:flex;align-items:flex-start;gap:9px;padding:9px 12px;border-radius:8px;margin-bottom:7px;font-size:.88em;font-weight:700;line-height:2.1;}
+.sr.y{background:var(--warn-light);border:1.5px solid var(--warn);}
+.sr.b{background:var(--primary-light);border:1.5px solid var(--primary);}
+.sr.r{background:var(--accent-light);border:1.5px solid var(--accent);}
+.sr.g{background:var(--success-light);border:1.5px solid var(--success);}
+.sl{font-size:.68em;font-weight:700;border-radius:5px;padding:2px 7px;white-space:nowrap;flex-shrink:0;margin-top:4px;}
+.sl.y{background:var(--warn);color:#fff;}
+.sl.b{background:var(--primary);color:#fff;}
+.sl.r{background:var(--accent);color:#fff;}
+.sl.g{background:var(--success);color:#fff;}
+.ans-box{background:var(--primary-light);border:2px solid var(--primary);border-radius:9px;padding:11px 14px;margin-top:9px;font-size:1.05em;font-weight:700;color:var(--primary);text-align:center;line-height:2;}
+.sum-box{background:var(--warn-light);border:2px solid var(--warn);border-radius:var(--radius);padding:14px 17px;margin-bottom:22px;font-size:.93em;line-height:2.1;}
+.sum-box .st{font-weight:700;color:var(--warn);margin-bottom:7px;}
+.sum-box ul{padding-left:17px;}
+.sum-box li{margin-bottom:3px;}
+.sum-box strong{color:var(--primary);}
+.tech-box{background:#fef3c7;border:2px solid #f59e0b;border-radius:12px;padding:13px 16px;margin:13px 0;}
+.tech-box .ttl{font-size:.85em;font-weight:700;color:#b45309;margin-bottom:7px;}
+.tech-box .body{font-size:.92em;line-height:2;}
+
+/* 3パターンカード */
+.pattern-grid{display:grid;grid-template-columns:1fr;gap:12px;margin-bottom:14px;}
+.pattern-card{background:#fff;border:2.5px solid var(--border);border-radius:12px;padding:14px 16px;position:relative;}
+.pattern-card.p1{border-color:#16a34a;background:#f0fdf4;}
+.pattern-card.p2{border-color:#0f766e;background:#f0fdfa;}
+.pattern-card.p3{border-color:#d97706;background:#fffbeb;}
+.pattern-card .pnum{position:absolute;top:-11px;left:14px;background:#fff;padding:1px 9px;font-size:.74em;font-weight:700;letter-spacing:.05em;border-radius:4px;}
+.pattern-card.p1 .pnum{color:#16a34a;border:1.5px solid #16a34a;}
+.pattern-card.p2 .pnum{color:#0f766e;border:1.5px solid #0f766e;}
+.pattern-card.p3 .pnum{color:#d97706;border:1.5px solid #d97706;}
+.pattern-card .pttl{font-size:.93em;font-weight:700;margin-top:3px;margin-bottom:8px;}
+.pattern-card .pcond{font-size:.85em;color:var(--text-sub);font-weight:700;margin-bottom:6px;}
+.pattern-card .pmain{font-size:1em;font-weight:700;text-align:center;padding:6px 0;line-height:2;}
+.pattern-card .plink{display:block;text-align:center;background:#fff;border:1.5px solid;border-radius:8px;padding:7px;margin-top:8px;font-size:.85em;font-weight:700;text-decoration:none;}
+.pattern-card.p1 .plink{border-color:#16a34a;color:#16a34a;}
+.pattern-card.p2 .plink{border-color:#0f766e;color:#0f766e;}
+.pattern-card.p3 .plink{border-color:#d97706;color:#d97706;}
+.pattern-card .plink:hover{background:#f1f5f9;}
+
+/* 判別フロー */
+.flow-step{background:#fff;border:2px solid var(--border);border-radius:10px;padding:11px 14px;margin-bottom:8px;display:flex;align-items:center;gap:10px;}
+.flow-step .num{background:var(--primary);color:#fff;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.85em;flex-shrink:0;}
+.flow-step .body{font-size:.91em;line-height:1.8;flex:1;}
+
+.nav-btns{display:flex;gap:10px;flex-wrap:wrap;justify-content:space-between;margin-top:26px;}
+.btn-nav{font-family:'BIZ UDPGothic','BIZ UDP Gothic',sans-serif;font-size:.93em;font-weight:700;padding:11px 24px;border-radius:50px;border:none;cursor:pointer;text-decoration:none;display:inline-block;transition:transform .15s,box-shadow .15s;}
+.btn-nav:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.15);}
+.btn-f{background:var(--primary);color:#fff;}
+.btn-b{background:#f1f5f9;color:var(--text-sub);}
+.btn-h{background:var(--primary-light);color:var(--primary);font-size:.83em;padding:9px 18px;}
+</style>
+</head>
+<body>
+<div class="page-header">
+  <div class="unit-code">EF06</div>
+  <h1>因数分解② たして・かける<br><small style="font-size:.75em;opacity:.85;">χ²＋bχ＋c の因数分解　3パターン</small></h1>
+</div>
+<nav class="step-nav">
+  <div class="step-item active"><span class="step-circle">①</span><span>導入</span></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">②</span><a href="example.html">例題</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">③</span><a href="drill.html">演習</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">④</span><a href="check.html">確認</a></div>
+</nav>
+<main class="g-container">
+
+<div class="sec">① 「たして・かける」の因数分解とは？</div>
+<div class="rule-box">
+  <div class="rtitle">📌 EF01「たして・かける」展開の逆</div>
+  <div class="rbody">
+    EF01では，$(x+a)(x+b)$ を展開して $x^2 + (a+b)x + ab$ を作りました。<br>
+    この単元では，逆に <strong>$x^2 + bx + c$ の形を $(x+\bigcirc)(x+\square)$ に分解</strong> します。
+  </div>
+</div>
+
+<div class="formula-box">
+  <div class="ftitle">📌 メインの考え方</div>
+  $x^2 + bx + c = (x+\bigcirc)(x+\square)$<br>
+  $\bigcirc + \square = b$，$\bigcirc \times \square = c$
+</div>
+
+<div class="ex-card">
+  <div class="ex-head">例)$x^2 + 5x + 6$ を因数分解する</div>
+  <div class="ex-body">
+    <div class="sr y"><span class="sl y">考え方</span><div>「<strong>たして $5$，かけて $6$</strong>」になる2つの数を探す</div></div>
+    <div class="sr b"><span class="sl b">候補</span><div>かけて $6$ になるのは：$1 \times 6$，$2 \times 3$</div></div>
+    <div class="sr b"><span class="sl b">条件チェック</span><div>たして $5$ になるのは <strong>$2$ と $3$</strong></div></div>
+    <div class="sr b"><span class="sl b">完成</span><div>$x^2 + 5x + 6 = (x+2)(x+3)$</div></div>
+    <div class="ans-box">$(x+2)(x+3)$</div>
+  </div>
+</div>
+
+<div class="sec">② 符号で <strong>3つのパターン</strong> に分かれる</div>
+<div class="rule-box">
+  <div class="rtitle">📌 $b$ と $c$ の符号で，2数の符号が決まる</div>
+  <div class="rbody">
+    $x^2 + bx + c$ の中で，<strong>$b$（$x$ の係数）と $c$（定数項）の符号</strong> によって，<br>
+    2つの数の符号の組み合わせが決まります。<br>
+    高認では，この <strong>3パターン</strong> をマスターすることが必須！
+  </div>
+</div>
+
+<div class="pattern-grid">
+  <div class="pattern-card p1">
+    <div class="pnum">パターン1</div>
+    <div class="pttl">$(x+\bigcirc)(x+\square)$　両方プラス</div>
+    <div class="pcond">条件：$b > 0$，$c > 0$（両方プラス）</div>
+    <div class="pmain">例)$x^2 + 5x + 6 = (x+2)(x+3)$</div>
+    <a class="plink" href="../kouninmath06-1/intro.html">→ EF06-1 で詳しく学ぶ</a>
+  </div>
+  <div class="pattern-card p2">
+    <div class="pnum">パターン2</div>
+    <div class="pttl">$(x-\bigcirc)(x-\square)$　両方マイナス</div>
+    <div class="pcond">条件：$b < 0$，$c > 0$（係数マイナス・定数プラス）</div>
+    <div class="pmain">例)$x^2 - 6x + 5 = (x-1)(x-5)$</div>
+    <a class="plink" href="../kouninmath06-2/intro.html">→ EF06-2 で詳しく学ぶ</a>
+  </div>
+  <div class="pattern-card p3">
+    <div class="pnum">パターン3</div>
+    <div class="pttl">$(x+\bigcirc)(x-\square)$　符号が逆</div>
+    <div class="pcond">条件：$c < 0$（定数項マイナス）</div>
+    <div class="pmain">例)$x^2 + 2x - 15 = (x+5)(x-3)$</div>
+    <a class="plink" href="../kouninmath06-3/intro.html">→ EF06-3 で詳しく学ぶ</a>
+  </div>
+</div>
+
+<div class="sec">③ 3パターンの判別フロー</div>
+<div class="rule-box">
+  <div class="rtitle">📌 まずは「定数項」の符号を見る</div>
+  <div class="rbody">
+    どのパターンかを見分けるには，<strong>$c$（定数項）</strong> の符号を見るのが <strong>一番早い</strong>。
+  </div>
+</div>
+
+<div class="flow-step">
+  <div class="num">1</div>
+  <div class="body"><strong>$c$（定数項）はプラス？</strong><br>→ Yes：パターン1か2（同じ符号）</div>
+</div>
+<div class="flow-step">
+  <div class="num">2</div>
+  <div class="body"><strong>$c > 0$ なら $b$（係数）の符号を見る</strong><br>　・$b > 0$ → <strong>パターン1</strong>（両プラス）<br>　・$b < 0$ → <strong>パターン2</strong>（両マイナス）</div>
+</div>
+<div class="flow-step">
+  <div class="num">3</div>
+  <div class="body"><strong>$c$（定数項）はマイナス？</strong><br>→ Yes：<strong>パターン3</strong>（符号が逆）</div>
+</div>
+
+<div class="tech-box">
+  <div class="ttl">💡 シンプルにまとめると</div>
+  <div class="body">
+    ・定数項 $+$，係数 $+$ → <strong>両プラス（パターン1）</strong><br>
+    ・定数項 $+$，係数 $-$ → <strong>両マイナス（パターン2）</strong><br>
+    ・定数項 $-$ → <strong>符号が逆（パターン3）</strong>
+  </div>
+</div>
+
+<div class="sec">④ 例で見比べてみよう</div>
+
+<div class="ex-card">
+  <div class="ex-head">3つの式を見分ける</div>
+  <div class="ex-body">
+    <div class="sr g"><span class="sl g">パターン1</span><div>$x^2 + 7x + 12 = (x+3)(x+4)$　← 両プラス</div></div>
+    <div class="sr b"><span class="sl b">パターン2</span><div>$x^2 - 7x + 12 = (x-3)(x-4)$　← 両マイナス</div></div>
+    <div class="sr y"><span class="sl y">パターン3</span><div>$x^2 + x - 12 = (x+4)(x-3)$　← 符号が逆（定数項がマイナス）</div></div>
+  </div>
+</div>
+
+<div class="pop-note">
+  3つの式は <strong>定数項が同じ $12$</strong> でも，符号によって <strong>分解の仕方が違う</strong>！<br>
+  だから「定数項の符号」と「係数の符号」を，最初によく見る必要がある。
+</div>
+
+<div class="sec">⑤ かけて何になる？を考える</div>
+<div class="rule-box">
+  <div class="rtitle">📌 まずは「かけて $c$」になる組み合わせを書き出す</div>
+  <div class="rbody">
+    たとえば $c = 12$ なら，かけて $12$ になる組み合わせは：<br>
+    $1 \times 12$，$2 \times 6$，$3 \times 4$<br>
+    その中で <strong>たして $b$ になる組</strong> を選ぶ。
+  </div>
+</div>
+
+<div class="warn-note">
+  小さい数から書き出す方がラク！<br>
+  $c$ が大きい場合（例：$36$，$48$など）は組み合わせが多いので，<strong>順序立てて</strong> 書き出すと見落としが減る。
+</div>
+
+<div class="sec">⑥ 詳しい学習はサブ単元へ</div>
+<div class="rule-box">
+  <div class="rtitle">📌 3パターンを順番にマスターしよう</div>
+  <div class="rbody">
+    各パターンの詳しい解説と練習は，下記サブ単元に分かれています：<br>
+    パターンごとに <strong>導入→例題→演習→確認</strong> の4ステップで学習しよう。
+  </div>
+</div>
+
+<div class="sum-box">
+  <div class="st">📌 まとめ</div>
+  <ul>
+    <li>EF06は <strong>$x^2 + bx + c$ の因数分解</strong> の <strong>総論</strong></li>
+    <li>$\bigcirc + \square = b$，$\bigcirc \times \square = c$ となる2数を探す</li>
+    <li>符号で <strong>3パターン</strong> に分類：</li>
+    <li>　・パターン1（両プラス）→ <strong>EF06-1</strong></li>
+    <li>　・パターン2（両マイナス）→ <strong>EF06-2</strong></li>
+    <li>　・パターン3（符号が逆）→ <strong>EF06-3</strong></li>
+    <li>定数項 $c$ の符号で <strong>「同じ符号 / 違う符号」</strong> が決まる</li>
+    <li>係数 $b$ の符号で <strong>「両プラス / 両マイナス」</strong> が決まる</li>
+  </ul>
+</div>
+
+<div class="nav-btns">
+  <a href="../gamba_kounin.html" class="btn-nav btn-h">🏠 単元一覧へ</a>
+  <a href="example.html" class="btn-nav btn-f">② 例題へ →</a>
+</div>
+</main>
+
+<script src="../gamba_support.js"></script>
+</body>
+</html>

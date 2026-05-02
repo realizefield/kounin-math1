@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EF06-3 因数分解 パターン3 【導入】</title>
+
+<!-- KaTeX (CDN) -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{
+    delimiters:[
+      {left:'$$',right:'$$',display:true},
+      {left:'$',right:'$',display:false}
+    ],
+    throwOnError:false
+  });"></script>
+
+<style>
+:root{--primary:#0f766e;--primary-light:#ccfbf1;--accent:#e8372d;--accent-light:#fff1f0;--success:#16a34a;--success-light:#dcfce7;--warn:#d97706;--warn-light:#fffbeb;--bg:#f0fdfa;--card:#ffffff;--border:#99f6e4;--text:#1e293b;--text-sub:#64748b;--radius:12px;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:60px;}
+.g-container{max-width:760px;margin:0 auto;padding:22px 15px 60px;}
+.page-header{background:var(--primary);color:#fff;padding:16px 20px 12px;text-align:center;box-shadow:0 3px 10px rgba(15,118,110,.25);}
+.page-header .unit-code{font-size:.8em;opacity:.8;letter-spacing:.1em;margin-bottom:3px;}
+.page-header h1{font-size:clamp(.98em,3vw,1.38em);font-weight:700;margin:0;line-height:1.4;}
+.step-nav{display:flex;align-items:center;justify-content:center;padding:9px 6px;background:var(--card);border-bottom:1px solid var(--border);flex-wrap:nowrap;overflow-x:auto;position:sticky;top:0;z-index:10;gap:1px;}
+.step-item{display:flex;align-items:center;gap:3px;font-size:clamp(.62em,1.6vw,.78em);color:#94a3b8;white-space:nowrap;padding:2px 4px;}
+.step-item a{color:inherit;text-decoration:none;}
+.step-item a:hover{color:var(--primary);}
+.step-item.active{color:var(--primary);font-weight:700;}
+.step-circle{width:19px;height:19px;border-radius:50%;font-size:.68em;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.step-item.active .step-circle{background:var(--primary);color:#fff;box-shadow:0 0 0 2px var(--primary-light);}
+.step-item:not(.active) .step-circle{background:#94a3b8;color:#fff;}
+.step-arrow{color:#cbd5e1;font-size:.9em;padding:0;}
+.sec{font-size:1.02em;font-weight:700;color:var(--primary);border-left:4px solid var(--primary);padding-left:11px;margin-bottom:13px;margin-top:24px;}
+.sec:first-of-type{margin-top:0;}
+.rule-box{background:linear-gradient(135deg,#f0fdfa,#ccfbf1);border:2px solid var(--primary);border-radius:14px;padding:13px 16px;margin-bottom:14px;}
+.rule-box .rtitle{font-size:.83em;font-weight:700;color:var(--primary);margin-bottom:9px;}
+.rule-box .rbody{font-size:.92em;line-height:2.3;}
+.formula-box{background:linear-gradient(135deg,#f0fdfa,#ccfbf1);border:2px solid var(--success);border-radius:14px;padding:13px 16px;margin-bottom:14px;text-align:center;font-size:1.05em;font-weight:700;line-height:2.5;}
+.formula-box .ftitle{font-size:.83em;font-weight:700;color:var(--success);margin-bottom:9px;text-align:left;}
+.tip2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:18px;}
+.tip2 div{border-radius:8px;padding:9px;font-size:.86em;font-weight:700;text-align:center;line-height:1.5;}
+.pop-note{background:#fff7ed;border:1.5px dashed #fb923c;border-radius:10px;padding:9px 13px;font-size:.87em;color:#9a3412;font-weight:700;margin-top:10px;margin-bottom:14px;line-height:1.8;}
+.pop-note::before{content:"💡 ";}
+.warn-note{background:#fef2f2;border:1.5px solid var(--accent);border-radius:10px;padding:11px 14px;font-size:.9em;color:var(--accent);font-weight:700;margin:10px 0;line-height:1.9;}
+.warn-note::before{content:"⚠️ ";}
+.ex-card{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);margin-bottom:13px;overflow:hidden;}
+.ex-head{background:var(--primary);color:#fff;padding:7px 15px;font-size:.83em;font-weight:700;}
+.ex-body{padding:13px 16px;}
+.sr{display:flex;align-items:flex-start;gap:9px;padding:9px 12px;border-radius:8px;margin-bottom:7px;font-size:.88em;font-weight:700;line-height:2.1;}
+.sr.y{background:var(--warn-light);border:1.5px solid var(--warn);}
+.sr.b{background:var(--primary-light);border:1.5px solid var(--primary);}
+.sr.r{background:var(--accent-light);border:1.5px solid var(--accent);}
+.sr.g{background:var(--success-light);border:1.5px solid var(--success);}
+.sl{font-size:.68em;font-weight:700;border-radius:5px;padding:2px 7px;white-space:nowrap;flex-shrink:0;margin-top:4px;}
+.sl.y{background:var(--warn);color:#fff;}
+.sl.b{background:var(--primary);color:#fff;}
+.sl.r{background:var(--accent);color:#fff;}
+.sl.g{background:var(--success);color:#fff;}
+.ans-box{background:var(--primary-light);border:2px solid var(--primary);border-radius:9px;padding:11px 14px;margin-top:9px;font-size:1.05em;font-weight:700;color:var(--primary);text-align:center;line-height:2;}
+.sum-box{background:var(--warn-light);border:2px solid var(--warn);border-radius:var(--radius);padding:14px 17px;margin-bottom:22px;font-size:.93em;line-height:2.1;}
+.sum-box .st{font-weight:700;color:var(--warn);margin-bottom:7px;}
+.sum-box ul{padding-left:17px;}
+.sum-box li{margin-bottom:3px;}
+.sum-box strong{color:var(--primary);}
+.tech-box{background:#fef3c7;border:2px solid #f59e0b;border-radius:12px;padding:13px 16px;margin:13px 0;}
+.tech-box .ttl{font-size:.85em;font-weight:700;color:#b45309;margin-bottom:7px;}
+.tech-box .body{font-size:.92em;line-height:2;}
+
+/* 候補表（パターン3用：差を見る） */
+.factor-table{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0;}
+.factor-cell{background:#fff;border:1.5px solid var(--border);border-radius:6px;padding:8px 10px;font-size:.88em;font-weight:700;line-height:1.6;}
+.factor-cell.hit{border-color:var(--success);background:var(--success-light);color:#15803d;}
+
+/* 比較カード */
+.compare-grid{display:grid;grid-template-columns:1fr;gap:10px;margin-bottom:14px;}
+.compare-card{background:#fff;border:2px solid var(--border);border-radius:10px;padding:11px 13px;}
+.compare-card.p1{border-color:#16a34a;background:#f0fdf4;}
+.compare-card.p2{border-color:#0f766e;background:#f0fdfa;}
+.compare-card.p3{border-color:#d97706;background:#fffbeb;}
+.compare-card .clbl{font-size:.78em;font-weight:700;margin-bottom:5px;}
+.compare-card.p1 .clbl{color:#16a34a;}
+.compare-card.p2 .clbl{color:#0f766e;}
+.compare-card.p3 .clbl{color:#d97706;}
+.compare-card .cmain{font-size:.95em;font-weight:700;text-align:center;line-height:2;}
+
+/* 符号判定の図 */
+.sign-rule{background:#fff;border:2px solid var(--accent);border-radius:10px;padding:12px 14px;margin:10px 0;}
+.sign-rule .stitle{font-size:.85em;font-weight:700;color:var(--accent);margin-bottom:6px;}
+.sign-rule .sbody{font-size:.93em;line-height:2;}
+
+.nav-btns{display:flex;gap:10px;flex-wrap:wrap;justify-content:space-between;margin-top:26px;}
+.btn-nav{font-family:'BIZ UDPGothic','BIZ UDP Gothic',sans-serif;font-size:.93em;font-weight:700;padding:11px 24px;border-radius:50px;border:none;cursor:pointer;text-decoration:none;display:inline-block;transition:transform .15s,box-shadow .15s;}
+.btn-nav:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.15);}
+.btn-f{background:var(--primary);color:#fff;}
+.btn-b{background:#f1f5f9;color:var(--text-sub);}
+.btn-h{background:var(--primary-light);color:var(--primary);font-size:.83em;padding:9px 18px;}
+</style>
+</head>
+<body>
+<div class="page-header">
+  <div class="unit-code">EF06-3</div>
+  <h1>パターン3　$(x+\bigcirc)(x-\square)$<br><small style="font-size:.75em;opacity:.85;">定数項−　符号が逆</small></h1>
+</div>
+<nav class="step-nav">
+  <div class="step-item active"><span class="step-circle">①</span><span>導入</span></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">②</span><a href="example.html">例題</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">③</span><a href="drill.html">演習</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">④</span><a href="check.html">確認</a></div>
+</nav>
+<main class="g-container">
+
+<div class="sec">① パターン3の特徴</div>
+<div class="rule-box">
+  <div class="rtitle">📌 定数項が「マイナス」</div>
+  <div class="rbody">
+    $x^2 + 2x - 15$ のように，<br>
+    <strong>定数項が マイナス</strong> の式は，<br>
+    $(x + \bigcirc)(x - \square)$ の形 — つまり <strong>2数の符号が逆</strong> になります。<br>
+    パターン1・2と違って，係数の符号は <strong>プラスでもマイナスでもどちらでもOK</strong>。
+  </div>
+</div>
+
+<div class="formula-box">
+  <div class="ftitle">📌 パターン3の形</div>
+  $x^2 \pm bx - c \;\;\rightarrow\;\; (x+\bigcirc)(x-\square)$<br>
+  ※ 2数は <strong>片方がプラス，もう片方がマイナス</strong>
+</div>
+
+<div class="sec">② なぜ「符号が逆」になるの？</div>
+<div class="rule-box">
+  <div class="rtitle">📌 符号のしくみを理解しよう</div>
+  <div class="rbody">
+    2つの数を $+A$ と $-B$（符号が逆）とすると：<br>
+    ・かけると：$(+A) \times (-B) = -AB$ → <strong>マイナス</strong>（定数項 $c$ がマイナスになる）<br>
+    ・たすと：$A + (-B) = A - B$ → <strong>絶対値が大きい方の符号</strong>になる<br>
+    だから <strong>「定数項マイナス」</strong> ならパターン3で，<strong>係数の符号はどちらもアリ</strong>。
+  </div>
+</div>
+
+<div class="ex-card">
+  <div class="ex-head">例)$x^2 + 2x - 15$ を因数分解する</div>
+  <div class="ex-body">
+    <div class="sr y"><span class="sl y">符号確認</span><div>定数項 $-15$（マイナス）→ <strong>パターン3（符号が逆）</strong></div></div>
+    <div class="sr b"><span class="sl b">①かけて-15</span><div>絶対値で $1 \times 15$ または $3 \times 5$</div></div>
+    <div class="sr b"><span class="sl b">②差を考える</span><div>たして $+2$ → 差が $2$ になる組 → <strong>$3$ と $5$</strong></div></div>
+    <div class="sr b"><span class="sl b">③符号を決める</span><div>たして $+2$（プラス）→ 大きい方 $5$ がプラス → $+5$ と $-3$</div></div>
+    <div class="sr b"><span class="sl b">④答え</span><div>$x^2 + 2x - 15 = (x+5)(x-3)$</div></div>
+    <div class="ans-box">$(x+5)(x-3)$</div>
+  </div>
+</div>
+
+<div class="sec">③ 「差」で考えるのがコツ</div>
+<div class="rule-box">
+  <div class="rtitle">📌 パターン1・2との違い</div>
+  <div class="rbody">
+    パターン1・2では <strong>2数の和</strong> が係数になりましたが，<br>
+    パターン3では2数の符号が違うので，<strong>2数の差</strong> が係数になります。<br>
+    だから <strong>「かけて $|c|$，差が $|b|$」</strong> となる組を探すのがポイント。
+  </div>
+</div>
+
+<div class="tech-box">
+  <div class="ttl">💡 解き方の手順</div>
+  <div class="body">
+    ① <strong>かけて $|c|$</strong>（絶対値）になる正の数の組を書き出す<br>
+    ② その中から <strong>差が $|b|$</strong> になる組を選ぶ<br>
+    ③ <strong>係数 $b$ の符号</strong> に合わせて，どちらがプラスでどちらがマイナスか決める
+  </div>
+</div>
+
+<div class="sign-rule">
+  <div class="stitle">⚠️ 符号の決め方</div>
+  <div class="sbody">
+    たして $b$（プラス）→ <strong>絶対値の大きい数を プラス</strong>，小さい数を マイナス<br>
+    たして $b$（マイナス）→ <strong>絶対値の大きい数を マイナス</strong>，小さい数を プラス<br>
+    （要するに，<strong>大きい方の数の符号 = 係数 $b$ の符号</strong>）
+  </div>
+</div>
+
+<div class="sec">④ パターン1・2と比べてみよう</div>
+<div class="compare-grid">
+  <div class="compare-card p1">
+    <div class="clbl">パターン1（両プラス）：定数項 +，係数 +</div>
+    <div class="cmain">$x^2 + 8x + 15 = (x+3)(x+5)$<br>「たして $8$，かけて $+15$」</div>
+  </div>
+  <div class="compare-card p2">
+    <div class="clbl">パターン2（両マイナス）：定数項 +，係数 −</div>
+    <div class="cmain">$x^2 - 8x + 15 = (x-3)(x-5)$<br>「たして $-8$，かけて $+15$」</div>
+  </div>
+  <div class="compare-card p3">
+    <div class="clbl">パターン3（符号が逆）：定数項 −</div>
+    <div class="cmain">$x^2 + 2x - 15 = (x+5)(x-3)$<br>「たして $+2$，かけて $-15$」</div>
+  </div>
+</div>
+
+<div class="pop-note">
+  パターン3では，2数の <strong>差が係数</strong> になる！<br>
+  パターン1・2の「和」と違うので，最初は混乱しやすい。
+</div>
+
+<div class="sec">⑤ 別パターン：係数がマイナスの場合</div>
+
+<div class="ex-card">
+  <div class="ex-head">例)$x^2 - 4x - 12$ を因数分解する</div>
+  <div class="ex-body">
+    <div class="sr y"><span class="sl y">符号確認</span><div>定数項 $-12$ → <strong>パターン3</strong>，係数 $-4$（マイナス）</div></div>
+    <div class="sr b"><span class="sl b">①かけて12（絶対値）</span><div>$1 \times 12$，$2 \times 6$，$3 \times 4$</div></div>
+  </div>
+</div>
+
+<div class="factor-table">
+  <div class="factor-cell">$1, 12$　差は $11$</div>
+  <div class="factor-cell hit">$2, 6$　差は $\mathbf{4}$ ◎</div>
+  <div class="factor-cell">$3, 4$　差は $1$</div>
+  <div class="factor-cell" style="background:#f8fafc;color:#94a3b8;">他にはない</div>
+</div>
+
+<div class="ex-card">
+  <div class="ex-body">
+    <div class="sr b"><span class="sl b">③符号</span><div>係数が $-4$（マイナス）→ 大きい方 $6$ が <strong>マイナス</strong>，小さい方 $2$ が <strong>プラス</strong></div></div>
+    <div class="sr b"><span class="sl b">④答え</span><div>$+2$ と $-6$ → $(x+2)(x-6)$</div></div>
+    <div class="ans-box">$(x+2)(x-6)$</div>
+  </div>
+</div>
+
+<div class="warn-note">
+  パターン3で <strong>一番間違えやすい</strong> のは符号付け！<br>
+  「差が大きい方は，係数 $b$ と <strong>同じ符号</strong>」をしっかり覚えよう。
+</div>
+
+<div class="sec">⑥ 大きい数の例</div>
+
+<div class="ex-card">
+  <div class="ex-head">例)$x^2 + 5x - 24$ を因数分解する</div>
+  <div class="ex-body">
+    <div class="sr y"><span class="sl y">かけて24</span><div>$1 \times 24$，$2 \times 12$，$3 \times 8$，$4 \times 6$</div></div>
+  </div>
+</div>
+
+<div class="factor-table">
+  <div class="factor-cell">$1, 24$　差は $23$</div>
+  <div class="factor-cell">$2, 12$　差は $10$</div>
+  <div class="factor-cell hit">$3, 8$　差は $\mathbf{5}$ ◎</div>
+  <div class="factor-cell">$4, 6$　差は $2$</div>
+</div>
+
+<div class="ex-card">
+  <div class="ex-body">
+    <div class="sr b"><span class="sl b">符号</span><div>係数 $+5$ → 大きい方 $8$ が <strong>プラス</strong>，小さい方 $3$ が <strong>マイナス</strong></div></div>
+    <div class="sr g"><span class="sl g">答え</span><div>$+8$ と $-3$ → $(x+8)(x-3)$</div></div>
+    <div class="ans-box">$(x+8)(x-3)$</div>
+  </div>
+</div>
+
+<div class="sum-box">
+  <div class="st">📌 まとめ</div>
+  <ul>
+    <li>パターン3：<strong>定数項がマイナス</strong>（係数の符号はどちらでもOK）</li>
+    <li>分解の形は <strong>$(x+\bigcirc)(x-\square)$</strong>（符号が逆）</li>
+    <li>手順：① かけて $|c|$ → ② <strong>差</strong> が $|b|$ → ③ 係数の符号で大きい方の符号を決める</li>
+    <li>パターン1・2の「<strong>和</strong>」と違って，パターン3は「<strong>差</strong>」</li>
+    <li>覚え方：<strong>「大きい方 = 係数と同じ符号」</strong></li>
+    <li>これでパターン1〜3すべて完成！　高認の因数分解問題はバッチリ</li>
+  </ul>
+</div>
+
+<div class="nav-btns">
+  <a href="../gamba_kounin.html" class="btn-nav btn-h">🏠 単元一覧へ</a>
+  <a href="example.html" class="btn-nav btn-f">② 例題へ →</a>
+</div>
+</main>
+
+<script src="../gamba_support.js"></script>
+</body>
+</html>

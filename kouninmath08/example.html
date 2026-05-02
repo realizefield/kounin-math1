@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EF08 因数分解④ 共通因数 【例題】</title>
+
+<!-- KaTeX (CDN) -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+  onload="renderAllMath();"></script>
+
+<style>
+:root{--primary:#0f766e;--primary-light:#ccfbf1;--accent:#e8372d;--accent-light:#fff1f0;--success:#16a34a;--success-light:#dcfce7;--warn:#d97706;--warn-light:#fffbeb;--bg:#f0fdfa;--card:#ffffff;--border:#99f6e4;--text:#1e293b;--text-sub:#64748b;--radius:12px;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:60px;}
+.g-container{max-width:760px;margin:0 auto;padding:22px 15px 60px;}
+.page-header{background:var(--primary);color:#fff;padding:16px 20px 12px;text-align:center;box-shadow:0 3px 10px rgba(15,118,110,.25);}
+.page-header .unit-code{font-size:.8em;opacity:.8;letter-spacing:.1em;margin-bottom:3px;}
+.page-header h1{font-size:clamp(.98em,3vw,1.38em);font-weight:700;margin:0;line-height:1.4;}
+.step-nav{display:flex;align-items:center;justify-content:center;padding:9px 6px;background:var(--card);border-bottom:1px solid var(--border);flex-wrap:nowrap;overflow-x:auto;position:sticky;top:0;z-index:10;gap:1px;}
+.step-item{display:flex;align-items:center;gap:3px;font-size:clamp(.62em,1.6vw,.78em);color:#94a3b8;white-space:nowrap;padding:2px 4px;}
+.step-item a{color:inherit;text-decoration:none;}
+.step-item a:hover{color:var(--primary);}
+.step-item.active{color:var(--primary);font-weight:700;}
+.step-circle{width:19px;height:19px;border-radius:50%;font-size:.68em;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.step-item.active .step-circle{background:var(--primary);color:#fff;box-shadow:0 0 0 2px var(--primary-light);}
+.step-item:not(.active) .step-circle{background:#94a3b8;color:#fff;}
+.step-arrow{color:#cbd5e1;font-size:.9em;padding:0;}
+.instruction{background:var(--primary-light);border-left:4px solid var(--primary);border-radius:0 var(--radius) var(--radius) 0;padding:12px 15px;margin-bottom:18px;font-size:.93em;color:var(--primary);line-height:1.7;}
+.tip2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px;}
+.tip2 div{border-radius:8px;padding:8px;font-size:.84em;font-weight:700;text-align:center;line-height:1.5;}
+.ex-card{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);margin-bottom:16px;overflow:hidden;}
+.ex-head{padding:10px 15px;font-size:.86em;font-weight:700;display:flex;align-items:center;gap:8px;background:var(--primary);color:#fff;}
+.ex-num{background:rgba(255,255,255,.25);border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:.78em;flex-shrink:0;}
+.ex-body{padding:14px 16px 8px;}
+.q-text{font-size:1.1em;font-weight:700;margin-bottom:12px;color:var(--primary);line-height:2;}
+.sr{display:flex;align-items:flex-start;gap:9px;padding:9px 12px;border-radius:8px;margin-bottom:7px;font-size:.88em;font-weight:700;line-height:2.1;animation:fadeIn .3s ease;}
+.sr.y{background:var(--warn-light);border:1.5px solid var(--warn);}
+.sr.b{background:var(--primary-light);border:1.5px solid var(--primary);}
+.sr.r{background:var(--accent-light);border:1.5px solid var(--accent);}
+.sr.g{background:var(--success-light);border:1.5px solid var(--success);}
+.sl{font-size:.68em;font-weight:700;border-radius:5px;padding:2px 7px;white-space:nowrap;flex-shrink:0;margin-top:4px;}
+.sl.y{background:var(--warn);color:#fff;}
+.sl.b{background:var(--primary);color:#fff;}
+.sl.r{background:var(--accent);color:#fff;}
+.sl.g{background:var(--success);color:#fff;}
+.ans-box{background:var(--primary-light);border:2px solid var(--primary);border-radius:9px;padding:10px 14px;margin-bottom:8px;font-size:1.1em;font-weight:700;color:var(--primary);text-align:center;line-height:2.2;animation:fadeIn .3s ease;}
+.next-btn{width:100%;background:var(--primary);color:#fff;border:none;border-radius:8px;padding:11px;font-family:'BIZ UDPGothic',sans-serif;font-size:.93em;font-weight:700;cursor:pointer;margin-bottom:11px;transition:background .15s;}
+.next-btn:hover{background:#0d6661;}
+.done-badge{text-align:center;padding:6px;font-size:.84em;font-weight:700;color:var(--success);margin-bottom:10px;}
+.nav-btns{display:flex;gap:10px;flex-wrap:wrap;justify-content:space-between;margin-top:26px;}
+.btn-nav{font-family:'BIZ UDPGothic','BIZ UDP Gothic',sans-serif;font-size:.93em;font-weight:700;padding:11px 24px;border-radius:50px;border:none;cursor:pointer;text-decoration:none;display:inline-block;transition:transform .15s,box-shadow .15s;}
+.btn-nav:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.15);}
+.btn-f{background:var(--primary);color:#fff;}
+.btn-b{background:#f1f5f9;color:var(--text-sub);}
+.btn-h{background:var(--primary-light);color:var(--primary);font-size:.83em;padding:9px 18px;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(5px);}to{opacity:1;transform:translateY(0);}}
+</style>
+</head>
+<body>
+<div class="page-header">
+  <div class="unit-code">EF08</div>
+  <h1>因数分解④ 共通因数<br><small style="font-size:.75em;opacity:.85;">例題</small></h1>
+</div>
+<nav class="step-nav">
+  <div class="step-item"><span class="step-circle">①</span><a href="intro.html">導入</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item active"><span class="step-circle">②</span><span>例題</span></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">③</span><a href="drill.html">演習</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">④</span><a href="check.html">確認</a></div>
+</nav>
+<main class="g-container">
+<div class="instruction"><strong>【例題】</strong>　ボタンをタップして「共通因数」のくくり出しをマスターしよう！</div>
+<div class="tip2">
+  <div style="background:var(--primary-light);color:var(--primary);">①最大公約数<br>②共通文字</div>
+  <div style="background:var(--accent-light);color:var(--accent);">必ず最初に<br>チェック！</div>
+</div>
+<div id="ex-area"></div>
+<div class="nav-btns">
+  <a href="../gamba_kounin.html" class="btn-nav btn-h">🏠 単元一覧へ</a>
+  <a href="intro.html" class="btn-nav btn-b">← 導入</a>
+  <a href="drill.html" class="btn-nav btn-f">③ 演習へ →</a>
+</div>
+</main>
+
+<script>
+const EXAMPLES=[
+  {
+    title:"基本：数だけが共通",
+    q:"$3x + 6$ を因数分解する",
+    steps:[
+      {cls:"y",lbl:"観察",txt:"$3x = 3 \\times x$，$6 = 3 \\times 2$ → 共通因数は <strong>$3$</strong>"},
+      {cls:"b",lbl:"くくり出す",txt:"$3x + 6 = 3(x + 2)$"},
+      {cls:"b",lbl:"検算",txt:"$3 \\times x + 3 \\times 2 = 3x + 6$ ◎"},
+      {cls:"g",lbl:"ポイント",txt:"くくり出した後の <strong>かっこの中身は2項以上</strong>"},
+    ],
+    ans:"$3(x + 2)$"
+  },
+  {
+    title:"基本：文字だけが共通",
+    q:"$x^2 + 4x$ を因数分解する",
+    steps:[
+      {cls:"y",lbl:"観察",txt:"$x^2 = x \\times x$，$4x = x \\times 4$ → 共通因数は <strong>$x$</strong>"},
+      {cls:"b",lbl:"くくり出す",txt:"$x^2 + 4x = x(x + 4)$"},
+      {cls:"b",lbl:"検算",txt:"$x \\times x + x \\times 4 = x^2 + 4x$ ◎"},
+      {cls:"g",lbl:"ポイント",txt:"$x^2$ の中の $x$ 1つ分を取り出すイメージ"},
+    ],
+    ans:"$x(x + 4)$"
+  },
+  {
+    title:"標準：数 × 文字の組み合わせ",
+    q:"$6x^2 + 9x$ を因数分解する",
+    steps:[
+      {cls:"y",lbl:"数の共通",txt:"$6$ と $9$ の最大公約数は <strong>$3$</strong>"},
+      {cls:"y",lbl:"文字の共通",txt:"両方に $x$ がある → 共通文字は $x$"},
+      {cls:"b",lbl:"合わせる",txt:"共通因数は <strong>$3x$</strong>"},
+      {cls:"b",lbl:"くくり出す",txt:"$6x^2 + 9x = 3x(2x + 3)$"},
+      {cls:"b",lbl:"検算",txt:"$3x \\times 2x = 6x^2$，$3x \\times 3 = 9x$ ◎"},
+      {cls:"g",lbl:"ポイント",txt:"数と文字 <strong>両方</strong> をまとめて取り出す"},
+    ],
+    ans:"$3x(2x + 3)$"
+  },
+  {
+    title:"高認頻出 $4x^2 - 8x$",
+    q:"$4x^2 - 8x$ を因数分解する",
+    steps:[
+      {cls:"y",lbl:"数の共通",txt:"$4$ と $8$ の最大公約数は <strong>$4$</strong>"},
+      {cls:"y",lbl:"文字の共通",txt:"両方に $x$ → 共通文字は $x$"},
+      {cls:"b",lbl:"合わせる",txt:"共通因数は <strong>$4x$</strong>"},
+      {cls:"b",lbl:"くくり出す",txt:"$4x^2 - 8x = 4x(x - 2)$"},
+      {cls:"g",lbl:"ポイント",txt:"マイナス符号も <strong>かっこの中に残す</strong>"},
+    ],
+    ans:"$4x(x - 2)$"
+  },
+  {
+    title:"3項の場合 $2x^3 + 4x^2 + 6x$",
+    q:"$2x^3 + 4x^2 + 6x$ を因数分解する",
+    steps:[
+      {cls:"y",lbl:"数の共通",txt:"$2, 4, 6$ の最大公約数は <strong>$2$</strong>"},
+      {cls:"y",lbl:"文字の共通",txt:"3項とも $x$ がある → 共通文字は $x$"},
+      {cls:"b",lbl:"合わせる",txt:"共通因数は <strong>$2x$</strong>"},
+      {cls:"b",lbl:"くくり出す",txt:"$2x^3 + 4x^2 + 6x = 2x(x^2 + 2x + 3)$"},
+      {cls:"g",lbl:"ポイント",txt:"3項以上でも <strong>すべての項</strong> から取り出す"},
+    ],
+    ans:"$2x(x^2 + 2x + 3)$"
+  },
+  {
+    title:"応用 $3x^2 - 12$（さらに因数分解）",
+    q:"$3x^2 - 12$ を因数分解する",
+    steps:[
+      {cls:"y",lbl:"①共通因数",txt:"$3$ と $12$ の共通因数は <strong>$3$</strong>"},
+      {cls:"b",lbl:"くくり出す",txt:"$3x^2 - 12 = 3(x^2 - 4)$"},
+      {cls:"r",lbl:"観察",txt:"$x^2 - 4$ は <strong>2乗の差</strong>（EF05）！"},
+      {cls:"b",lbl:"②さらに分解",txt:"$x^2 - 4 = (x+2)(x-2)$"},
+      {cls:"b",lbl:"最終形",txt:"$3(x+2)(x-2)$"},
+      {cls:"g",lbl:"ポイント",txt:"共通因数を <strong>くくり出した後</strong>，さらに分解できないか確認！"},
+    ],
+    ans:"$3(x+2)(x-2)$"
+  },
+  {
+    title:"応用 $2x^2 + 8x + 8$（さらに完全平方）",
+    q:"$2x^2 + 8x + 8$ を因数分解する",
+    steps:[
+      {cls:"y",lbl:"①共通因数",txt:"$2, 8, 8$ の最大公約数は <strong>$2$</strong>"},
+      {cls:"b",lbl:"くくり出す",txt:"$2x^2 + 8x + 8 = 2(x^2 + 4x + 4)$"},
+      {cls:"r",lbl:"観察",txt:"$x^2 + 4x + 4$ は <strong>$(x+2)^2$</strong>（完全平方・EF07）"},
+      {cls:"b",lbl:"②さらに",txt:"$x^2 + 4x + 4 = (x+2)^2$"},
+      {cls:"b",lbl:"最終形",txt:"$2(x+2)^2$"},
+      {cls:"g",lbl:"ポイント",txt:"共通因数→完全平方の <strong>2段階分解</strong>"},
+    ],
+    ans:"$2(x+2)^2$"
+  },
+];
+
+const state=EXAMPLES.map(()=>0);
+
+function buildAll(){
+  const area=document.getElementById('ex-area');
+  EXAMPLES.forEach((ex,i)=>{
+    const div=document.createElement('div');
+    div.className='ex-card';div.id='ec'+i;
+    div.innerHTML='<div class="ex-head">'
+      +'<span class="ex-num">'+(i+1)+'</span>'+ex.title+'</div>'
+      +'<div class="ex-body"><div class="q-text">'+ex.q+'</div>'
+      +'<div id="steps'+i+'"></div>'
+      +'<button class="next-btn" id="btn'+i+'" onclick="nextStep('+i+')">💡 考え方を見る</button>'
+      +'<div id="done'+i+'" class="done-badge" style="display:none;">✅ 完了！</div>'
+      +'</div>';
+    area.appendChild(div);
+  });
+}
+
+function nextStep(i){
+  const ex=EXAMPLES[i],cur=state[i];
+  const sd=document.getElementById('steps'+i);
+  const btn=document.getElementById('btn'+i);
+  const done=document.getElementById('done'+i);
+  if(cur<ex.steps.length){
+    const s=ex.steps[cur];
+    const row=document.createElement('div');
+    row.className='sr '+s.cls;
+    row.innerHTML='<span class="sl '+s.cls+'">'+s.lbl+'</span><div>'+s.txt+'</div>';
+    sd.appendChild(row);
+    state[i]++;
+    btn.textContent=state[i]<ex.steps.length?'➡ 次のステップへ':'✅ 答えを見る';
+    if(typeof renderMathInElement==='function'){
+      renderMathInElement(row,{
+        delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],
+        throwOnError:false
+      });
+    }
+  }else{
+    const ab=document.createElement('div');
+    ab.className='ans-box';
+    ab.innerHTML='答え：'+ex.ans;
+    sd.appendChild(ab);
+    btn.style.display='none';
+    done.style.display='block';
+    if(typeof renderMathInElement==='function'){
+      renderMathInElement(ab,{
+        delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],
+        throwOnError:false
+      });
+    }
+  }
+}
+
+function renderAllMath(){
+  if(typeof renderMathInElement==='function'){
+    renderMathInElement(document.body,{
+      delimiters:[
+        {left:'$$',right:'$$',display:true},
+        {left:'$',right:'$',display:false}
+      ],
+      throwOnError:false
+    });
+  }
+}
+
+buildAll();
+</script>
+<script src="../gamba_support.js"></script>
+</body>
+</html>

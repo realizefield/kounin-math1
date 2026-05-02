@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EF09 因数分解⑤ 置き換え 【例題】</title>
+
+<!-- KaTeX (CDN) -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+  onload="renderAllMath();"></script>
+
+<style>
+:root{--primary:#0f766e;--primary-light:#ccfbf1;--accent:#e8372d;--accent-light:#fff1f0;--success:#16a34a;--success-light:#dcfce7;--warn:#d97706;--warn-light:#fffbeb;--bg:#f0fdfa;--card:#ffffff;--border:#99f6e4;--text:#1e293b;--text-sub:#64748b;--radius:12px;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:60px;}
+.g-container{max-width:760px;margin:0 auto;padding:22px 15px 60px;}
+.page-header{background:var(--primary);color:#fff;padding:16px 20px 12px;text-align:center;box-shadow:0 3px 10px rgba(15,118,110,.25);}
+.page-header .unit-code{font-size:.8em;opacity:.8;letter-spacing:.1em;margin-bottom:3px;}
+.page-header h1{font-size:clamp(.98em,3vw,1.38em);font-weight:700;margin:0;line-height:1.4;}
+.step-nav{display:flex;align-items:center;justify-content:center;padding:9px 6px;background:var(--card);border-bottom:1px solid var(--border);flex-wrap:nowrap;overflow-x:auto;position:sticky;top:0;z-index:10;gap:1px;}
+.step-item{display:flex;align-items:center;gap:3px;font-size:clamp(.62em,1.6vw,.78em);color:#94a3b8;white-space:nowrap;padding:2px 4px;}
+.step-item a{color:inherit;text-decoration:none;}
+.step-item a:hover{color:var(--primary);}
+.step-item.active{color:var(--primary);font-weight:700;}
+.step-circle{width:19px;height:19px;border-radius:50%;font-size:.68em;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.step-item.active .step-circle{background:var(--primary);color:#fff;box-shadow:0 0 0 2px var(--primary-light);}
+.step-item:not(.active) .step-circle{background:#94a3b8;color:#fff;}
+.step-arrow{color:#cbd5e1;font-size:.9em;padding:0;}
+.instruction{background:var(--primary-light);border-left:4px solid var(--primary);border-radius:0 var(--radius) var(--radius) 0;padding:12px 15px;margin-bottom:18px;font-size:.93em;color:var(--primary);line-height:1.7;}
+.tip2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px;}
+.tip2 div{border-radius:8px;padding:8px;font-size:.84em;font-weight:700;text-align:center;line-height:1.5;}
+.ex-card{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);margin-bottom:16px;overflow:hidden;}
+.ex-head{padding:10px 15px;font-size:.86em;font-weight:700;display:flex;align-items:center;gap:8px;background:var(--primary);color:#fff;}
+.ex-num{background:rgba(255,255,255,.25);border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:.78em;flex-shrink:0;}
+.ex-body{padding:14px 16px 8px;}
+.q-text{font-size:1.1em;font-weight:700;margin-bottom:12px;color:var(--primary);line-height:2;}
+.sr{display:flex;align-items:flex-start;gap:9px;padding:9px 12px;border-radius:8px;margin-bottom:7px;font-size:.88em;font-weight:700;line-height:2.1;animation:fadeIn .3s ease;}
+.sr.y{background:var(--warn-light);border:1.5px solid var(--warn);}
+.sr.b{background:var(--primary-light);border:1.5px solid var(--primary);}
+.sr.r{background:var(--accent-light);border:1.5px solid var(--accent);}
+.sr.g{background:var(--success-light);border:1.5px solid var(--success);}
+.sl{font-size:.68em;font-weight:700;border-radius:5px;padding:2px 7px;white-space:nowrap;flex-shrink:0;margin-top:4px;}
+.sl.y{background:var(--warn);color:#fff;}
+.sl.b{background:var(--primary);color:#fff;}
+.sl.r{background:var(--accent);color:#fff;}
+.sl.g{background:var(--success);color:#fff;}
+.ans-box{background:var(--primary-light);border:2px solid var(--primary);border-radius:9px;padding:10px 14px;margin-bottom:8px;font-size:1.1em;font-weight:700;color:var(--primary);text-align:center;line-height:2.2;animation:fadeIn .3s ease;}
+.next-btn{width:100%;background:var(--primary);color:#fff;border:none;border-radius:8px;padding:11px;font-family:'BIZ UDPGothic',sans-serif;font-size:.93em;font-weight:700;cursor:pointer;margin-bottom:11px;transition:background .15s;}
+.next-btn:hover{background:#0d6661;}
+.done-badge{text-align:center;padding:6px;font-size:.84em;font-weight:700;color:var(--success);margin-bottom:10px;}
+.nav-btns{display:flex;gap:10px;flex-wrap:wrap;justify-content:space-between;margin-top:26px;}
+.btn-nav{font-family:'BIZ UDPGothic','BIZ UDP Gothic',sans-serif;font-size:.93em;font-weight:700;padding:11px 24px;border-radius:50px;border:none;cursor:pointer;text-decoration:none;display:inline-block;transition:transform .15s,box-shadow .15s;}
+.btn-nav:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.15);}
+.btn-f{background:var(--primary);color:#fff;}
+.btn-b{background:#f1f5f9;color:var(--text-sub);}
+.btn-h{background:var(--primary-light);color:var(--primary);font-size:.83em;padding:9px 18px;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(5px);}to{opacity:1;transform:translateY(0);}}
+</style>
+</head>
+<body>
+<div class="page-header">
+  <div class="unit-code">EF09</div>
+  <h1>因数分解⑤ 置き換え<br><small style="font-size:.75em;opacity:.85;">例題</small></h1>
+</div>
+<nav class="step-nav">
+  <div class="step-item"><span class="step-circle">①</span><a href="intro.html">導入</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item active"><span class="step-circle">②</span><span>例題</span></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">③</span><a href="drill.html">演習</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">④</span><a href="check.html">確認</a></div>
+</nav>
+<main class="g-container">
+<div class="instruction"><strong>【例題】</strong>　ボタンをタップして「置き換え」型の因数分解をマスターしよう！</div>
+<div class="tip2">
+  <div style="background:var(--primary-light);color:var(--primary);">①Aと置く<br>②因数分解　③Aを戻す</div>
+  <div style="background:var(--accent-light);color:var(--accent);">$A$ を戻して<br>かっこを整える</div>
+</div>
+<div id="ex-area"></div>
+<div class="nav-btns">
+  <a href="../gamba_kounin.html" class="btn-nav btn-h">🏠 単元一覧へ</a>
+  <a href="intro.html" class="btn-nav btn-b">← 導入</a>
+  <a href="drill.html" class="btn-nav btn-f">③ 演習へ →</a>
+</div>
+</main>
+
+<script>
+const EXAMPLES=[
+  {
+    title:"基本：たして・かける型",
+    q:"$(x+y)^2 + 5(x+y) + 6$ を因数分解する",
+    steps:[
+      {cls:"y",lbl:"観察",txt:"$x+y$ が <strong>2回</strong> 登場している"},
+      {cls:"b",lbl:"置き換え",txt:"$x+y = A$ → $A^2 + 5A + 6$"},
+      {cls:"b",lbl:"因数分解",txt:"たして $5$，かけて $6$ → $2$ と $3$ → $(A+2)(A+3)$"},
+      {cls:"b",lbl:"$A$ を戻す",txt:"$(x+y+2)(x+y+3)$"},
+      {cls:"g",lbl:"ポイント",txt:"$A$ を戻したら <strong>かっこの中を整える</strong>"},
+    ],
+    ans:"$(x+y+2)(x+y+3)$"
+  },
+  {
+    title:"差の積型 $(x+y)^2 - 16$",
+    q:"$(x+y)^2 - 16$ を因数分解する",
+    steps:[
+      {cls:"y",lbl:"観察",txt:"$(x+y)^2$ と $16 = 4^2$ → <strong>2乗の差</strong>"},
+      {cls:"b",lbl:"置き換え",txt:"$x+y = A$ → $A^2 - 16$"},
+      {cls:"b",lbl:"差の積",txt:"$A^2 - 4^2 = (A+4)(A-4)$"},
+      {cls:"b",lbl:"$A$ を戻す",txt:"$(x+y+4)(x+y-4)$"},
+      {cls:"g",lbl:"ポイント",txt:"差の積（EF05）の応用形"},
+    ],
+    ans:"$(x+y+4)(x+y-4)$"
+  },
+  {
+    title:"完全平方型 $(x+y)^2 + 6(x+y) + 9$",
+    q:"$(x+y)^2 + 6(x+y) + 9$ を因数分解する",
+    steps:[
+      {cls:"y",lbl:"観察",txt:"$9 = 3^2$，$6 = 2 \\times 3$ → <strong>完全平方</strong>"},
+      {cls:"b",lbl:"置き換え",txt:"$x+y = A$ → $A^2 + 6A + 9$"},
+      {cls:"b",lbl:"完全平方",txt:"$A^2 + 6A + 9 = (A+3)^2$"},
+      {cls:"b",lbl:"$A$ を戻す",txt:"$(x+y+3)^2$"},
+      {cls:"g",lbl:"ポイント",txt:"完全平方（EF07）の応用形"},
+    ],
+    ans:"$(x+y+3)^2$"
+  },
+  {
+    title:"高認頻出 $(x-1)^2 - 4(x-1) - 12$",
+    q:"$(x-1)^2 - 4(x-1) - 12$ を因数分解する",
+    steps:[
+      {cls:"y",lbl:"観察",txt:"$x-1$ が <strong>2回</strong> 登場している"},
+      {cls:"b",lbl:"置き換え",txt:"$x-1 = A$ → $A^2 - 4A - 12$"},
+      {cls:"b",lbl:"因数分解",txt:"たして $-4$，かけて $-12$ → $+2$ と $-6$ → $(A+2)(A-6)$"},
+      {cls:"b",lbl:"$A$ を戻す",txt:"$(x-1+2)(x-1-6) = (x+1)(x-7)$"},
+      {cls:"g",lbl:"ポイント",txt:"$A$ を戻したら <strong>必ず計算して整える</strong>"},
+    ],
+    ans:"$(x+1)(x-7)$"
+  },
+  {
+    title:"高認頻出 $(2x+1)^2 - 9$",
+    q:"$(2x+1)^2 - 9$ を因数分解する",
+    steps:[
+      {cls:"y",lbl:"観察",txt:"$(2x+1)^2$ と $9 = 3^2$ → <strong>2乗の差</strong>"},
+      {cls:"b",lbl:"置き換え",txt:"$2x+1 = A$ → $A^2 - 9$"},
+      {cls:"b",lbl:"差の積",txt:"$A^2 - 3^2 = (A+3)(A-3)$"},
+      {cls:"b",lbl:"$A$ を戻す",txt:"$(2x+1+3)(2x+1-3)$"},
+      {cls:"b",lbl:"整える",txt:"$(2x+4)(2x-2) = 2(x+2) \\cdot 2(x-1) = 4(x+2)(x-1)$"},
+      {cls:"g",lbl:"ポイント",txt:"戻した後に <strong>共通因数</strong> が出ることもある！"},
+    ],
+    ans:"$4(x+2)(x-1)$"
+  },
+  {
+    title:"4項型 $ax + ay + bx + by$",
+    q:"$ax + ay + bx + by$ を因数分解する",
+    steps:[
+      {cls:"y",lbl:"グループ化",txt:"前の2項：$ax + ay = a(x+y)$，後の2項：$bx + by = b(x+y)$"},
+      {cls:"b",lbl:"発見",txt:"両方に <strong>$x+y$</strong> がある！"},
+      {cls:"b",lbl:"くくり出す",txt:"$a(x+y) + b(x+y) = (x+y)(a+b)$"},
+      {cls:"g",lbl:"ポイント",txt:"4項なら <strong>2項ずつグループ化</strong> から始める"},
+    ],
+    ans:"$(x+y)(a+b)$"
+  },
+  {
+    title:"応用 $x^2 - y^2 + 2y - 1$",
+    q:"$x^2 - y^2 + 2y - 1$ を因数分解する",
+    steps:[
+      {cls:"y",lbl:"観察",txt:"後ろの3項 $-y^2 + 2y - 1 = -(y^2 - 2y + 1)$"},
+      {cls:"b",lbl:"完全平方",txt:"$y^2 - 2y + 1 = (y-1)^2$"},
+      {cls:"b",lbl:"整理",txt:"$x^2 - (y-1)^2$ → <strong>2乗の差</strong>になった！"},
+      {cls:"b",lbl:"差の積",txt:"$x^2 - (y-1)^2 = (x + (y-1))(x - (y-1))$"},
+      {cls:"b",lbl:"整える",txt:"$(x+y-1)(x-y+1)$"},
+      {cls:"g",lbl:"ポイント",txt:"高認の <strong>難問</strong> パターン！　完全平方を見つけて差の積に持ち込む"},
+    ],
+    ans:"$(x+y-1)(x-y+1)$"
+  },
+];
+
+const state=EXAMPLES.map(()=>0);
+
+function buildAll(){
+  const area=document.getElementById('ex-area');
+  EXAMPLES.forEach((ex,i)=>{
+    const div=document.createElement('div');
+    div.className='ex-card';div.id='ec'+i;
+    div.innerHTML='<div class="ex-head">'
+      +'<span class="ex-num">'+(i+1)+'</span>'+ex.title+'</div>'
+      +'<div class="ex-body"><div class="q-text">'+ex.q+'</div>'
+      +'<div id="steps'+i+'"></div>'
+      +'<button class="next-btn" id="btn'+i+'" onclick="nextStep('+i+')">💡 考え方を見る</button>'
+      +'<div id="done'+i+'" class="done-badge" style="display:none;">✅ 完了！</div>'
+      +'</div>';
+    area.appendChild(div);
+  });
+}
+
+function nextStep(i){
+  const ex=EXAMPLES[i],cur=state[i];
+  const sd=document.getElementById('steps'+i);
+  const btn=document.getElementById('btn'+i);
+  const done=document.getElementById('done'+i);
+  if(cur<ex.steps.length){
+    const s=ex.steps[cur];
+    const row=document.createElement('div');
+    row.className='sr '+s.cls;
+    row.innerHTML='<span class="sl '+s.cls+'">'+s.lbl+'</span><div>'+s.txt+'</div>';
+    sd.appendChild(row);
+    state[i]++;
+    btn.textContent=state[i]<ex.steps.length?'➡ 次のステップへ':'✅ 答えを見る';
+    if(typeof renderMathInElement==='function'){
+      renderMathInElement(row,{
+        delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],
+        throwOnError:false
+      });
+    }
+  }else{
+    const ab=document.createElement('div');
+    ab.className='ans-box';
+    ab.innerHTML='答え：'+ex.ans;
+    sd.appendChild(ab);
+    btn.style.display='none';
+    done.style.display='block';
+    if(typeof renderMathInElement==='function'){
+      renderMathInElement(ab,{
+        delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],
+        throwOnError:false
+      });
+    }
+  }
+}
+
+function renderAllMath(){
+  if(typeof renderMathInElement==='function'){
+    renderMathInElement(document.body,{
+      delimiters:[
+        {left:'$$',right:'$$',display:true},
+        {left:'$',right:'$',display:false}
+      ],
+      throwOnError:false
+    });
+  }
+}
+
+buildAll();
+</script>
+<script src="../gamba_support.js"></script>
+</body>
+</html>

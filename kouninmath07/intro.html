@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EF07 因数分解③ 完全平方 【導入】</title>
+
+<!-- KaTeX (CDN) -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{
+    delimiters:[
+      {left:'$$',right:'$$',display:true},
+      {left:'$',right:'$',display:false}
+    ],
+    throwOnError:false
+  });"></script>
+
+<style>
+:root{--primary:#0f766e;--primary-light:#ccfbf1;--accent:#e8372d;--accent-light:#fff1f0;--success:#16a34a;--success-light:#dcfce7;--warn:#d97706;--warn-light:#fffbeb;--bg:#f0fdfa;--card:#ffffff;--border:#99f6e4;--text:#1e293b;--text-sub:#64748b;--radius:12px;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:60px;}
+.g-container{max-width:760px;margin:0 auto;padding:22px 15px 60px;}
+.page-header{background:var(--primary);color:#fff;padding:16px 20px 12px;text-align:center;box-shadow:0 3px 10px rgba(15,118,110,.25);}
+.page-header .unit-code{font-size:.8em;opacity:.8;letter-spacing:.1em;margin-bottom:3px;}
+.page-header h1{font-size:clamp(.98em,3vw,1.38em);font-weight:700;margin:0;line-height:1.4;}
+.step-nav{display:flex;align-items:center;justify-content:center;padding:9px 6px;background:var(--card);border-bottom:1px solid var(--border);flex-wrap:nowrap;overflow-x:auto;position:sticky;top:0;z-index:10;gap:1px;}
+.step-item{display:flex;align-items:center;gap:3px;font-size:clamp(.62em,1.6vw,.78em);color:#94a3b8;white-space:nowrap;padding:2px 4px;}
+.step-item a{color:inherit;text-decoration:none;}
+.step-item a:hover{color:var(--primary);}
+.step-item.active{color:var(--primary);font-weight:700;}
+.step-circle{width:19px;height:19px;border-radius:50%;font-size:.68em;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.step-item.active .step-circle{background:var(--primary);color:#fff;box-shadow:0 0 0 2px var(--primary-light);}
+.step-item:not(.active) .step-circle{background:#94a3b8;color:#fff;}
+.step-arrow{color:#cbd5e1;font-size:.9em;padding:0;}
+.sec{font-size:1.02em;font-weight:700;color:var(--primary);border-left:4px solid var(--primary);padding-left:11px;margin-bottom:13px;margin-top:24px;}
+.sec:first-of-type{margin-top:0;}
+.rule-box{background:linear-gradient(135deg,#f0fdfa,#ccfbf1);border:2px solid var(--primary);border-radius:14px;padding:13px 16px;margin-bottom:14px;}
+.rule-box .rtitle{font-size:.83em;font-weight:700;color:var(--primary);margin-bottom:9px;}
+.rule-box .rbody{font-size:.92em;line-height:2.3;}
+.formula-box{background:linear-gradient(135deg,#f0fdfa,#ccfbf1);border:2px solid var(--success);border-radius:14px;padding:13px 16px;margin-bottom:14px;text-align:center;font-size:1.05em;font-weight:700;line-height:2.5;}
+.formula-box .ftitle{font-size:.83em;font-weight:700;color:var(--success);margin-bottom:9px;text-align:left;}
+.tip2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:18px;}
+.tip2 div{border-radius:8px;padding:9px;font-size:.86em;font-weight:700;text-align:center;line-height:1.5;}
+.pop-note{background:#fff7ed;border:1.5px dashed #fb923c;border-radius:10px;padding:9px 13px;font-size:.87em;color:#9a3412;font-weight:700;margin-top:10px;margin-bottom:14px;line-height:1.8;}
+.pop-note::before{content:"💡 ";}
+.warn-note{background:#fef2f2;border:1.5px solid var(--accent);border-radius:10px;padding:11px 14px;font-size:.9em;color:var(--accent);font-weight:700;margin:10px 0;line-height:1.9;}
+.warn-note::before{content:"⚠️ ";}
+.ex-card{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);margin-bottom:13px;overflow:hidden;}
+.ex-head{background:var(--primary);color:#fff;padding:7px 15px;font-size:.83em;font-weight:700;}
+.ex-body{padding:13px 16px;}
+.sr{display:flex;align-items:flex-start;gap:9px;padding:9px 12px;border-radius:8px;margin-bottom:7px;font-size:.88em;font-weight:700;line-height:2.1;}
+.sr.y{background:var(--warn-light);border:1.5px solid var(--warn);}
+.sr.b{background:var(--primary-light);border:1.5px solid var(--primary);}
+.sr.r{background:var(--accent-light);border:1.5px solid var(--accent);}
+.sr.g{background:var(--success-light);border:1.5px solid var(--success);}
+.sl{font-size:.68em;font-weight:700;border-radius:5px;padding:2px 7px;white-space:nowrap;flex-shrink:0;margin-top:4px;}
+.sl.y{background:var(--warn);color:#fff;}
+.sl.b{background:var(--primary);color:#fff;}
+.sl.r{background:var(--accent);color:#fff;}
+.sl.g{background:var(--success);color:#fff;}
+.ans-box{background:var(--primary-light);border:2px solid var(--primary);border-radius:9px;padding:11px 14px;margin-top:9px;font-size:1.05em;font-weight:700;color:var(--primary);text-align:center;line-height:2;}
+.sum-box{background:var(--warn-light);border:2px solid var(--warn);border-radius:var(--radius);padding:14px 17px;margin-bottom:22px;font-size:.93em;line-height:2.1;}
+.sum-box .st{font-weight:700;color:var(--warn);margin-bottom:7px;}
+.sum-box ul{padding-left:17px;}
+.sum-box li{margin-bottom:3px;}
+.sum-box strong{color:var(--primary);}
+.tech-box{background:#fef3c7;border:2px solid #f59e0b;border-radius:12px;padding:13px 16px;margin:13px 0;}
+.tech-box .ttl{font-size:.85em;font-weight:700;color:#b45309;margin-bottom:7px;}
+.tech-box .body{font-size:.92em;line-height:2;}
+
+/* チェック手順 */
+.check-step{background:#fff;border:2px solid var(--border);border-radius:10px;padding:11px 14px;margin-bottom:8px;display:flex;align-items:center;gap:10px;}
+.check-step .num{background:var(--primary);color:#fff;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.85em;flex-shrink:0;}
+.check-step .body{font-size:.91em;line-height:1.8;flex:1;}
+
+/* 平方数表 */
+.sq-table{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin:12px 0;}
+.sq-cell{background:#fff;border:1.5px solid var(--border);border-radius:6px;padding:8px 4px;text-align:center;font-size:.85em;font-weight:700;line-height:1.5;}
+.sq-cell .num{color:var(--primary);font-size:1em;}
+.sq-cell .arrow{color:var(--text-sub);font-size:.7em;}
+.sq-cell .res{color:var(--accent);font-size:.95em;}
+
+.nav-btns{display:flex;gap:10px;flex-wrap:wrap;justify-content:space-between;margin-top:26px;}
+.btn-nav{font-family:'BIZ UDPGothic','BIZ UDP Gothic',sans-serif;font-size:.93em;font-weight:700;padding:11px 24px;border-radius:50px;border:none;cursor:pointer;text-decoration:none;display:inline-block;transition:transform .15s,box-shadow .15s;}
+.btn-nav:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.15);}
+.btn-f{background:var(--primary);color:#fff;}
+.btn-b{background:#f1f5f9;color:var(--text-sub);}
+.btn-h{background:var(--primary-light);color:var(--primary);font-size:.83em;padding:9px 18px;}
+</style>
+</head>
+<body>
+<div class="page-header">
+  <div class="unit-code">EF07</div>
+  <h1>因数分解③ 完全平方<br><small style="font-size:.75em;opacity:.85;">χ²±2aχ＋a² = (χ±a)²</small></h1>
+</div>
+<nav class="step-nav">
+  <div class="step-item active"><span class="step-circle">①</span><span>導入</span></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">②</span><a href="example.html">例題</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">③</span><a href="drill.html">演習</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">④</span><a href="check.html">確認</a></div>
+</nav>
+<main class="g-container">
+
+<div class="sec">① 「完全平方」の因数分解とは？</div>
+<div class="rule-box">
+  <div class="rtitle">📌 EF02「平方公式」展開の逆</div>
+  <div class="rbody">
+    EF02では，$(x+a)^2$ や $(x-a)^2$ を展開して $x^2 \pm 2ax + a^2$ を作りました。<br>
+    この単元では，逆に <strong>$x^2 \pm 2ax + a^2$ の形を $(x \pm a)^2$ に分解</strong> します。<br>
+    これを「<strong>完全平方</strong>」（または「平方完成」）と言います。
+  </div>
+</div>
+
+<div class="formula-box">
+  <div class="ftitle">📌 完全平方の公式</div>
+  $x^2 + 2ax + a^2 = (x+a)^2$<br>
+  $x^2 - 2ax + a^2 = (x-a)^2$
+</div>
+
+<div class="ex-card">
+  <div class="ex-head">例)$x^2 + 6x + 9$ を因数分解する</div>
+  <div class="ex-body">
+    <div class="sr y"><span class="sl y">観察</span><div>$9 = 3^2$，係数 $6 = 2 \times 3$ → <strong>$3$ の完全平方</strong>！</div></div>
+    <div class="sr b"><span class="sl b">公式適用</span><div>$x^2 + 2 \times 3 \times x + 3^2 = (x+3)^2$</div></div>
+    <div class="ans-box">$(x+3)^2$</div>
+  </div>
+</div>
+
+<div class="sec">② 完全平方の見分け方（3つの条件）</div>
+<div class="rule-box">
+  <div class="rtitle">📌 これが完全平方かどうか，どう見分ける？</div>
+  <div class="rbody">
+    式が $x^2 + bx + c$ の形のとき，次の <strong>3つの条件</strong> を満たすかチェックする：
+  </div>
+</div>
+
+<div class="check-step">
+  <div class="num">1</div>
+  <div class="body"><strong>定数項 $c$ がプラスで，しかも平方数</strong><br>例：$c = 4 = 2^2$，$c = 9 = 3^2$，$c = 25 = 5^2$ など</div>
+</div>
+<div class="check-step">
+  <div class="num">2</div>
+  <div class="body"><strong>係数 $b$ が「定数項のルート × 2」になっている</strong><br>$c = a^2$ なら，$b = \pm 2a$ かどうかチェック</div>
+</div>
+<div class="check-step">
+  <div class="num">3</div>
+  <div class="body"><strong>係数 $b$ の符号で $\pm$ を決める</strong><br>$b > 0$ なら $(x+a)^2$，$b < 0$ なら $(x-a)^2$</div>
+</div>
+
+<div class="tech-box">
+  <div class="ttl">💡 シンプルにまとめると</div>
+  <div class="body">
+    ① 定数項 $c$ は <strong>○の2乗</strong> になっている？<br>
+    ② 係数 $b$ は <strong>○の2倍</strong> になっている？<br>
+    YESなら → 完全平方公式が使える！
+  </div>
+</div>
+
+<div class="sec">③ 完全平方かどうか判定してみよう</div>
+
+<div class="ex-card">
+  <div class="ex-head">例1）$x^2 + 8x + 16$</div>
+  <div class="ex-body">
+    <div class="sr y"><span class="sl y">①</span><div>定数項 $16 = 4^2$ ◎</div></div>
+    <div class="sr b"><span class="sl b">②</span><div>係数 $8 = 2 \times 4$ ◎</div></div>
+    <div class="sr g"><span class="sl g">→</span><div>完全平方！　$(x+4)^2$</div></div>
+    <div class="ans-box">$(x+4)^2$</div>
+  </div>
+</div>
+
+<div class="ex-card">
+  <div class="ex-head">例2）$x^2 - 10x + 25$</div>
+  <div class="ex-body">
+    <div class="sr y"><span class="sl y">①</span><div>定数項 $25 = 5^2$ ◎</div></div>
+    <div class="sr b"><span class="sl b">②</span><div>係数 $-10 = -(2 \times 5)$ ◎（マイナスがついた）</div></div>
+    <div class="sr g"><span class="sl g">→</span><div>完全平方！　$(x-5)^2$</div></div>
+    <div class="ans-box">$(x-5)^2$</div>
+  </div>
+</div>
+
+<div class="ex-card">
+  <div class="ex-head">例3）$x^2 + 5x + 4$（完全平方ではない）</div>
+  <div class="ex-body">
+    <div class="sr y"><span class="sl y">①</span><div>定数項 $4 = 2^2$ ◎</div></div>
+    <div class="sr r"><span class="sl r">②</span><div>係数 $5$ は $2 \times 2 = 4$ と一致しない ×</div></div>
+    <div class="sr g"><span class="sl g">→</span><div>完全平方ではない！　別パターンで因数分解</div></div>
+    <div class="sr b"><span class="sl b">解</span><div>たして $5$，かけて $4$ → $(x+1)(x+4)$</div></div>
+  </div>
+</div>
+
+<div class="warn-note">
+  定数項が平方数でも，<strong>係数の条件</strong> も満たしてないと完全平方にならない！<br>
+  両方の条件をチェックすること。
+</div>
+
+<div class="sec">④ 平方数を覚えておこう</div>
+
+<div class="sq-table">
+  <div class="sq-cell"><div class="num">$1^2$</div><div class="arrow">↓</div><div class="res">$1$</div></div>
+  <div class="sq-cell"><div class="num">$2^2$</div><div class="arrow">↓</div><div class="res">$4$</div></div>
+  <div class="sq-cell"><div class="num">$3^2$</div><div class="arrow">↓</div><div class="res">$9$</div></div>
+  <div class="sq-cell"><div class="num">$4^2$</div><div class="arrow">↓</div><div class="res">$16$</div></div>
+  <div class="sq-cell"><div class="num">$5^2$</div><div class="arrow">↓</div><div class="res">$25$</div></div>
+  <div class="sq-cell"><div class="num">$6^2$</div><div class="arrow">↓</div><div class="res">$36$</div></div>
+  <div class="sq-cell"><div class="num">$7^2$</div><div class="arrow">↓</div><div class="res">$49$</div></div>
+  <div class="sq-cell"><div class="num">$8^2$</div><div class="arrow">↓</div><div class="res">$64$</div></div>
+  <div class="sq-cell"><div class="num">$9^2$</div><div class="arrow">↓</div><div class="res">$81$</div></div>
+  <div class="sq-cell"><div class="num">$10^2$</div><div class="arrow">↓</div><div class="res">$100$</div></div>
+</div>
+
+<div class="pop-note">
+  EF05（差の積）でも使った平方数表！<br>
+  完全平方を見抜くには，これがパッと出てくることが必須。
+</div>
+
+<div class="sec">⑤ 高認頻出パターン</div>
+
+<div class="ex-card">
+  <div class="ex-head">例)$x^2 + 12x + 36$ を因数分解する</div>
+  <div class="ex-body">
+    <div class="sr y"><span class="sl y">観察</span><div>$36 = 6^2$，$12 = 2 \times 6$ → <strong>$6$ の完全平方</strong></div></div>
+    <div class="sr b"><span class="sl b">公式</span><div>$x^2 + 2 \times 6 \times x + 6^2 = (x+6)^2$</div></div>
+    <div class="ans-box">$(x+6)^2$</div>
+  </div>
+</div>
+
+<div class="ex-card">
+  <div class="ex-head">例)$x^2 - 14x + 49$ を因数分解する</div>
+  <div class="ex-body">
+    <div class="sr y"><span class="sl y">観察</span><div>$49 = 7^2$，$-14 = -(2 \times 7)$ → <strong>$7$ の完全平方（マイナス）</strong></div></div>
+    <div class="sr b"><span class="sl b">公式</span><div>$x^2 - 2 \times 7 \times x + 7^2 = (x-7)^2$</div></div>
+    <div class="ans-box">$(x-7)^2$</div>
+  </div>
+</div>
+
+<div class="sec">⑥ 「たして・かける」でも解けるけど…</div>
+<div class="rule-box">
+  <div class="rtitle">📌 完全平方は実はパターン1・2の特殊形</div>
+  <div class="rbody">
+    実は，$x^2 + 6x + 9$ も「<strong>たして $6$，かけて $9$</strong>」で解ける（$3$ と $3$）。<br>
+    でも，<strong>同じ数が2回登場</strong> するので $(x+3)(x+3) = (x+3)^2$ となる。<br>
+    完全平方公式を使うと <strong>一発で答えが出る</strong> のがメリット！
+  </div>
+</div>
+
+<div class="ex-card">
+  <div class="ex-head">どちらの方法でも同じ答え</div>
+  <div class="ex-body">
+    <div class="sr y"><span class="sl y">公式</span><div>$x^2 + 6x + 9 = (x+3)^2$（一発）</div></div>
+    <div class="sr b"><span class="sl b">たして・かけて</span><div>たして $6$，かけて $9$ → $3$ と $3$ → $(x+3)(x+3) = (x+3)^2$</div></div>
+  </div>
+</div>
+
+<div class="sum-box">
+  <div class="st">📌 まとめ</div>
+  <ul>
+    <li>EF07は <strong>完全平方の因数分解</strong>（EF02の逆操作）</li>
+    <li>公式：$x^2 + 2ax + a^2 = (x+a)^2$，$x^2 - 2ax + a^2 = (x-a)^2$</li>
+    <li>判定の <strong>2つの条件</strong>：</li>
+    <li>　・定数項 $c$ が <strong>平方数（$a^2$）</strong></li>
+    <li>　・係数 $b$ が <strong>$\pm 2a$</strong>（$a$ の2倍）</li>
+    <li>係数の符号で $(x+a)^2$ か $(x-a)^2$ かが決まる</li>
+    <li>定数項の <strong>平方数</strong>（$1, 4, 9, 16, 25, 36, 49, 64, 81, 100$）を覚えておく</li>
+    <li>完全平方が使えれば <strong>一発で答えが出る</strong>！</li>
+  </ul>
+</div>
+
+<div class="nav-btns">
+  <a href="../gamba_kounin.html" class="btn-nav btn-h">🏠 単元一覧へ</a>
+  <a href="example.html" class="btn-nav btn-f">② 例題へ →</a>
+</div>
+</main>
+
+<script src="../gamba_support.js"></script>
+</body>
+</html>

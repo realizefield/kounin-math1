@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EF04-1 公式の組み合わせ展開 【導入】</title>
+
+<!-- KaTeX (CDN) -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{
+    delimiters:[
+      {left:'$$',right:'$$',display:true},
+      {left:'$',right:'$',display:false}
+    ],
+    throwOnError:false
+  });"></script>
+
+<style>
+:root{--primary:#0f766e;--primary-light:#ccfbf1;--accent:#e8372d;--accent-light:#fff1f0;--success:#16a34a;--success-light:#dcfce7;--warn:#d97706;--warn-light:#fffbeb;--bg:#f0fdfa;--card:#ffffff;--border:#99f6e4;--text:#1e293b;--text-sub:#64748b;--radius:12px;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:60px;}
+.g-container{max-width:760px;margin:0 auto;padding:22px 15px 60px;}
+.page-header{background:var(--primary);color:#fff;padding:16px 20px 12px;text-align:center;box-shadow:0 3px 10px rgba(15,118,110,.25);}
+.page-header .unit-code{font-size:.8em;opacity:.8;letter-spacing:.1em;margin-bottom:3px;}
+.page-header h1{font-size:clamp(.98em,3vw,1.38em);font-weight:700;margin:0;line-height:1.4;}
+.step-nav{display:flex;align-items:center;justify-content:center;padding:9px 6px;background:var(--card);border-bottom:1px solid var(--border);flex-wrap:nowrap;overflow-x:auto;position:sticky;top:0;z-index:10;gap:1px;}
+.step-item{display:flex;align-items:center;gap:3px;font-size:clamp(.62em,1.6vw,.78em);color:#94a3b8;white-space:nowrap;padding:2px 4px;}
+.step-item a{color:inherit;text-decoration:none;}
+.step-item a:hover{color:var(--primary);}
+.step-item.active{color:var(--primary);font-weight:700;}
+.step-circle{width:19px;height:19px;border-radius:50%;font-size:.68em;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.step-item.active .step-circle{background:var(--primary);color:#fff;box-shadow:0 0 0 2px var(--primary-light);}
+.step-item:not(.active) .step-circle{background:#94a3b8;color:#fff;}
+.step-arrow{color:#cbd5e1;font-size:.9em;padding:0;}
+.sec{font-size:1.02em;font-weight:700;color:var(--primary);border-left:4px solid var(--primary);padding-left:11px;margin-bottom:13px;margin-top:24px;}
+.sec:first-of-type{margin-top:0;}
+.rule-box{background:linear-gradient(135deg,#f0fdfa,#ccfbf1);border:2px solid var(--primary);border-radius:14px;padding:13px 16px;margin-bottom:14px;}
+.rule-box .rtitle{font-size:.83em;font-weight:700;color:var(--primary);margin-bottom:9px;}
+.rule-box .rbody{font-size:.92em;line-height:2.3;}
+.formula-box{background:linear-gradient(135deg,#f0fdfa,#ccfbf1);border:2px solid var(--success);border-radius:14px;padding:13px 16px;margin-bottom:14px;text-align:center;font-size:1.05em;font-weight:700;line-height:2.5;}
+.formula-box .ftitle{font-size:.83em;font-weight:700;color:var(--success);margin-bottom:9px;text-align:left;}
+.tip2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:18px;}
+.tip2 div{border-radius:8px;padding:9px;font-size:.86em;font-weight:700;text-align:center;line-height:1.5;}
+.pop-note{background:#fff7ed;border:1.5px dashed #fb923c;border-radius:10px;padding:9px 13px;font-size:.87em;color:#9a3412;font-weight:700;margin-top:10px;margin-bottom:14px;line-height:1.8;}
+.pop-note::before{content:"💡 ";}
+.warn-note{background:#fef2f2;border:1.5px solid var(--accent);border-radius:10px;padding:11px 14px;font-size:.9em;color:var(--accent);font-weight:700;margin:10px 0;line-height:1.9;}
+.warn-note::before{content:"⚠️ ";}
+.ex-card{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);margin-bottom:13px;overflow:hidden;}
+.ex-head{background:var(--primary);color:#fff;padding:7px 15px;font-size:.83em;font-weight:700;}
+.ex-body{padding:13px 16px;}
+.sr{display:flex;align-items:flex-start;gap:9px;padding:9px 12px;border-radius:8px;margin-bottom:7px;font-size:.88em;font-weight:700;line-height:2.1;}
+.sr.y{background:var(--warn-light);border:1.5px solid var(--warn);}
+.sr.b{background:var(--primary-light);border:1.5px solid var(--primary);}
+.sr.r{background:var(--accent-light);border:1.5px solid var(--accent);}
+.sr.g{background:var(--success-light);border:1.5px solid var(--success);}
+.sl{font-size:.68em;font-weight:700;border-radius:5px;padding:2px 7px;white-space:nowrap;flex-shrink:0;margin-top:4px;}
+.sl.y{background:var(--warn);color:#fff;}
+.sl.b{background:var(--primary);color:#fff;}
+.sl.r{background:var(--accent);color:#fff;}
+.sl.g{background:var(--success);color:#fff;}
+.ans-box{background:var(--primary-light);border:2px solid var(--primary);border-radius:9px;padding:11px 14px;margin-top:9px;font-size:1.05em;font-weight:700;color:var(--primary);text-align:center;line-height:2;}
+.sum-box{background:var(--warn-light);border:2px solid var(--warn);border-radius:var(--radius);padding:14px 17px;margin-bottom:22px;font-size:.93em;line-height:2.1;}
+.sum-box .st{font-weight:700;color:var(--warn);margin-bottom:7px;}
+.sum-box ul{padding-left:17px;}
+.sum-box li{margin-bottom:3px;}
+.sum-box strong{color:var(--primary);}
+.tech-box{background:#fef3c7;border:2px solid #f59e0b;border-radius:12px;padding:13px 16px;margin:13px 0;}
+.tech-box .ttl{font-size:.85em;font-weight:700;color:#b45309;margin-bottom:7px;}
+.tech-box .body{font-size:.92em;line-height:2;}
+
+/* 公式比較表 */
+.formula-table{display:grid;grid-template-columns:1fr;gap:10px;margin-bottom:14px;}
+.formula-card{background:#fff;border-radius:10px;padding:13px 14px;border:2px solid var(--border);position:relative;}
+.formula-card.f1{border-color:#0f766e;background:#f0fdfa;}
+.formula-card.f2{border-color:#d97706;background:#fffbeb;}
+.formula-card.f3{border-color:#e8372d;background:#fff1f0;}
+.formula-card .fnum{position:absolute;top:-10px;left:12px;background:#fff;padding:0 8px;font-size:.72em;font-weight:700;letter-spacing:.05em;}
+.formula-card.f1 .fnum{color:#0f766e;border:1.5px solid #0f766e;border-radius:4px;}
+.formula-card.f2 .fnum{color:#d97706;border:1.5px solid #d97706;border-radius:4px;}
+.formula-card.f3 .fnum{color:#e8372d;border:1.5px solid #e8372d;border-radius:4px;}
+.formula-card .fdesc{font-size:.83em;color:var(--text-sub);margin-top:4px;}
+.formula-card .fmain{font-size:1em;font-weight:700;text-align:center;padding:6px 0;line-height:2;}
+.formula-card .fkey{font-size:.83em;font-weight:700;margin-top:5px;line-height:1.7;}
+
+/* 判別フロー */
+.flow-step{background:#fff;border:2px solid var(--border);border-radius:10px;padding:11px 14px;margin-bottom:8px;display:flex;align-items:center;gap:10px;}
+.flow-step .num{background:var(--primary);color:#fff;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.85em;flex-shrink:0;}
+.flow-step .body{font-size:.91em;line-height:1.8;flex:1;}
+
+.nav-btns{display:flex;gap:10px;flex-wrap:wrap;justify-content:space-between;margin-top:26px;}
+.btn-nav{font-family:'BIZ UDPGothic','BIZ UDP Gothic',sans-serif;font-size:.93em;font-weight:700;padding:11px 24px;border-radius:50px;border:none;cursor:pointer;text-decoration:none;display:inline-block;transition:transform .15s,box-shadow .15s;}
+.btn-nav:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.15);}
+.btn-f{background:var(--primary);color:#fff;}
+.btn-b{background:#f1f5f9;color:var(--text-sub);}
+.btn-h{background:var(--primary-light);color:var(--primary);font-size:.83em;padding:9px 18px;}
+</style>
+</head>
+<body>
+<div class="page-header">
+  <div class="unit-code">EF04-1</div>
+  <h1>公式の組み合わせ展開<br><small style="font-size:.75em;opacity:.85;">公式①②③を見分けて使い分ける</small></h1>
+</div>
+<nav class="step-nav">
+  <div class="step-item active"><span class="step-circle">①</span><span>導入</span></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">②</span><a href="example.html">例題</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">③</span><a href="drill.html">演習</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">④</span><a href="check.html">確認</a></div>
+</nav>
+<main class="g-container">
+
+<div class="sec">① これまで学んだ3つの公式</div>
+<div class="rule-box">
+  <div class="rtitle">📌 EF01〜EF03の総まとめ</div>
+  <div class="rbody">
+    展開の公式には，大きく分けて <strong>3つの型</strong> があります。<br>
+    どれもすぐに思い出せるように，まずは並べて見比べてみよう。
+  </div>
+</div>
+
+<div class="formula-table">
+  <div class="formula-card f1">
+    <div class="fnum">公式①（EF01）</div>
+    <div class="fdesc">「たして・かける」</div>
+    <div class="fmain">$(x+a)(x+b) = x^2 + (a+b)x + ab$</div>
+    <div class="fkey">📌 後ろの数が <strong>違う</strong> ときに使う</div>
+  </div>
+  <div class="formula-card f2">
+    <div class="fnum">公式②（EF02）</div>
+    <div class="fdesc">「前を2乗・前後をかけて2倍・後ろを2乗」</div>
+    <div class="fmain">$(x \pm a)^2 = x^2 \pm 2ax + a^2$</div>
+    <div class="fkey">📌 <strong>2乗の形</strong>になっているときに使う</div>
+  </div>
+  <div class="formula-card f3">
+    <div class="fnum">公式③（EF03）</div>
+    <div class="fdesc">「前を2乗 − 後ろを2乗」</div>
+    <div class="fmain">$(x+a)(x-a) = x^2 - a^2$</div>
+    <div class="fkey">📌 後ろの数が <strong>同じで符号だけ違う</strong> ときに使う</div>
+  </div>
+</div>
+
+<div class="sec">② 公式の見分け方フロー</div>
+<div class="rule-box">
+  <div class="rtitle">📌 問題を見たら，順番にチェック！</div>
+  <div class="rbody">
+    どの公式を使うかは，問題の <strong>形を見るだけ</strong> で決まります。<br>
+    迷ったら，下の順番でチェックしてみよう。
+  </div>
+</div>
+
+<div class="flow-step">
+  <div class="num">1</div>
+  <div class="body"><strong>$( \ )^2$ の形になっているか？</strong><br>→ Yes：<strong>公式②</strong>（平方公式）</div>
+</div>
+<div class="flow-step">
+  <div class="num">2</div>
+  <div class="body"><strong>後ろの数の絶対値が同じで，符号だけ違うか？</strong><br>例）$(x+5)(x-5)$<br>→ Yes：<strong>公式③</strong>（和と差の積）</div>
+</div>
+<div class="flow-step">
+  <div class="num">3</div>
+  <div class="body"><strong>それ以外（後ろの数が違う）</strong><br>例）$(x+3)(x-7)$<br>→ <strong>公式①</strong>（たして・かける）</div>
+</div>
+
+<div class="tech-box">
+  <div class="ttl">💡 簡単な見分け方</div>
+  <div class="body">
+    ・$( \ )^2$ → <strong>公式②</strong><br>
+    ・$(x+a)(x-a)$ で <strong>$a$ が同じ</strong> → <strong>公式③</strong><br>
+    ・それ以外 → <strong>公式①</strong>
+  </div>
+</div>
+
+<div class="sec">③ 例で確かめてみよう</div>
+
+<div class="ex-card">
+  <div class="ex-head">例1）$(x+4)(x+2)$　→　どの公式？</div>
+  <div class="ex-body">
+    <div class="sr y"><span class="sl y">チェック1</span><div>$( \ )^2$ ではない → 公式②ではない</div></div>
+    <div class="sr y"><span class="sl y">チェック2</span><div>後ろは $+4$ と $+2$，<strong>絶対値が違う</strong> → 公式③ではない</div></div>
+    <div class="sr g"><span class="sl g">判定</span><div>→ <strong>公式①</strong>（たして・かける）</div></div>
+    <div class="sr b"><span class="sl b">適用</span><div>たして $4+2=6$，かけて $4 \times 2=8$</div></div>
+    <div class="ans-box">$x^2 + 6x + 8$</div>
+  </div>
+</div>
+
+<div class="ex-card">
+  <div class="ex-head">例2）$(x-3)^2$　→　どの公式？</div>
+  <div class="ex-body">
+    <div class="sr y"><span class="sl y">チェック1</span><div>$( \ )^2$ の形 → <strong>公式②！</strong></div></div>
+    <div class="sr g"><span class="sl g">判定</span><div>→ <strong>公式②</strong>（平方公式）</div></div>
+    <div class="sr b"><span class="sl b">適用</span><div>前を2乗 $x^2$，前後をかけて2倍 $-6x$，後ろを2乗 $9$</div></div>
+    <div class="ans-box">$x^2 - 6x + 9$</div>
+  </div>
+</div>
+
+<div class="ex-card">
+  <div class="ex-head">例3）$(x+8)(x-8)$　→　どの公式？</div>
+  <div class="ex-body">
+    <div class="sr y"><span class="sl y">チェック1</span><div>$( \ )^2$ ではない → 公式②ではない</div></div>
+    <div class="sr y"><span class="sl y">チェック2</span><div>後ろは $+8$ と $-8$，<strong>絶対値が同じで符号が違う</strong> → 公式③！</div></div>
+    <div class="sr g"><span class="sl g">判定</span><div>→ <strong>公式③</strong>（和と差の積）</div></div>
+    <div class="sr b"><span class="sl b">適用</span><div>前を2乗 $x^2$，後ろを2乗 $64$，引く</div></div>
+    <div class="ans-box">$x^2 - 64$</div>
+  </div>
+</div>
+
+<div class="sec">④ 紛らわしいパターンに注意</div>
+
+<div class="warn-note">
+  $(x+5)(x-5)$ と $(x+5)(x+5)$ と $(x+5)(x-3)$ — <strong>それぞれ違う公式</strong>を使う！<br>
+  形をよく見て使い分けよう。
+</div>
+
+<div class="ex-card">
+  <div class="ex-head">紛らわしい3問を比較</div>
+  <div class="ex-body">
+    <div class="sr b"><span class="sl b">A) $(x+5)(x-5)$</span><div>同じ数の和と差 → <strong>公式③</strong> → $x^2 - 25$</div></div>
+    <div class="sr y"><span class="sl y">B) $(x+5)(x+5)$</span><div>これは $(x+5)^2$ → <strong>公式②</strong> → $x^2 + 10x + 25$</div></div>
+    <div class="sr r"><span class="sl r">C) $(x+5)(x-3)$</span><div>後ろの数が違う → <strong>公式①</strong> → $x^2 + 2x - 15$</div></div>
+  </div>
+</div>
+
+<div class="pop-note">
+  形を見て公式を判断する → 答えがまったく違うので， <strong>第一印象でしっかり見分ける</strong> ことが超重要！
+</div>
+
+<div class="sec">⑤ 高認過去問パターン：$(a+b)(a-b+1)$</div>
+<div class="rule-box">
+  <div class="rtitle">📌 3つの項がある場合</div>
+  <div class="rbody">
+    たまに，かっこの中に <strong>3つの項</strong> がある問題が出ます。<br>
+    例)$(a+b)(a-b+1)$<br>
+    こういう時は，<strong>ばらしてかける</strong> 基本に戻れば解けます。<br>
+    （EF04-2では <strong>「置き換え」</strong> でもっと楽に解く方法を学びます）
+  </div>
+</div>
+
+<div class="ex-card">
+  <div class="ex-head">例)$(a+b)(a-b+1)$ を展開する</div>
+  <div class="ex-body">
+    <div class="sr y"><span class="sl y">ばらす</span><div>$a \times a + a \times (-b) + a \times 1 + b \times a + b \times (-b) + b \times 1$</div></div>
+    <div class="sr b"><span class="sl b">計算</span><div>$= a^2 - ab + a + ab - b^2 + b$</div></div>
+    <div class="sr b"><span class="sl b">同類項</span><div>$-ab$ と $+ab$ が消える</div></div>
+    <div class="ans-box">$a^2 - b^2 + a + b$</div>
+  </div>
+</div>
+
+<div class="sum-box">
+  <div class="st">📌 まとめ</div>
+  <ul>
+    <li>展開の公式は <strong>3種類</strong>：①たして・かける　②平方公式　③和と差の積</li>
+    <li>見分け方：① $( \ )^2$ の形 → <strong>公式②</strong></li>
+    <li>　　　　② 後ろの数が同じで符号だけ違う → <strong>公式③</strong></li>
+    <li>　　　　③ それ以外 → <strong>公式①</strong></li>
+    <li>形を <strong>正しく見分ける</strong> ことが最大のポイント</li>
+    <li>3つの項があるかっこは，<strong>ばらしてかける</strong> 基本に戻る</li>
+  </ul>
+</div>
+
+<div class="nav-btns">
+  <a href="../gamba_kounin.html" class="btn-nav btn-h">🏠 単元一覧へ</a>
+  <a href="example.html" class="btn-nav btn-f">② 例題へ →</a>
+</div>
+</main>
+
+<script src="../gamba_support.js"></script>
+</body>
+</html>

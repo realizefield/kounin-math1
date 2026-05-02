@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EF05 因数分解① 差の積 【導入】</title>
+
+<!-- KaTeX (CDN) -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{
+    delimiters:[
+      {left:'$$',right:'$$',display:true},
+      {left:'$',right:'$',display:false}
+    ],
+    throwOnError:false
+  });"></script>
+
+<style>
+:root{--primary:#0f766e;--primary-light:#ccfbf1;--accent:#e8372d;--accent-light:#fff1f0;--success:#16a34a;--success-light:#dcfce7;--warn:#d97706;--warn-light:#fffbeb;--bg:#f0fdfa;--card:#ffffff;--border:#99f6e4;--text:#1e293b;--text-sub:#64748b;--radius:12px;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:60px;}
+.g-container{max-width:760px;margin:0 auto;padding:22px 15px 60px;}
+.page-header{background:var(--primary);color:#fff;padding:16px 20px 12px;text-align:center;box-shadow:0 3px 10px rgba(15,118,110,.25);}
+.page-header .unit-code{font-size:.8em;opacity:.8;letter-spacing:.1em;margin-bottom:3px;}
+.page-header h1{font-size:clamp(.98em,3vw,1.38em);font-weight:700;margin:0;line-height:1.4;}
+.step-nav{display:flex;align-items:center;justify-content:center;padding:9px 6px;background:var(--card);border-bottom:1px solid var(--border);flex-wrap:nowrap;overflow-x:auto;position:sticky;top:0;z-index:10;gap:1px;}
+.step-item{display:flex;align-items:center;gap:3px;font-size:clamp(.62em,1.6vw,.78em);color:#94a3b8;white-space:nowrap;padding:2px 4px;}
+.step-item a{color:inherit;text-decoration:none;}
+.step-item a:hover{color:var(--primary);}
+.step-item.active{color:var(--primary);font-weight:700;}
+.step-circle{width:19px;height:19px;border-radius:50%;font-size:.68em;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.step-item.active .step-circle{background:var(--primary);color:#fff;box-shadow:0 0 0 2px var(--primary-light);}
+.step-item:not(.active) .step-circle{background:#94a3b8;color:#fff;}
+.step-arrow{color:#cbd5e1;font-size:.9em;padding:0;}
+.sec{font-size:1.02em;font-weight:700;color:var(--primary);border-left:4px solid var(--primary);padding-left:11px;margin-bottom:13px;margin-top:24px;}
+.sec:first-of-type{margin-top:0;}
+.rule-box{background:linear-gradient(135deg,#f0fdfa,#ccfbf1);border:2px solid var(--primary);border-radius:14px;padding:13px 16px;margin-bottom:14px;}
+.rule-box .rtitle{font-size:.83em;font-weight:700;color:var(--primary);margin-bottom:9px;}
+.rule-box .rbody{font-size:.92em;line-height:2.3;}
+.formula-box{background:linear-gradient(135deg,#f0fdfa,#ccfbf1);border:2px solid var(--success);border-radius:14px;padding:13px 16px;margin-bottom:14px;text-align:center;font-size:1.05em;font-weight:700;line-height:2.5;}
+.formula-box .ftitle{font-size:.83em;font-weight:700;color:var(--success);margin-bottom:9px;text-align:left;}
+.tip2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:18px;}
+.tip2 div{border-radius:8px;padding:9px;font-size:.86em;font-weight:700;text-align:center;line-height:1.5;}
+.pop-note{background:#fff7ed;border:1.5px dashed #fb923c;border-radius:10px;padding:9px 13px;font-size:.87em;color:#9a3412;font-weight:700;margin-top:10px;margin-bottom:14px;line-height:1.8;}
+.pop-note::before{content:"💡 ";}
+.warn-note{background:#fef2f2;border:1.5px solid var(--accent);border-radius:10px;padding:11px 14px;font-size:.9em;color:var(--accent);font-weight:700;margin:10px 0;line-height:1.9;}
+.warn-note::before{content:"⚠️ ";}
+.ex-card{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);margin-bottom:13px;overflow:hidden;}
+.ex-head{background:var(--primary);color:#fff;padding:7px 15px;font-size:.83em;font-weight:700;}
+.ex-body{padding:13px 16px;}
+.sr{display:flex;align-items:flex-start;gap:9px;padding:9px 12px;border-radius:8px;margin-bottom:7px;font-size:.88em;font-weight:700;line-height:2.1;}
+.sr.y{background:var(--warn-light);border:1.5px solid var(--warn);}
+.sr.b{background:var(--primary-light);border:1.5px solid var(--primary);}
+.sr.r{background:var(--accent-light);border:1.5px solid var(--accent);}
+.sr.g{background:var(--success-light);border:1.5px solid var(--success);}
+.sl{font-size:.68em;font-weight:700;border-radius:5px;padding:2px 7px;white-space:nowrap;flex-shrink:0;margin-top:4px;}
+.sl.y{background:var(--warn);color:#fff;}
+.sl.b{background:var(--primary);color:#fff;}
+.sl.r{background:var(--accent);color:#fff;}
+.sl.g{background:var(--success);color:#fff;}
+.ans-box{background:var(--primary-light);border:2px solid var(--primary);border-radius:9px;padding:11px 14px;margin-top:9px;font-size:1.05em;font-weight:700;color:var(--primary);text-align:center;line-height:2;}
+.sum-box{background:var(--warn-light);border:2px solid var(--warn);border-radius:var(--radius);padding:14px 17px;margin-bottom:22px;font-size:.93em;line-height:2.1;}
+.sum-box .st{font-weight:700;color:var(--warn);margin-bottom:7px;}
+.sum-box ul{padding-left:17px;}
+.sum-box li{margin-bottom:3px;}
+.sum-box strong{color:var(--primary);}
+.tech-box{background:#fef3c7;border:2px solid #f59e0b;border-radius:12px;padding:13px 16px;margin:13px 0;}
+.tech-box .ttl{font-size:.85em;font-weight:700;color:#b45309;margin-bottom:7px;}
+.tech-box .body{font-size:.92em;line-height:2;}
+
+/* 平方数表 */
+.sq-table{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin:12px 0;}
+.sq-cell{background:#fff;border:1.5px solid var(--border);border-radius:6px;padding:8px 4px;text-align:center;font-size:.85em;font-weight:700;line-height:1.5;}
+.sq-cell .num{color:var(--primary);font-size:1em;}
+.sq-cell .arrow{color:var(--text-sub);font-size:.7em;}
+.sq-cell .res{color:var(--accent);font-size:.95em;}
+
+/* 比較カード */
+.compare-grid{display:grid;grid-template-columns:1fr;gap:10px;margin-bottom:14px;}
+.compare-card{background:#fff;border:2px solid var(--border);border-radius:10px;padding:12px 14px;}
+.compare-card.exp{border-color:var(--primary);background:var(--primary-light);}
+.compare-card.fac{border-color:var(--warn);background:var(--warn-light);}
+.compare-card .ctitle{font-size:.82em;font-weight:700;margin-bottom:5px;}
+.compare-card.exp .ctitle{color:var(--primary);}
+.compare-card.fac .ctitle{color:#92400e;}
+.compare-card .cmain{text-align:center;font-size:1em;font-weight:700;padding:5px 0;}
+
+.nav-btns{display:flex;gap:10px;flex-wrap:wrap;justify-content:space-between;margin-top:26px;}
+.btn-nav{font-family:'BIZ UDPGothic','BIZ UDP Gothic',sans-serif;font-size:.93em;font-weight:700;padding:11px 24px;border-radius:50px;border:none;cursor:pointer;text-decoration:none;display:inline-block;transition:transform .15s,box-shadow .15s;}
+.btn-nav:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.15);}
+.btn-f{background:var(--primary);color:#fff;}
+.btn-b{background:#f1f5f9;color:var(--text-sub);}
+.btn-h{background:var(--primary-light);color:var(--primary);font-size:.83em;padding:9px 18px;}
+</style>
+</head>
+<body>
+<div class="page-header">
+  <div class="unit-code">EF05</div>
+  <h1>因数分解① 差の積<br><small style="font-size:.75em;opacity:.85;">χ²−a² = (χ+a)(χ−a)</small></h1>
+</div>
+<nav class="step-nav">
+  <div class="step-item active"><span class="step-circle">①</span><span>導入</span></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">②</span><a href="example.html">例題</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">③</span><a href="drill.html">演習</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">④</span><a href="check.html">確認</a></div>
+</nav>
+<main class="g-container">
+
+<div class="sec">① 「因数分解」とは？</div>
+<div class="rule-box">
+  <div class="rtitle">📌 展開とは「逆」の操作</div>
+  <div class="rbody">
+    <strong>展開</strong> は「かっこをはずして1つの式にする」こと。<br>
+    <strong>因数分解</strong> は，その逆 — <strong>1つの式をかっこのかけ算に直す</strong> こと。<br>
+    例えば $x^2 - 9$ を $(x+3)(x-3)$ に直すのが因数分解。
+  </div>
+</div>
+
+<div class="compare-grid">
+  <div class="compare-card exp">
+    <div class="ctitle">📌 展開（EF03で学習）</div>
+    <div class="cmain">$(x+3)(x-3) \xrightarrow{\text{展開}} x^2 - 9$</div>
+  </div>
+  <div class="compare-card fac">
+    <div class="ctitle">📌 因数分解（今回）</div>
+    <div class="cmain">$x^2 - 9 \xrightarrow{\text{因数分解}} (x+3)(x-3)$</div>
+  </div>
+</div>
+
+<div class="pop-note">
+  <strong>展開で覚えた公式を「逆向き」に使う</strong> のが因数分解！　EF03がしっかり身についていれば，今回は楽勝のはず。
+</div>
+
+<div class="sec">② 「平方の差」の因数分解</div>
+<div class="formula-box">
+  <div class="ftitle">📌 これがメイン公式！</div>
+  $x^2 - a^2 = (x+a)(x-a)$
+</div>
+
+<div class="rule-box">
+  <div class="rtitle">📌 形を見分けるコツ</div>
+  <div class="rbody">
+    式を見て，<strong>「2乗 − 2乗」（平方の差）</strong> の形になっていれば，<br>
+    すぐに $(\square + \triangle)(\square - \triangle)$ の形に分解できる。<br>
+    キーワードは「<strong>2乗の差</strong>」！
+  </div>
+</div>
+
+<div class="ex-card">
+  <div class="ex-head">例)$x^2 - 25$ を因数分解する</div>
+  <div class="ex-body">
+    <div class="sr y"><span class="sl y">形を確認</span><div>$25 = 5^2$ なので，これは <strong>$x^2 - 5^2$</strong>（2乗の差）</div></div>
+    <div class="sr b"><span class="sl b">公式適用</span><div>$x^2 - 5^2 = (x+5)(x-5)$</div></div>
+    <div class="ans-box">$(x+5)(x-5)$</div>
+  </div>
+</div>
+
+<div class="sec">③ 平方数を覚えておこう</div>
+<div class="rule-box">
+  <div class="rtitle">📌 因数分解では「平方数」を見つけることが超重要</div>
+  <div class="rbody">
+    式の中に出てくる数が <strong>「ある数の2乗」</strong> になっていれば，公式が使える。<br>
+    最低でも下の表は <strong>瞬時に思い出せる</strong> ようにしておこう！
+  </div>
+</div>
+
+<div class="sq-table">
+  <div class="sq-cell"><div class="num">$1^2$</div><div class="arrow">↓</div><div class="res">$1$</div></div>
+  <div class="sq-cell"><div class="num">$2^2$</div><div class="arrow">↓</div><div class="res">$4$</div></div>
+  <div class="sq-cell"><div class="num">$3^2$</div><div class="arrow">↓</div><div class="res">$9$</div></div>
+  <div class="sq-cell"><div class="num">$4^2$</div><div class="arrow">↓</div><div class="res">$16$</div></div>
+  <div class="sq-cell"><div class="num">$5^2$</div><div class="arrow">↓</div><div class="res">$25$</div></div>
+  <div class="sq-cell"><div class="num">$6^2$</div><div class="arrow">↓</div><div class="res">$36$</div></div>
+  <div class="sq-cell"><div class="num">$7^2$</div><div class="arrow">↓</div><div class="res">$49$</div></div>
+  <div class="sq-cell"><div class="num">$8^2$</div><div class="arrow">↓</div><div class="res">$64$</div></div>
+  <div class="sq-cell"><div class="num">$9^2$</div><div class="arrow">↓</div><div class="res">$81$</div></div>
+  <div class="sq-cell"><div class="num">$10^2$</div><div class="arrow">↓</div><div class="res">$100$</div></div>
+</div>
+
+<div class="tech-box">
+  <div class="ttl">💡 見つけ方のコツ</div>
+  <div class="body">
+    式の中に <strong>$4, 9, 16, 25, 36, 49, 64, 81, 100$</strong> が出てきたら，<br>
+    「$2^2, 3^2, 4^2, 5^2 \cdots$ じゃないか？」と疑ってみよう！
+  </div>
+</div>
+
+<div class="sec">④ 係数つきの場合</div>
+<div class="rule-box">
+  <div class="rtitle">📌 $9x^2 - 1$ のようなケース</div>
+  <div class="rbody">
+    $x$ に係数がある場合も，<strong>その項全体が「2乗」になっているか</strong> を見極める。<br>
+    $9x^2 = (3x)^2$ となるので，<strong>$(3x)^2 - 1^2$</strong> の形に変形できる。
+  </div>
+</div>
+
+<div class="ex-card">
+  <div class="ex-head">例)$9x^2 - 1$ を因数分解する</div>
+  <div class="ex-body">
+    <div class="sr y"><span class="sl y">変形</span><div>$9x^2 = (3x)^2$，$1 = 1^2$ → $(3x)^2 - 1^2$</div></div>
+    <div class="sr b"><span class="sl b">公式適用</span><div>$(3x)^2 - 1^2 = (3x+1)(3x-1)$</div></div>
+    <div class="ans-box">$(3x+1)(3x-1)$</div>
+  </div>
+</div>
+
+<div class="sec">⑤ 2変数の場合</div>
+<div class="rule-box">
+  <div class="rtitle">📌 $x^2 - 4y^2$ のようなケース</div>
+  <div class="rbody">
+    文字が2つあっても考え方は同じ。<br>
+    $4y^2 = (2y)^2$ なので，<strong>$x^2 - (2y)^2$</strong> の形にして公式を適用する。
+  </div>
+</div>
+
+<div class="ex-card">
+  <div class="ex-head">例)$x^2 - 4y^2$ を因数分解する</div>
+  <div class="ex-body">
+    <div class="sr y"><span class="sl y">変形</span><div>$4y^2 = (2y)^2$ → $x^2 - (2y)^2$</div></div>
+    <div class="sr b"><span class="sl b">公式適用</span><div>$x^2 - (2y)^2 = (x+2y)(x-2y)$</div></div>
+    <div class="ans-box">$(x+2y)(x-2y)$</div>
+  </div>
+</div>
+
+<div class="sec">⑥ 順番が逆 $9 - 16x^2$ のような場合</div>
+<div class="rule-box">
+  <div class="rtitle">📌 「数 − 文字の項」型</div>
+  <div class="rbody">
+    たまに $9 - 16x^2$ のような，<strong>数が前にある形</strong> も出題される。<br>
+    でも考え方は同じ：$3^2 - (4x)^2$ → $(3+4x)(3-4x)$
+  </div>
+</div>
+
+<div class="warn-note">
+  順序が違っても <strong>「2乗の差」の形</strong> なら公式が使える！　$9 - 16x^2 = -(16x^2 - 9)$ などと余計な変形をしないように。
+</div>
+
+<div class="sum-box">
+  <div class="st">📌 まとめ</div>
+  <ul>
+    <li>因数分解は <strong>展開の逆</strong> の操作</li>
+    <li>公式：$x^2 - a^2 = (x+a)(x-a)$</li>
+    <li>キーワードは <strong>「2乗の差」</strong></li>
+    <li>$4, 9, 16, 25, 36, 49, 64, 81, 100$ などの <strong>平方数</strong> を覚えておく</li>
+    <li>係数つきは <strong>項全体が2乗になるか</strong> を確認（例：$9x^2 = (3x)^2$）</li>
+    <li>2変数も同じ：$4y^2 = (2y)^2$ として公式を適用</li>
+    <li>$+$ と $-$ の <strong>2つのかっこ</strong> ができれば完成</li>
+  </ul>
+</div>
+
+<div class="nav-btns">
+  <a href="../gamba_kounin.html" class="btn-nav btn-h">🏠 単元一覧へ</a>
+  <a href="example.html" class="btn-nav btn-f">② 例題へ →</a>
+</div>
+</main>
+
+<script src="../gamba_support.js"></script>
+</body>
+</html>
