@@ -213,6 +213,47 @@ body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background
   </div>
 </div>
 
+<!-- 橋渡し説明：たすき掛けから答えへ -->
+<div style="background:#fff;border:2px solid var(--primary);border-radius:12px;padding:14px 14px 10px;margin:14px 0;">
+  <div style="font-size:.85em;font-weight:700;color:var(--primary);margin-bottom:11px;text-align:center;">
+    🔑 「✓」が出たあと，どうやって答えの形に？
+  </div>
+  <svg viewBox="0 0 380 200" xmlns="http://www.w3.org/2000/svg" style="display:block;margin:0 auto;max-width:100%;height:auto;">
+    <!-- 上のラベル「外と外」 -->
+    <text x="190" y="20" font-size="13" font-weight="700" fill="#dc2626" text-anchor="middle">外と外（同じ括弧の両端）</text>
+    <!-- 上の弧：外と外 -->
+    <path d="M 50 55 Q 190 20 320 55" stroke="#dc2626" stroke-width="2.5" fill="none"/>
+    <polygon points="320,55 314,49 314,61" fill="#dc2626"/>
+
+    <!-- 因数分解の式 -->
+    <text x="20" y="100" font-size="22" font-weight="700" fill="#1e293b">(</text>
+    <text x="50" y="100" font-size="22" font-weight="700" fill="#dc2626" text-anchor="middle">3x</text>
+    <text x="85" y="100" font-size="20" font-weight="700" fill="#1e293b" text-anchor="middle">-</text>
+    <text x="125" y="100" font-size="22" font-weight="700" fill="#2563eb" text-anchor="middle">1</text>
+    <text x="155" y="100" font-size="22" font-weight="700" fill="#1e293b">)</text>
+    <text x="180" y="100" font-size="22" font-weight="700" fill="#1e293b">(</text>
+    <text x="220" y="100" font-size="22" font-weight="700" fill="#2563eb" text-anchor="middle">2x</text>
+    <text x="260" y="100" font-size="20" font-weight="700" fill="#1e293b" text-anchor="middle">-</text>
+    <text x="295" y="100" font-size="22" font-weight="700" fill="#dc2626" text-anchor="middle">2</text>
+    <text x="320" y="100" font-size="22" font-weight="700" fill="#1e293b">)</text>
+
+    <!-- 下の弧：内と内 -->
+    <path d="M 125 115 Q 190 165 220 115" stroke="#2563eb" stroke-width="2.5" fill="none"/>
+    <polygon points="220,115 215,121 226,120" fill="#2563eb"/>
+    <!-- 下のラベル「内と内」 -->
+    <text x="190" y="190" font-size="13" font-weight="700" fill="#2563eb" text-anchor="middle">内と内（隣り合う中身）</text>
+  </svg>
+  <div style="background:#fef9c3;border:1.5px dashed #eab308;border-radius:8px;padding:9px 12px;margin-top:11px;font-size:.86em;line-height:1.9;color:#713f12;font-weight:700;">
+    <strong>📌 「外と外」「内と内」の置き方：</strong><br>
+    ・<span style="color:#dc2626;">赤の弧（外と外）</span>：$3x$ と $-1$ を <strong>同じ括弧の両端</strong> に置く<br>
+    ・<span style="color:#2563eb;">青の弧（内と内）</span>：$-2$ と $2x$ を <strong>隣り合う内側</strong> に置く<br>
+    こうして $(3x-2)(2x-1)$ になる！
+  </div>
+  <div style="background:#dcfce7;border:1.5px solid #16a34a;border-radius:8px;padding:9px 12px;margin-top:8px;font-size:.86em;line-height:1.9;color:#15803d;font-weight:700;">
+    💡 これは <strong>EF10 の「外×外＋内×内」の逆操作</strong>！　展開で学んだ仕組みを <strong>巻き戻している</strong> だけ。
+  </div>
+</div>
+
 <div class="tech-box">
   <div class="ttl">💡 「両プラス」と「両マイナス」の見分け方</div>
   <div class="body">
@@ -273,6 +314,47 @@ body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background
 <div class="ex-card">
   <div class="ex-body">
     <div class="ans-box">$5x^2 - 36x + 7 = (5x-1)(x-7)$</div>
+  </div>
+</div>
+
+<!-- 橋渡し説明：たすき掛けから答えへ -->
+<div style="background:#fff;border:2px solid var(--primary);border-radius:12px;padding:14px 14px 10px;margin:14px 0;">
+  <div style="font-size:.85em;font-weight:700;color:var(--primary);margin-bottom:11px;text-align:center;">
+    🔑 「✓」が出たあと，どうやって答えの形に？
+  </div>
+  <svg viewBox="0 0 380 200" xmlns="http://www.w3.org/2000/svg" style="display:block;margin:0 auto;max-width:100%;height:auto;">
+    <!-- 上のラベル「外と外」 -->
+    <text x="190" y="20" font-size="13" font-weight="700" fill="#dc2626" text-anchor="middle">外と外（同じ括弧の両端）</text>
+    <!-- 上の弧：外と外 -->
+    <path d="M 50 55 Q 190 20 320 55" stroke="#dc2626" stroke-width="2.5" fill="none"/>
+    <polygon points="320,55 314,49 314,61" fill="#dc2626"/>
+
+    <!-- 因数分解の式 -->
+    <text x="20" y="100" font-size="22" font-weight="700" fill="#1e293b">(</text>
+    <text x="50" y="100" font-size="22" font-weight="700" fill="#dc2626" text-anchor="middle">5x</text>
+    <text x="85" y="100" font-size="20" font-weight="700" fill="#1e293b" text-anchor="middle">-</text>
+    <text x="125" y="100" font-size="22" font-weight="700" fill="#2563eb" text-anchor="middle">7</text>
+    <text x="155" y="100" font-size="22" font-weight="700" fill="#1e293b">)</text>
+    <text x="180" y="100" font-size="22" font-weight="700" fill="#1e293b">(</text>
+    <text x="220" y="100" font-size="22" font-weight="700" fill="#2563eb" text-anchor="middle">1x</text>
+    <text x="260" y="100" font-size="20" font-weight="700" fill="#1e293b" text-anchor="middle">-</text>
+    <text x="295" y="100" font-size="22" font-weight="700" fill="#dc2626" text-anchor="middle">1</text>
+    <text x="320" y="100" font-size="22" font-weight="700" fill="#1e293b">)</text>
+
+    <!-- 下の弧：内と内 -->
+    <path d="M 125 115 Q 190 165 220 115" stroke="#2563eb" stroke-width="2.5" fill="none"/>
+    <polygon points="220,115 215,121 226,120" fill="#2563eb"/>
+    <!-- 下のラベル「内と内」 -->
+    <text x="190" y="190" font-size="13" font-weight="700" fill="#2563eb" text-anchor="middle">内と内（隣り合う中身）</text>
+  </svg>
+  <div style="background:#fef9c3;border:1.5px dashed #eab308;border-radius:8px;padding:9px 12px;margin-top:11px;font-size:.86em;line-height:1.9;color:#713f12;font-weight:700;">
+    <strong>📌 「外と外」「内と内」の置き方：</strong><br>
+    ・<span style="color:#dc2626;">赤の弧（外と外）</span>：$5x$ と $-7$ を <strong>同じ括弧の両端</strong> に置く<br>
+    ・<span style="color:#2563eb;">青の弧（内と内）</span>：$-1$ と $1x$ を <strong>隣り合う内側</strong> に置く<br>
+    こうして $(5x-1)(x-7)$ になる！
+  </div>
+  <div style="background:#dcfce7;border:1.5px solid #16a34a;border-radius:8px;padding:9px 12px;margin-top:8px;font-size:.86em;line-height:1.9;color:#15803d;font-weight:700;">
+    💡 これは <strong>EF10 の「外×外＋内×内」の逆操作</strong>！　展開で学んだ仕組みを <strong>巻き戻している</strong> だけ。
   </div>
 </div>
 

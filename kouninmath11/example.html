@@ -90,10 +90,54 @@ body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background
 
 <script>
 // たすき掛けSVG生成関数（左の縦, 右の縦, 対角線結果, 合計, OK/NG）
+// 橋渡しSVG生成（たすき掛け→因数分解の対応を視覚化）
+function bridgeSVG(a1, a2, c1, c2){
+  // c1, c2 は "+3", "-7" などの符号付き文字列
+  function parseSig(s){
+    s = String(s).trim();
+    if(s.charAt(0)==='+') return ['+', s.slice(1)];
+    if(s.charAt(0)==='-') return ['-', s.slice(1)];
+    return ['+', s];
+  }
+  var p1 = parseSig(c1), p2 = parseSig(c2);
+  var s_c1 = p1[0], v_c1 = p1[1];
+  var s_c2 = p2[0], v_c2 = p2[1];
+  return '<div style="background:#fff;border:2px solid var(--primary);border-radius:12px;padding:14px 14px 10px;margin:14px 0;">'
+    +'<div style="font-size:.85em;font-weight:700;color:var(--primary);margin-bottom:11px;text-align:center;">🔑 「✓」が出たあと，どうやって答えの形に？</div>'
+    +'<svg viewBox="0 0 380 200" xmlns="http://www.w3.org/2000/svg" style="display:block;margin:0 auto;max-width:100%;height:auto;">'
+    +'<text x="190" y="20" font-size="13" font-weight="700" fill="#dc2626" text-anchor="middle">外と外（同じ括弧の両端）</text>'
+    +'<path d="M 50 55 Q 190 20 320 55" stroke="#dc2626" stroke-width="2.5" fill="none"/>'
+    +'<polygon points="320,55 314,49 314,61" fill="#dc2626"/>'
+    +'<text x="20" y="100" font-size="22" font-weight="700" fill="#1e293b">(</text>'
+    +'<text x="50" y="100" font-size="22" font-weight="700" fill="#dc2626" text-anchor="middle">'+a1+'</text>'
+    +'<text x="85" y="100" font-size="20" font-weight="700" fill="#1e293b" text-anchor="middle">'+s_c2+'</text>'
+    +'<text x="125" y="100" font-size="22" font-weight="700" fill="#2563eb" text-anchor="middle">'+v_c2+'</text>'
+    +'<text x="155" y="100" font-size="22" font-weight="700" fill="#1e293b">)</text>'
+    +'<text x="180" y="100" font-size="22" font-weight="700" fill="#1e293b">(</text>'
+    +'<text x="220" y="100" font-size="22" font-weight="700" fill="#2563eb" text-anchor="middle">'+a2+'</text>'
+    +'<text x="260" y="100" font-size="20" font-weight="700" fill="#1e293b" text-anchor="middle">'+s_c1+'</text>'
+    +'<text x="295" y="100" font-size="22" font-weight="700" fill="#dc2626" text-anchor="middle">'+v_c1+'</text>'
+    +'<text x="320" y="100" font-size="22" font-weight="700" fill="#1e293b">)</text>'
+    +'<path d="M 125 115 Q 190 165 220 115" stroke="#2563eb" stroke-width="2.5" fill="none"/>'
+    +'<polygon points="220,115 215,121 226,120" fill="#2563eb"/>'
+    +'<text x="190" y="190" font-size="13" font-weight="700" fill="#2563eb" text-anchor="middle">内と内（隣り合う中身）</text>'
+    +'</svg>'
+    +'<div style="background:#fef9c3;border:1.5px dashed #eab308;border-radius:8px;padding:9px 12px;margin-top:11px;font-size:.86em;line-height:1.9;color:#713f12;font-weight:700;">'
+    +'<strong>📌 「外と外」「内と内」の置き方：</strong><br>'
+    +'・<span style="color:#dc2626;">赤の弧（外と外）</span>：'+a1+' と '+s_c2+v_c2+' を <strong>同じ括弧の両端</strong> に置く<br>'
+    +'・<span style="color:#2563eb;">青の弧（内と内）</span>：'+s_c1+v_c1+' と '+a2+' を <strong>隣り合う内側</strong> に置く<br>'
+    +'こうして $('+a1+s_c2+v_c2+')('+a2+s_c1+v_c1+')$ になる！'
+    +'</div>'
+    +'<div style="background:#dcfce7;border:1.5px solid #16a34a;border-radius:8px;padding:9px 12px;margin-top:8px;font-size:.86em;line-height:1.9;color:#15803d;font-weight:700;">'
+    +'💡 これは <strong>EF10 の「外×外＋内×内」の逆操作</strong>！　展開で学んだ仕組みを <strong>巻き戻している</strong> だけ。'
+    +'</div>'
+    +'</div>';
+}
+
 function tasukiSVG(a1, a2, c1, c2, r1, r2, total, ok){
   const color = ok ? '#16a34a' : '#dc2626';
   const mark = ok ? '✓' : '✗';
-  return '<svg class="tasuki-svg" viewBox="0 0 320 130" xmlns="http://www.w3.org/2000/svg">'
+  var sv = '<svg class="tasuki-svg" viewBox="0 0 320 130" xmlns="http://www.w3.org/2000/svg">'
     +'<text x="40" y="40" font-size="20" font-weight="700" fill="#1e293b" text-anchor="middle">'+a1+'</text>'
     +'<text x="40" y="95" font-size="20" font-weight="700" fill="#1e293b" text-anchor="middle">'+a2+'</text>'
     +'<text x="180" y="40" font-size="20" font-weight="700" fill="#1e293b" text-anchor="middle">'+c1+'</text>'
@@ -105,6 +149,7 @@ function tasukiSVG(a1, a2, c1, c2, r1, r2, total, ok){
     +'<line x1="240" y1="105" x2="320" y2="105" stroke="#94a3b8" stroke-width="1"/>'
     +'<text x="290" y="125" font-size="16" font-weight="700" fill="'+color+'" text-anchor="middle">'+total+' '+mark+'</text>'
     +'</svg>';
+  return sv + (ok ? bridgeSVG(a1, a2, c1, c2) : '');
 }
 
 const EXAMPLES=[
