@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EF13 因数分解 たすき掛け（符号が逆）【導入】</title>
+
+<!-- KaTeX (CDN) -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{
+    delimiters:[
+      {left:'$$',right:'$$',display:true},
+      {left:'$',right:'$',display:false}
+    ],
+    throwOnError:false
+  });"></script>
+
+<style>
+:root{--primary:#0f766e;--primary-light:#ccfbf1;--accent:#e8372d;--accent-light:#fff1f0;--success:#16a34a;--success-light:#dcfce7;--warn:#d97706;--warn-light:#fffbeb;--bg:#f0fdfa;--card:#ffffff;--border:#99f6e4;--text:#1e293b;--text-sub:#64748b;--radius:12px;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:60px;}
+.g-container{max-width:760px;margin:0 auto;padding:22px 15px 60px;}
+.page-header{background:var(--primary);color:#fff;padding:16px 20px 12px;text-align:center;box-shadow:0 3px 10px rgba(15,118,110,.25);}
+.page-header .unit-code{font-size:.8em;opacity:.8;letter-spacing:.1em;margin-bottom:3px;}
+.page-header h1{font-size:clamp(.98em,3vw,1.38em);font-weight:700;margin:0;line-height:1.4;}
+.step-nav{display:flex;align-items:center;justify-content:center;padding:9px 6px;background:var(--card);border-bottom:1px solid var(--border);flex-wrap:nowrap;overflow-x:auto;position:sticky;top:0;z-index:10;gap:1px;}
+.step-item{display:flex;align-items:center;gap:3px;font-size:clamp(.62em,1.6vw,.78em);color:#94a3b8;white-space:nowrap;padding:2px 4px;}
+.step-item a{color:inherit;text-decoration:none;}
+.step-item a:hover{color:var(--primary);}
+.step-item.active{color:var(--primary);font-weight:700;}
+.step-circle{width:19px;height:19px;border-radius:50%;font-size:.68em;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.step-item.active .step-circle{background:var(--primary);color:#fff;box-shadow:0 0 0 2px var(--primary-light);}
+.step-item:not(.active) .step-circle{background:#94a3b8;color:#fff;}
+.step-arrow{color:#cbd5e1;font-size:.9em;padding:0;}
+.sec{font-size:1.02em;font-weight:700;color:var(--primary);border-left:4px solid var(--primary);padding-left:11px;margin-bottom:13px;margin-top:24px;}
+.sec:first-of-type{margin-top:0;}
+.rule-box{background:linear-gradient(135deg,#f0fdfa,#ccfbf1);border:2px solid var(--primary);border-radius:14px;padding:13px 16px;margin-bottom:14px;}
+.rule-box .rtitle{font-size:.83em;font-weight:700;color:var(--primary);margin-bottom:9px;}
+.rule-box .rbody{font-size:.92em;line-height:2.3;}
+.formula-box{background:linear-gradient(135deg,#f0fdfa,#ccfbf1);border:2px solid var(--success);border-radius:14px;padding:13px 16px;margin-bottom:14px;text-align:center;font-size:1.05em;font-weight:700;line-height:2.5;}
+.formula-box .ftitle{font-size:.83em;font-weight:700;color:var(--success);margin-bottom:9px;text-align:left;}
+.tip2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:18px;}
+.tip2 div{border-radius:8px;padding:9px;font-size:.86em;font-weight:700;text-align:center;line-height:1.5;}
+.pop-note{background:#fff7ed;border:1.5px dashed #fb923c;border-radius:10px;padding:9px 13px;font-size:.87em;color:#9a3412;font-weight:700;margin-top:10px;margin-bottom:14px;line-height:1.8;}
+.pop-note::before{content:"💡 ";}
+.warn-note{background:#fef2f2;border:1.5px solid var(--accent);border-radius:10px;padding:11px 14px;font-size:.9em;color:var(--accent);font-weight:700;margin:10px 0;line-height:1.9;}
+.warn-note::before{content:"⚠️ ";}
+.ex-card{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);margin-bottom:13px;overflow:hidden;}
+.ex-head{background:var(--primary);color:#fff;padding:7px 15px;font-size:.83em;font-weight:700;}
+.ex-body{padding:13px 16px;}
+.sr{display:flex;align-items:flex-start;gap:9px;padding:9px 12px;border-radius:8px;margin-bottom:7px;font-size:.88em;font-weight:700;line-height:2.1;}
+.sr.y{background:var(--warn-light);border:1.5px solid var(--warn);}
+.sr.b{background:var(--primary-light);border:1.5px solid var(--primary);}
+.sr.r{background:var(--accent-light);border:1.5px solid var(--accent);}
+.sr.g{background:var(--success-light);border:1.5px solid var(--success);}
+.sl{font-size:.68em;font-weight:700;border-radius:5px;padding:2px 7px;white-space:nowrap;flex-shrink:0;margin-top:4px;}
+.sl.y{background:var(--warn);color:#fff;}
+.sl.b{background:var(--primary);color:#fff;}
+.sl.r{background:var(--accent);color:#fff;}
+.sl.g{background:var(--success);color:#fff;}
+.ans-box{background:var(--primary-light);border:2px solid var(--primary);border-radius:9px;padding:11px 14px;margin-top:9px;font-size:1.05em;font-weight:700;color:var(--primary);text-align:center;line-height:2;}
+.sum-box{background:var(--warn-light);border:2px solid var(--warn);border-radius:var(--radius);padding:14px 17px;margin-bottom:22px;font-size:.93em;line-height:2.1;}
+.sum-box .st{font-weight:700;color:var(--warn);margin-bottom:7px;}
+.sum-box ul{padding-left:17px;}
+.sum-box li{margin-bottom:3px;}
+.sum-box strong{color:var(--primary);}
+.tech-box{background:#fef3c7;border:2px solid #f59e0b;border-radius:12px;padding:13px 16px;margin:13px 0;}
+.tech-box .ttl{font-size:.85em;font-weight:700;color:#b45309;margin-bottom:7px;}
+.tech-box .body{font-size:.92em;line-height:2;}
+
+/* たすき掛け図 */
+.tasuki-wrap{background:#fff;border:2px solid var(--accent);border-radius:12px;padding:14px 10px;margin:14px 0;text-align:center;}
+.tasuki-wrap .ttitle{font-size:.83em;font-weight:700;color:var(--accent);margin-bottom:10px;}
+.tasuki-wrap.ok{border-color:var(--success);}
+.tasuki-wrap.ok .ttitle{color:var(--success);}
+.tasuki-wrap svg{max-width:100%;height:auto;}
+
+/* 符号判定 */
+.sign-rule{background:#fff;border:2px solid var(--accent);border-radius:10px;padding:12px 14px;margin:10px 0;}
+.sign-rule .stitle{font-size:.85em;font-weight:700;color:var(--accent);margin-bottom:6px;}
+.sign-rule .sbody{font-size:.93em;line-height:2;}
+
+/* 比較表 */
+.compare-grid{display:grid;grid-template-columns:1fr;gap:10px;margin-bottom:14px;}
+.compare-card{background:#fff;border:2px solid var(--border);border-radius:10px;padding:11px 13px;}
+.compare-card.p1{border-color:#16a34a;background:#f0fdf4;}
+.compare-card.p2{border-color:#0e7490;background:#ecfeff;}
+.compare-card.p3{border-color:#d97706;background:#fffbeb;}
+.compare-card .clbl{font-size:.78em;font-weight:700;margin-bottom:5px;}
+.compare-card.p1 .clbl{color:#16a34a;}
+.compare-card.p2 .clbl{color:#0e7490;}
+.compare-card.p3 .clbl{color:#d97706;}
+.compare-card .cmain{font-size:.95em;font-weight:700;text-align:center;line-height:2;}
+
+/* チェック手順 */
+.check-step{background:#fff;border:2px solid var(--border);border-radius:10px;padding:11px 14px;margin-bottom:8px;display:flex;align-items:center;gap:10px;}
+.check-step .num{background:var(--primary);color:#fff;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.85em;flex-shrink:0;}
+.check-step .body{font-size:.91em;line-height:1.8;flex:1;}
+
+.nav-btns{display:flex;gap:10px;flex-wrap:wrap;justify-content:space-between;margin-top:26px;}
+.btn-nav{font-family:'BIZ UDPGothic','BIZ UDP Gothic',sans-serif;font-size:.93em;font-weight:700;padding:11px 24px;border-radius:50px;border:none;cursor:pointer;text-decoration:none;display:inline-block;transition:transform .15s,box-shadow .15s;}
+.btn-nav:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.15);}
+.btn-f{background:var(--primary);color:#fff;}
+.btn-b{background:#f1f5f9;color:var(--text-sub);}
+.btn-h{background:var(--primary-light);color:var(--primary);font-size:.83em;padding:9px 18px;}
+</style>
+</head>
+<body>
+<div class="page-header">
+  <div class="unit-code">EF13</div>
+  <h1>因数分解 たすき掛け（符号が逆）<br><small style="font-size:.75em;opacity:.85;">$ax^2 \pm bx - c$ 型 — 定数項マイナス</small></h1>
+</div>
+<nav class="step-nav">
+  <div class="step-item active"><span class="step-circle">①</span><span>導入</span></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">②</span><a href="example.html">例題</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">③</span><a href="drill.html">演習</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">④</span><a href="check.html">確認</a></div>
+</nav>
+<main class="g-container">
+
+<div class="sec">① たすき掛けの最終形</div>
+<div class="rule-box">
+  <div class="rtitle">📌 定数項がマイナスの場合</div>
+  <div class="rbody">
+    EF11（両プラス）, EF12（両マイナス）と来て，最後は <strong>定数項がマイナス</strong> の場合：<br>
+    例：$3x^2 + 5x - 2$，$5x^2 + 7x - 6$ など。<br>
+    定数項マイナス → かけて−（マイナス）→ <strong>2数の符号が逆</strong> になります。<br>
+    高認では <strong>このパターンが最頻出</strong>！
+  </div>
+</div>
+
+<div class="formula-box">
+  <div class="ftitle">📌 公式と符号</div>
+  $ax^2 \pm bx - c$　→　$(\bigcirc x + \square)(\bigcirc x - \square)$<br>
+  ※ 2数は <strong>片方プラス，もう片方マイナス</strong>
+</div>
+
+<div class="sec">② なぜ符号が逆になるの？</div>
+<div class="rule-box">
+  <div class="rtitle">📌 EF06-3と同じしくみ</div>
+  <div class="rbody">
+    2つの数を $+A$ と $-B$（符号が逆）とすると：<br>
+    ・かけて：$(+A) \times (-B) = -AB$ → <strong>定数項マイナス</strong> ✓<br>
+    ・たして：$A + (-B) = A - B$ → 真ん中の係数 $b$ は <strong>プラスでもマイナスでも両方OK</strong>
+  </div>
+</div>
+
+<div class="sign-rule">
+  <div class="stitle">⚠️ 符号判定の鉄則</div>
+  <div class="sbody">
+    定数項 $c$ <strong>−</strong>（マイナス）　→　たすき掛けは <strong>片方+，もう片方−</strong><br>
+    係数 $b$ の符号は <strong>+でも−でもどちらでもよい</strong>
+  </div>
+</div>
+
+<div class="sec">③ 例題：$5x^2 - 34x - 7$</div>
+
+<div class="ex-card">
+  <div class="ex-head">考え方</div>
+  <div class="ex-body">
+    <div class="sr y"><span class="sl y">符号確認</span><div>定数項 $-7$ → <strong>符号が逆</strong>，係数 $-34$</div></div>
+    <div class="sr y"><span class="sl y">予想</span><div>$5x^2$ → $(5x \cdots)(x \cdots)$，$-7$ → かけて $-7$ → <strong>$+1, -7$</strong> または <strong>$-1, +7$</strong> の組</div></div>
+  </div>
+</div>
+
+<!-- たすき掛け図（成功例）-->
+<div class="tasuki-wrap ok">
+  <div class="ttitle">$(5x+1)(x-7)$？</div>
+  <svg viewBox="0 0 320 130" xmlns="http://www.w3.org/2000/svg">
+    <text x="40" y="40" font-size="20" font-weight="700" fill="#1e293b" text-anchor="middle">5x</text>
+    <text x="40" y="95" font-size="20" font-weight="700" fill="#1e293b" text-anchor="middle">1x</text>
+    <text x="180" y="40" font-size="20" font-weight="700" fill="#1e293b" text-anchor="middle">+1</text>
+    <text x="180" y="95" font-size="20" font-weight="700" fill="#1e293b" text-anchor="middle">-7</text>
+    <line x1="60" y1="35" x2="160" y2="92" stroke="#dc2626" stroke-width="2"/>
+    <line x1="60" y1="92" x2="160" y2="35" stroke="#2563eb" stroke-width="2"/>
+    <text x="265" y="40" font-size="16" font-weight="700" fill="#dc2626" text-anchor="start">…-35x</text>
+    <text x="265" y="95" font-size="16" font-weight="700" fill="#2563eb" text-anchor="start">…+1x</text>
+    <line x1="240" y1="105" x2="320" y2="105" stroke="#94a3b8" stroke-width="1"/>
+    <text x="290" y="125" font-size="16" font-weight="700" fill="#16a34a" text-anchor="middle">-34x ✓</text>
+  </svg>
+  <div style="margin-top:8px;font-size:.85em;font-weight:700;color:var(--success);">
+    たすと $-34x$ → 一致！
+  </div>
+</div>
+
+<div class="ex-card">
+  <div class="ex-body">
+    <div class="ans-box">$5x^2 - 34x - 7 = (5x+1)(x-7)$</div>
+  </div>
+</div>
+
+<div class="tech-box">
+  <div class="ttl">💡 「符号が逆」型のコツ</div>
+  <div class="body">
+    ① まず <strong>絶対値で組み合わせを試す</strong>（例：$1 \times 7$，$7 \times 1$）<br>
+    ② 次に <strong>どちらをプラス，どちらをマイナス</strong> にするか試す<br>
+    ③ たして真ん中の係数 $b$ になる組み合わせを見つける
+  </div>
+</div>
+
+<div class="sec">④ 解き方の手順</div>
+
+<div class="check-step">
+  <div class="num">1</div>
+  <div class="body"><strong>符号確認</strong>　定数項 $-c$ → <strong>符号が逆</strong>（片方+，片方-）</div>
+</div>
+<div class="check-step">
+  <div class="num">2</div>
+  <div class="body"><strong>$x^2$ の係数を分解</strong>　例：$5 = 5 \times 1$</div>
+</div>
+<div class="check-step">
+  <div class="num">3</div>
+  <div class="body"><strong>定数項の絶対値を分解</strong>　例：$|-7| = 7 = 1 \times 7$</div>
+</div>
+<div class="check-step">
+  <div class="num">4</div>
+  <div class="body"><strong>たすき掛け × 符号</strong>　$+, -$ の振り方を変えて，たして $b$ になる組を探す</div>
+</div>
+
+<div class="warn-note">
+  「符号が逆」型は <strong>たすき掛けで一番間違えやすい</strong>！<br>
+  $(5x+1)(x-7)$ と $(5x-1)(x+7)$ では結果が違うので，<strong>慎重に符号を試す</strong> こと。
+</div>
+
+<div class="sec">⑤ もう一つの例：$3x^2 + 5x - 2$</div>
+
+<div class="ex-card">
+  <div class="ex-head">考え方</div>
+  <div class="ex-body">
+    <div class="sr y"><span class="sl y">符号確認</span><div>定数項 $-2$ → <strong>符号が逆</strong>，係数 $+5$</div></div>
+    <div class="sr y"><span class="sl y">予想</span><div>$3 = 3 \times 1$，$2 = 1 \times 2$ または $2 \times 1$</div></div>
+  </div>
+</div>
+
+<!-- 失敗例 -->
+<div class="tasuki-wrap">
+  <div class="ttitle">パターン①：$(3x+2)(x-1)$？</div>
+  <svg viewBox="0 0 320 130" xmlns="http://www.w3.org/2000/svg">
+    <text x="40" y="40" font-size="20" font-weight="700" fill="#1e293b" text-anchor="middle">3x</text>
+    <text x="40" y="95" font-size="20" font-weight="700" fill="#1e293b" text-anchor="middle">1x</text>
+    <text x="180" y="40" font-size="20" font-weight="700" fill="#1e293b" text-anchor="middle">+2</text>
+    <text x="180" y="95" font-size="20" font-weight="700" fill="#1e293b" text-anchor="middle">-1</text>
+    <line x1="60" y1="35" x2="160" y2="92" stroke="#dc2626" stroke-width="2"/>
+    <line x1="60" y1="92" x2="160" y2="35" stroke="#2563eb" stroke-width="2"/>
+    <text x="265" y="40" font-size="16" font-weight="700" fill="#dc2626" text-anchor="start">…-3x</text>
+    <text x="265" y="95" font-size="16" font-weight="700" fill="#2563eb" text-anchor="start">…+2x</text>
+    <line x1="240" y1="105" x2="320" y2="105" stroke="#94a3b8" stroke-width="1"/>
+    <text x="290" y="125" font-size="16" font-weight="700" fill="#dc2626" text-anchor="middle">-1x ✗</text>
+  </svg>
+  <div style="margin-top:8px;font-size:.85em;font-weight:700;color:var(--accent);">
+    たすと $-1x$ → 不一致 ✗
+  </div>
+</div>
+
+<!-- 成功例 -->
+<div class="tasuki-wrap ok">
+  <div class="ttitle">パターン②：$(3x-1)(x+2)$？</div>
+  <svg viewBox="0 0 320 130" xmlns="http://www.w3.org/2000/svg">
+    <text x="40" y="40" font-size="20" font-weight="700" fill="#1e293b" text-anchor="middle">3x</text>
+    <text x="40" y="95" font-size="20" font-weight="700" fill="#1e293b" text-anchor="middle">1x</text>
+    <text x="180" y="40" font-size="20" font-weight="700" fill="#1e293b" text-anchor="middle">-1</text>
+    <text x="180" y="95" font-size="20" font-weight="700" fill="#1e293b" text-anchor="middle">+2</text>
+    <line x1="60" y1="35" x2="160" y2="92" stroke="#dc2626" stroke-width="2"/>
+    <line x1="60" y1="92" x2="160" y2="35" stroke="#2563eb" stroke-width="2"/>
+    <text x="265" y="40" font-size="16" font-weight="700" fill="#dc2626" text-anchor="start">…+6x</text>
+    <text x="265" y="95" font-size="16" font-weight="700" fill="#2563eb" text-anchor="start">…-1x</text>
+    <line x1="240" y1="105" x2="320" y2="105" stroke="#94a3b8" stroke-width="1"/>
+    <text x="290" y="125" font-size="16" font-weight="700" fill="#16a34a" text-anchor="middle">+5x ✓</text>
+  </svg>
+  <div style="margin-top:8px;font-size:.85em;font-weight:700;color:var(--success);">
+    たすと $+5x$ → 一致！
+  </div>
+</div>
+
+<div class="ex-card">
+  <div class="ex-body">
+    <div class="ans-box">$3x^2 + 5x - 2 = (3x-1)(x+2)$</div>
+  </div>
+</div>
+
+<div class="sec">⑥ EF11・EF12・EF13 の比較</div>
+<div class="compare-grid">
+  <div class="compare-card p1">
+    <div class="clbl">EF11（両プラス）：定数項+・係数+</div>
+    <div class="cmain">$2x^2 + 5x + 3 = (2x+3)(x+1)$<br>たすき掛け数字 <strong>すべてプラス</strong></div>
+  </div>
+  <div class="compare-card p2">
+    <div class="clbl">EF12（両マイナス）：定数項+・係数−</div>
+    <div class="cmain">$6x^2 - 7x + 2 = (3x-2)(2x-1)$<br>たすき掛け数字 <strong>すべてマイナス</strong></div>
+  </div>
+  <div class="compare-card p3">
+    <div class="clbl">EF13（符号が逆）：定数項−</div>
+    <div class="cmain">$3x^2 + 5x - 2 = (3x-1)(x+2)$<br>たすき掛け数字 <strong>+/−が混在</strong></div>
+  </div>
+</div>
+
+<div class="pop-note">
+  3パターンの判別は <strong>定数項と係数の符号</strong> で決まる！<br>
+  ・定数項+，係数+ → EF11（両プラス）<br>
+  ・定数項+，係数− → EF12（両マイナス）<br>
+  ・定数項− → EF13（符号が逆）
+</div>
+
+<div class="sum-box">
+  <div class="st">📌 まとめ</div>
+  <ul>
+    <li>EF13：$ax^2 \pm bx - c$ の因数分解（<strong>符号が逆</strong>）</li>
+    <li>定数項 − → <strong>2数の符号が逆</strong>（片方+，片方−）</li>
+    <li>$(\bigcirc x + \square)(\bigcirc x - \square)$ の形になる</li>
+    <li>たすき掛けで <strong>符号の振り方を試す</strong></li>
+    <li>$(5x+1)(x-7)$ と $(5x-1)(x+7)$ は別物 → <strong>慎重に確認</strong></li>
+    <li><strong>EFシリーズ完全制覇</strong>！　次は過去問演習で実戦力をつけよう 🎯</li>
+  </ul>
+</div>
+
+<div class="nav-btns">
+  <a href="../gamba_kounin.html" class="btn-nav btn-h">🏠 単元一覧へ</a>
+  <a href="example.html" class="btn-nav btn-f">② 例題へ →</a>
+</div>
+</main>
+
+<script src="../gamba_support.js"></script>
+</body>
+</html>
