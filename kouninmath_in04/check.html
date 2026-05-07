@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IN04 不等式の計算・実戦テスト</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" onload="window._katexReady = true; if(window._onKatexReady) window._onKatexReady();"></script>
+<script defer src="../gamba_support.js"></script>
+<style>
+:root{
+  --primary:#1d4ed8;
+  --primary-light:#dbeafe;
+  --primary-pale:#eff6ff;
+  --accent:#e8372d;
+  --bg:#eff6ff;
+  --border:#bfdbfe;
+  --purple:#9333ea;
+  --purple-light:#f3e8ff;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{
+  font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;
+  background:var(--bg);
+  color:#1f2937;
+  line-height:1.8;
+  padding:20px;
+  max-width:900px;
+  margin:0 auto;
+}
+header{
+  background:linear-gradient(135deg,var(--primary),var(--purple));
+  color:#fff;
+  padding:20px 24px;
+  border-radius:12px 12px 0 0;
+  margin:-20px -20px 0 -20px;
+}
+h1{font-size:1.4em;margin-bottom:4px;}
+.subtitle{font-size:0.95em;opacity:0.9;}
+section{
+  background:#fff;
+  padding:24px;
+  border-radius:0 0 12px 12px;
+  border:2px solid var(--border);
+  border-top:none;
+  margin-bottom:20px;
+}
+.intro-msg{
+  background:var(--primary-pale);
+  border-left:4px solid var(--primary);
+  padding:12px 16px;
+  margin-bottom:20px;
+  border-radius:4px;
+}
+.qcard{
+  background:#fff;
+  border:2px solid var(--border);
+  border-radius:8px;
+  padding:18px 20px;
+  margin:16px 0;
+}
+.qheader{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-bottom:10px;
+  flex-wrap:wrap;
+}
+.qnum{
+  background:var(--primary);
+  color:#fff;
+  padding:4px 12px;
+  border-radius:4px;
+  font-weight:bold;
+  font-size:0.9em;
+}
+.qyear{
+  background:var(--purple);
+  color:#fff;
+  padding:3px 10px;
+  border-radius:4px;
+  font-size:0.85em;
+  font-weight:bold;
+}
+.qtype{
+  background:var(--primary-light);
+  color:var(--primary);
+  padding:3px 10px;
+  border-radius:4px;
+  font-size:0.85em;
+  font-weight:bold;
+}
+.qbody{
+  background:var(--primary-pale);
+  padding:12px 16px;
+  border-radius:6px;
+  margin:8px 0;
+  font-size:1.05em;
+}
+.qbody.center{text-align:center;}
+.choices{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:8px;
+  margin:10px 0;
+}
+@media(max-width:600px){
+  .choices{grid-template-columns:1fr;}
+}
+.choice-btn{
+  background:#fff;
+  border:2px solid var(--border);
+  padding:10px 14px;
+  border-radius:6px;
+  cursor:pointer;
+  font-size:1em;
+  font-family:inherit;
+  text-align:left;
+  transition:0.2s;
+}
+.choice-btn:hover:not(:disabled){
+  background:var(--primary-light);
+  border-color:var(--primary);
+}
+.choice-btn.correct{
+  background:#dcfce7;
+  border-color:#16a34a;
+  color:#15803d;
+  font-weight:bold;
+}
+.choice-btn.wrong{
+  background:#fee2e2;
+  border-color:#dc2626;
+  color:#991b1b;
+}
+.choice-btn:disabled{cursor:default;}
+.feedback{
+  margin-top:10px;
+  padding:10px 14px;
+  border-radius:6px;
+  display:none;
+}
+.feedback.show{display:block;}
+.feedback.ok{background:#dcfce7;border-left:4px solid #16a34a;color:#15803d;}
+.feedback.ng{background:#fee2e2;border-left:4px solid #dc2626;color:#991b1b;}
+.steps-table{
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:6px;
+  padding:10px;
+  margin:8px 0;
+  font-size:0.95em;
+}
+.steps-table table{width:100%;border-collapse:collapse;}
+.steps-table td{padding:4px 8px;border-bottom:1px dashed #e5e7eb;}
+.steps-table tr:last-child td{border-bottom:none;}
+.steps-table .label{color:#6b7280;font-size:0.9em;width:40%;}
+.result-area{
+  background:linear-gradient(to right,var(--primary-light),var(--purple-light));
+  border:2px solid var(--primary);
+  padding:20px 24px;
+  border-radius:8px;
+  margin:20px 0;
+  text-align:center;
+  display:none;
+}
+.result-area.show{display:block;}
+.result-area h3{color:var(--primary);font-size:1.3em;margin-bottom:8px;}
+.score-num{font-size:2em;font-weight:bold;color:var(--accent);margin:10px 0;}
+.celebrate{font-size:3em;margin:10px 0;}
+.btn-retry{
+  background:var(--primary);
+  color:#fff;
+  border:none;
+  padding:12px 24px;
+  border-radius:6px;
+  cursor:pointer;
+  font-size:1em;
+  font-weight:bold;
+  font-family:inherit;
+  margin-top:12px;
+}
+.btn-retry:hover{background:#1e40af;}
+.nav{
+  display:flex;
+  justify-content:space-between;
+  margin-top:24px;
+  gap:12px;
+}
+.nav a{
+  flex:1;
+  padding:14px 20px;
+  background:var(--primary);
+  color:#fff;
+  text-decoration:none;
+  border-radius:8px;
+  text-align:center;
+  font-weight:bold;
+  transition:0.2s;
+}
+.nav a:hover{background:#1e40af;}
+.nav a.back{background:#6b7280;}
+.nav a.back:hover{background:#4b5563;}
+.confetti{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  pointer-events:none;
+  z-index:1000;
+  display:none;
+}
+.confetti.show{display:block;}
+.confetti-piece{
+  position:absolute;
+  width:10px;
+  height:10px;
+  top:-20px;
+  animation:fall 3s linear forwards;
+}
+@keyframes fall{
+  to{transform:translateY(110vh) rotate(720deg);}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>IN04 実戦テスト</h1>
+  <div class="subtitle">不等式の計算・過去問総まとめ</div>
+</header>
+
+<section>
+
+<div class="intro-msg">
+  <strong>📝 高認過去問から厳選した5問の実戦テストです。</strong><br>
+  両辺に文字／分数／小数／性質判別／解法判別 をバランスよく出題。<br>
+  全問正解で🎉が表示されます。
+</div>
+
+<div id="quizArea"></div>
+
+<div class="result-area" id="resultArea">
+  <h3 id="resultTitle">結果</h3>
+  <div class="celebrate" id="celebrate"></div>
+  <div class="score-num" id="scoreNum">0 / 5</div>
+  <p id="resultMsg"></p>
+  <button class="btn-retry" onclick="retryQuiz()">もう一度挑戦する</button>
+</div>
+
+<div class="nav">
+  <a class="back" href="practice.html">← 過去問演習へ戻る</a>
+  <a href="../gamba_kounin.html">単元一覧へ →</a>
+</div>
+
+</section>
+
+<div class="confetti" id="confetti"></div>
+
+<script>
+const questions = [
+  // 問1：両辺に文字（R6-2）
+  {
+    year:'R6年2回',
+    type:'両辺に文字',
+    q:'1次不等式 $5x + 16 \\leqq 9x - 4$ を解け。',
+    choices:['$x \\geqq 3$','$x \\leqq 3$','$x \\leqq 5$','$x \\geqq 5$'],
+    correct:3,
+    expl:'$5x - 9x \\leqq -4 - 16$ → $-4x \\leqq -20$ → 両辺を $-4$ で割って反転 → $x \\geqq 5$',
+    steps:[
+      ['$x$ を左、数字を右へ移項','$5x - 9x \\leqq -4 - 16$'],
+      ['整理','$-4x \\leqq -20$'],
+      ['両辺を $-4$ で割る（反転）','$x \\geqq 5$']
+    ]
+  },
+  // 問2：分数（R3-1）
+  {
+    year:'R3年1回',
+    type:'分数',
+    q:'1次不等式 $\\dfrac{5x+7}{2} \\geqq 3x + 5$ を解け。',
+    choices:['$x \\geqq 3$','$x \\leqq 3$','$x \\geqq -3$','$x \\leqq -3$'],
+    correct:3,
+    expl:'両辺に $2$ をかける → $5x+7 \\geqq 6x+10$ → $-x \\geqq 3$ → 両辺を $-1$ で割って反転 → $x \\leqq -3$',
+    steps:[
+      ['両辺に $2$ をかける','$5x + 7 \\geqq 2(3x + 5)$'],
+      ['カッコを外す','$5x + 7 \\geqq 6x + 10$'],
+      ['移項','$5x - 6x \\geqq 10 - 7$'],
+      ['整理','$-x \\geqq 3$'],
+      ['両辺を $-1$ で割る（反転）','$x \\leqq -3$']
+    ]
+  },
+  // 問3：小数（R4-1）
+  {
+    year:'R4年1回',
+    type:'小数',
+    q:'1次不等式 $0.5x + 1 > 0.7x - 0.6$ を解け。',
+    choices:['$x < 8$','$x > 8$','$x < -8$','$x > -8$'],
+    correct:0,
+    expl:'両辺に $10$ をかける → $5x + 10 > 7x - 6$ → $-2x > -16$ → 両辺を $-2$ で割って反転 → $x < 8$',
+    steps:[
+      ['両辺に $10$ をかける','$5x + 10 > 7x - 6$'],
+      ['移項','$5x - 7x > -6 - 10$'],
+      ['整理','$-2x > -16$'],
+      ['両辺を $-2$ で割る（反転）','$x < 8$']
+    ]
+  },
+  // 問4：性質判別（R3-2）
+  {
+    year:'R3年2回',
+    type:'性質判別',
+    q:'$a < b$ のとき、次の ①〜④ のうち正しいものはどれか。',
+    choices:['$a + 5 > b + 5$','$\\dfrac{a}{3} > \\dfrac{b}{3}$','$2a - 3 > 2b - 3$','$-4a > -4b$'],
+    correct:3,
+    expl:'$a < b$ の両辺に <strong>負の数 $-4$</strong> をかけると向きが反転して $-4a > -4b$。これが正解！<br>① 両辺に $5$ を足すだけ → 向き同じ（不正解）<br>② 両辺を正の数 $3$ で割る → 向き同じ（不正解）<br>③ 両辺に正の数 $2$ をかけ $3$ を引く → 向き同じ（不正解）'
+  },
+  // 問5：解法判別（R2-1）★高認独特の出題
+  {
+    year:'R2年1回',
+    type:'解法判別',
+    q:'1次不等式 $x - 2 > 4(x+1)$ をA君は以下のように解いた。<br><br><div style="background:#fff;border:1px solid #d1d5db;padding:10px;margin:8px 0;font-size:0.95em;"><table style="width:100%;border-collapse:collapse;"><tr><td style="padding:3px 6px;">与えられた不等式は</td><td style="padding:3px 6px;">$x - 2 > 4(x+1)$</td><td style="padding:3px 6px;color:#6b7280;">… 1行目</td></tr><tr><td style="padding:3px 6px;">右辺を展開すると</td><td style="padding:3px 6px;">$x - 2 > 4x + 4$</td><td style="padding:3px 6px;color:#6b7280;">… 2行目</td></tr><tr><td style="padding:3px 6px;">$-2$ と $4x$ を移項すると</td><td style="padding:3px 6px;">$x - 4x > 4 + 2$</td><td style="padding:3px 6px;color:#6b7280;">… 3行目</td></tr><tr><td style="padding:3px 6px;">両辺を整理すると</td><td style="padding:3px 6px;">$-3x > 6$</td><td style="padding:3px 6px;color:#6b7280;">… 4行目</td></tr><tr><td style="padding:3px 6px;">両辺を $-3$ で割ると</td><td style="padding:3px 6px;">$x > -2$</td><td style="padding:3px 6px;color:#6b7280;">… 5行目</td></tr></table></div>A君が<strong>間違えている</strong>のはどの変形か。',
+    choices:['1行目から2行目','2行目から3行目','3行目から4行目','4行目から5行目'],
+    correct:3,
+    expl:'4行目 $-3x > 6$ から5行目 $x > -2$ への変形が間違い。<br><strong>負の数 $-3$ で両辺を割るときは不等号の向きを反転</strong>させる必要があるので、正しくは $x < -2$。'
+  }
+];
+
+let answered = [];
+
+function renderQuiz(){
+  const area = document.getElementById('quizArea');
+  area.innerHTML = '';
+  answered = new Array(questions.length).fill(null);
+  questions.forEach((p, i) => {
+    const card = document.createElement('div');
+    card.className = 'qcard';
+    card.innerHTML = `
+      <div class="qheader">
+        <span class="qnum">問${i+1}</span>
+        <span class="qyear">${p.year}</span>
+        <span class="qtype">${p.type}</span>
+      </div>
+      <div class="qbody">${p.q}</div>
+      <div class="choices" id="ch${i}">
+        ${p.choices.map((c,j) => `<button class="choice-btn" onclick="selectAns(${i},${j})">${'①②③④'[j]} ${c}</button>`).join('')}
+      </div>
+      <div class="feedback" id="fb${i}"></div>
+    `;
+    area.appendChild(card);
+  });
+  document.getElementById('resultArea').classList.remove('show');
+  if(typeof renderMathInElement === 'function'){
+    renderMathInElement(area, {
+      delimiters:[
+        {left:'$$',right:'$$',display:true},
+        {left:'$',right:'$',display:false}
+      ],
+      throwOnError:false
+    });
+  }
+}
+
+function selectAns(qIdx, cIdx){
+  if(answered[qIdx] !== null) return;
+  answered[qIdx] = cIdx;
+  const correct = questions[qIdx].correct;
+  const buttons = document.querySelectorAll(`#ch${qIdx} .choice-btn`);
+  buttons.forEach((btn, j) => {
+    btn.disabled = true;
+    if(j === correct) btn.classList.add('correct');
+    else if(j === cIdx) btn.classList.add('wrong');
+  });
+  const fb = document.getElementById(`fb${qIdx}`);
+  let stepsHtml = '';
+  if(questions[qIdx].steps){
+    stepsHtml = '<div class="steps-table"><table>' +
+      questions[qIdx].steps.map(s =>
+        `<tr><td class="label">${s[0]}</td><td>${s[1]}</td></tr>`
+      ).join('') + '</table></div>';
+  }
+  if(cIdx === correct){
+    fb.className = 'feedback show ok';
+    fb.innerHTML = `⭕ 正解！<br>${questions[qIdx].expl}${stepsHtml}`;
+  }else{
+    fb.className = 'feedback show ng';
+    fb.innerHTML = `❌ 不正解。正解は ${'①②③④'[correct]}<br>${questions[qIdx].expl}${stepsHtml}`;
+  }
+  if(typeof renderMathInElement === 'function'){
+    renderMathInElement(fb, {
+      delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],
+      throwOnError:false
+    });
+  }
+  if(answered.every(a => a !== null)){
+    showResult();
+  }
+}
+
+function showResult(){
+  const score = answered.filter((a,i) => a === questions[i].correct).length;
+  document.getElementById('scoreNum').textContent = `${score} / ${questions.length}`;
+  const resultArea = document.getElementById('resultArea');
+  const celebrate = document.getElementById('celebrate');
+  const title = document.getElementById('resultTitle');
+  const msg = document.getElementById('resultMsg');
+  if(score === questions.length){
+    title.textContent = '🎉 全問正解！';
+    celebrate.textContent = '🎊✨🎉';
+    msg.textContent = '不等式の計算は完璧です！高認本番でも自信を持って臨めます。';
+    showConfetti();
+    if(typeof markPassed === 'function'){
+      markPassed('IN04');
+    }
+  }else if(score >= 3){
+    title.textContent = 'もう少し！';
+    celebrate.textContent = '👍';
+    msg.textContent = '間違えた問題のパターンを過去問演習でもう一度練習しましょう。';
+  }else{
+    title.textContent = '復習が必要です';
+    celebrate.textContent = '💪';
+    msg.textContent = 'IN02・IN03 に戻って解き方を確認してから、もう一度挑戦しましょう。';
+  }
+  resultArea.classList.add('show');
+  resultArea.scrollIntoView({behavior:'smooth'});
+}
+
+function retryQuiz(){
+  renderQuiz();
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function showConfetti(){
+  const confetti = document.getElementById('confetti');
+  confetti.innerHTML = '';
+  const colors = ['#1d4ed8','#3b82f6','#facc15','#e8372d','#16a34a','#9333ea'];
+  for(let i = 0; i < 60; i++){
+    const piece = document.createElement('div');
+    piece.className = 'confetti-piece';
+    piece.style.left = Math.random() * 100 + '%';
+    piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+    piece.style.animationDelay = Math.random() * 0.5 + 's';
+    piece.style.animationDuration = (2 + Math.random() * 2) + 's';
+    confetti.appendChild(piece);
+  }
+  confetti.classList.add('show');
+  setTimeout(() => {
+    confetti.classList.remove('show');
+  }, 5000);
+}
+
+window.addEventListener('load', () => {
+  if(window._katexReady){
+    renderQuiz();
+  }else{
+    window._onKatexReady = renderQuiz;
+  }
+});
+</script>
+
+</body>
+</html>

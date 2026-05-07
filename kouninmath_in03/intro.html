@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IN03 不等式の解き方②（応用変形）｜導入</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" onload="renderAllMath();"></script>
+<style>
+:root{
+  --primary:#1d4ed8;
+  --primary-light:#dbeafe;
+  --primary-pale:#eff6ff;
+  --accent:#e8372d;
+  --bg:#eff6ff;
+  --border:#bfdbfe;
+  --warn:#fef3c7;
+  --warn-border:#fbbf24;
+  --warn-text:#92400e;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{
+  font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;
+  background:var(--bg);
+  color:#1f2937;
+  line-height:1.8;
+  padding:20px;
+  max-width:900px;
+  margin:0 auto;
+}
+header{
+  background:var(--primary);
+  color:#fff;
+  padding:20px 24px;
+  border-radius:12px 12px 0 0;
+  margin:-20px -20px 0 -20px;
+}
+h1{font-size:1.4em;margin-bottom:4px;}
+.subtitle{font-size:0.95em;opacity:0.9;}
+section{
+  background:#fff;
+  padding:24px;
+  border-radius:0 0 12px 12px;
+  border:2px solid var(--border);
+  border-top:none;
+  margin-bottom:20px;
+}
+h2{
+  color:var(--primary);
+  border-bottom:3px solid var(--primary-light);
+  padding-bottom:8px;
+  margin:24px 0 16px;
+  font-size:1.2em;
+}
+h2:first-child{margin-top:0;}
+h3{
+  color:var(--primary);
+  margin:16px 0 8px;
+  font-size:1.05em;
+}
+p{margin-bottom:12px;}
+.box{
+  background:var(--primary-pale);
+  border-left:4px solid var(--primary);
+  padding:12px 16px;
+  margin:12px 0;
+  border-radius:4px;
+}
+.warn-box{
+  background:var(--warn);
+  border-left:4px solid var(--warn-border);
+  padding:12px 16px;
+  margin:12px 0;
+  border-radius:4px;
+  color:var(--warn-text);
+}
+.warn-box strong{color:#b45309;}
+.star-box{
+  background:#fff7ed;
+  border-left:4px solid var(--accent);
+  padding:12px 16px;
+  margin:12px 0;
+  border-radius:4px;
+}
+.flow{
+  background:var(--primary-pale);
+  border:2px solid var(--primary);
+  border-radius:8px;
+  padding:20px;
+  margin:16px 0;
+}
+.flow ol{
+  list-style:none;
+  counter-reset:step;
+  padding-left:0;
+}
+.flow li{
+  counter-increment:step;
+  padding:10px 12px 10px 50px;
+  margin:8px 0;
+  background:#fff;
+  border-radius:6px;
+  border:1px solid var(--border);
+  position:relative;
+}
+.flow li::before{
+  content:counter(step);
+  position:absolute;
+  left:12px;
+  top:50%;
+  transform:translateY(-50%);
+  background:var(--primary);
+  color:#fff;
+  width:28px;
+  height:28px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:bold;
+}
+table{
+  width:100%;
+  border-collapse:collapse;
+  margin:12px 0;
+}
+th,td{
+  border:1px solid var(--border);
+  padding:8px 12px;
+  text-align:left;
+}
+th{
+  background:var(--primary-light);
+  color:var(--primary);
+}
+.example-mini{
+  background:#f9fafb;
+  border:1px dashed var(--border);
+  padding:12px 16px;
+  margin:8px 0;
+  border-radius:4px;
+}
+.goal{
+  background:linear-gradient(to right,var(--primary-light),var(--primary-pale));
+  border:2px solid var(--primary);
+  padding:16px 20px;
+  border-radius:8px;
+  margin:16px 0;
+}
+.goal h3{margin-top:0;}
+.goal ul{padding-left:24px;}
+.goal li{margin:4px 0;}
+.nav{
+  display:flex;
+  justify-content:space-between;
+  margin-top:24px;
+  gap:12px;
+}
+.nav a{
+  flex:1;
+  padding:14px 20px;
+  background:var(--primary);
+  color:#fff;
+  text-decoration:none;
+  border-radius:8px;
+  text-align:center;
+  font-weight:bold;
+  transition:0.2s;
+}
+.nav a:hover{background:#1e40af;}
+.nav a.back{background:#6b7280;}
+.nav a.back:hover{background:#4b5563;}
+.tag{
+  display:inline-block;
+  background:var(--accent);
+  color:#fff;
+  padding:2px 8px;
+  border-radius:4px;
+  font-size:0.85em;
+  margin-left:6px;
+}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>IN03 不等式の解き方②（応用変形）</h1>
+  <div class="subtitle">分数・小数・両辺に文字がある場合の解き方</div>
+</header>
+
+<section>
+
+<h2>① IN02の復習：基本の解き方</h2>
+<p>IN02では、次のような形の不等式を解く方法を学びました。</p>
+<div class="example-mini">
+  <p>$2x + 5 \leqq 11$ → $2x \leqq 6$ → $x \leqq 3$</p>
+</div>
+<p>基本の流れは「<strong>移項する → 両辺で割る</strong>」でした。<br>
+<strong style="color:var(--accent)">負の数で割るときは不等号の向きが反転する</strong>ことも学びましたね。</p>
+
+<h2>② IN03で学ぶ「応用変形」とは？</h2>
+<p>高認試験では、もう少し複雑な形の不等式が出題されます。たとえば──</p>
+<div class="example-mini">
+  <p>・両辺に文字 $x$ がある：$\quad 7 + 2x \leqq 5x - 2$</p>
+  <p>・分数を含む：$\quad 2 - x \geqq \dfrac{x-1}{3}$</p>
+  <p>・小数を含む：$\quad 0.6x + 1.3 > 2.5 + x$</p>
+</div>
+<p>これらは <strong>「整理してから IN02 の形に持ち込む」</strong> のが基本方針です。</p>
+
+<h2>③ 解き方の流れ（4ステップ）</h2>
+<div class="flow">
+  <ol>
+    <li><strong>カッコがあれば外す</strong>（分配法則）</li>
+    <li><strong>分数・小数があれば、両辺に同じ数をかけて整数にする</strong></li>
+    <li><strong>文字 $x$ は左に、数字は右に移項する</strong></li>
+    <li><strong>両辺を $x$ の係数で割る</strong>（負の数で割ったら不等号反転！）</li>
+  </ol>
+</div>
+
+<h2>④ 重要ポイント</h2>
+
+<h3>★ココが大事①：両辺に文字がある場合</h3>
+<div class="star-box">
+  <p><strong>文字 $x$ は左、数字は右</strong>に移動させましょう。</p>
+  <p class="example-mini">例：$7 + 2x \leqq 5x - 2$<br>
+  → 文字 $5x$ を左へ、数字 $7$ を右へ移項<br>
+  → $2x - 5x \leqq -2 - 7$<br>
+  → $-3x \leqq -9$（あとは IN02 と同じ）</p>
+</div>
+
+<h3>★ココが大事②：分数を含む場合</h3>
+<div class="star-box">
+  <p><strong>両辺に「分母の数」をかけて、分数をなくしましょう。</strong></p>
+  <p class="example-mini">例：$2 - x \geqq \dfrac{x-1}{3}$<br>
+  → 両辺に $3$ をかける<br>
+  → $3(2-x) \geqq x - 1$<br>
+  → $6 - 3x \geqq x - 1$（あとは整理）</p>
+</div>
+
+<h3>★ココが大事③：小数を含む場合</h3>
+<div class="star-box">
+  <p><strong>両辺に $10$（または $100$）をかけて、整数にしましょう。</strong></p>
+  <p class="example-mini">例：$0.6x + 1.3 > 2.5 + x$<br>
+  → 両辺に $10$ をかける<br>
+  → $6x + 13 > 25 + 10x$（あとは整理）</p>
+</div>
+
+<h2>⑤ ⚠落とし穴に注意</h2>
+
+<div class="warn-box">
+  <p><strong>⚠ 落とし穴①：かけ算するときは「両辺すべて」にかける</strong></p>
+  <p>分数や小数をなくすためにかけ算するときは、<strong>左辺・右辺のすべての項にかける</strong>のを忘れずに。</p>
+  <p class="example-mini">$2 - x \geqq \dfrac{x-1}{3}$ の両辺に $3$ をかけるとき<br>
+  ✗ $2 - x \geqq x - 1$（左辺にかけ忘れ）<br>
+  ✓ $3(2-x) \geqq x - 1$ → $6 - 3x \geqq x - 1$</p>
+</div>
+
+<div class="warn-box">
+  <p><strong>⚠ 落とし穴②：負の数で割るときは不等号反転</strong></p>
+  <p>整理した結果、$x$ の係数が負になったら、両辺を割るときに <strong>不等号の向きを反転</strong> させましょう。</p>
+  <p class="example-mini">$-3x \leqq -9$ → 両辺を $-3$ で割ると $x \geqq 3$（向き反転！）</p>
+</div>
+
+<h2>⑥ 不等式の性質（応用問題）</h2>
+<p>高認では「$a < b$ のとき、次のうち正しい不等式はどれか」という<strong>性質を問う4択問題</strong>もよく出ます。</p>
+
+<div class="box">
+  <p><strong>覚えておくこと：</strong></p>
+  <table>
+    <tr><th>操作</th><th>不等号の向き</th></tr>
+    <tr><td>両辺に同じ数を足す・引く</td><td>変わらない</td></tr>
+    <tr><td>両辺に正の数をかける・割る</td><td>変わらない</td></tr>
+    <tr><td><strong>両辺に負の数をかける・割る</strong></td><td><strong style="color:var(--accent)">反転する</strong></td></tr>
+  </table>
+  <p style="margin-top:12px;">$a < b$ のとき、$-a$ と $-b$ ではどちらが大きい？　→ $-a > -b$（向きが反転）</p>
+</div>
+
+<h2>⑦ この単元のゴール</h2>
+<div class="goal">
+  <h3>🎯 できるようになること</h3>
+  <ul>
+    <li>両辺に文字がある不等式を解ける</li>
+    <li>分数を含む不等式を、両辺に分母をかけて整数化して解ける</li>
+    <li>小数を含む不等式を、両辺に10をかけて整数化して解ける</li>
+    <li>$a < b$ のとき、正しい不等式を選べる（性質判別）<span class="tag">高認毎年出題</span></li>
+  </ul>
+</div>
+
+<div class="nav">
+  <a class="back" href="../gamba_kounin.html">← 単元一覧へ</a>
+  <a href="example.html">例題へ進む →</a>
+</div>
+
+</section>
+
+<script>
+function renderAllMath(){
+  if(typeof renderMathInElement === 'function'){
+    renderMathInElement(document.body, {
+      delimiters:[
+        {left:'$$',right:'$$',display:true},
+        {left:'$',right:'$',display:false}
+      ],
+      throwOnError:false
+    });
+  }
+}
+</script>
+
+</body>
+</html>

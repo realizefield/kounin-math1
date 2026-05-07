@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IN03 不等式の解き方②（応用変形）｜例題</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" onload="renderAllMath();"></script>
+<style>
+:root{
+  --primary:#1d4ed8;
+  --primary-light:#dbeafe;
+  --primary-pale:#eff6ff;
+  --accent:#e8372d;
+  --bg:#eff6ff;
+  --border:#bfdbfe;
+  --warn:#fef3c7;
+  --warn-border:#fbbf24;
+  --warn-text:#92400e;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{
+  font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;
+  background:var(--bg);
+  color:#1f2937;
+  line-height:1.8;
+  padding:20px;
+  max-width:900px;
+  margin:0 auto;
+}
+header{
+  background:var(--primary);
+  color:#fff;
+  padding:20px 24px;
+  border-radius:12px 12px 0 0;
+  margin:-20px -20px 0 -20px;
+}
+h1{font-size:1.4em;margin-bottom:4px;}
+.subtitle{font-size:0.95em;opacity:0.9;}
+section{
+  background:#fff;
+  padding:24px;
+  border-radius:0 0 12px 12px;
+  border:2px solid var(--border);
+  border-top:none;
+  margin-bottom:20px;
+}
+h2{
+  color:var(--primary);
+  border-bottom:3px solid var(--primary-light);
+  padding-bottom:8px;
+  margin:24px 0 16px;
+  font-size:1.2em;
+}
+h2:first-child{margin-top:0;}
+.qcard{
+  background:var(--primary-pale);
+  border:2px solid var(--border);
+  border-radius:8px;
+  padding:20px;
+  margin:20px 0;
+}
+.qtitle{
+  background:var(--primary);
+  color:#fff;
+  padding:8px 14px;
+  border-radius:6px;
+  display:inline-block;
+  margin-bottom:12px;
+  font-weight:bold;
+}
+.qbody{
+  background:#fff;
+  padding:14px 18px;
+  border-radius:6px;
+  margin:8px 0;
+  font-size:1.05em;
+  border:1px solid var(--border);
+}
+.btn-toggle{
+  background:#fff;
+  border:2px solid var(--primary);
+  color:var(--primary);
+  padding:8px 16px;
+  border-radius:6px;
+  cursor:pointer;
+  font-size:0.95em;
+  font-weight:bold;
+  margin:8px 8px 8px 0;
+  font-family:inherit;
+}
+.btn-toggle:hover{background:var(--primary-light);}
+.btn-toggle.active{background:var(--primary);color:#fff;}
+.hint, .solution{
+  display:none;
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:6px;
+  padding:14px 18px;
+  margin:8px 0;
+}
+.hint.show, .solution.show{display:block;}
+.hint{border-left:4px solid #facc15;background:#fefce8;}
+.solution{border-left:4px solid var(--primary);}
+.step{
+  background:var(--primary-pale);
+  padding:8px 12px;
+  margin:6px 0;
+  border-radius:4px;
+  border-left:3px solid var(--primary);
+}
+.step strong{color:var(--primary);}
+.warn-pattern{
+  background:#fef2f2;
+  border:2px solid var(--accent);
+  border-radius:6px;
+  padding:10px 14px;
+  margin:8px 0;
+}
+.warn-tag{
+  display:inline-block;
+  background:var(--accent);
+  color:#fff;
+  padding:3px 10px;
+  border-radius:4px;
+  font-size:0.85em;
+  font-weight:bold;
+  margin-right:8px;
+}
+.koritsu{
+  background:#fff7ed;
+  border-left:4px solid #f97316;
+  padding:10px 14px;
+  margin:10px 0;
+  border-radius:4px;
+}
+.koritsu strong{color:#c2410c;}
+.choice{
+  background:#fff;
+  border:1px solid var(--border);
+  padding:8px 14px;
+  margin:6px 0;
+  border-radius:4px;
+}
+.choice.correct{
+  background:#dcfce7;
+  border:2px solid #16a34a;
+  color:#15803d;
+  font-weight:bold;
+}
+.summary{
+  background:linear-gradient(to right,var(--primary-light),var(--primary-pale));
+  border:2px solid var(--primary);
+  padding:16px 20px;
+  border-radius:8px;
+  margin:20px 0;
+}
+.summary h3{color:var(--primary);margin-bottom:8px;}
+.summary ol{padding-left:24px;}
+.summary li{margin:4px 0;}
+.nav{
+  display:flex;
+  justify-content:space-between;
+  margin-top:24px;
+  gap:12px;
+}
+.nav a{
+  flex:1;
+  padding:14px 20px;
+  background:var(--primary);
+  color:#fff;
+  text-decoration:none;
+  border-radius:8px;
+  text-align:center;
+  font-weight:bold;
+  transition:0.2s;
+}
+.nav a:hover{background:#1e40af;}
+.nav a.back{background:#6b7280;}
+.nav a.back:hover{background:#4b5563;}
+.tag-hot{
+  display:inline-block;
+  background:var(--accent);
+  color:#fff;
+  padding:2px 8px;
+  border-radius:4px;
+  font-size:0.85em;
+  margin-left:6px;
+}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>IN03 例題</h1>
+  <div class="subtitle">不等式の解き方②（応用変形）</div>
+</header>
+
+<section>
+
+<p>応用変形の4タイプを順番に学んでいきましょう。「💡ヒント」「✅解き方」のボタンを押して、答えを確認してください。</p>
+
+<!-- 例題1：両辺に文字 -->
+<h2>例題1：両辺に文字がある不等式</h2>
+<div class="qcard">
+  <div class="qtitle">例題1</div>
+  <div class="qbody">次の不等式を解きなさい。</div>
+  <div class="qbody" style="text-align:center;">$7 + 2x \leqq 5x - 2$</div>
+
+  <button class="btn-toggle" onclick="toggleBox(this,'hint1')">💡 ヒント</button>
+  <button class="btn-toggle" onclick="toggleBox(this,'sol1')">✅ 解き方を見る</button>
+
+  <div class="hint" id="hint1">
+    <p>📌 <strong>文字 $x$ は左に、数字は右に</strong>移動させるのが基本です。</p>
+    <p>右辺の $5x$ を左へ、左辺の $7$ を右へ移項しましょう。</p>
+  </div>
+
+  <div class="solution" id="sol1">
+    <div class="step"><strong>STEP 1：</strong>$5x$ を左へ、$7$ を右へ移項<br>
+    $\quad 2x - 5x \leqq -2 - 7$</div>
+    <div class="step"><strong>STEP 2：</strong>左辺と右辺をそれぞれ計算<br>
+    $\quad -3x \leqq -9$</div>
+    <div class="step"><strong>STEP 3：</strong>両辺を $-3$ で割る<br>
+    <span class="warn-tag">⚠ 反転注意</span> 負の数で割るので、不等号の向きが反転！<br>
+    $\quad x \geqq -9 \div (-3)$<br>
+    $\quad x \geqq 3$</div>
+    <div class="step" style="background:#dcfce7;border-color:#16a34a;"><strong>答：</strong> $x \geqq 3$</div>
+    <div class="koritsu"><strong>【コツ】</strong> 文字 $x$ は左に、数字は右に移動させましょう。</div>
+  </div>
+</div>
+
+<!-- 例題2：分数 -->
+<h2>例題2：分数を含む不等式 <span class="tag-hot">高認頻出</span></h2>
+<div class="qcard">
+  <div class="qtitle">例題2</div>
+  <div class="qbody">次の不等式を解きなさい。</div>
+  <div class="qbody" style="text-align:center;">$2 - x \geqq \dfrac{x-1}{3}$</div>
+
+  <button class="btn-toggle" onclick="toggleBox(this,'hint2')">💡 ヒント</button>
+  <button class="btn-toggle" onclick="toggleBox(this,'sol2')">✅ 解き方を見る</button>
+
+  <div class="hint" id="hint2">
+    <p>📌 分数があると計算しにくいので、<strong>両辺に分母の数 $3$ をかけて</strong>分数をなくしましょう。</p>
+    <p>このとき、左辺の <strong>$2-x$ 全体</strong>に $3$ をかけるのを忘れずに！</p>
+  </div>
+
+  <div class="solution" id="sol2">
+    <div class="step"><strong>STEP 1：</strong>両辺に $3$ をかける（分数をなくす）<br>
+    $\quad (2 - x) \times 3 \geqq \dfrac{x-1}{3} \times 3$<br>
+    $\quad 3(2-x) \geqq x - 1$</div>
+    <div class="step"><strong>STEP 2：</strong>カッコを外す<br>
+    $\quad 6 - 3x \geqq x - 1$</div>
+    <div class="step"><strong>STEP 3：</strong>$x$ を左に、数字を右に移項<br>
+    $\quad -3x - x \geqq -1 - 6$<br>
+    $\quad -4x \geqq -7$</div>
+    <div class="step"><strong>STEP 4：</strong>両辺を $-4$ で割る<br>
+    <span class="warn-tag">⚠ 反転注意</span> 負の数で割るので反転！<br>
+    $\quad x \leqq -7 \div (-4)$<br>
+    $\quad x \leqq \dfrac{7}{4}$</div>
+    <div class="step" style="background:#dcfce7;border-color:#16a34a;"><strong>答：</strong> $x \leqq \dfrac{7}{4}$</div>
+    <div class="koritsu"><strong>【コツ】</strong> 分数をなくすため、両辺すべての項に分母の数をかけましょう。</div>
+  </div>
+</div>
+
+<!-- 例題3：小数 -->
+<h2>例題3：小数を含む不等式 <span class="tag-hot">高認頻出</span></h2>
+<div class="qcard">
+  <div class="qtitle">例題3</div>
+  <div class="qbody">次の不等式を解きなさい。</div>
+  <div class="qbody" style="text-align:center;">$0.6x + 1.3 > 2.5 + x$</div>
+
+  <button class="btn-toggle" onclick="toggleBox(this,'hint3')">💡 ヒント</button>
+  <button class="btn-toggle" onclick="toggleBox(this,'sol3')">✅ 解き方を見る</button>
+
+  <div class="hint" id="hint3">
+    <p>📌 小数があると計算しにくいので、<strong>両辺に $10$ をかけて</strong>整数にしましょう。</p>
+    <p>すべての項にかけ忘れないよう注意！</p>
+  </div>
+
+  <div class="solution" id="sol3">
+    <div class="step"><strong>STEP 1：</strong>両辺に $10$ をかける（小数をなくす）<br>
+    $\quad 10(0.6x + 1.3) > 10(2.5 + x)$<br>
+    $\quad 6x + 13 > 25 + 10x$</div>
+    <div class="step"><strong>STEP 2：</strong>$x$ を左に、数字を右に移項<br>
+    $\quad 6x - 10x > 25 - 13$<br>
+    $\quad -4x > 12$</div>
+    <div class="step"><strong>STEP 3：</strong>両辺を $-4$ で割る<br>
+    <span class="warn-tag">⚠ 反転注意</span> 負の数で割るので反転！<br>
+    $\quad x < 12 \div (-4)$<br>
+    $\quad x < -3$</div>
+    <div class="step" style="background:#dcfce7;border-color:#16a34a;"><strong>答：</strong> $x < -3$</div>
+    <div class="koritsu"><strong>【コツ】</strong> 小数1桁なら $\times 10$、小数2桁なら $\times 100$ で整数化！</div>
+  </div>
+</div>
+
+<!-- 例題4：性質判別 -->
+<h2>例題4：性質を使って正しい不等式を選ぶ <span class="tag-hot">高認毎年出題</span></h2>
+<div class="qcard">
+  <div class="qtitle">例題4</div>
+  <div class="qbody">$a < b$ のとき、次のうち正しい不等式はどれか。</div>
+  <div class="qbody">
+    ① $a + 5 > b + 5$<br>
+    ② $\dfrac{a}{3} > \dfrac{b}{3}$<br>
+    ③ $2a - 3 > 2b - 3$<br>
+    ④ $-4a > -4b$
+  </div>
+
+  <button class="btn-toggle" onclick="toggleBox(this,'hint4')">💡 ヒント</button>
+  <button class="btn-toggle" onclick="toggleBox(this,'sol4')">✅ 解き方を見る</button>
+
+  <div class="hint" id="hint4">
+    <p>📌 不等式の性質：</p>
+    <ul style="padding-left:24px;margin:8px 0;">
+      <li>両辺に同じ数を足す・引く → 向き<strong>変わらない</strong></li>
+      <li>両辺に<strong>正の数</strong>をかける・割る → 向き<strong>変わらない</strong></li>
+      <li>両辺に<strong>負の数</strong>をかける・割る → 向き<strong style="color:var(--accent)">反転する</strong></li>
+    </ul>
+    <p>$a < b$ から出発して、各選択肢の式が成り立つか確認しましょう。</p>
+  </div>
+
+  <div class="solution" id="sol4">
+    <p>$a < b$ から出発して、それぞれの選択肢を確認します。</p>
+
+    <div class="choice">
+    ① $a + 5 > b + 5$<br>
+    → 両辺に $5$ を足しても向きは変わらないので、$a + 5 < b + 5$。<strong style="color:var(--accent)">不等号の向きが逆なので誤り。</strong>
+    </div>
+
+    <div class="choice">
+    ② $\dfrac{a}{3} > \dfrac{b}{3}$<br>
+    → 両辺を正の数 $3$ で割っても向きは変わらないので、$\dfrac{a}{3} < \dfrac{b}{3}$。<strong style="color:var(--accent)">向きが逆なので誤り。</strong>
+    </div>
+
+    <div class="choice">
+    ③ $2a - 3 > 2b - 3$<br>
+    → 両辺に正の数 $2$ をかけ、$3$ を引いても向きは変わらないので、$2a - 3 < 2b - 3$。<strong style="color:var(--accent)">向きが逆なので誤り。</strong>
+    </div>
+
+    <div class="choice correct">
+    ④ $-4a > -4b$ ← 正解<br>
+    → 両辺に <strong>負の数 $-4$</strong> をかけると、不等号の向きが反転する。<br>
+    $a < b$ → $-4a > -4b$（OK！）
+    </div>
+
+    <div class="step" style="background:#dcfce7;border-color:#16a34a;margin-top:14px;"><strong>答：</strong> ④</div>
+    <div class="koritsu"><strong>【コツ】</strong> 「負の数をかけたり割ったりしたとき」に注目！ それ以外の選択肢は、ほぼ向きが変わらないので $a<b$ のまま。</div>
+  </div>
+</div>
+
+<!-- まとめ -->
+<div class="summary">
+  <h3>📚 解き方のまとめ（4ステップ）</h3>
+  <ol>
+    <li><strong>カッコを外す</strong>（分配法則）</li>
+    <li><strong>分数・小数があれば</strong>、両辺に同じ数をかけて整数にする</li>
+    <li><strong>$x$ は左、数字は右</strong>に移項する</li>
+    <li><strong>両辺を $x$ の係数で割る</strong>（負の数で割ったら不等号反転！）</li>
+  </ol>
+  <p style="margin-top:12px;">性質判別問題は「<strong>負の数をかける・割る</strong>」操作がある選択肢に注目！</p>
+</div>
+
+<div class="nav">
+  <a class="back" href="intro.html">← 導入へ戻る</a>
+  <a href="drill.html">演習へ進む →</a>
+</div>
+
+</section>
+
+<script>
+function toggleBox(btn, id){
+  const box = document.getElementById(id);
+  if(box.classList.contains('show')){
+    box.classList.remove('show');
+    btn.classList.remove('active');
+  }else{
+    box.classList.add('show');
+    btn.classList.add('active');
+  }
+}
+function renderAllMath(){
+  if(typeof renderMathInElement === 'function'){
+    renderMathInElement(document.body, {
+      delimiters:[
+        {left:'$$',right:'$$',display:true},
+        {left:'$',right:'$',display:false}
+      ],
+      throwOnError:false
+    });
+  }
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IN03 不等式の解き方②（応用変形）｜演習</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" onload="window._katexReady = true; if(window._onKatexReady) window._onKatexReady();"></script>
+<style>
+:root{
+  --primary:#1d4ed8;
+  --primary-light:#dbeafe;
+  --primary-pale:#eff6ff;
+  --accent:#e8372d;
+  --bg:#eff6ff;
+  --border:#bfdbfe;
+  --warn:#fef3c7;
+  --warn-border:#fbbf24;
+  --warn-text:#92400e;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{
+  font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;
+  background:var(--bg);
+  color:#1f2937;
+  line-height:1.8;
+  padding:20px;
+  max-width:900px;
+  margin:0 auto;
+}
+header{
+  background:var(--primary);
+  color:#fff;
+  padding:20px 24px;
+  border-radius:12px 12px 0 0;
+  margin:-20px -20px 0 -20px;
+}
+h1{font-size:1.4em;margin-bottom:4px;}
+.subtitle{font-size:0.95em;opacity:0.9;}
+section{
+  background:#fff;
+  padding:24px;
+  border-radius:0 0 12px 12px;
+  border:2px solid var(--border);
+  border-top:none;
+  margin-bottom:20px;
+}
+.set-select{
+  background:var(--primary-pale);
+  border:2px solid var(--border);
+  padding:16px 20px;
+  border-radius:8px;
+  margin-bottom:20px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  flex-wrap:wrap;
+}
+.set-select label{font-weight:bold;color:var(--primary);}
+.set-select select{
+  padding:8px 12px;
+  border:2px solid var(--primary);
+  border-radius:6px;
+  font-size:1em;
+  font-family:inherit;
+  background:#fff;
+  cursor:pointer;
+}
+.set-select button{
+  padding:8px 18px;
+  background:var(--primary);
+  color:#fff;
+  border:none;
+  border-radius:6px;
+  cursor:pointer;
+  font-size:1em;
+  font-weight:bold;
+  font-family:inherit;
+}
+.set-select button:hover{background:#1e40af;}
+.qcard{
+  background:#fff;
+  border:2px solid var(--border);
+  border-radius:8px;
+  padding:18px 20px;
+  margin:16px 0;
+}
+.qheader{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-bottom:10px;
+  flex-wrap:wrap;
+}
+.qnum{
+  background:var(--primary);
+  color:#fff;
+  padding:4px 12px;
+  border-radius:4px;
+  font-weight:bold;
+  font-size:0.9em;
+}
+.qtype{
+  background:var(--primary-light);
+  color:var(--primary);
+  padding:3px 10px;
+  border-radius:4px;
+  font-size:0.85em;
+  font-weight:bold;
+}
+.warn-tag{
+  background:var(--accent);
+  color:#fff;
+  padding:3px 10px;
+  border-radius:4px;
+  font-size:0.85em;
+  font-weight:bold;
+}
+.qbody{
+  background:var(--primary-pale);
+  padding:12px 16px;
+  border-radius:6px;
+  margin:8px 0;
+  font-size:1.05em;
+  text-align:center;
+}
+.choices{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:8px;
+  margin:10px 0;
+}
+@media(max-width:600px){
+  .choices{grid-template-columns:1fr;}
+}
+.choice-btn{
+  background:#fff;
+  border:2px solid var(--border);
+  padding:10px 14px;
+  border-radius:6px;
+  cursor:pointer;
+  font-size:1em;
+  font-family:inherit;
+  text-align:left;
+  transition:0.2s;
+}
+.choice-btn:hover:not(:disabled){
+  background:var(--primary-light);
+  border-color:var(--primary);
+}
+.choice-btn.selected{
+  background:var(--primary-light);
+  border-color:var(--primary);
+}
+.choice-btn.correct{
+  background:#dcfce7;
+  border-color:#16a34a;
+  color:#15803d;
+  font-weight:bold;
+}
+.choice-btn.wrong{
+  background:#fee2e2;
+  border-color:#dc2626;
+  color:#991b1b;
+}
+.choice-btn:disabled{cursor:default;}
+.feedback{
+  margin-top:10px;
+  padding:10px 14px;
+  border-radius:6px;
+  display:none;
+}
+.feedback.show{display:block;}
+.feedback.ok{background:#dcfce7;border-left:4px solid #16a34a;color:#15803d;}
+.feedback.ng{background:#fee2e2;border-left:4px solid #dc2626;color:#991b1b;}
+.score-area{
+  background:linear-gradient(to right,var(--primary-light),var(--primary-pale));
+  border:2px solid var(--primary);
+  padding:16px 20px;
+  border-radius:8px;
+  margin:20px 0;
+  text-align:center;
+  display:none;
+}
+.score-area.show{display:block;}
+.score-area h3{color:var(--primary);font-size:1.2em;}
+.score-num{font-size:1.8em;font-weight:bold;color:var(--accent);}
+.nav{
+  display:flex;
+  justify-content:space-between;
+  margin-top:24px;
+  gap:12px;
+}
+.nav a{
+  flex:1;
+  padding:14px 20px;
+  background:var(--primary);
+  color:#fff;
+  text-decoration:none;
+  border-radius:8px;
+  text-align:center;
+  font-weight:bold;
+  transition:0.2s;
+}
+.nav a:hover{background:#1e40af;}
+.nav a.back{background:#6b7280;}
+.nav a.back:hover{background:#4b5563;}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>IN03 演習</h1>
+  <div class="subtitle">不等式の解き方②（応用変形）</div>
+</header>
+
+<section>
+
+<div class="set-select">
+  <label for="setSel">セット選択：</label>
+  <select id="setSel">
+    <option value="A">セット A</option>
+    <option value="B">セット B</option>
+    <option value="C">セット C</option>
+    <option value="D">セット D</option>
+  </select>
+  <button onclick="loadSet()">スタート</button>
+  <span style="color:#6b7280;font-size:0.9em;">各セット：4タイプから1問ずつ（計4問）</span>
+</div>
+
+<div id="quizArea"></div>
+
+<div class="score-area" id="scoreArea">
+  <h3>🎯 結果</h3>
+  <div class="score-num" id="scoreNum">0 / 4</div>
+  <p id="scoreMsg"></p>
+</div>
+
+<div class="nav">
+  <a class="back" href="example.html">← 例題へ戻る</a>
+  <a href="check.html">確認テストへ →</a>
+</div>
+
+</section>
+
+<script>
+// 問題プール（各タイプから抽選）
+const problems = {
+  // タイプ1：両辺に文字
+  type1: [
+    {q:'$-5x < 2x - 21$', choices:['$x > 3$','$x < 3$','$x > -3$','$x < -3$'], correct:0, expl:'$-7x < -21$ → 両辺を $-7$ で割る（反転）→ $x > 3$', warn:true},
+    {q:'$7 + 6x \\leqq 3x - 2$', choices:['$x \\leqq -3$','$x \\geqq -3$','$x \\leqq 3$','$x \\geqq 3$'], correct:0, expl:'$3x \\leqq -9$ → $x \\leqq -3$（正の数で割るので反転なし）', warn:false},
+    {q:'$11 - 2x < 3x - 14$', choices:['$x > 5$','$x < 5$','$x > -5$','$x < -5$'], correct:0, expl:'$-5x < -25$ → 両辺を $-5$ で割る（反転）→ $x > 5$', warn:true},
+    {q:'$4x + 9 \\geqq 6x - 1$', choices:['$x \\leqq 5$','$x \\geqq 5$','$x \\leqq -5$','$x \\geqq -5$'], correct:0, expl:'$-2x \\geqq -10$ → 両辺を $-2$ で割る（反転）→ $x \\leqq 5$', warn:true}
+  ],
+  // タイプ2：分数
+  type2: [
+    {q:'$3 - x \\geqq \\dfrac{x-3}{2}$', choices:['$x \\leqq 3$','$x \\geqq 3$','$x \\leqq 9$','$x \\geqq 9$'], correct:0, expl:'両辺×2 → $6-2x \\geqq x-3$ → $-3x \\geqq -9$ → $x \\leqq 3$（反転）', warn:true},
+    {q:'$\\dfrac{4-x}{3} \\leqq 2x - 5$', choices:['$x \\geqq \\dfrac{19}{7}$','$x \\leqq \\dfrac{19}{7}$','$x \\geqq \\dfrac{7}{19}$','$x \\leqq \\dfrac{7}{19}$'], correct:0, expl:'両辺×3 → $4-x \\leqq 6x-15$ → $-7x \\leqq -19$ → $x \\geqq \\dfrac{19}{7}$（反転）', warn:true},
+    {q:'$x + 5 \\geqq \\dfrac{1-x}{2}$', choices:['$x \\geqq -3$','$x \\leqq -3$','$x \\geqq 3$','$x \\leqq 3$'], correct:0, expl:'両辺×2 → $2(x+5) \\geqq 1-x$ → $3x \\geqq -9$ → $x \\geqq -3$', warn:false},
+    {q:'$\\dfrac{6-x}{3} \\leqq 3x - 2$', choices:['$x \\geqq \\dfrac{6}{5}$','$x \\leqq \\dfrac{6}{5}$','$x \\geqq -\\dfrac{6}{5}$','$x \\leqq -\\dfrac{6}{5}$'], correct:0, expl:'両辺×3 → $6-x \\leqq 3(3x-2)$ → $6-x \\leqq 9x-6$ → $-10x \\leqq -12$ → $x \\geqq \\dfrac{12}{10} = \\dfrac{6}{5}$（反転）', warn:true}
+  ],
+  // タイプ3：小数
+  type3: [
+    {q:'$x - 0.5 \\geqq 1.4x + 0.3$', choices:['$x \\leqq -2$','$x \\geqq -2$','$x \\leqq 2$','$x \\geqq 2$'], correct:0, expl:'両辺×10 → $10x-5 \\geqq 14x+3$ → $-4x \\geqq 8$ → $x \\leqq -2$（反転）', warn:true},
+    {q:'$0.3x + 1 < 0.5x - 0.4$', choices:['$x > 7$','$x < 7$','$x > -7$','$x < -7$'], correct:0, expl:'両辺×10 → $3x+10 < 5x-4$ → $-2x < -14$ → $x > 7$（反転）', warn:true},
+    {q:'$0.4x - 0.2 \\leqq 0.6x + 1$', choices:['$x \\geqq -6$','$x \\leqq -6$','$x \\geqq 6$','$x \\leqq 6$'], correct:0, expl:'両辺×10 → $4x-2 \\leqq 6x+10$ → $-2x \\leqq 12$ → $x \\geqq -6$（反転）', warn:true},
+    {q:'$1.2x + 0.8 > 0.4x + 4$', choices:['$x > 4$','$x < 4$','$x > -4$','$x < -4$'], correct:0, expl:'両辺×10 → $12x+8 > 4x+40$ → $8x > 32$ → $x > 4$', warn:false}
+  ],
+  // タイプ4：性質判別
+  type4: [
+    {q:'$a > b$ のとき、正しい不等式はどれか。', choices:['$-2a > -2b$','$a + 3 < b + 3$','$\\dfrac{a}{5} > \\dfrac{b}{5}$','$2a - 1 < 2b - 1$'], correct:2, expl:'$a > b$ の両辺を正の数 $5$ で割っても向きは変わらない。', warn:false},
+    {q:'$a < b$ のとき、正しい不等式はどれか。', choices:['$a + 5 > b + 5$','$\\dfrac{a}{3} > \\dfrac{b}{3}$','$2a - 3 > 2b - 3$','$-4a > -4b$'], correct:3, expl:'$a < b$ の両辺に負の数 $-4$ をかけると向きが反転して $-4a > -4b$。', warn:false},
+    {q:'$a > b$ のとき、正しい不等式はどれか。', choices:['$a - 4 < b - 4$','$\\dfrac{a}{2} < \\dfrac{b}{2}$','$3a > 3b$','$-a > -b$'], correct:2, expl:'$a > b$ の両辺に正の数 $3$ をかけても向きは変わらない。', warn:false},
+    {q:'$a < b$ のとき、正しい不等式はどれか。', choices:['$a + 7 > b + 7$','$-3a < -3b$','$\\dfrac{a}{4} < \\dfrac{b}{4}$','$2a > 2b$'], correct:2, expl:'$a < b$ の両辺を正の数 $4$ で割っても向きは変わらない。', warn:false}
+  ]
+};
+
+// セットごとに使用するインデックス（各タイプから1問ずつ）
+const setMap = {
+  A: [0, 0, 0, 0],
+  B: [1, 1, 1, 1],
+  C: [2, 2, 2, 2],
+  D: [3, 3, 3, 3]
+};
+
+let currentQuestions = [];
+let answered = [];
+
+function loadSet(){
+  const set = document.getElementById('setSel').value;
+  const indices = setMap[set];
+  currentQuestions = [
+    {...problems.type1[indices[0]], type:'両辺に文字'},
+    {...problems.type2[indices[1]], type:'分数'},
+    {...problems.type3[indices[2]], type:'小数'},
+    {...problems.type4[indices[3]], type:'性質判別'}
+  ];
+  answered = new Array(4).fill(null);
+  renderQuiz();
+}
+
+function renderQuiz(){
+  const area = document.getElementById('quizArea');
+  area.innerHTML = '';
+  currentQuestions.forEach((p, i) => {
+    const card = document.createElement('div');
+    card.className = 'qcard';
+    let warnTag = p.warn ? '<span class="warn-tag">⚠ 反転注意</span>' : '';
+    card.innerHTML = `
+      <div class="qheader">
+        <span class="qnum">問${i+1}</span>
+        <span class="qtype">${p.type}</span>
+        ${warnTag}
+      </div>
+      <div class="qbody">${p.q}</div>
+      <div class="choices" id="ch${i}">
+        ${p.choices.map((c,j) => `<button class="choice-btn" onclick="selectAns(${i},${j})">${'①②③④'[j]} ${c}</button>`).join('')}
+      </div>
+      <div class="feedback" id="fb${i}"></div>
+    `;
+    area.appendChild(card);
+  });
+  document.getElementById('scoreArea').classList.remove('show');
+  if(typeof renderMathInElement === 'function'){
+    renderMathInElement(area, {
+      delimiters:[
+        {left:'$$',right:'$$',display:true},
+        {left:'$',right:'$',display:false}
+      ],
+      throwOnError:false
+    });
+  }
+}
+
+function selectAns(qIdx, cIdx){
+  if(answered[qIdx] !== null) return;
+  answered[qIdx] = cIdx;
+  const correct = currentQuestions[qIdx].correct;
+  const buttons = document.querySelectorAll(`#ch${qIdx} .choice-btn`);
+  buttons.forEach((btn, j) => {
+    btn.disabled = true;
+    if(j === correct) btn.classList.add('correct');
+    else if(j === cIdx) btn.classList.add('wrong');
+  });
+  const fb = document.getElementById(`fb${qIdx}`);
+  if(cIdx === correct){
+    fb.className = 'feedback show ok';
+    fb.innerHTML = `⭕ 正解！<br>${currentQuestions[qIdx].expl}`;
+  }else{
+    fb.className = 'feedback show ng';
+    fb.innerHTML = `❌ 不正解。正解は ${'①②③④'[correct]}<br>${currentQuestions[qIdx].expl}`;
+  }
+  if(typeof renderMathInElement === 'function'){
+    renderMathInElement(fb, {
+      delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],
+      throwOnError:false
+    });
+  }
+  // 全問解答チェック
+  if(answered.every(a => a !== null)){
+    const score = answered.filter((a,i) => a === currentQuestions[i].correct).length;
+    document.getElementById('scoreNum').textContent = `${score} / 4`;
+    let msg = '';
+    if(score === 4) msg = '🎉 全問正解！素晴らしい！';
+    else if(score >= 2) msg = '👍 もう少し！別のセットでも練習してみましょう。';
+    else msg = '💪 例題を見直してから、もう一度挑戦しましょう。';
+    document.getElementById('scoreMsg').textContent = msg;
+    document.getElementById('scoreArea').classList.add('show');
+  }
+}
+
+window.addEventListener('load', () => {
+  if(window._katexReady){
+    loadSet();
+  }else{
+    window._onKatexReady = loadSet;
+  }
+});
+</script>
+
+</body>
+</html>
