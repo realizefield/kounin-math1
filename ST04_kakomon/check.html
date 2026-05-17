@@ -1,0 +1,322 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ST04 集合 実戦テスト</title>
+<style>
+:root{
+  --primary:#059669;
+  --primary-d:#047857;
+  --primary-l:#d1fae5;
+  --bg:#f8fafc;
+  --card:#ffffff;
+  --text:#0f172a;
+  --muted:#64748b;
+  --border:#e2e8f0;
+  --correct:#16a34a;
+  --wrong:#dc2626;
+  --gold:#f59e0b;
+  --pattern-tag:#7c3aed;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:-apple-system,"Hiragino Sans","Yu Gothic",sans-serif;line-height:1.6}
+.wrap{max-width:780px;margin:0 auto;padding:14px 16px 80px}
+header{position:sticky;top:0;background:var(--primary);color:#fff;padding:12px 16px;margin:-14px -16px 16px;box-shadow:0 2px 8px rgba(0,0,0,.1);z-index:10}
+header h1{margin:0;font-size:1.1em;font-weight:700}
+header .sub{font-size:.78em;opacity:.9;margin-top:2px}
+
+.intro-msg{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px 16px;margin-bottom:14px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.intro-msg h2{margin:0 0 6px;font-size:1em;color:var(--primary-d)}
+.intro-msg p{margin:0;font-size:.92em;color:var(--muted)}
+
+.q-card{background:var(--card);border-radius:12px;padding:16px;margin-bottom:14px;box-shadow:0 1px 3px rgba(0,0,0,.06);border:1px solid var(--border)}
+.pattern-tag{display:inline-block;background:var(--pattern-tag);color:#fff;padding:2px 10px;border-radius:6px;font-weight:700;font-size:.82em;margin-bottom:8px;margin-right:6px}
+.q-num{display:inline-block;background:var(--primary);color:#fff;padding:2px 10px;border-radius:6px;font-weight:700;font-size:.82em;margin-bottom:8px}
+.q-body{font-size:1em;margin-bottom:12px;line-height:1.8}
+
+.choices{display:grid;gap:8px}
+.choice{background:#fff;border:2px solid var(--border);border-radius:10px;padding:10px 14px;text-align:left;font-size:.98em;cursor:pointer;font-family:inherit;color:var(--text)}
+.choice:active{transform:scale(.98)}
+.choice.selected{background:var(--primary-l);border-color:var(--primary);color:var(--primary-d);font-weight:700}
+.choice.disabled{pointer-events:none;opacity:.7}
+.choice.correct{background:#dcfce7;border-color:var(--correct);color:#166534;font-weight:700}
+.choice.wrong{background:#fee2e2;border-color:var(--wrong);color:#991b1b}
+
+.feedback{margin-top:10px;padding:10px 12px;border-radius:8px;font-size:.92em;display:none}
+.feedback.show{display:block}
+.feedback.ok{background:#dcfce7;color:#166534;border-left:4px solid var(--correct)}
+.feedback.ng{background:#fee2e2;color:#991b1b;border-left:4px solid var(--wrong)}
+
+.venn-mini{text-align:center;margin:8px 0}
+.venn-mini svg{max-width:100%;height:auto}
+
+.submit-area{text-align:center;margin:20px 0}
+.btn-submit{background:var(--primary);color:#fff;border:none;padding:14px 36px;border-radius:10px;font-size:1.05em;font-weight:700;cursor:pointer;box-shadow:0 3px 8px rgba(5,150,105,.3);font-family:inherit}
+.btn-submit:active{transform:scale(.98)}
+.btn-submit:disabled{background:#cbd5e1;cursor:not-allowed;box-shadow:none}
+
+.result-box{background:var(--card);border:3px solid var(--primary);border-radius:14px;padding:20px;margin:18px 0;text-align:center;display:none}
+.result-box.show{display:block}
+.result-score{font-size:2.2em;font-weight:700;color:var(--primary-d);margin:8px 0}
+.result-msg{font-size:1em;color:var(--text);margin-bottom:8px}
+.result-box.passed{background:linear-gradient(135deg,#fef3c7,#fde68a);border-color:var(--gold)}
+.result-box.passed .result-score{color:#92400e}
+
+.nav{display:flex;justify-content:space-between;gap:10px;margin-top:24px}
+.btn{display:inline-block;padding:12px 18px;border-radius:10px;text-decoration:none;font-weight:700;font-size:.95em;text-align:center;flex:1}
+.btn-back{background:#e2e8f0;color:var(--text)}
+.btn-next{background:var(--primary);color:#fff;box-shadow:0 2px 6px rgba(5,150,105,.3)}
+.btn:active{transform:scale(.98)}
+
+/* 紙吹雪 */
+.confetti{position:fixed;top:-10px;width:10px;height:10px;z-index:9999;pointer-events:none}
+@keyframes fall{
+  0%{transform:translateY(-20vh) rotate(0deg);opacity:1}
+  100%{transform:translateY(110vh) rotate(720deg);opacity:0}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>ST04　集合　実戦テスト</h1>
+  <div class="sub">過去問パターン 厳選5問　満点で合格</div>
+</header>
+
+<div class="intro-msg">
+  <h2>📝 実戦テストの進め方</h2>
+  <p>過去問演習で学んだパターンを、別の数値で確認するテストです。本番のつもりで5問解いてから「採点する」を押してください。満点で合格です。</p>
+</div>
+
+<!-- Q1：R7-2型 ベン図（A∩B̄ パターン） -->
+<div class="q-card" data-q="1" data-ans="3">
+  <span class="pattern-tag">R7-2型</span><span class="q-num">問1</span>
+  <div class="q-body">
+    全体集合 U の部分集合 A、B について、下の図の斜線部分を表す集合はどれか。
+    <div class="venn-mini">
+      <svg viewBox="0 0 240 140" width="240" height="140" xmlns="http://www.w3.org/2000/svg">
+        <rect x="2" y="2" width="236" height="136" fill="#fff" stroke="#94a3b8" stroke-width="1"/>
+        <text x="14" y="22" font-size="12" fill="#64748b">U</text>
+        <defs>
+          <pattern id="hatchC1" patternUnits="userSpaceOnUse" width="8" height="8" patternTransform="rotate(45)">
+            <line x1="0" y1="0" x2="0" y2="8" stroke="#0f172a" stroke-width="1"/>
+          </pattern>
+          <clipPath id="c1clip">
+            <circle cx="95" cy="75" r="48"/>
+          </clipPath>
+          <mask id="c1mask">
+            <rect x="0" y="0" width="240" height="140" fill="white"/>
+            <circle cx="155" cy="75" r="48" fill="black"/>
+          </mask>
+        </defs>
+        <!-- A側のうちBと重ならない部分（A∩B̄）に斜線 -->
+        <g clip-path="url(#c1clip)" mask="url(#c1mask)">
+          <rect x="0" y="0" width="240" height="140" fill="url(#hatchC1)"/>
+        </g>
+        <circle cx="95" cy="75" r="48" fill="none" stroke="#0f172a" stroke-width="1.8"/>
+        <circle cx="155" cy="75" r="48" fill="none" stroke="#0f172a" stroke-width="1.8"/>
+        <text x="72" y="80" font-size="16" font-weight="700" fill="#0f172a">A</text>
+        <text x="180" y="80" font-size="16" font-weight="700" fill="#0f172a">B</text>
+      </svg>
+    </div>
+  </div>
+  <div class="choices">
+    <button class="choice" data-i="1">① A∪B̄</button>
+    <button class="choice" data-i="2">② Ā∪B</button>
+    <button class="choice" data-i="3">③ A∩B̄</button>
+    <button class="choice" data-i="4">④ Ā∩B</button>
+  </div>
+  <div class="feedback"></div>
+</div>
+
+<!-- Q2：R6-2型 共通部分が∅ -->
+<div class="q-card" data-q="2" data-ans="4">
+  <span class="pattern-tag">R6-2型</span><span class="q-num">問2</span>
+  <div class="q-body">
+    A を正の整数全体の集合、B を負の整数全体の集合とするとき、<br>
+    「<b>A □ B = ∅</b>」が成り立つ。□ に入る記号はどれか。
+  </div>
+  <div class="choices">
+    <button class="choice" data-i="1">① ⊂</button>
+    <button class="choice" data-i="2">② ⊃</button>
+    <button class="choice" data-i="3">③ ∪</button>
+    <button class="choice" data-i="4">④ ∩</button>
+  </div>
+  <div class="feedback"></div>
+</div>
+
+<!-- Q3：R6-1型 包含関係 -->
+<div class="q-card" data-q="3" data-ans="4">
+  <span class="pattern-tag">R6-1型</span><span class="q-num">問3</span>
+  <div class="q-body">
+    A = { 1, 3, 5, 7, 9 }、B = { 3, 5 } のとき、A と B の関係は <b>A □ B</b> である。□ に入る記号はどれか。
+  </div>
+  <div class="choices">
+    <button class="choice" data-i="1">① ∈</button>
+    <button class="choice" data-i="2">② ∋</button>
+    <button class="choice" data-i="3">③ ⊂</button>
+    <button class="choice" data-i="4">④ ⊃</button>
+  </div>
+  <div class="feedback"></div>
+</div>
+
+<!-- Q4：R5-1型 正しい選択肢 -->
+<div class="q-card" data-q="4" data-ans="2">
+  <span class="pattern-tag">R5-1型</span><span class="q-num">問4</span>
+  <div class="q-body">
+    A = { 2, 3, 5, 7, 11 }、B = { 1, 3, 5, 7, 9 } のとき、次のうち正しいものはどれか。
+  </div>
+  <div class="choices">
+    <button class="choice" data-i="1">① A∩B = { 1, 2, 3, 5, 7, 9, 11 }</button>
+    <button class="choice" data-i="2">② A∩B = { 3, 5, 7 }</button>
+    <button class="choice" data-i="3">③ A∪B = { 3, 5, 7 }</button>
+    <button class="choice" data-i="4">④ A∪B = { 2, 11 }</button>
+  </div>
+  <div class="feedback"></div>
+</div>
+
+<!-- Q5：R3-2型 {〜}と等しい集合 -->
+<div class="q-card" data-q="5" data-ans="2">
+  <span class="pattern-tag">R3-2型</span><span class="q-num">問5</span>
+  <div class="q-body">
+    U = { 1, 2, 3, 4, 5, 6 } を全体集合とする。<br>
+    A = { 2, 4, 6 }、B = { 1, 2, 4, 5 } のとき、<b>{ 2, 4 }</b> と等しい集合はどれか。
+  </div>
+  <div class="choices">
+    <button class="choice" data-i="1">① A∪B</button>
+    <button class="choice" data-i="2">② A∩B</button>
+    <button class="choice" data-i="3">③ A∩B̄</button>
+    <button class="choice" data-i="4">④ Ā∩B</button>
+  </div>
+  <div class="feedback"></div>
+</div>
+
+<div class="submit-area">
+  <button class="btn-submit" id="btn-submit" onclick="grade()">採点する</button>
+</div>
+
+<div class="result-box" id="result">
+  <div class="result-msg" id="result-msg"></div>
+  <div class="result-score" id="result-score"></div>
+  <div id="result-detail" style="font-size:.92em;color:var(--muted)"></div>
+</div>
+
+<div class="nav">
+  <a href="./practice.html" class="btn btn-back">← 過去問演習に戻る</a>
+  <a href="../gamba_kounin.html" class="btn btn-next" id="btn-finish">単元一覧へ →</a>
+</div>
+
+</div>
+
+<script>
+const answers = {1:'3', 2:'4', 3:'4', 4:'2', 5:'2'};
+const explanations = {
+  1: '【R7-2型】斜線部分はAの中・Bの外側 → A∩B̄（③）',
+  2: '【R6-2型】正の整数と負の整数に共通する数はない → A∩B = ∅（④）',
+  3: '【R6-1型】Bの要素 3・5 はすべてAに含まれる → A⊃B（④）',
+  4: '【R5-1型】A∩B = 両方にある要素 { 3, 5, 7 }（②）',
+  5: '【R3-2型】A∩B = { 2, 4 }、求めるものと一致（②）'
+};
+const selections = {};
+
+// 選択処理
+document.querySelectorAll('.q-card').forEach(card=>{
+  const qid = card.dataset.q;
+  const choices = card.querySelectorAll('.choice');
+  choices.forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      if(btn.classList.contains('disabled')) return;
+      choices.forEach(c=>c.classList.remove('selected'));
+      btn.classList.add('selected');
+      selections[qid] = btn.dataset.i;
+    });
+  });
+});
+
+// 採点
+function grade(){
+  const unanswered = [];
+  for(let i=1; i<=5; i++){
+    if(!selections[i]) unanswered.push(i);
+  }
+  if(unanswered.length>0){
+    alert('未回答の問題があります：問' + unanswered.join('、問'));
+    return;
+  }
+
+  let correct = 0;
+  document.querySelectorAll('.q-card').forEach(card=>{
+    const qid = card.dataset.q;
+    const ans = answers[qid];
+    const sel = selections[qid];
+    const choices = card.querySelectorAll('.choice');
+    const fb = card.querySelector('.feedback');
+
+    choices.forEach(c=>{
+      c.classList.add('disabled');
+      c.classList.remove('selected');
+      if(c.dataset.i === ans) c.classList.add('correct');
+      if(c.dataset.i === sel && sel !== ans) c.classList.add('wrong');
+    });
+
+    if(sel === ans){
+      correct++;
+      fb.className = 'feedback ok show';
+      fb.innerHTML = '<b>✓ 正解</b>' + explanations[qid];
+    } else {
+      fb.className = 'feedback ng show';
+      fb.innerHTML = '<b>× 不正解</b>' + explanations[qid];
+    }
+  });
+
+  const result = document.getElementById('result');
+  const msg = document.getElementById('result-msg');
+  const score = document.getElementById('result-score');
+  const detail = document.getElementById('result-detail');
+
+  if(correct === 5){
+    result.className = 'result-box show passed';
+    msg.textContent = '🎉 全問正解！過去問マスター！';
+    score.textContent = correct + ' / 5';
+    detail.textContent = '集合の過去問演習を完全クリア！本番でも安心して解けます。';
+    confetti();
+    markPassed('ST04_kakomon');
+  } else {
+    result.className = 'result-box show';
+    msg.textContent = 'もう少し！全問正解で合格です';
+    score.textContent = correct + ' / 5';
+    detail.textContent = '解説を読んで、もう一度過去問演習に戻ってみましょう。';
+  }
+
+  document.getElementById('btn-submit').disabled = true;
+  document.getElementById('btn-submit').textContent = '採点済み';
+  result.scrollIntoView({behavior:'smooth', block:'center'});
+}
+
+// 紙吹雪
+function confetti(){
+  const colors = ['#059669','#10b981','#34d399','#fbbf24','#f59e0b','#3b82f6'];
+  for(let i=0; i<60; i++){
+    const c = document.createElement('div');
+    c.className = 'confetti';
+    c.style.left = Math.random()*100 + 'vw';
+    c.style.background = colors[Math.floor(Math.random()*colors.length)];
+    c.style.borderRadius = Math.random()>0.5 ? '50%' : '2px';
+    c.style.animation = `fall ${2 + Math.random()*2}s linear ${Math.random()*0.5}s forwards`;
+    document.body.appendChild(c);
+    setTimeout(()=>c.remove(), 5000);
+  }
+}
+
+// 合格マーク
+function markPassed(unitCode){
+  try{
+    localStorage.setItem('gamba_passed_' + unitCode, '1');
+    localStorage.setItem('gamba_passed_' + unitCode + '_date', new Date().toISOString());
+  }catch(e){}
+}
+</script>
+</body>
+</html>

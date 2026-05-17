@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>IN07 不等式の文章題③｜演習</title>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" 
+        onload="window._katexReady=true; if(window._onKatexReady) window._onKatexReady();"></script>
+
+<style>
+:root{
+  --primary:#1d4ed8;
+  --primary-light:#dbeafe;
+  --primary-mid:#3b82f6;
+  --accent:#e8372d;
+  --accent-light:#fff1f0;
+  --success:#16a34a;
+  --success-light:#dcfce7;
+  --warn:#d97706;
+  --warn-light:#fffbeb;
+  --bg:#f0f6ff;
+  --card:#ffffff;
+  --border:#bfdbfe;
+  --text:#1e293b;
+  --text-sub:#64748b;
+  --radius:12px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:60px;line-height:1.7;}
+.g-container{max-width:760px;margin:0 auto;}
+.page-header{background:var(--primary);color:#fff;padding:18px 24px 14px;text-align:center;box-shadow:0 3px 10px rgba(29,78,216,.25);}
+.page-header .unit-code{font-size:.82em;opacity:.85;letter-spacing:.1em;margin-bottom:4px;}
+.page-header h1{font-size:clamp(1.1em,3vw,1.55em);font-weight:700;margin:0;}
+
+.step-nav{display:flex;align-items:center;justify-content:center;padding:14px 12px;background:var(--card);border-bottom:1px solid var(--border);flex-wrap:nowrap;overflow-x:auto;position:sticky;top:0;z-index:10;}
+.step-item{display:flex;align-items:center;gap:6px;font-size:clamp(.75em,2vw,.88em);color:#94a3b8;white-space:nowrap;padding:4px 6px;}
+.step-item a{color:inherit;text-decoration:none;}
+.step-item.active{color:var(--primary);font-weight:700;}
+.step-circle{width:22px;height:22px;border-radius:50%;font-size:.76em;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.step-item.active .step-circle{background:var(--primary);color:#fff;box-shadow:0 0 0 3px var(--primary-light);}
+.step-item:not(.active) .step-circle{background:#94a3b8;color:#fff;}
+.step-arrow{color:#cbd5e1;font-size:1.1em;padding:0 2px;user-select:none;}
+
+.content{padding:20px 16px 40px;}
+.intro-lead{background:var(--primary-light);border-left:4px solid var(--primary);padding:14px 18px;border-radius:0 var(--radius) var(--radius) 0;margin-bottom:18px;color:var(--primary);font-size:.94em;}
+
+.kw-cond{color:var(--accent);font-weight:700;}
+.kw-num{background:linear-gradient(transparent 60%,#fff3a0 60%);font-weight:700;padding:0 2px;}
+
+.set-selector{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);padding:14px 16px;margin-bottom:16px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.set-selector label{font-weight:700;color:var(--primary);font-size:.95em;}
+.set-selector select{padding:8px 14px;border:2px solid var(--primary);border-radius:8px;font-size:.95em;background:#fff;color:var(--primary);font-weight:700;font-family:inherit;cursor:pointer;flex:1;min-width:120px;}
+.set-selector .reload-btn{padding:8px 14px;background:var(--primary);color:#fff;border:none;border-radius:8px;font-weight:700;cursor:pointer;font-size:.9em;font-family:inherit;}
+.set-selector .reload-btn:hover{background:var(--primary-mid);}
+
+.qcard{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:14px;}
+.qcard-head{display:flex;align-items:center;gap:8px;margin-bottom:10px;flex-wrap:wrap;}
+.qcard-num{background:var(--primary);color:#fff;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.9em;flex-shrink:0;}
+.qcard-year{color:var(--accent);background:var(--accent-light);padding:2px 8px;border-radius:6px;font-weight:700;font-size:.82em;}
+.qcard-pattern{color:var(--primary);background:var(--primary-light);padding:2px 8px;border-radius:6px;font-weight:700;font-size:.82em;}
+
+.q-statement{background:#f8fafc;border-left:3px solid var(--primary-mid);padding:10px 14px;border-radius:0 6px 6px 0;font-size:.93em;line-height:1.85;margin-bottom:12px;}
+
+.choices{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px;}
+.choice-btn{padding:10px 12px;background:#fff;border:2px solid var(--border);border-radius:8px;cursor:pointer;font-family:inherit;font-size:.95em;text-align:center;transition:all .15s;}
+.choice-btn:hover{background:var(--primary-light);border-color:var(--primary);}
+.choice-btn.correct{background:var(--success);color:#fff;border-color:var(--success);}
+.choice-btn.wrong{background:var(--accent);color:#fff;border-color:var(--accent);}
+.choice-btn:disabled{cursor:default;}
+
+.result-panel{display:none;margin-top:12px;padding:14px;border-radius:8px;font-size:.92em;line-height:1.75;}
+.result-panel.ok{background:var(--success-light);border:1.5px solid var(--success);}
+.result-panel.ng{background:var(--accent-light);border:1.5px solid var(--accent);}
+.result-panel .verdict{font-weight:700;font-size:1.02em;margin-bottom:10px;}
+.result-panel.ok .verdict{color:var(--success);}
+.result-panel.ng .verdict{color:var(--accent);}
+
+.sol-title{font-weight:700;color:var(--primary);font-size:.92em;background:var(--primary-light);padding:6px 10px;border-radius:6px;display:inline-block;margin-bottom:10px;}
+
+.sol-step{display:flex;gap:10px;margin-bottom:8px;align-items:flex-start;}
+.sol-num{background:var(--primary);color:#fff;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.78em;flex-shrink:0;line-height:1;}
+.sol-body{flex:1;background:#fff;padding:8px 12px;border-radius:6px;border:1px solid var(--border);font-size:.91em;line-height:1.7;color:var(--text);}
+.sol-body strong{color:var(--primary);}
+
+.calc-line{background:#f8fafc;border-left:3px solid var(--primary-mid);padding:5px 10px;margin:4px 0;font-size:.9em;color:var(--text);border-radius:0 4px 4px 0;}
+.calc-line .op-label{color:var(--text-sub);font-size:.82em;display:inline-block;margin-right:6px;}
+
+.int-note{background:var(--success-light);border-left:3px solid var(--success);padding:6px 10px;margin-top:8px;border-radius:0 4px 4px 0;color:var(--success);font-weight:700;font-size:.9em;}
+
+.score-box{display:none;background:linear-gradient(135deg,#dbeafe 0%,#e0e7ff 100%);border:2px solid var(--primary);border-radius:var(--radius);padding:18px;text-align:center;margin-top:18px;}
+.score-box.show{display:block;}
+.score-box .score-num{font-size:1.5em;font-weight:700;color:var(--primary);}
+.score-box .msg{margin-top:6px;font-size:.95em;}
+
+.btn-row{text-align:center;margin-top:20px;}
+.btn-back,.btn-next{display:inline-block;margin:4px;padding:10px 22px;text-decoration:none;border-radius:8px;font-weight:700;font-size:.95em;}
+.btn-back{background:#fff;border:2px solid var(--primary);color:var(--primary);}
+.btn-back:hover{background:var(--primary-light);}
+.btn-next{background:var(--primary);color:#fff;border:2px solid var(--primary);}
+.btn-next:hover{background:var(--primary-mid);}
+</style>
+</head>
+<body>
+<div class="g-container">
+
+<header class="page-header">
+  <div class="unit-code">IN07 ｜ 過去問版（教室／希望者用）</div>
+  <h1>不等式の文章題③（料金型）｜演習</h1>
+</header>
+
+<nav class="step-nav">
+  <div class="step-item"><a href="intro.html"><span class="step-circle">1</span>導入</a></div>
+  <span class="step-arrow">→</span>
+  <div class="step-item"><a href="example.html"><span class="step-circle">2</span>例題</a></div>
+  <span class="step-arrow">→</span>
+  <div class="step-item active"><span class="step-circle">3</span>演習</div>
+  <span class="step-arrow">→</span>
+  <div class="step-item"><a href="check.html"><span class="step-circle">4</span>確認</a></div>
+</nav>
+
+<div class="content">
+
+  <div class="intro-lead">
+    📝 過去問と<strong>同じ解き方</strong>で解ける反復練習です。<br>
+    <strong>Aセット：基本料金型</strong>（R6年型）／<strong>Bセット：段階料金型</strong>（R7年型）／<strong>Cセット：仕上げ（混合）</strong><br>
+    各セット4問とも，過去問と<strong>同じ立式パターン</strong>です。何度も解いて型を体に染み込ませましょう！
+  </div>
+
+  <div class="set-selector">
+    <label for="setSel">セット選択：</label>
+    <select id="setSel" onchange="loadSet()">
+      <option value="A">Aセット：基本料金型（R6年型）</option>
+      <option value="B">Bセット：段階料金型（R7年型）</option>
+      <option value="C">Cセット：仕上げ（混合）</option>
+    </select>
+    <button class="reload-btn" onclick="loadSet()">🔄 やり直し</button>
+  </div>
+
+  <div id="quizArea"></div>
+
+  <div id="scoreBox" class="score-box">
+    <div class="score-num"><span id="scoreText"></span></div>
+    <div class="msg" id="scoreMsg"></div>
+  </div>
+
+  <div class="btn-row">
+    <a href="example.html" class="btn-back">← 例題へ戻る</a>
+    <a href="check.html" class="btn-next">確認テストへ →</a>
+  </div>
+
+</div>
+</div>
+
+<script>
+/* ─────────── 解説生成ヘルパー ─────────── */
+
+/* パターン1：基本料金型 */
+function buildBasicSolution(p){
+  return `
+    <div class="sol-title">📖 基本料金型の解き方</div>
+    <div class="sol-step">
+      <span class="sol-num">①</span>
+      <div class="sol-body">${p.askName}を $x$ ${p.unit}とおく。</div>
+    </div>
+    <div class="sol-step">
+      <span class="sol-num">②</span>
+      <div class="sol-body">合計費用：${p.expr}</div>
+    </div>
+    <div class="sol-step">
+      <span class="sol-num">③</span>
+      <div class="sol-body">予算以内：${p.equation}</div>
+    </div>
+    <div class="sol-step">
+      <span class="sol-num">④</span>
+      <div class="sol-body">
+        <div class="calc-line"><span class="op-label">移項：</span>${p.move}</div>
+        <div class="calc-line"><span class="op-label">整理：</span>${p.simplify}</div>
+        <div class="calc-line"><span class="op-label">解く：</span>${p.final}</div>
+        <div class="int-note">✅ 整数なので最大 ${p.answer}${p.unit}${p.cutoffNote ? '（小数点以下は切り捨て）' : ''}</div>
+      </div>
+    </div>
+  `;
+}
+
+/* パターン2：段階料金型 */
+function buildTierSolution(p){
+  return `
+    <div class="sol-title">📖 段階料金型の解き方</div>
+    <div class="sol-step">
+      <span class="sol-num">①</span>
+      <div class="sol-body">${p.askName}を $x$ ${p.unit}とおく（基準を超える前提）。</div>
+    </div>
+    <div class="sol-step">
+      <span class="sol-num">②</span>
+      <div class="sol-body">
+        <strong>固定料金</strong> ＋ <strong>超過分の料金</strong>：<br>
+        ${p.expr}
+      </div>
+    </div>
+    <div class="sol-step">
+      <span class="sol-num">③</span>
+      <div class="sol-body">予算以内：${p.equation}</div>
+    </div>
+    <div class="sol-step">
+      <span class="sol-num">④</span>
+      <div class="sol-body">
+        <div class="calc-line"><span class="op-label">かっこを外す：</span>${p.expand}</div>
+        <div class="calc-line"><span class="op-label">整理：</span>${p.simplify}</div>
+        <div class="calc-line"><span class="op-label">解く：</span>${p.final}</div>
+        <div class="int-note">✅ 整数なので最大 ${p.answer}${p.unit}${p.cutoffNote ? '（小数点以下は切り捨て）' : ''}</div>
+      </div>
+    </div>
+  `;
+}
+
+/* ─────────── 問題データ ─────────── */
+const QUIZ_SETS = {
+  /* ════════ Aセット：基本料金型（R6-1型） ════════ */
+  A: [
+    /* A1：文房具 */
+    {
+      year:'類題', pattern:'R6型',
+      text:'文房具を買いに行く。所持金<span class="kw-num">5000円</span>，往復のバス代<span class="kw-num">800円</span>。文房具1個<span class="kw-num">500円</span>のとき，最大何個買えるか。',
+      choices:['7個','8個','9個','10個'],
+      ans:1,
+      solution: buildBasicSolution({
+        askName:'文房具の個数', unit:'個',
+        expr:'$500x + 800$（円）',
+        equation:'$500x + 800 \\leqq 5000$',
+        move:'$500x \\leqq 5000 - 800$',
+        simplify:'$500x \\leqq 4200$',
+        final:'$x \\leqq 8.4$',
+        answer:'8',
+        cutoffNote:true
+      })
+    },
+    /* A2：弁当 */
+    {
+      year:'類題', pattern:'R6型',
+      text:'弁当を職場の同僚に買って帰る。所持金<span class="kw-num">3000円</span>，お茶代<span class="kw-num">300円</span>。弁当1個<span class="kw-num">450円</span>のとき，最大何個買えるか。',
+      choices:['5個','6個','7個','8個'],
+      ans:1,
+      solution: buildBasicSolution({
+        askName:'弁当の個数', unit:'個',
+        expr:'$450x + 300$（円）',
+        equation:'$450x + 300 \\leqq 3000$',
+        move:'$450x \\leqq 3000 - 300$',
+        simplify:'$450x \\leqq 2700$',
+        final:'$x \\leqq 6$',
+        answer:'6'
+      })
+    },
+    /* A3：文庫本 */
+    {
+      year:'類題', pattern:'R6型',
+      text:'本屋で文庫本を買う。所持金<span class="kw-num">4000円</span>，カフェ代<span class="kw-num">500円</span>。文庫本1冊<span class="kw-num">700円</span>のとき，最大何冊買えるか。',
+      choices:['4冊','5冊','6冊','7冊'],
+      ans:1,
+      solution: buildBasicSolution({
+        askName:'文庫本の冊数', unit:'冊',
+        expr:'$700x + 500$（円）',
+        equation:'$700x + 500 \\leqq 4000$',
+        move:'$700x \\leqq 4000 - 500$',
+        simplify:'$700x \\leqq 3500$',
+        final:'$x \\leqq 5$',
+        answer:'5'
+      })
+    },
+    /* A4：おかし */
+    {
+      year:'類題', pattern:'R6型',
+      text:'コンビニでおかしを買う。所持金<span class="kw-num">1000円</span>，飲み物<span class="kw-num">200円</span>。おかし1個<span class="kw-num">120円</span>のとき，最大何個買えるか。',
+      choices:['5個','6個','7個','8個'],
+      ans:1,
+      solution: buildBasicSolution({
+        askName:'おかしの個数', unit:'個',
+        expr:'$120x + 200$（円）',
+        equation:'$120x + 200 \\leqq 1000$',
+        move:'$120x \\leqq 1000 - 200$',
+        simplify:'$120x \\leqq 800$',
+        final:'$x \\leqq 6.66\\cdots$',
+        answer:'6',
+        cutoffNote:true
+      })
+    }
+  ],
+
+  /* ════════ Bセット：段階料金型（R7-1型） ════════ */
+  B: [
+    /* B1：駐車場 */
+    {
+      year:'類題', pattern:'R7型',
+      text:'駐車場の料金は<span class="kw-num">1時間</span>まで<span class="kw-num">300円</span>，超えた分は1時間<span class="kw-num">100円</span>。<span class="kw-num">800円</span><span class="kw-cond">以内</span>で，最大何時間まで停められるか。',
+      choices:['5時間','6時間','7時間','8時間'],
+      ans:1,
+      solution: buildTierSolution({
+        askName:'駐車時間', unit:'時間',
+        expr:'$300 + 100(x - 1)$（円）',
+        equation:'$300 + 100(x - 1) \\leqq 800$',
+        expand:'$300 + 100x - 100 \\leqq 800$',
+        simplify:'$100x + 200 \\leqq 800$',
+        final:'$x \\leqq 6$',
+        answer:'6'
+      })
+    },
+    /* B2：印刷物 */
+    {
+      year:'類題', pattern:'R7型',
+      text:'チラシを印刷する。<span class="kw-num">100部</span>までは<span class="kw-num">5000円</span>，超えた分は1部<span class="kw-num">30円</span>。予算<span class="kw-num">8000円</span><span class="kw-cond">以内</span>で，最大何部まで印刷できるか。',
+      choices:['150部','180部','200部','250部'],
+      ans:2,
+      solution: buildTierSolution({
+        askName:'印刷部数', unit:'部',
+        expr:'$5000 + 30(x - 100)$（円）',
+        equation:'$5000 + 30(x - 100) \\leqq 8000$',
+        expand:'$5000 + 30x - 3000 \\leqq 8000$',
+        simplify:'$30x + 2000 \\leqq 8000$',
+        final:'$x \\leqq 200$',
+        answer:'200'
+      })
+    },
+    /* B3：配送料 */
+    {
+      year:'類題', pattern:'R7型',
+      text:'通販の配送料金は<span class="kw-num">3個</span>まで<span class="kw-num">800円</span>，超えた分は1個<span class="kw-num">50円</span>。配送料<span class="kw-num">2000円</span><span class="kw-cond">以内</span>で，最大何個まで送れるか。',
+      choices:['25個','27個','30個','35個'],
+      ans:1,
+      solution: buildTierSolution({
+        askName:'配送個数', unit:'個',
+        expr:'$800 + 50(x - 3)$（円）',
+        equation:'$800 + 50(x - 3) \\leqq 2000$',
+        expand:'$800 + 50x - 150 \\leqq 2000$',
+        simplify:'$50x + 650 \\leqq 2000$',
+        final:'$x \\leqq 27$',
+        answer:'27'
+      })
+    },
+    /* B4：通信プラン */
+    {
+      year:'類題', pattern:'R7型',
+      text:'通話料金は<span class="kw-num">100分</span>まで<span class="kw-num">2000円</span>，超えた分は1分<span class="kw-num">20円</span>。月額<span class="kw-num">4000円</span><span class="kw-cond">以内</span>で，最大何分通話できるか。',
+      choices:['180分','200分','220分','250分'],
+      ans:1,
+      solution: buildTierSolution({
+        askName:'通話時間', unit:'分',
+        expr:'$2000 + 20(x - 100)$（円）',
+        equation:'$2000 + 20(x - 100) \\leqq 4000$',
+        expand:'$2000 + 20x - 2000 \\leqq 4000$',
+        simplify:'$20x \\leqq 4000$',
+        final:'$x \\leqq 200$',
+        answer:'200'
+      })
+    }
+  ],
+
+  /* ════════ Cセット：仕上げ（混合） ════════ */
+  C: [
+    /* C1：イベントチケット（基本料金型） */
+    {
+      year:'類題', pattern:'R6型',
+      text:'イベントに出かける。所持金<span class="kw-num">6000円</span>，交通費<span class="kw-num">1200円</span>。チケット1枚<span class="kw-num">800円</span>のとき，最大何枚買えるか。',
+      choices:['5枚','6枚','7枚','8枚'],
+      ans:1,
+      solution: buildBasicSolution({
+        askName:'チケット枚数', unit:'枚',
+        expr:'$800x + 1200$（円）',
+        equation:'$800x + 1200 \\leqq 6000$',
+        move:'$800x \\leqq 6000 - 1200$',
+        simplify:'$800x \\leqq 4800$',
+        final:'$x \\leqq 6$',
+        answer:'6'
+      })
+    },
+    /* C2：写真プリント（段階料金型） */
+    {
+      year:'類題', pattern:'R7型',
+      text:'写真プリントは<span class="kw-num">10枚</span>までは<span class="kw-num">500円</span>，超えた分は1枚<span class="kw-num">40円</span>。<span class="kw-num">2000円</span><span class="kw-cond">以内</span>で，最大何枚プリントできるか。',
+      choices:['40枚','45枚','47枚','50枚'],
+      ans:2,
+      solution: buildTierSolution({
+        askName:'プリント枚数', unit:'枚',
+        expr:'$500 + 40(x - 10)$（円）',
+        equation:'$500 + 40(x - 10) \\leqq 2000$',
+        expand:'$500 + 40x - 400 \\leqq 2000$',
+        simplify:'$40x + 100 \\leqq 2000$',
+        final:'$x \\leqq 47.5$',
+        answer:'47',
+        cutoffNote:true
+      })
+    },
+    /* C3：お弁当（基本料金型） */
+    {
+      year:'類題', pattern:'R6型',
+      text:'お弁当を買いに行く。所持金<span class="kw-num">2500円</span>，飲み物代<span class="kw-num">300円</span>。お弁当1個<span class="kw-num">400円</span>のとき，最大何個買えるか。',
+      choices:['4個','5個','6個','7個'],
+      ans:1,
+      solution: buildBasicSolution({
+        askName:'お弁当の個数', unit:'個',
+        expr:'$400x + 300$（円）',
+        equation:'$400x + 300 \\leqq 2500$',
+        move:'$400x \\leqq 2500 - 300$',
+        simplify:'$400x \\leqq 2200$',
+        final:'$x \\leqq 5.5$',
+        answer:'5',
+        cutoffNote:true
+      })
+    },
+    /* C4：スマホ段階料金（段階料金型） */
+    {
+      year:'類題', pattern:'R7型',
+      text:'スマホのデータ通信は<span class="kw-num">5GB</span>までは<span class="kw-num">3000円</span>，超えた分は1GB<span class="kw-num">500円</span>。月額<span class="kw-num">6000円</span><span class="kw-cond">以内</span>で，最大何GB使えるか。',
+      choices:['9GB','10GB','11GB','12GB'],
+      ans:1,
+      solution: buildTierSolution({
+        askName:'通信量', unit:'GB',
+        expr:'$3000 + 500(x - 5)$（円）',
+        equation:'$3000 + 500(x - 5) \\leqq 6000$',
+        expand:'$3000 + 500x - 2500 \\leqq 6000$',
+        simplify:'$500x + 500 \\leqq 6000$',
+        final:'$x \\leqq 11$',
+        answer:'11'
+      })
+    }
+  ]
+};
+
+let currentSet = 'A';
+let answered = [];
+let answers = [];
+
+function loadSet(){
+  currentSet = document.getElementById('setSel').value;
+  const set = QUIZ_SETS[currentSet];
+  answered = new Array(set.length).fill(false);
+  answers = new Array(set.length).fill(null);
+  document.getElementById('scoreBox').classList.remove('show');
+
+  let html = '';
+  set.forEach((q, i) => {
+    html += `
+      <div class="qcard">
+        <div class="qcard-head">
+          <span class="qcard-num">${i+1}</span>
+          <span class="qcard-year">${q.year}</span>
+          <span class="qcard-pattern">${q.pattern}</span>
+        </div>
+        <div class="q-statement">${q.text}</div>
+        <div class="choices" id="choices${i}">
+          ${q.choices.map((c,j) => 
+            `<button class="choice-btn" onclick="selectChoice(${i},${j})">${j+1}）${c}</button>`
+          ).join('')}
+        </div>
+        <div class="result-panel" id="rp${i}"></div>
+      </div>
+    `;
+  });
+  document.getElementById('quizArea').innerHTML = html;
+
+  if(window._katexReady){
+    renderArea();
+  }else{
+    window._onKatexReady = renderArea;
+  }
+}
+
+function renderArea(){
+  if(typeof renderMathInElement === 'function'){
+    renderMathInElement(document.getElementById('quizArea'), {
+      delimiters:[
+        {left:'$$',right:'$$',display:true},
+        {left:'$',right:'$',display:false}
+      ],
+      throwOnError:false
+    });
+  }
+}
+
+function selectChoice(qi, ci){
+  if(answered[qi]) return;
+  answered[qi] = true;
+  answers[qi] = ci;
+
+  const q = QUIZ_SETS[currentSet][qi];
+  const correct = (ci === q.ans);
+  const buttons = document.querySelectorAll(`#choices${qi} .choice-btn`);
+  buttons.forEach((b, j) => {
+    b.disabled = true;
+    if(j === q.ans) b.classList.add('correct');
+    else if(j === ci) b.classList.add('wrong');
+  });
+
+  const rp = document.getElementById('rp'+qi);
+  rp.style.display = 'block';
+  rp.className = 'result-panel ' + (correct ? 'ok' : 'ng');
+  rp.innerHTML = 
+    `<div class="verdict">${correct ? '✅ 正解！' : `❌ 不正解…　正解は【${q.ans+1}）${q.choices[q.ans]}】`}</div>`
+    + q.solution;
+
+  if(typeof renderMathInElement === 'function'){
+    renderMathInElement(rp, {
+      delimiters:[
+        {left:'$$',right:'$$',display:true},
+        {left:'$',right:'$',display:false}
+      ],
+      throwOnError:false
+    });
+  }
+
+  if(answered.every(v => v)) showScore();
+}
+
+function showScore(){
+  const set = QUIZ_SETS[currentSet];
+  const correct = answers.filter((a, i) => a === set[i].ans).length;
+  const box = document.getElementById('scoreBox');
+  box.classList.add('show');
+  document.getElementById('scoreText').textContent = `${correct} / ${set.length} 問正解`;
+  
+  const msgs = [
+    'もう一度挑戦💪 例題に戻ろう',
+    '惜しい！立式を見直そう📖',
+    'いい調子！もう一歩！✨',
+    'すごい！ほぼ完璧🌟',
+    '満点！この型はバッチリ🎉'
+  ];
+  document.getElementById('scoreMsg').textContent = msgs[Math.min(correct, set.length)];
+}
+
+window.addEventListener('load', () => {
+  loadSet();
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>QU00 座標と放物線の基礎</title>
+<style>
+:root{
+  --primary:#ea580c;--primary-d:#c2410c;--primary-l:#fff7ed;
+  --hint:#f59e0b;--hint-bg:#fffbeb;--warn:#dc2626;
+  --bg:#f8fafc;--card:#fff;--text:#1e293b;--muted:#64748b;--border:#e2e8f0;
+  --green:#059669;--green-l:#f0fdf4;--blue:#0284c7;--blue-l:#eff6ff;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:'BIZ UDPGothic','BIZ UDP Gothic',-apple-system,"Hiragino Sans","Yu Gothic",sans-serif;line-height:1.8;font-size:15px;overflow-x:hidden}
+header{position:sticky;top:0;background:var(--primary);color:#fff;padding:12px 16px;box-shadow:0 2px 8px rgba(0,0,0,.15);z-index:10}
+header h1{margin:0;font-size:1.05em;font-weight:700}
+header .sub{font-size:.78em;opacity:.88;margin-top:2px}
+.wrap{max-width:680px;margin:0 auto;padding:16px 16px 40px;min-width:0;overflow-x:hidden}
+.steps{display:flex;gap:0;margin-bottom:0;background:#fff;border-bottom:1px solid var(--border)}
+.step{flex:1;text-align:center;padding:8px 4px;font-size:.78em;font-weight:700;color:var(--muted);border-bottom:3px solid var(--border)}
+.step.active{color:var(--primary);border-color:var(--primary)}
+.section{background:var(--card);border-radius:12px;padding:18px 20px;margin-bottom:16px;box-shadow:0 1px 3px rgba(0,0,0,.06);border:1px solid var(--border)}
+.section h2{margin:0 0 14px;font-size:1.05em;color:var(--primary-d);border-left:4px solid var(--primary);padding-left:10px}
+.section h3{font-size:.95em;color:var(--primary-d);margin:16px 0 8px;padding-bottom:4px;border-bottom:1px dashed var(--border)}
+.kv{display:inline-block;background:var(--primary-l);color:var(--primary-d);padding:2px 8px;border-radius:6px;font-weight:700;margin:0 2px}
+.formula{background:var(--primary-l);border-radius:8px;padding:10px 14px;margin:10px 0;font-size:1.05em;text-align:center;font-weight:700;color:var(--primary-d);border:1px solid #fed7aa}
+.tip{background:var(--hint-bg);border-left:4px solid var(--hint);border-radius:6px;padding:10px 12px;margin:10px 0;font-size:.92em}
+.warn-box{background:#fef2f2;border-left:4px solid var(--warn);border-radius:6px;padding:10px 12px;margin:10px 0;font-size:.92em}
+.example{background:var(--primary-l);border-left:4px solid var(--primary);border-radius:6px;padding:12px 14px;margin:12px 0}
+.example .ex-title{font-weight:700;color:var(--primary-d);margin-bottom:8px}
+.point-box{background:var(--green-l);border:2px solid var(--green);border-radius:10px;padding:12px 14px;margin:12px 0}
+.point-box h4{margin:0 0 8px;color:var(--green);font-size:.95em}
+.coord-wrap{display:flex;justify-content:center;margin:12px 0;overflow:hidden}
+.graph-row{display:flex;flex-wrap:wrap;gap:10px;margin:12px 0;justify-content:center;overflow:hidden}
+.graph-item{text-align:center;flex:1 1 140px;max-width:180px}
+.graph-item .g-label{font-size:.82em;font-weight:700;margin-top:4px}
+.graph-item .g-sub{font-size:.75em;color:var(--muted)}
+table.data-tbl{border-collapse:collapse;width:100%;margin:10px 0;font-size:.9em}
+table.data-tbl th{background:var(--primary);color:#fff;padding:7px 6px;text-align:center}
+table.data-tbl td{padding:7px 6px;border:1px solid var(--border);text-align:center}
+table.data-tbl tr:nth-child(even) td{background:#fff7ed}
+table.summary{border-collapse:collapse;width:100%;margin:10px 0;font-size:.9em}
+table.summary th{background:var(--primary);color:#fff;padding:8px 6px;text-align:center}
+table.summary td{padding:8px 6px;border:1px solid var(--border);vertical-align:middle}
+table.summary tr:nth-child(even) td{background:#fff7ed}
+.nav{display:flex;gap:10px;margin-top:20px}
+.btn{display:block;padding:12px 16px;border-radius:10px;text-decoration:none;text-align:center;font-weight:700;font-size:.95em;flex:1}
+.btn-back{background:#f1f5f9;color:var(--muted)}
+.btn-next{background:var(--primary);color:#fff}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>QU00　座標と放物線の基礎</h1>
+  <div class="sub">二次関数を学ぶ前の準備</div>
+</header>
+
+<div class="steps">
+  <div class="step active">① 解説</div>
+  <div class="step">② 演習</div>
+  <div class="step">③ 確認</div>
+</div>
+
+<div class="wrap">
+
+<!-- セクション1：座標とは -->
+<div class="section">
+  <h2>1．座標（ざひょう）とは</h2>
+
+  <p>みなさんはカーナビを使ったことがありますか？</p>
+
+  <div class="tip">
+    <b>🚗 カーナビと同じ仕組み！</b><br>
+    カーナビは<b>自分の位置（原点）</b>を基準にして、建物がどの方向にどのくらい離れているかを表示しています。<br>
+    数学の「座標」も全く同じ考え方です。
+  </div>
+
+  <p>座標とは、<b>原点（0, 0）からの位置</b>を<br>
+  ・<b>χ軸方向（左右）</b>にどの位置か<br>
+  ・<b>y軸方向（上下）</b>にどの位置か<br>
+  を <span class="kv">( χ , y )</span> の形で表す方法です。</p>
+
+  <h3>① 座標軸の仕組み</h3>
+
+  <div class="coord-wrap">
+    <svg viewBox="-110 -115 220 275" width="260" height="310" xmlns="http://www.w3.org/2000/svg">
+      <!-- グリッド線 -->
+      <line x1="-90" y1="-90" x2="-90" y2="90" stroke="#e2e8f0" stroke-width="0.8"/>
+      <line x1="-60" y1="-90" x2="-60" y2="90" stroke="#e2e8f0" stroke-width="0.8"/>
+      <line x1="-30" y1="-90" x2="-30" y2="90" stroke="#e2e8f0" stroke-width="0.8"/>
+      <line x1="30" y1="-90" x2="30" y2="90" stroke="#e2e8f0" stroke-width="0.8"/>
+      <line x1="60" y1="-90" x2="60" y2="90" stroke="#e2e8f0" stroke-width="0.8"/>
+      <line x1="90" y1="-90" x2="90" y2="90" stroke="#e2e8f0" stroke-width="0.8"/>
+      <line x1="-90" y1="-90" x2="90" y2="-90" stroke="#e2e8f0" stroke-width="0.8"/>
+      <line x1="-90" y1="-60" x2="90" y2="-60" stroke="#e2e8f0" stroke-width="0.8"/>
+      <line x1="-90" y1="-30" x2="90" y2="-30" stroke="#e2e8f0" stroke-width="0.8"/>
+      <line x1="-90" y1="30" x2="90" y2="30" stroke="#e2e8f0" stroke-width="0.8"/>
+      <line x1="-90" y1="60" x2="90" y2="60" stroke="#e2e8f0" stroke-width="0.8"/>
+      <line x1="-90" y1="90" x2="90" y2="90" stroke="#e2e8f0" stroke-width="0.8"/>
+      <!-- χ軸 -->
+      <line x1="-105" y1="0" x2="105" y2="0" stroke="#0284c7" stroke-width="1.8"/>
+      <polygon points="105,0 97,-4 97,4" fill="#0284c7"/>
+      <text x="95" y="14" font-size="12" fill="#0284c7" font-weight="700">χ軸</text>
+      <!-- y軸 -->
+      <line x1="0" y1="-105" x2="0" y2="105" stroke="#059669" stroke-width="1.8"/>
+      <polygon points="0,-105 -4,-97 4,-97" fill="#059669"/>
+      <text x="5" y="-90" font-size="12" fill="#059669" font-weight="700">y軸</text>
+      <!-- 原点 -->
+      <circle cx="0" cy="0" r="3" fill="#64748b"/>
+      <text x="-24" y="16" font-size="11" fill="#64748b" font-weight="700">原点</text>
+      <text x="-18" y="27" font-size="10" fill="#64748b">(0,0)</text>
+      <!-- 目盛り -->
+      <text x="26" y="14" font-size="10" fill="#94a3b8">1</text>
+      <text x="56" y="14" font-size="10" fill="#94a3b8">2</text>
+      <text x="86" y="14" font-size="10" fill="#94a3b8">3</text>
+      <text x="-38" y="14" font-size="10" fill="#94a3b8">-1</text>
+      <text x="-68" y="14" font-size="10" fill="#94a3b8">-2</text>
+      <text x="-98" y="14" font-size="10" fill="#94a3b8">-3</text>
+      <text x="4" y="-84" font-size="10" fill="#94a3b8">3</text>
+      <text x="4" y="-54" font-size="10" fill="#94a3b8">2</text>
+      <text x="4" y="-24" font-size="10" fill="#94a3b8">1</text>
+      <text x="4" y="44" font-size="10" fill="#94a3b8">-1</text>
+      <text x="4" y="74" font-size="10" fill="#94a3b8">-2</text>
+      <text x="4" y="104" font-size="10" fill="#94a3b8">-3</text>
+      <!-- 方向ラベル -->
+      <text x="20" y="-10" font-size="9" fill="#0284c7">＋方向（右）</text>
+      <text x="-95" y="-10" font-size="9" fill="#0284c7">－方向（左）</text>
+      <text x="5" y="-60" font-size="9" fill="#059669">＋方向</text>
+      <text x="5" y="-48" font-size="9" fill="#059669">（上）</text>
+      <text x="5" y="60" font-size="9" fill="#059669">－方向</text>
+      <text x="5" y="72" font-size="9" fill="#059669">（下）</text>
+      <!-- 点A(2,3) -->
+      <circle cx="60" cy="-90" r="5" fill="#ea580c"/>
+      <text x="65" y="-86" font-size="11" fill="#ea580c" font-weight="700">A</text>
+      <line x1="60" y1="0" x2="60" y2="-90" stroke="#ea580c" stroke-width="1.2" stroke-dasharray="5,3"/>
+      <line x1="0" y1="-90" x2="60" y2="-90" stroke="#ea580c" stroke-width="1.2" stroke-dasharray="5,3"/>
+      <text x="40" y="-96" font-size="10" fill="#ea580c">χ=2→</text>
+      <!-- 点B(-2,-1) -->
+      <circle cx="-60" cy="30" r="5" fill="#7c3aed"/>
+      <text x="-88" y="26" font-size="11" fill="#7c3aed" font-weight="700">B</text>
+      <line x1="-60" y1="0" x2="-60" y2="30" stroke="#7c3aed" stroke-width="1.2" stroke-dasharray="5,3"/>
+      <line x1="0" y1="30" x2="-60" y2="30" stroke="#7c3aed" stroke-width="1.2" stroke-dasharray="5,3"/>
+      <!-- 凡例（viewBox内に収める） -->
+      <rect x="-108" y="108" width="215" height="45" rx="6" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"/>
+      <circle cx="-98" cy="120" r="4" fill="#ea580c"/>
+      <text x="-90" y="124" font-size="10" fill="#ea580c" font-weight="700">A(2, 3)　右に2・上に3</text>
+      <circle cx="-98" cy="138" r="4" fill="#7c3aed"/>
+      <text x="-90" y="142" font-size="10" fill="#7c3aed" font-weight="700">B(-2,-1)　左に2・下に1</text>
+    </svg>
+  </div>
+
+  <div class="example">
+    <div class="ex-title">📌 読み方の例</div>
+    <b>点 A(2, 3)</b>　→　χ = 2（右に2）, y = 3（上に3）<br>
+    <b>点 B(－2, －1)</b>　→　χ = －2（左に2）, y = －1（下に1）<br>
+    <b>点 C(0, 2)</b>　→　χ = 0（y軸上）, y = 2（上に2）<br>
+    <b>点 D(3, 0)</b>　→　χ = 3（右に3）, y = 0（χ軸上）
+  </div>
+
+  <div class="warn-box">
+    <b>⚠ （χ, y）の順番をまちがえない！</b><br>
+    (2, 3) は「χ＝2、y＝3」。(3, 2) は別の点。<br>
+    <b>左がχ、右がy</b>　と覚えましょう。
+  </div>
+
+  <h3>② 4つの領域（象限）</h3>
+  <p>χ軸とy軸で平面は4つの領域に分かれます。</p>
+
+  <div class="coord-wrap">
+    <svg viewBox="-105 -105 210 220" width="230" height="230" xmlns="http://www.w3.org/2000/svg">
+      <rect x="2" y="-103" width="101" height="101" fill="#fff7ed" rx="2"/>
+      <rect x="-103" y="-103" width="101" height="101" fill="#eff6ff" rx="2"/>
+      <rect x="-103" y="2" width="101" height="101" fill="#f0fdf4" rx="2"/>
+      <rect x="2" y="2" width="101" height="101" fill="#fef2f2" rx="2"/>
+      <line x1="-103" y1="0" x2="103" y2="0" stroke="#94a3b8" stroke-width="1.5"/>
+      <line x1="0" y1="-103" x2="0" y2="103" stroke="#94a3b8" stroke-width="1.5"/>
+      <text x="105" y="4" font-size="10" fill="#94a3b8">χ</text>
+      <text x="4" y="-98" font-size="10" fill="#94a3b8">y</text>
+      <text x="-8" y="14" font-size="10" fill="#64748b">O</text>
+      <text x="30" y="-60" font-size="11" fill="#c2410c" font-weight="700" text-anchor="middle">第1象限</text>
+      <text x="30" y="-46" font-size="10" fill="#c2410c" text-anchor="middle">χ＋, y＋</text>
+      <text x="-52" y="-60" font-size="11" fill="#1d4ed8" font-weight="700" text-anchor="middle">第2象限</text>
+      <text x="-52" y="-46" font-size="10" fill="#1d4ed8" text-anchor="middle">χ－, y＋</text>
+      <text x="-52" y="56" font-size="11" fill="#15803d" font-weight="700" text-anchor="middle">第3象限</text>
+      <text x="-52" y="70" font-size="10" fill="#15803d" text-anchor="middle">χ－, y－</text>
+      <text x="30" y="56" font-size="11" fill="#dc2626" font-weight="700" text-anchor="middle">第4象限</text>
+      <text x="30" y="70" font-size="10" fill="#dc2626" text-anchor="middle">χ＋, y－</text>
+      <!-- 目盛り -->
+      <text x="46" y="13" font-size="9" fill="#94a3b8">1</text>
+      <text x="-22" y="13" font-size="9" fill="#94a3b8">-1</text>
+      <text x="4" y="-46" font-size="9" fill="#94a3b8">1</text>
+      <text x="4" y="62" font-size="9" fill="#94a3b8">-1</text>
+    </svg>
+  </div>
+</div>
+
+<!-- セクション2：二次関数とは -->
+<div class="section">
+  <h2>2．二次関数とは　── 放物線を描こう</h2>
+
+  <p>二次関数は <span class="kv">y = aχ²</span> のような形の関数です。<br>
+  グラフにすると「<b>放物線（ほうぶつせん）</b>」と呼ばれる左右対称の曲線になります。</p>
+
+  <div class="tip">
+    <b>💡 「放物線」ってどんな形？</b><br>
+    ボールを投げたときの軌跡や、噴水の水の軌跡が放物線です。<br>
+    左右対称の「U字形」または「逆U字形」になります。
+  </div>
+
+  <h3>y＝χ²のグラフを表で確認しよう</h3>
+  <p>χ に値を代入して y を求めます。</p>
+
+  <table class="data-tbl">
+    <tr>
+      <th>χ</th><th>－3</th><th>－2</th><th>－1</th><th>0</th><th>1</th><th>2</th><th>3</th>
+    </tr>
+    <tr>
+      <td>χ²</td><td>9</td><td>4</td><td>1</td><td>0</td><td>1</td><td>4</td><td>9</td>
+    </tr>
+  </table>
+
+  <div class="tip">
+    <b>💡 なぜ左右対称？</b><br>
+    （－2）² ＝ 4 と 2² ＝ 4 が同じ！<br>
+    <b>マイナスを2乗するとプラスになる</b>ので、χ＝2 と χ＝－2 で同じ y の値になります。<br>
+    → だから放物線は必ず<b>左右対称</b>になります。
+  </div>
+
+  <div class="coord-wrap">
+    <!-- viewBox: x=-110〜110, y=-80〜220（原点y=200、1目盛り=30px、y=9はSVGy=-70で収まる） -->
+    <svg viewBox="-110 -80 220 310" width="270" height="340" xmlns="http://www.w3.org/2000/svg">
+      <!-- グリッド縦線 -->
+      <line x1="-90" y1="-75" x2="-90" y2="210" stroke="#e2e8f0" stroke-width="0.8"/>
+      <line x1="-60" y1="-75" x2="-60" y2="210" stroke="#e2e8f0" stroke-width="0.8"/>
+      <line x1="-30" y1="-75" x2="-30" y2="210" stroke="#e2e8f0" stroke-width="0.8"/>
+      <line x1="30"  y1="-75" x2="30"  y2="210" stroke="#e2e8f0" stroke-width="0.8"/>
+      <line x1="60"  y1="-75" x2="60"  y2="210" stroke="#e2e8f0" stroke-width="0.8"/>
+      <line x1="90"  y1="-75" x2="90"  y2="210" stroke="#e2e8f0" stroke-width="0.8"/>
+      <!-- グリッド横線（y=0〜9対応、原点y=200、1目盛り=30） -->
+      <line x1="-100" y1="200" x2="100" y2="200" stroke="#e2e8f0" stroke-width="0.8"/>
+      <line x1="-100" y1="170" x2="100" y2="170" stroke="#e2e8f0" stroke-width="0.8"/>
+      <line x1="-100" y1="140" x2="100" y2="140" stroke="#e2e8f0" stroke-width="0.8"/>
+      <line x1="-100" y1="110" x2="100" y2="110" stroke="#e2e8f0" stroke-width="0.8"/>
+      <line x1="-100" y1="80"  x2="100" y2="80"  stroke="#e2e8f0" stroke-width="0.8"/>
+      <line x1="-100" y1="50"  x2="100" y2="50"  stroke="#e2e8f0" stroke-width="0.8"/>
+      <line x1="-100" y1="20"  x2="100" y2="20"  stroke="#e2e8f0" stroke-width="0.8"/>
+      <line x1="-100" y1="-10" x2="100" y2="-10" stroke="#e2e8f0" stroke-width="0.8"/>
+      <line x1="-100" y1="-40" x2="100" y2="-40" stroke="#e2e8f0" stroke-width="0.8"/>
+      <line x1="-100" y1="-70" x2="100" y2="-70" stroke="#e2e8f0" stroke-width="0.8"/>
+      <!-- χ軸・y軸 -->
+      <line x1="-105" y1="200" x2="105" y2="200" stroke="#94a3b8" stroke-width="1.5"/>
+      <line x1="0" y1="-75" x2="0" y2="210" stroke="#94a3b8" stroke-width="1.5"/>
+      <polygon points="105,200 97,196 97,204" fill="#94a3b8"/>
+      <polygon points="0,-75 -4,-67 4,-67" fill="#94a3b8"/>
+      <text x="96" y="214" font-size="10" fill="#94a3b8">χ</text>
+      <text x="4" y="-62" font-size="10" fill="#94a3b8">y</text>
+      <text x="-12" y="214" font-size="9" fill="#94a3b8">O</text>
+      <!-- χ軸目盛り -->
+      <text x="26"  y="214" font-size="9" fill="#94a3b8">1</text>
+      <text x="56"  y="214" font-size="9" fill="#94a3b8">2</text>
+      <text x="86"  y="214" font-size="9" fill="#94a3b8">3</text>
+      <text x="-38" y="214" font-size="9" fill="#94a3b8">-1</text>
+      <text x="-68" y="214" font-size="9" fill="#94a3b8">-2</text>
+      <text x="-98" y="214" font-size="9" fill="#94a3b8">-3</text>
+      <!-- y軸目盛り（SVGy = 200 - y*30） -->
+      <text x="4" y="174" font-size="9" fill="#94a3b8">1</text>
+      <text x="4" y="144" font-size="9" fill="#94a3b8">2</text>
+      <text x="4" y="114" font-size="9" fill="#94a3b8">3</text>
+      <text x="4" y="84"  font-size="9" fill="#94a3b8">4</text>
+      <text x="4" y="54"  font-size="9" fill="#94a3b8">5</text>
+      <text x="4" y="-66" font-size="9" fill="#94a3b8">9</text>
+      <!-- 放物線（0.25刻みで滑らか、SVGy=200-x²*30） -->
+      <polyline points="
+        -90.0,-70.0 -82.5,-26.9 -75.0,12.5 -67.5,48.1
+        -60.0,80.0  -52.5,108.1 -45.0,132.5 -37.5,153.1
+        -30.0,170.0 -22.5,183.1 -15.0,192.5 -7.5,198.1
+        0.0,200.0
+        7.5,198.1  15.0,192.5  22.5,183.1  30.0,170.0
+        37.5,153.1 45.0,132.5  52.5,108.1  60.0,80.0
+        67.5,48.1  75.0,12.5   82.5,-26.9  90.0,-70.0"
+        fill="none" stroke="#ea580c" stroke-width="2.8" stroke-linejoin="round"/>
+      <!-- 代表点 χ=0,±1,±2,±3 -->
+      <circle cx="-90" cy="-70" r="4.5" fill="#ea580c" stroke="#fff" stroke-width="1"/>
+      <circle cx="-60" cy="80"  r="4.5" fill="#ea580c" stroke="#fff" stroke-width="1"/>
+      <circle cx="-30" cy="170" r="4.5" fill="#ea580c" stroke="#fff" stroke-width="1"/>
+      <circle cx="0"   cy="200" r="5.5" fill="#ea580c" stroke="#fff" stroke-width="1.5"/>
+      <circle cx="30"  cy="170" r="4.5" fill="#ea580c" stroke="#fff" stroke-width="1"/>
+      <circle cx="60"  cy="80"  r="4.5" fill="#ea580c" stroke="#fff" stroke-width="1"/>
+      <circle cx="90"  cy="-70" r="4.5" fill="#ea580c" stroke="#fff" stroke-width="1"/>
+      <!-- 頂点ラベル -->
+      <text x="6" y="197" font-size="10" fill="#c2410c" font-weight="700">頂点(0,0)</text>
+      <!-- 対称軸 -->
+      <line x1="0" y1="-72" x2="0" y2="195" stroke="#0284c7" stroke-width="1.2" stroke-dasharray="4,3"/>
+      <text x="3" y="-52" font-size="9" fill="#0284c7">軸（χ＝0）</text>
+      <!-- 式ラベル -->
+      <text x="62" y="65" font-size="11" fill="#ea580c" font-weight="700">y＝χ²</text>
+    </svg>
+  </div>
+
+  <div class="point-box">
+    <h4>✅ y＝χ²のグラフの特徴</h4>
+    ・<b>頂点は原点 (0, 0)</b>（グラフの一番下の点）<br>
+    ・<b>軸（対称軸）は y軸</b>（χ＝0 の直線）<br>
+    ・<b>下に凸（U字型）</b>：下がとがっている<br>
+    ・左右対称のなめらかな曲線
+  </div>
+</div>
+
+<!-- セクション3：y=ax²の a の意味 -->
+<div class="section">
+  <h2>3．a の役割　── 向きとひらき具合</h2>
+
+  <h3>① a の符号 → グラフの向き</h3>
+
+  <div class="formula" style="font-size:.95em">
+    a <b style="color:var(--primary)">＞ 0</b>（プラス）→ <b>下に凸（U字型）</b>　　
+    a <b style="color:#0284c7">＜ 0</b>（マイナス）→ <b>上に凸（逆U字型・山型）</b>
+  </div>
+
+  <div class="graph-row">
+    <!-- a>0 下に凸: 原点O=SVG(0,60), χ軸y=60, y軸x=0 -->
+    <div class="graph-item">
+      <svg viewBox="-75 -80 150 165" width="150" height="165" xmlns="http://www.w3.org/2000/svg">
+        <line x1="-70" y1="60" x2="70" y2="60" stroke="#94a3b8" stroke-width="1.2"/>
+        <line x1="0" y1="-75" x2="0" y2="75" stroke="#94a3b8" stroke-width="1.2"/>
+        <polygon points="70,60 62,56 62,64" fill="#94a3b8"/>
+        <polygon points="0,-75 -4,-67 4,-67" fill="#94a3b8"/>
+        <text x="62" y="58" font-size="9" fill="#94a3b8">χ</text>
+        <text x="3" y="-63" font-size="9" fill="#94a3b8">y</text>
+        <text x="-10" y="74" font-size="8" fill="#94a3b8">O</text>
+        <!-- SVGy=60-x²*15, 頂点(0,60)=原点 -->
+        <polyline points="-44.0,-12.6 -40.0,0.0 -36.0,11.4 -32.0,21.6 -28.0,30.6 -24.0,38.4 -20.0,45.0 -16.0,50.4 -12.0,54.6 -8.0,57.6 -4.0,59.4 0.0,60.0 4.0,59.4 8.0,57.6 12.0,54.6 16.0,50.4 20.0,45.0 24.0,38.4 28.0,30.6 32.0,21.6 36.0,11.4 40.0,0.0 44.0,-12.6"
+          fill="none" stroke="#ea580c" stroke-width="2.5" stroke-linejoin="round"/>
+        <circle cx="0" cy="60" r="4" fill="#ea580c"/>
+        <text x="4" y="73" font-size="9" fill="#ea580c" font-weight="700">頂点</text>
+      </svg>
+      <div class="g-label" style="color:var(--primary)">a ＞ 0　下に凸</div>
+      <div class="g-sub">y＝χ², y＝2χ²</div>
+    </div>
+    <!-- a<0 上に凸: 原点O=SVG(0,60), χ軸y=60, y軸x=0 -->
+    <div class="graph-item">
+      <svg viewBox="-75 -80 150 165" width="150" height="165" xmlns="http://www.w3.org/2000/svg">
+        <line x1="-70" y1="60" x2="70" y2="60" stroke="#94a3b8" stroke-width="1.2"/>
+        <line x1="0" y1="-75" x2="0" y2="75" stroke="#94a3b8" stroke-width="1.2"/>
+        <polygon points="70,60 62,56 62,64" fill="#94a3b8"/>
+        <polygon points="0,-75 -4,-67 4,-67" fill="#94a3b8"/>
+        <text x="62" y="58" font-size="9" fill="#94a3b8">χ</text>
+        <text x="3" y="-63" font-size="9" fill="#94a3b8">y</text>
+        <text x="-10" y="74" font-size="8" fill="#94a3b8">O</text>
+        <!-- SVGy=60+x²*15, 頂点(0,60)=原点 -->
+        <polyline points="-44.0,132.6 -40.0,120.0 -36.0,108.6 -32.0,98.4 -28.0,89.4 -24.0,81.6 -20.0,75.0 -16.0,69.6 -12.0,65.4 -8.0,62.4 -4.0,60.6 0.0,60.0 4.0,60.6 8.0,62.4 12.0,65.4 16.0,69.6 20.0,75.0 24.0,81.6 28.0,89.4 32.0,98.4 36.0,108.6 40.0,120.0 44.0,132.6"
+          fill="none" stroke="#0284c7" stroke-width="2.5" stroke-linejoin="round"/>
+        <circle cx="0" cy="60" r="4" fill="#0284c7"/>
+        <text x="4" y="58" font-size="9" fill="#0284c7" font-weight="700">頂点</text>
+      </svg>
+      <div class="g-label" style="color:var(--blue)">a ＜ 0　上に凸</div>
+      <div class="g-sub">y＝－χ², y＝－2χ²</div>
+    </div>
+  </div>
+
+  <div class="tip">
+    <b>💡 日本語で覚えよう</b><br>
+    「<b>下に凸</b>」＝ 下がとがっている ＝ U字型（コップの形）<br>
+    「<b>上に凸</b>」＝ 上がとがっている ＝ 山型（富士山の形）
+  </div>
+
+  <h3>② a の大きさ → グラフのひらき具合</h3>
+  <p>a の<b>数字が大きい</b>ほど<b>細く（急に）</b>なり、<b>小さい</b>ほど<b>広く（なだらかに）</b>なります。</p>
+
+  <div class="coord-wrap">
+    <!-- χ軸y=135, 原点x=0, 1目盛り=20px。全曲線が (0,135) を頂点として通る -->
+    <svg viewBox="-100 -125 270 280" width="300" height="310" xmlns="http://www.w3.org/2000/svg">
+      <!-- χ軸・y軸 -->
+      <line x1="-95" y1="135" x2="165" y2="135" stroke="#94a3b8" stroke-width="1.2"/>
+      <line x1="0" y1="-120" x2="0" y2="148" stroke="#94a3b8" stroke-width="1.2"/>
+      <polygon points="165,135 157,131 157,139" fill="#94a3b8"/>
+      <polygon points="0,-120 -4,-112 4,-112" fill="#94a3b8"/>
+      <text x="158" y="148" font-size="9" fill="#94a3b8">χ</text>
+      <text x="3" y="-108" font-size="10" fill="#94a3b8">y</text>
+      <text x="-12" y="148" font-size="9" fill="#94a3b8">O</text>
+      <!-- y=2χ²（細い・赤）x=±2.5まで -->
+      <polyline points="-50.0,-115.0 -46.0,-76.6 -42.0,-41.4 -38.0,-9.4 -34.0,19.4 -30.0,45.0 -26.0,67.4 -22.0,86.6 -18.0,102.6 -14.0,115.4 -10.0,125.0 -6.0,131.4 -2.0,134.6 0.0,135.0 2.0,134.6 6.0,131.4 10.0,125.0 14.0,115.4 18.0,102.6 22.0,86.6 26.0,67.4 30.0,45.0 34.0,19.4 38.0,-9.4 42.0,-41.4 46.0,-76.6 50.0,-115.0"
+        fill="none" stroke="#dc2626" stroke-width="2.2" stroke-linejoin="round"/>
+      <text x="52" y="-108" font-size="10" fill="#dc2626" font-weight="700">y＝2χ²（細い）</text>
+      <!-- y=χ²（普通・オレンジ）x=±3まで -->
+      <polyline points="-60.0,-45.0 -56.0,-21.8 -52.0,-0.2 -48.0,19.8 -44.0,38.2 -40.0,55.0 -36.0,70.2 -32.0,83.8 -28.0,95.8 -24.0,106.2 -20.0,115.0 -16.0,122.2 -12.0,127.8 -8.0,131.8 -4.0,134.2 0.0,135.0 4.0,134.2 8.0,131.8 12.0,127.8 16.0,122.2 20.0,115.0 24.0,106.2 28.0,95.8 32.0,83.8 36.0,70.2 40.0,55.0 44.0,38.2 48.0,19.8 52.0,-0.2 56.0,-21.8 60.0,-45.0"
+        fill="none" stroke="#ea580c" stroke-width="2.2" stroke-linejoin="round"/>
+      <text x="62" y="-38" font-size="10" fill="#ea580c" font-weight="700">y＝χ²</text>
+      <!-- y=½χ²（広い・青）x=±3まで -->
+      <polyline points="-60.0,45.0 -56.0,56.6 -52.0,67.4 -48.0,77.4 -44.0,86.6 -40.0,95.0 -36.0,102.6 -32.0,109.4 -28.0,115.4 -24.0,120.6 -20.0,125.0 -16.0,128.6 -12.0,131.4 -8.0,133.4 -4.0,134.6 0.0,135.0 4.0,134.6 8.0,133.4 12.0,131.4 16.0,128.6 20.0,125.0 24.0,120.6 28.0,115.4 32.0,109.4 36.0,102.6 40.0,95.0 44.0,86.6 48.0,77.4 52.0,67.4 56.0,56.6 60.0,45.0"
+        fill="none" stroke="#0284c7" stroke-width="2.2" stroke-linejoin="round"/>
+      <text x="62" y="52" font-size="10" fill="#0284c7" font-weight="700">y＝½χ²（広い）</text>
+      <!-- 頂点マーク -->
+      <circle cx="0" cy="135" r="3.5" fill="#64748b"/>
+    </svg>
+  </div>
+
+  <table class="summary">
+    <tr><th>a の値</th><th>グラフの形</th></tr>
+    <tr><td>a が大きい（2, 3…）</td><td><b>細い・急になる</b></td></tr>
+    <tr><td>a ＝ 1</td><td>基本の形</td></tr>
+    <tr><td>a が小さい（½, ⅓…）</td><td><b>広い・なだらかになる</b></td></tr>
+  </table>
+
+  <div class="tip">
+    <b>💡 簡単な覚え方</b><br>
+    「<b>a が大きい → グラフは細い（せまい）</b>」<br>
+    「<b>a が小さい → グラフは広い</b>」<br>
+    大きいと細い、小さいと広い、と覚えよう。
+  </div>
+
+  <h3>③ y＝aχ²の頂点と軸</h3>
+  <div class="example">
+    <div class="ex-title">📌 用語の意味</div>
+    <b>頂点（ちょうてん）</b>：放物線の一番とがった点<br>
+    → y＝aχ²の場合、頂点は <b>(0, 0)（原点）</b><br><br>
+    <b>軸（じく）</b>：放物線の折り目の線（対称軸）<br>
+    → y＝aχ²の場合、軸は <b>χ＝0（y軸）</b>
+  </div>
+</div>
+
+<!-- まとめ -->
+<div class="section" style="background:var(--primary-l);border-color:#fed7aa">
+  <h2>📋 この単元のまとめ</h2>
+  <table class="summary">
+    <tr><th>覚えること</th><th>内容</th></tr>
+    <tr><td><b>座標の表し方</b></td><td>（χ, y）← 左がχ・右がy</td></tr>
+    <tr><td><b>原点</b></td><td>(0, 0)　χ軸とy軸の交点</td></tr>
+    <tr><td><b>二次関数の形</b></td><td>y＝aχ²（χ²の係数がa）</td></tr>
+    <tr><td><b>グラフの向き</b></td><td>a＞0 → 下に凸（U字）、a＜0 → 上に凸（山型）</td></tr>
+    <tr><td><b>ひらき具合</b></td><td>a大きい → 細い、a小さい → 広い</td></tr>
+    <tr><td><b>y＝aχ²の頂点・軸</b></td><td>頂点(0, 0)、軸はχ＝0（y軸）</td></tr>
+  </table>
+  <div class="tip" style="margin-top:10px">
+    次の単元では、頂点が原点からズレた場合（平行移動）を学びます。
+  </div>
+</div>
+
+<div class="nav">
+  <a href="../gamba_kounin.html" class="btn btn-back">← 単元一覧へ</a>
+  <a href="./drill.html" class="btn btn-next">演習へ進む →</a>
+</div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>QU01 演習　頂点座標と平行移動</title>
+<style>
+:root{
+  --primary:#ea580c;--primary-d:#c2410c;--primary-l:#fff7ed;
+  --hint:#f59e0b;--hint-bg:#fffbeb;--warn:#dc2626;
+  --bg:#f8fafc;--card:#fff;--text:#1e293b;--muted:#64748b;--border:#e2e8f0;
+  --green:#059669;--green-l:#f0fdf4;--blue:#0284c7;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:'BIZ UDPGothic','BIZ UDP Gothic',-apple-system,"Hiragino Sans","Yu Gothic",sans-serif;line-height:1.8;font-size:15px;overflow-x:hidden}
+header{position:sticky;top:0;background:var(--primary);color:#fff;padding:12px 16px;box-shadow:0 2px 8px rgba(0,0,0,.15);z-index:10}
+header h1{margin:0;font-size:1.05em;font-weight:700}
+header .sub{font-size:.78em;opacity:.88;margin-top:2px}
+.steps{display:flex;background:#fff;border-bottom:1px solid var(--border)}
+.step{flex:1;text-align:center;padding:8px 4px;font-size:.78em;font-weight:700;color:var(--muted);border-bottom:3px solid var(--border)}
+.step.active{color:var(--primary);border-color:var(--primary)}
+.wrap{max-width:680px;margin:0 auto;padding:16px 16px 40px}
+.set-selector{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap}
+.set-btn{padding:8px 18px;border:2px solid var(--border);border-radius:8px;background:#fff;font-weight:700;cursor:pointer;font-size:.9em;color:var(--muted)}
+.set-btn.active{border-color:var(--primary);color:var(--primary);background:var(--primary-l)}
+.drill-card{background:var(--card);border-radius:12px;padding:18px 20px;margin-bottom:14px;box-shadow:0 1px 3px rgba(0,0,0,.06);border:1px solid var(--border)}
+.q-num{font-size:.82em;font-weight:700;color:var(--muted);margin-bottom:6px}
+.q-text{font-size:1.02em;font-weight:700;color:var(--text);margin-bottom:12px;line-height:1.6}
+.choices{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.choice{padding:10px 12px;border:2px solid var(--border);border-radius:8px;background:#fff;cursor:pointer;font-size:.92em;text-align:center;transition:.15s;font-weight:500}
+.choice:hover{border-color:var(--primary);background:var(--primary-l)}
+.choice.selected{border-color:var(--primary);background:var(--primary-l);color:var(--primary-d)}
+.choice.correct{border-color:var(--green);background:var(--green-l);color:#065f46;font-weight:700}
+.choice.wrong{border-color:var(--warn);background:#fef2f2;color:var(--warn);font-weight:700}
+.feedback{display:none;margin-top:10px;padding:10px 12px;border-radius:8px;font-size:.9em;background:#f0fdf4;border-left:4px solid var(--green);color:#065f46;line-height:1.7}
+.feedback.show{display:block}
+.feedback.wrong-fb{background:#fef2f2;border-left-color:var(--warn);color:#991b1b}
+.submit-row{text-align:center;margin:20px 0 8px}
+.btn-submit{background:var(--primary);color:#fff;border:none;padding:13px 40px;border-radius:10px;font-size:1em;font-weight:700;cursor:pointer}
+.btn-submit:disabled{background:#94a3b8;cursor:default}
+.result-box{display:none;margin:16px 0;padding:18px 20px;border-radius:12px;text-align:center;border:2px solid var(--border)}
+.result-box.show{display:block}
+.result-box.passed{border-color:var(--green);background:var(--green-l)}
+.result-msg{font-size:1.2em;font-weight:700;margin-bottom:6px}
+.result-score{font-size:2em;font-weight:700;color:var(--primary);margin:4px 0}
+.nav{display:flex;gap:10px;margin-top:20px}
+.btn{display:block;padding:12px 16px;border-radius:10px;text-decoration:none;text-align:center;font-weight:700;font-size:.95em;flex:1}
+.btn-back{background:#f1f5f9;color:var(--muted)}
+.btn-next{background:var(--primary);color:#fff}
+@keyframes confetti-fall{0%{transform:translateY(-20px) rotate(0deg);opacity:1}100%{transform:translateY(100vh) rotate(720deg);opacity:0}}
+.confetti-piece{position:fixed;width:10px;height:10px;border-radius:2px;animation:confetti-fall 2.5s ease-in forwards;pointer-events:none;z-index:9999}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>QU01　演習　頂点座標と平行移動</h1>
+  <div class="sub">頂点の座標と移動の式を読み取ろう</div>
+</header>
+
+<div class="steps">
+  <div class="step"><a href="./intro.html" style="color:inherit;text-decoration:none">① 解説</a></div>
+  <div class="step active">② 演習</div>
+  <div class="step">③ 確認</div>
+</div>
+
+<div class="wrap">
+
+<div class="set-selector">
+  <button class="set-btn active" onclick="loadSet(0)">セットA</button>
+  <button class="set-btn" onclick="loadSet(1)">セットB</button>
+  <button class="set-btn" onclick="loadSet(2)">セットC</button>
+  <button class="set-btn" onclick="loadSet(3)">セットD</button>
+</div>
+
+<div id="quiz-area"></div>
+
+<div class="submit-row">
+  <button class="btn-submit" id="btn-submit" onclick="grade()">採点する</button>
+</div>
+
+<div class="result-box" id="result">
+  <div class="result-msg" id="result-msg"></div>
+  <div class="result-score" id="result-score"></div>
+  <div id="result-detail" style="font-size:.9em;color:var(--muted)"></div>
+</div>
+
+<div class="nav">
+  <a href="./intro.html" class="btn btn-back">← 解説へ戻る</a>
+  <a href="./check.html" class="btn btn-next">確認テストへ →</a>
+</div>
+
+</div>
+
+<script>
+const SETS = [
+  // セットA：頂点の座標を読み取る（基本）
+  [
+    {
+      q: 'y＝(χ－3)²＋2 の頂点の座標は？',
+      choices: ['(3, 2)', '(－3, 2)', '(3, －2)', '(－3, －2)'],
+      ans: 0,
+      exp: 'y＝(χ－<b>3</b>)²＋<b>2</b> → p＝3, q＝2 → 頂点は <b>(3, 2)</b>'
+    },
+    {
+      q: 'y＝(χ＋1)²－4 の頂点の座標は？',
+      choices: ['(1, 4)', '(1, －4)', '(－1, 4)', '(－1, －4)'],
+      ans: 3,
+      exp: 'y＝(χ＋<b>1</b>)²＋(<b>－4</b>) → p＝－1（「＋1」なのでマイナス！）, q＝－4 → 頂点は <b>(－1, －4)</b>'
+    },
+    {
+      q: 'y＝2(χ－5)² の頂点の座標は？',
+      choices: ['(0, 5)', '(5, 0)', '(－5, 0)', '(0, 0)'],
+      ans: 1,
+      exp: 'y＝2(χ－<b>5</b>)²＋<b>0</b> → q＝0（数字なし）→ 頂点は <b>(5, 0)</b>（χ軸上）'
+    },
+    {
+      q: 'y＝－3χ²＋7 の頂点の座標は？',
+      choices: ['(3, 7)', '(0, 7)', '(7, 0)', '(0, －7)'],
+      ans: 1,
+      exp: 'y＝－3(χ－<b>0</b>)²＋<b>7</b> → p＝0, q＝7 → 頂点は <b>(0, 7)</b>（y軸上）'
+    },
+  ],
+  // セットB：頂点の座標を読み取る（応用）
+  [
+    {
+      q: 'y＝－2(χ＋3)²＋1 の頂点の座標は？',
+      choices: ['(3, 1)', '(3, －1)', '(－3, 1)', '(－3, －1)'],
+      ans: 2,
+      exp: 'y＝－2(χ＋<b>3</b>)²＋<b>1</b> → p＝－3（「＋3」なのでマイナス！）, q＝1 → 頂点は <b>(－3, 1)</b>'
+    },
+    {
+      q: 'y＝½(χ－2)²－3 の頂点の座標は？',
+      choices: ['(－2, 3)', '(2, 3)', '(2, －3)', '(－2, －3)'],
+      ans: 2,
+      exp: 'y＝½(χ－<b>2</b>)²＋(<b>－3</b>) → p＝2, q＝－3 → 頂点は <b>(2, －3)</b>'
+    },
+    {
+      q: 'y＝(χ＋4)² の頂点の座標は？',
+      choices: ['(4, 0)', '(－4, 0)', '(0, 4)', '(0, －4)'],
+      ans: 1,
+      exp: 'y＝(χ＋<b>4</b>)²＋<b>0</b> → p＝－4（「＋4」なのでマイナス！）, q＝0 → 頂点は <b>(－4, 0)</b>'
+    },
+    {
+      q: 'y＝－(χ－1)²＋5 の頂点の座標は？ また、上に凸・下に凸どちら？',
+      choices: ['(1, 5)・下に凸', '(1, 5)・上に凸', '(－1, 5)・上に凸', '(－1, 5)・下に凸'],
+      ans: 1,
+      exp: 'p＝1, q＝5 → 頂点 <b>(1, 5)</b>。係数 a＝－1＜0 なので <b>上に凸</b>（山型）'
+    },
+  ],
+  // セットC：平行移動の式を書く
+  [
+    {
+      q: 'y＝2χ² を χ軸方向に 3 だけ平行移動した式は？',
+      choices: ['y＝2(χ＋3)²', 'y＝2(χ－3)²', 'y＝2χ²＋3', 'y＝2χ²－3'],
+      ans: 1,
+      exp: 'χ軸方向に <b>＋3（右に3）</b>移動 → (χ－3) → <b>y＝2(χ－3)²</b>'
+    },
+    {
+      q: 'y＝χ² を y軸方向に －4 だけ平行移動した式は？',
+      choices: ['y＝(χ－4)²', 'y＝(χ＋4)²', 'y＝χ²＋4', 'y＝χ²－4'],
+      ans: 3,
+      exp: 'y軸方向に <b>－4（下に4）</b>移動 → ＋(－4) → <b>y＝χ²－4</b>'
+    },
+    {
+      q: 'y＝－χ² を χ軸方向に－2, y軸方向に 3 だけ平行移動した式は？',
+      choices: ['y＝－(χ＋2)²＋3', 'y＝－(χ－2)²＋3', 'y＝－(χ＋2)²－3', 'y＝－(χ－2)²－3'],
+      ans: 0,
+      exp: 'χ方向に <b>－2（左に2）</b> → (χ＋2)、y方向に <b>＋3</b> → ＋3 → <b>y＝－(χ＋2)²＋3</b>'
+    },
+    {
+      q: 'y＝3χ² を χ軸方向に 1, y軸方向に－2 だけ平行移動した式は？',
+      choices: ['y＝3(χ＋1)²＋2', 'y＝3(χ＋1)²－2', 'y＝3(χ－1)²＋2', 'y＝3(χ－1)²－2'],
+      ans: 3,
+      exp: 'χ方向に <b>＋1（右に1）</b> → (χ－1)、y方向に <b>－2</b> → ＋(－2) → <b>y＝3(χ－1)²－2</b>'
+    },
+  ],
+  // セットD：総合（頂点＋グラフの特徴）
+  [
+    {
+      q: 'y＝2(χ－1)²＋3 のグラフの特徴として正しいものは？',
+      choices: [
+        '下に凸・頂点(1, 3)',
+        '上に凸・頂点(1, 3)',
+        '下に凸・頂点(－1, 3)',
+        '上に凸・頂点(－1, 3)'
+      ],
+      ans: 0,
+      exp: 'a＝2＞0 → <b>下に凸</b>、p＝1, q＝3 → 頂点 <b>(1, 3)</b>'
+    },
+    {
+      q: '頂点が (－2, 5) で、y＝χ² の形のグラフの式は？',
+      choices: ['y＝(χ－2)²＋5', 'y＝(χ＋2)²＋5', 'y＝(χ＋2)²－5', 'y＝(χ－2)²－5'],
+      ans: 1,
+      exp: '頂点が (－2, 5) → p＝－2, q＝5 → y＝(χ－(－2))²＋5 ＝ <b>y＝(χ＋2)²＋5</b>'
+    },
+    {
+      q: 'y＝(χ－3)²＋2 は y＝χ² をどのように平行移動したもの？',
+      choices: [
+        'χ軸方向に－3, y軸方向に 2',
+        'χ軸方向に 3, y軸方向に 2',
+        'χ軸方向に 3, y軸方向に－2',
+        'χ軸方向に－3, y軸方向に－2'
+      ],
+      ans: 1,
+      exp: 'p＝3（右に3）, q＝2（上に2）→ <b>χ軸方向に 3、y軸方向に 2</b> だけ平行移動'
+    },
+    {
+      q: 'y＝－(χ＋1)²＋2 の頂点はどの象限にある？',
+      choices: ['第1象限（χ＞0, y＞0）', '第2象限（χ＜0, y＞0）', '第3象限（χ＜0, y＜0）', '第4象限（χ＞0, y＜0）'],
+      ans: 1,
+      exp: '頂点は (－1, 2) → χ＜0, y＞0 → <b>第2象限</b>'
+    },
+  ],
+];
+
+let currentSet = 0;
+let answered = {};
+
+function loadSet(idx) {
+  currentSet = idx;
+  answered = {};
+  document.querySelectorAll('.set-btn').forEach((b, i) => b.classList.toggle('active', i === idx));
+  document.getElementById('btn-submit').disabled = false;
+  document.getElementById('btn-submit').textContent = '採点する';
+  document.getElementById('result').className = 'result-box';
+
+  const area = document.getElementById('quiz-area');
+  area.innerHTML = '';
+  SETS[idx].forEach((q, i) => {
+    const card = document.createElement('div');
+    card.className = 'drill-card';
+    card.dataset.q = i;
+    card.innerHTML = `
+      <div class="q-num">問 ${i + 1}</div>
+      <div class="q-text">${q.q}</div>
+      <div class="choices">
+        ${q.choices.map((c, j) => `<button class="choice" data-i="${j}" onclick="select(this, ${i})">${c}</button>`).join('')}
+      </div>
+      <div class="feedback" id="fb-${i}"></div>
+    `;
+    area.appendChild(card);
+  });
+}
+
+function select(btn, qIdx) {
+  const card = btn.closest('.drill-card');
+  if (card.dataset.chosen) return;
+  card.querySelectorAll('.choice').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  card.dataset.chosen = btn.dataset.i;
+}
+
+function grade() {
+  const qs = SETS[currentSet];
+  let correct = 0;
+  qs.forEach((q, i) => {
+    const card = document.querySelector(`.drill-card[data-q="${i}"]`);
+    const chosen = card.dataset.chosen;
+    if (!chosen) { alert(`問${i + 1}がまだ選択されていません`); return; }
+    const isCorrect = parseInt(chosen) === q.ans;
+    if (isCorrect) correct++;
+    card.querySelectorAll('.choice').forEach(b => {
+      b.disabled = true;
+      if (parseInt(b.dataset.i) === q.ans) b.classList.add('correct');
+      if (parseInt(b.dataset.i) === parseInt(chosen) && !isCorrect) b.classList.add('wrong');
+    });
+    const fb = document.getElementById(`fb-${i}`);
+    fb.innerHTML = q.exp;
+    fb.className = 'feedback show' + (isCorrect ? '' : ' wrong-fb');
+  });
+  const result = document.getElementById('result');
+  const msg = document.getElementById('result-msg');
+  const score = document.getElementById('result-score');
+  const detail = document.getElementById('result-detail');
+  if (correct === qs.length) {
+    result.className = 'result-box show passed';
+    msg.textContent = '🎉 全問正解！';
+    score.textContent = `${correct} / ${qs.length}`;
+    detail.textContent = '次は確認テストに挑戦しましょう！';
+    confetti();
+  } else {
+    result.className = 'result-box show';
+    msg.textContent = 'もう一度確認しましょう';
+    score.textContent = `${correct} / ${qs.length}`;
+    detail.textContent = '解説を読んで、別のセットにも挑戦してみよう。';
+  }
+  document.getElementById('btn-submit').disabled = true;
+  document.getElementById('btn-submit').textContent = '採点済み';
+}
+
+function confetti() {
+  const colors = ['#ea580c','#f59e0b','#16a34a','#0284c7','#dc2626'];
+  for (let i = 0; i < 50; i++) {
+    const el = document.createElement('div');
+    el.className = 'confetti-piece';
+    el.style.cssText = `left:${Math.random()*100}vw;background:${colors[i%5]};animation-delay:${Math.random()*1.2}s;animation-duration:${2+Math.random()}s;`;
+    document.body.appendChild(el);
+    setTimeout(() => el.remove(), 3500);
+  }
+}
+
+loadSet(0);
+</script>
+</body>
+</html>

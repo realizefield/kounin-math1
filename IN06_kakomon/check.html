@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>IN06 不等式の文章題②｜確認テスト</title>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" 
+        onload="window._katexReady=true; if(window._onKatexReady) window._onKatexReady();"></script>
+<script defer src="../gamba_support.js"></script>
+
+<style>
+:root{
+  --primary:#1d4ed8;
+  --primary-light:#dbeafe;
+  --primary-mid:#3b82f6;
+  --accent:#e8372d;
+  --accent-light:#fff1f0;
+  --success:#16a34a;
+  --success-light:#dcfce7;
+  --warn:#d97706;
+  --warn-light:#fffbeb;
+  --bg:#f0f6ff;
+  --card:#ffffff;
+  --border:#bfdbfe;
+  --text:#1e293b;
+  --text-sub:#64748b;
+  --radius:12px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:60px;line-height:1.7;}
+.g-container{max-width:760px;margin:0 auto;}
+.page-header{background:var(--primary);color:#fff;padding:18px 24px 14px;text-align:center;box-shadow:0 3px 10px rgba(29,78,216,.25);}
+.page-header .unit-code{font-size:.82em;opacity:.85;letter-spacing:.1em;margin-bottom:4px;}
+.page-header h1{font-size:clamp(1.1em,3vw,1.55em);font-weight:700;margin:0;}
+
+.step-nav{display:flex;align-items:center;justify-content:center;padding:14px 12px;background:var(--card);border-bottom:1px solid var(--border);flex-wrap:nowrap;overflow-x:auto;position:sticky;top:0;z-index:10;}
+.step-item{display:flex;align-items:center;gap:6px;font-size:clamp(.75em,2vw,.88em);color:#94a3b8;white-space:nowrap;padding:4px 6px;}
+.step-item a{color:inherit;text-decoration:none;}
+.step-item.active{color:var(--primary);font-weight:700;}
+.step-circle{width:22px;height:22px;border-radius:50%;font-size:.76em;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.step-item.active .step-circle{background:var(--primary);color:#fff;box-shadow:0 0 0 3px var(--primary-light);}
+.step-item:not(.active) .step-circle{background:#94a3b8;color:#fff;}
+.step-arrow{color:#cbd5e1;font-size:1.1em;padding:0 2px;user-select:none;}
+
+.content{padding:20px 16px 40px;}
+.intro-lead{background:var(--primary-light);border-left:4px solid var(--primary);padding:14px 18px;border-radius:0 var(--radius) var(--radius) 0;margin-bottom:18px;color:var(--primary);font-size:.94em;}
+
+.kw-cond{color:var(--accent);font-weight:700;}
+.kw-num{background:linear-gradient(transparent 60%,#fff3a0 60%);font-weight:700;padding:0 2px;}
+
+.qcard{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:14px;}
+.qcard-head{display:flex;align-items:center;gap:8px;margin-bottom:10px;flex-wrap:wrap;}
+.qcard-num{background:var(--primary);color:#fff;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.9em;flex-shrink:0;}
+.qcard-pattern{color:var(--primary);background:var(--primary-light);padding:2px 8px;border-radius:6px;font-weight:700;font-size:.82em;}
+
+.q-statement{background:#f8fafc;border-left:3px solid var(--primary-mid);padding:10px 14px;border-radius:0 6px 6px 0;font-size:.93em;line-height:1.85;margin-bottom:12px;}
+
+.choices{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px;}
+.choice-btn{padding:10px 12px;background:#fff;border:2px solid var(--border);border-radius:8px;cursor:pointer;font-family:inherit;font-size:.95em;text-align:center;transition:all .15s;}
+.choice-btn:hover{background:var(--primary-light);border-color:var(--primary);}
+.choice-btn.correct{background:var(--success);color:#fff;border-color:var(--success);}
+.choice-btn.wrong{background:var(--accent);color:#fff;border-color:var(--accent);}
+.choice-btn:disabled{cursor:default;}
+
+.result-panel{display:none;margin-top:12px;padding:14px;border-radius:8px;font-size:.92em;line-height:1.75;}
+.result-panel.ok{background:var(--success-light);border:1.5px solid var(--success);}
+.result-panel.ng{background:var(--accent-light);border:1.5px solid var(--accent);}
+.result-panel .verdict{font-weight:700;font-size:1.02em;margin-bottom:10px;}
+.result-panel.ok .verdict{color:var(--success);}
+.result-panel.ng .verdict{color:var(--accent);}
+
+.sol-title{font-weight:700;color:var(--primary);font-size:.92em;background:var(--primary-light);padding:6px 10px;border-radius:6px;display:inline-block;margin-bottom:10px;}
+
+.sol-step{display:flex;gap:10px;margin-bottom:8px;align-items:flex-start;}
+.sol-num{background:var(--primary);color:#fff;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.78em;flex-shrink:0;line-height:1;}
+.sol-body{flex:1;background:#fff;padding:8px 12px;border-radius:6px;border:1px solid var(--border);font-size:.91em;line-height:1.7;color:var(--text);}
+.sol-body strong{color:var(--primary);}
+
+.calc-line{background:#f8fafc;border-left:3px solid var(--primary-mid);padding:5px 10px;margin:4px 0;font-size:.9em;color:var(--text);border-radius:0 4px 4px 0;}
+.calc-line .op-label{color:var(--text-sub);font-size:.82em;display:inline-block;margin-right:6px;}
+
+.int-note{background:var(--success-light);border-left:3px solid var(--success);padding:6px 10px;margin-top:8px;border-radius:0 4px 4px 0;color:var(--success);font-weight:700;font-size:.9em;}
+
+.score-box{display:none;background:linear-gradient(135deg,#dbeafe 0%,#e0e7ff 100%);border:2px solid var(--primary);border-radius:var(--radius);padding:20px;text-align:center;margin-top:18px;}
+.score-box.show{display:block;}
+.score-box .score-num{font-size:1.6em;font-weight:700;color:var(--primary);}
+.score-box .msg{margin-top:8px;font-size:1em;font-weight:700;}
+.score-box .retry-btn{margin-top:12px;padding:10px 28px;background:var(--primary);color:#fff;border:none;border-radius:8px;font-weight:700;font-size:.95em;cursor:pointer;font-family:inherit;}
+.score-box .retry-btn:hover{background:var(--primary-mid);}
+
+.btn-row{text-align:center;margin-top:20px;}
+.btn-back,.btn-next{display:inline-block;margin:4px;padding:10px 22px;text-decoration:none;border-radius:8px;font-weight:700;font-size:.95em;}
+.btn-back{background:#fff;border:2px solid var(--primary);color:var(--primary);}
+.btn-back:hover{background:var(--primary-light);}
+.btn-next{background:var(--primary);color:#fff;border:2px solid var(--primary);}
+.btn-next:hover{background:var(--primary-mid);}
+
+#confetti-canvas{display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;pointer-events:none;z-index:9999;}
+</style>
+</head>
+<body>
+<div class="g-container">
+
+<header class="page-header">
+  <div class="unit-code">IN06 ｜ 過去問版（教室／希望者用）</div>
+  <h1>不等式の文章題②（比較型）｜確認テスト</h1>
+</header>
+
+<nav class="step-nav">
+  <div class="step-item"><a href="intro.html"><span class="step-circle">1</span>導入</a></div>
+  <span class="step-arrow">→</span>
+  <div class="step-item"><a href="example.html"><span class="step-circle">2</span>例題</a></div>
+  <span class="step-arrow">→</span>
+  <div class="step-item"><a href="drill.html"><span class="step-circle">3</span>演習</a></div>
+  <span class="step-arrow">→</span>
+  <div class="step-item active"><span class="step-circle">4</span>確認</div>
+</nav>
+
+<div class="content">
+
+  <div class="intro-lead">
+    📝 過去問の3パターンが本当に身についたかチェック！全問正解でクリアです🎉<br>
+    <strong>R4型・R6型・R7型</strong>がまんべんなく出題されます。
+  </div>
+
+  <div id="quizArea"></div>
+
+  <div id="scoreBox" class="score-box">
+    <div class="score-num"><span id="scoreText"></span></div>
+    <div class="msg" id="scoreMsg"></div>
+    <button class="retry-btn" onclick="retry()">🔄 もう一度挑戦</button>
+  </div>
+
+  <div class="btn-row">
+    <a href="drill.html" class="btn-back">← 演習へ戻る</a>
+    <a href="../gamba_kounin.html" class="btn-next">単元一覧へ →</a>
+  </div>
+
+</div>
+</div>
+
+<canvas id="confetti-canvas"></canvas>
+
+<script>
+/* ─────────── 解説生成ヘルパー ─────────── */
+
+function buildAccumSolution(p){
+  return `
+    <div class="sol-title">📖 累積比較型の解き方</div>
+    <div class="sol-step">
+      <span class="sol-num">①</span>
+      <div class="sol-body">${p.unitName}を $x$ ${p.unit}とおく。</div>
+    </div>
+    <div class="sol-step">
+      <span class="sol-num">②</span>
+      <div class="sol-body">
+        ${p.nameA}の合計：${p.exprA}<br>
+        ${p.nameB}の合計：${p.exprB}
+      </div>
+    </div>
+    <div class="sol-step">
+      <span class="sol-num">③</span>
+      <div class="sol-body">
+        「<strong>${p.cheaperSide}の方が安い</strong>」<br>
+        → ${p.equation}
+      </div>
+    </div>
+    <div class="sol-step">
+      <span class="sol-num">④</span>
+      <div class="sol-body">
+        <div class="calc-line"><span class="op-label">移項：</span>${p.move}</div>
+        <div class="calc-line"><span class="op-label">整理：</span>${p.simplify}</div>
+        <div class="calc-line"><span class="op-label">解く：</span>${p.final}</div>
+        <div class="int-note">✅ ${p.unit}は整数なので，${p.answer}${p.unit}以上で${p.cheaperSide}の方が安くなる</div>
+      </div>
+    </div>
+  `;
+}
+
+function buildAllocSolution(p){
+  return `
+    <div class="sol-title">📖 時間配分型の解き方</div>
+    <div class="sol-step">
+      <span class="sol-num">①</span>
+      <div class="sol-body"><strong>${p.askName}</strong>を $x$ ${p.unit}とおく。</div>
+    </div>
+    <div class="sol-step">
+      <span class="sol-num">②</span>
+      <div class="sol-body">合計${p.total}${p.unit}なので，<strong>${p.otherName}</strong>は $(${p.total}-x)$ ${p.unit}。</div>
+    </div>
+    <div class="sol-step">
+      <span class="sol-num">③</span>
+      <div class="sol-body">
+        合計時間 $\\leqq$ ${p.limit}<br>
+        → ${p.equation}
+      </div>
+    </div>
+    <div class="sol-step">
+      <span class="sol-num">④</span>
+      <div class="sol-body">
+        <div class="calc-line"><span class="op-label">かっこを外す：</span>${p.expand}</div>
+        <div class="calc-line"><span class="op-label">整理：</span>${p.simplify}</div>
+        <div class="calc-line"><span class="op-label">解く：</span>${p.final}</div>
+        <div class="int-note">✅ ${p.unit}は整数なので，最大 ${p.answer}${p.unit}${p.cutoffNote ? '（小数点以下は切り捨て）' : ''}</div>
+      </div>
+    </div>
+  `;
+}
+
+function buildShopSolution(p){
+  return `
+    <div class="sol-title">📖 店舗比較型の解き方</div>
+    <div class="sol-step">
+      <span class="sol-num">①</span>
+      <div class="sol-body">${p.unitName}を $x$ ${p.unit}とおく。</div>
+    </div>
+    <div class="sol-step">
+      <span class="sol-num">②</span>
+      <div class="sol-body">
+        ${p.nameA}：${p.exprA}<br>
+        ${p.nameB}：${p.exprB}
+      </div>
+    </div>
+    <div class="sol-step">
+      <span class="sol-num">③</span>
+      <div class="sol-body">
+        「<strong>${p.cheaperSide}の方が安い</strong>」<br>
+        → ${p.equation}
+      </div>
+    </div>
+    <div class="sol-step">
+      <span class="sol-num">④</span>
+      <div class="sol-body">
+        <div class="calc-line"><span class="op-label">移項：</span>${p.move}</div>
+        <div class="calc-line"><span class="op-label">整理：</span>${p.simplify}</div>
+        <div class="calc-line"><span class="op-label">解く：</span>${p.final}</div>
+        <div class="int-note">✅ ${p.unit}は整数なので，${p.answer}${p.unit}以上で${p.cheaperSide}の方が安くなる</div>
+      </div>
+    </div>
+  `;
+}
+
+/* ─────────── 確認テスト問題（5問）─────────── */
+const QS = [
+  /* Q1: 累積比較型（R4型）- ジムA・B */
+  {
+    pattern:'R4型',
+    text:'ジムA・Bを比較。Aは入会金<span class="kw-num">10000円</span>+月会費<span class="kw-num">5000円</span>，Bは入会金0円+月会費<span class="kw-num">6500円</span>。<strong>AがBより安くなる</strong>のは何か月以上通ったときか。',
+    choices:['6か月以上','7か月以上','8か月以上','10か月以上'],
+    ans:1,
+    solution: buildAccumSolution({
+      unitName:'通った月数', unit:'か月',
+      nameA:'A', nameB:'B',
+      exprA:'$10000 + 5000x$',
+      exprB:'$6500x$',
+      cheaperSide:'A',
+      equation:'$10000 + 5000x \\leqq 6500x$',
+      move:'$10000 \\leqq 1500x$',
+      simplify:'$1500x \\geqq 10000$',
+      final:'$x \\geqq 6.66\\cdots$',
+      answer:'7'
+    })
+  },
+  /* Q2: 時間配分型（R6型）- 朝の運動 */
+  {
+    pattern:'R6型',
+    text:'朝の運動メニューを<span class="kw-num">10種目</span>行う。ストレッチは<span class="kw-num">3分</span>，筋トレは<span class="kw-num">7分</span>。全体を <span class="kw-num">50分</span><span class="kw-cond">以内</span>にしたい。<strong>筋トレ</strong>は最大何種目までできるか。',
+    choices:['4種目','5種目','6種目','7種目'],
+    ans:1,
+    solution: buildAllocSolution({
+      askName:'筋トレ', otherName:'ストレッチ', unit:'種目',
+      total:10, limit:50,
+      equation:'$7x + 3(10-x) \\leqq 50$',
+      expand:'$7x + 30 - 3x \\leqq 50$',
+      simplify:'$4x \\leqq 20$',
+      final:'$x \\leqq 5$',
+      answer:'5'
+    })
+  },
+  /* Q3: 店舗比較型（R7型）- 写真プリント */
+  {
+    pattern:'R7型',
+    text:'写真をプリントする。店頭プリントは<span class="kw-num">30円</span>/枚+0円，ネットプリントは<span class="kw-num">20円</span>/枚+送料<span class="kw-num">200円</span>。<strong>ネットプリントの方が安くなる</strong>のは何枚以上注文するときか。',
+    choices:['15枚以上','18枚以上','20枚以上','25枚以上'],
+    ans:2,
+    solution: buildShopSolution({
+      unitName:'枚数', unit:'枚',
+      nameA:'店頭プリント', nameB:'ネットプリント',
+      exprA:'$30x$',
+      exprB:'$20x + 200$',
+      cheaperSide:'ネットプリント',
+      equation:'$20x + 200 \\leqq 30x$',
+      move:'$200 \\leqq 10x$',
+      simplify:'$10x \\geqq 200$',
+      final:'$x \\geqq 20$',
+      answer:'20'
+    })
+  },
+  /* Q4: 累積比較型（R4型）- 携帯プラン */
+  {
+    pattern:'R4型',
+    text:'携帯電話のプランA・Bを比較。Aは基本料金<span class="kw-num">2000円</span>+1分<span class="kw-num">20円</span>，Bは基本料金<span class="kw-num">3500円</span>+1分<span class="kw-num">10円</span>。<strong>BがAより安くなる</strong>のは何分以上通話するときか。',
+    choices:['100分以上','120分以上','150分以上','200分以上'],
+    ans:2,
+    solution: buildAccumSolution({
+      unitName:'通話時間', unit:'分',
+      nameA:'A', nameB:'B',
+      exprA:'$2000 + 20x$',
+      exprB:'$3500 + 10x$',
+      cheaperSide:'B',
+      equation:'$3500 + 10x \\leqq 2000 + 20x$',
+      move:'$1500 \\leqq 10x$',
+      simplify:'$10x \\geqq 1500$',
+      final:'$x \\geqq 150$',
+      answer:'150'
+    })
+  },
+  /* Q5: 時間配分型（R6型）- 授業時間 */
+  {
+    pattern:'R6型',
+    text:'1日<span class="kw-num">8コマ</span>の授業を行う。講義は<span class="kw-num">45分</span>，演習は<span class="kw-num">60分</span>。全体を <span class="kw-num">7時間</span><span class="kw-cond">以内</span>にしたい。<strong>演習</strong>は最大何コマまでできるか。',
+    choices:['3コマ','4コマ','5コマ','6コマ'],
+    ans:1,
+    solution: buildAllocSolution({
+      askName:'演習', otherName:'講義', unit:'コマ',
+      total:8, limit:420,
+      equation:'$60x + 45(8-x) \\leqq 420$',
+      expand:'$60x + 360 - 45x \\leqq 420$',
+      simplify:'$15x \\leqq 60$',
+      final:'$x \\leqq 4$',
+      answer:'4'
+    })
+  }
+];
+
+let answered = new Array(QS.length).fill(false);
+let answers = new Array(QS.length).fill(null);
+
+function buildQuiz(){
+  let html = '';
+  QS.forEach((q, i) => {
+    html += `
+      <div class="qcard">
+        <div class="qcard-head">
+          <span class="qcard-num">${i+1}</span>
+          <span class="qcard-pattern">${q.pattern}</span>
+        </div>
+        <div class="q-statement">${q.text}</div>
+        <div class="choices" id="choices${i}">
+          ${q.choices.map((c, j) => 
+            `<button class="choice-btn" onclick="selectChoice(${i},${j})">${j+1}）${c}</button>`
+          ).join('')}
+        </div>
+        <div class="result-panel" id="rp${i}"></div>
+      </div>
+    `;
+  });
+  document.getElementById('quizArea').innerHTML = html;
+
+  if(window._katexReady){
+    renderArea();
+  }else{
+    window._onKatexReady = renderArea;
+  }
+}
+
+function renderArea(){
+  if(typeof renderMathInElement === 'function'){
+    renderMathInElement(document.getElementById('quizArea'), {
+      delimiters:[
+        {left:'$$',right:'$$',display:true},
+        {left:'$',right:'$',display:false}
+      ],
+      throwOnError:false
+    });
+  }
+}
+
+function selectChoice(qi, ci){
+  if(answered[qi]) return;
+  answered[qi] = true;
+  answers[qi] = ci;
+
+  const q = QS[qi];
+  const correct = (ci === q.ans);
+  const buttons = document.querySelectorAll(`#choices${qi} .choice-btn`);
+  buttons.forEach((b, j) => {
+    b.disabled = true;
+    if(j === q.ans) b.classList.add('correct');
+    else if(j === ci) b.classList.add('wrong');
+  });
+
+  const rp = document.getElementById('rp'+qi);
+  rp.style.display = 'block';
+  rp.className = 'result-panel ' + (correct ? 'ok' : 'ng');
+  rp.innerHTML = 
+    `<div class="verdict">${correct ? '✅ 正解！' : `❌ 不正解…　正解は【${q.ans+1}）${q.choices[q.ans]}】`}</div>`
+    + q.solution;
+
+  if(typeof renderMathInElement === 'function'){
+    renderMathInElement(rp, {
+      delimiters:[
+        {left:'$$',right:'$$',display:true},
+        {left:'$',right:'$',display:false}
+      ],
+      throwOnError:false
+    });
+  }
+
+  if(answered.every(v => v)) showScore();
+}
+
+function showScore(){
+  const correct = answers.filter((a, i) => a === QS[i].ans).length;
+  const box = document.getElementById('scoreBox');
+  box.classList.add('show');
+  document.getElementById('scoreText').textContent = `${correct} / ${QS.length} 問正解`;
+  
+  const msgs = [
+    'もう一度復習してから再挑戦💪',
+    '惜しい！立式を見直そう📖',
+    'いい線！もう一歩で合格！✨',
+    'すごい！あと1問！🔥',
+    'おしい！満点まであと1問！🌟',
+    '🎉 満点！IN06 合格おめでとう！比較型はバッチリです！'
+  ];
+  document.getElementById('scoreMsg').textContent = msgs[Math.min(correct, 5)];
+
+  if(correct === QS.length){
+    if(typeof markPassed === 'function'){
+      try{ markPassed('IN06_kakomon'); }catch(e){}
+    }
+    launchConfetti();
+  }
+}
+
+function retry(){
+  answered = new Array(QS.length).fill(false);
+  answers = new Array(QS.length).fill(null);
+  document.getElementById('scoreBox').classList.remove('show');
+  buildQuiz();
+}
+
+function launchConfetti(){
+  const canvas = document.getElementById('confetti-canvas');
+  const ctx = canvas.getContext('2d');
+  canvas.style.display = 'block';
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  const colors = ['#1d4ed8','#3b82f6','#f59e0b','#16a34a','#e8372d','#9333ea','#06b6d4'];
+  const particles = [];
+  for(let i = 0; i < 180; i++){
+    particles.push({
+      x: Math.random() * canvas.width,
+      y: Math.random() * -canvas.height,
+      size: Math.random() * 8 + 5,
+      color: colors[Math.floor(Math.random() * colors.length)],
+      speed: Math.random() * 3 + 2,
+      angle: Math.random() * Math.PI * 2,
+      spin: (Math.random() - 0.5) * 0.2
+    });
+  }
+
+  let frames = 0;
+  function update(){
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    particles.forEach(p => {
+      p.y += p.speed;
+      p.x += Math.sin(p.angle) * 1.5;
+      p.angle += p.spin;
+      ctx.save();
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.angle);
+      ctx.fillStyle = p.color;
+      ctx.fillRect(-p.size/2, -p.size/2, p.size, p.size);
+      ctx.restore();
+      if(p.y > canvas.height) p.y = -20;
+    });
+    frames++;
+    if(frames < 400){
+      requestAnimationFrame(update);
+    }else{
+      canvas.style.display = 'none';
+    }
+  }
+  update();
+}
+
+window.addEventListener('load', () => {
+  buildQuiz();
+});
+</script>
+</body>
+</html>

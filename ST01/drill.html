@@ -1,0 +1,945 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ST01 集合 ｜ 演習</title>
+<style>
+:root{
+  --primary:#059669;
+  --primary-d:#047857;
+  --primary-l:#d1fae5;
+  --bg:#f8fafc;
+  --card:#ffffff;
+  --text:#0f172a;
+  --muted:#64748b;
+  --border:#e2e8f0;
+  --correct:#16a34a;
+  --wrong:#dc2626;
+  --hint:#f59e0b;
+  --hint-bg:#fffbeb;
+}
+.ov{display:inline-block;text-decoration:overline;text-decoration-thickness:2px;line-height:1;padding-top:1px}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:-apple-system,"Hiragino Sans","Yu Gothic",sans-serif;line-height:1.6}
+.wrap{max-width:780px;margin:0 auto;padding:14px 16px 80px}
+header{position:sticky;top:0;background:var(--primary);color:#fff;padding:12px 16px;margin:-14px -16px 16px;box-shadow:0 2px 8px rgba(0,0,0,.1);z-index:10}
+header h1{margin:0;font-size:1.1em;font-weight:700}
+header .sub{font-size:.78em;opacity:.9;margin-top:2px}
+
+/* セット選択タブ */
+.set-tabs{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
+.set-tabs > .set-tab{flex:1 1 calc(33.33% - 4px);min-width:90px}
+@supports (display:grid){.set-tabs{display:grid;grid-template-columns:repeat(3,1fr)}}
+.set-tab{padding:10px 4px;background:#fff;border:2px solid var(--border);border-radius:10px;text-align:center;font-weight:700;font-size:.88em;cursor:pointer;color:var(--muted);user-select:none}
+.set-tab.active{background:var(--primary);color:#fff;border-color:var(--primary)}
+.set-tab .stitle{font-size:.72em;font-weight:500;display:block;margin-top:2px}
+.set-tab.active .stitle{color:#d1fae5}
+
+/* セット内容 */
+.set-panel{display:none}
+.set-panel.active{display:block}
+.set-header{background:var(--primary-l);border-radius:10px;padding:12px 14px;margin-bottom:12px}
+.set-header h2{margin:0;font-size:1em;color:var(--primary-d)}
+.set-header p{margin:4px 0 0;font-size:.85em;color:var(--muted)}
+
+.q-card{background:var(--card);border-radius:12px;padding:16px;margin-bottom:14px;box-shadow:0 1px 3px rgba(0,0,0,.06);border:1px solid var(--border)}
+.q-num{display:inline-block;background:var(--primary);color:#fff;padding:2px 10px;border-radius:6px;font-weight:700;font-size:.85em;margin-bottom:8px}
+.q-body{font-size:1em;margin-bottom:12px}
+.q-body .blank{display:inline-block;min-width:36px;border-bottom:2px solid var(--primary);text-align:center;font-weight:700;padding:0 4px}
+
+.choices{display:grid;gap:8px}
+.venn-choices{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.venn-choices > .choice{flex:1 1 calc(50% - 4px);min-width:140px;max-width:calc(50% - 4px);box-sizing:border-box;text-align:center;padding:6px;display:flex;flex-direction:column;align-items:center}
+.venn-choices svg{max-width:100%;height:auto;display:block}
+.choice{background:#fff;border:2px solid var(--border);border-radius:10px;padding:10px 14px;text-align:left;font-size:.98em;cursor:pointer;font-family:inherit;color:var(--text)}
+.choice:active{transform:scale(.98)}
+.choice.correct{background:#dcfce7;border-color:var(--correct);color:#166534;font-weight:700}
+.choice.wrong{background:#fee2e2;border-color:var(--wrong);color:#991b1b}
+.choice.disabled{pointer-events:none;opacity:.85}
+
+.feedback{margin-top:10px;padding:10px 12px;border-radius:8px;font-size:.92em;display:none}
+.feedback.show{display:block}
+.feedback.ok{background:#dcfce7;color:#166534;border-left:4px solid var(--correct)}
+.feedback.ng{background:#fee2e2;color:#991b1b;border-left:4px solid var(--wrong)}
+.feedback b{display:block;margin-bottom:4px}
+
+.venn-mini{text-align:center;margin:8px 0}
+.venn-mini svg{max-width:100%;height:auto}
+
+.progress-box{background:var(--card);border:2px dashed var(--primary);border-radius:10px;padding:12px 14px;margin-top:16px;text-align:center;font-weight:700;color:var(--primary-d)}
+
+.nav{display:flex;justify-content:space-between;gap:10px;margin-top:24px}
+.btn{display:inline-block;padding:12px 18px;border-radius:10px;text-decoration:none;font-weight:700;font-size:.95em;text-align:center;flex:1}
+.btn-back{background:#e2e8f0;color:var(--text)}
+.btn-next{background:var(--primary);color:#fff;box-shadow:0 2px 6px rgba(5,150,105,.3)}
+.btn:active{transform:scale(.98)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>ST01　集合　演習</h1>
+  <div class="sub">セット選択 → 4問ずつ練習</div>
+</header>
+
+<!-- セット選択タブ -->
+<div class="set-tabs">
+  <div class="set-tab active" data-set="A" onclick="switchSet('A')">セットA<span class="stitle">所属・包含</span></div>
+  <div class="set-tab" data-set="B" onclick="switchSet('B')">セットB<span class="stitle">共通部分</span></div>
+  <div class="set-tab" data-set="C" onclick="switchSet('C')">セットC<span class="stitle">和集合</span></div>
+  <div class="set-tab" data-set="D" onclick="switchSet('D')">セットD<span class="stitle">補集合・ベン図</span></div>
+  <div class="set-tab" data-set="E" onclick="switchSet('E')">セットE<span class="stitle">空集合</span></div>
+  <div class="set-tab" data-set="F" onclick="switchSet('F')">セットF<span class="stitle">記号→ベン図</span></div>
+</div>
+
+<!-- ===== セットA：所属・包含 ===== -->
+<div class="set-panel active" id="panel-A">
+  <div class="set-header">
+    <h2>セットA　所属・包含（∈・∉・⊂・⊃）</h2>
+    <p>記号の意味を判別する問題です。</p>
+  </div>
+
+  <!-- A-1 -->
+  <div class="q-card" data-q="A1" data-ans="2">
+    <div class="q-num">A-1</div>
+    <div class="q-body">
+      A = { 1, 3, 5, 7, 9 } のとき、<b>5 □ A</b> に入る記号は？
+    </div>
+    <div class="choices">
+      <button class="choice" data-i="1">① ∋</button>
+      <button class="choice" data-i="2">② ∈</button>
+      <button class="choice" data-i="3">③ ⊂</button>
+      <button class="choice" data-i="4">④ ⊃</button>
+    </div>
+    <div class="feedback">
+      <b>✓ 解説</b>
+      5はAの要素なので「∈（要素である）」。正解は ② ∈。
+    </div>
+  </div>
+
+  <!-- A-2 -->
+  <div class="q-card" data-q="A2" data-ans="4">
+    <div class="q-num">A-2</div>
+    <div class="q-body">
+      A = { 2, 4, 6, 8, 10 }、B = { 4, 8 } のとき、<b>A □ B</b> に入る記号は？
+    </div>
+    <div class="choices">
+      <button class="choice" data-i="1">① ∈</button>
+      <button class="choice" data-i="2">② ∋</button>
+      <button class="choice" data-i="3">③ ⊂</button>
+      <button class="choice" data-i="4">④ ⊃</button>
+    </div>
+    <div class="feedback">
+      <b>✓ 解説</b>
+      Bの要素 4・8 はすべてAに含まれる → AはBを含む → A ⊃ B。正解は ④ ⊃。
+    </div>
+  </div>
+
+  <!-- A-3 -->
+  <div class="q-card" data-q="A3" data-ans="3">
+    <div class="q-num">A-3</div>
+    <div class="q-body">
+      A = { 1, 2, 3 }、B = { 1, 2, 3, 4, 5 } のとき、<b>A □ B</b> に入る記号は？
+    </div>
+    <div class="choices">
+      <button class="choice" data-i="1">① ∈</button>
+      <button class="choice" data-i="2">② ∋</button>
+      <button class="choice" data-i="3">③ ⊂</button>
+      <button class="choice" data-i="4">④ ⊃</button>
+    </div>
+    <div class="feedback">
+      <b>✓ 解説</b>
+      Aの要素 1・2・3 はすべてBに含まれる → AはBに含まれる → A ⊂ B。正解は ③ ⊂。
+    </div>
+  </div>
+
+  <!-- A-4 -->
+  <div class="q-card" data-q="A4" data-ans="1">
+    <div class="q-num">A-4</div>
+    <div class="q-body">
+      A = { 1, 2, 3, 4, 5 } のとき、<b>6 □ A</b> に入る記号は？
+    </div>
+    <div class="choices">
+      <button class="choice" data-i="1">① ∉</button>
+      <button class="choice" data-i="2">② ∈</button>
+      <button class="choice" data-i="3">③ ⊂</button>
+      <button class="choice" data-i="4">④ ⊃</button>
+    </div>
+    <div class="feedback">
+      <b>✓ 解説</b>
+      6はAの中にない → 「∉（要素ではない）」。正解は ① ∉。
+    </div>
+  </div>
+
+  <div class="progress-box" id="prog-A">セットA：0／4問正解</div>
+</div>
+
+<!-- ===== セットB：共通部分 ===== -->
+<div class="set-panel" id="panel-B">
+  <div class="set-header">
+    <h2>セットB　共通部分 A∩B</h2>
+    <p>両方に共通する要素を取り出します。</p>
+  </div>
+
+  <!-- B-1 -->
+  <div class="q-card" data-q="B1" data-ans="3">
+    <div class="q-num">B-1</div>
+    <div class="q-body">
+      A = { 1, 2, 3, 5, 6 }、B = { 3, 4, 5, 6, 7 } のとき、<b>A∩B</b> は？
+    </div>
+    <div class="choices">
+      <button class="choice" data-i="1">① { 3, 4, 5 }</button>
+      <button class="choice" data-i="2">② { 3, 5 }</button>
+      <button class="choice" data-i="3">③ { 3, 5, 6 }</button>
+      <button class="choice" data-i="4">④ { 5, 6, 7 }</button>
+    </div>
+    <div class="feedback">
+      <b>✓ 解説</b>
+      両方に含まれる要素は 3・5・6。正解は ③ { 3, 5, 6 }。
+    </div>
+  </div>
+
+  <!-- B-2 -->
+  <div class="q-card" data-q="B2" data-ans="2">
+    <div class="q-num">B-2</div>
+    <div class="q-body">
+      A = { 1, 2, 3, 5, 6 }、B = { 3, 6, 9 } のとき、<b>A∩B</b> は？
+    </div>
+    <div class="choices">
+      <button class="choice" data-i="1">① { 3 }</button>
+      <button class="choice" data-i="2">② { 3, 6 }</button>
+      <button class="choice" data-i="3">③ { 6, 9 }</button>
+      <button class="choice" data-i="4">④ { 3, 6, 9 }</button>
+    </div>
+    <div class="feedback">
+      <b>✓ 解説</b>
+      両方に含まれる要素は 3・6。正解は ② { 3, 6 }。
+    </div>
+  </div>
+
+  <!-- B-3 -->
+  <div class="q-card" data-q="B3" data-ans="3">
+    <div class="q-num">B-3</div>
+    <div class="q-body">
+      A = { 1, 3, 5, 7, 9 }、B = { 2, 3, 6, 8 } のとき、A∩B の要素は？
+    </div>
+    <div class="choices">
+      <button class="choice" data-i="1">① 1</button>
+      <button class="choice" data-i="2">② 2</button>
+      <button class="choice" data-i="3">③ 3</button>
+      <button class="choice" data-i="4">④ 6</button>
+    </div>
+    <div class="feedback">
+      <b>✓ 解説</b>
+      両方に含まれる要素は 3 のみ。正解は ③ 3。
+    </div>
+  </div>
+
+  <!-- B-4 -->
+  <div class="q-card" data-q="B4" data-ans="4">
+    <div class="q-num">B-4</div>
+    <div class="q-body">
+      Aを偶数全体の集合、Bを奇数全体の集合とするとき、<b>A □ B = ∅</b>（空集合）が成り立つ □ は？
+    </div>
+    <div class="choices">
+      <button class="choice" data-i="1">① ⊂</button>
+      <button class="choice" data-i="2">② ⊃</button>
+      <button class="choice" data-i="3">③ ∪</button>
+      <button class="choice" data-i="4">④ ∩</button>
+    </div>
+    <div class="feedback">
+      <b>✓ 解説</b>
+      偶数と奇数に共通する数はない → A∩B＝∅（空集合）。正解は ④ ∩。
+    </div>
+  </div>
+
+  <div class="progress-box" id="prog-B">セットB：0／4問正解</div>
+</div>
+
+<!-- ===== セットC：和集合 ===== -->
+<div class="set-panel" id="panel-C">
+  <div class="set-header">
+    <h2>セットC　和集合 A∪B</h2>
+    <p>少なくとも一方にある要素を全部集めます。</p>
+  </div>
+
+  <!-- C-1 -->
+  <div class="q-card" data-q="C1" data-ans="4">
+    <div class="q-num">C-1</div>
+    <div class="q-body">
+      A = { 1, 2, 4, 8 }、B = { 1, 2, 5, 10 } のとき、<b>A∪B</b> は？
+    </div>
+    <div class="choices">
+      <button class="choice" data-i="1">① { 1, 2 }</button>
+      <button class="choice" data-i="2">② { 4, 5, 8, 10 }</button>
+      <button class="choice" data-i="3">③ { 1, 2, 4, 5 }</button>
+      <button class="choice" data-i="4">④ { 1, 2, 4, 5, 8, 10 }</button>
+    </div>
+    <div class="feedback">
+      <b>✓ 解説</b>
+      両方の要素を全部集めて、重複は1個だけ残す → { 1, 2, 4, 5, 8, 10 }。正解は ④。
+    </div>
+  </div>
+
+  <!-- C-2 -->
+  <div class="q-card" data-q="C2" data-ans="3">
+    <div class="q-num">C-2</div>
+    <div class="q-body">
+      A = { 2, 4, 6 }、B = { 1, 3, 5 } のとき、<b>A∪B</b> は？
+    </div>
+    <div class="choices">
+      <button class="choice" data-i="1">① { }</button>
+      <button class="choice" data-i="2">② { 2, 4, 6 }</button>
+      <button class="choice" data-i="3">③ { 1, 2, 3, 4, 5, 6 }</button>
+      <button class="choice" data-i="4">④ { 1, 3, 5 }</button>
+    </div>
+    <div class="feedback">
+      <b>✓ 解説</b>
+      共通要素はないが、和集合は両方を合わせたもの → { 1, 2, 3, 4, 5, 6 }。正解は ③。
+    </div>
+  </div>
+
+  <!-- C-3 -->
+  <div class="q-card" data-q="C3" data-ans="2">
+    <div class="q-num">C-3</div>
+    <div class="q-body">
+      A = { 1, 2, 3 }、B = { 2, 3, 4, 5 } のとき、<b>A∪B</b> は？
+    </div>
+    <div class="choices">
+      <button class="choice" data-i="1">① { 2, 3 }</button>
+      <button class="choice" data-i="2">② { 1, 2, 3, 4, 5 }</button>
+      <button class="choice" data-i="3">③ { 1, 4, 5 }</button>
+      <button class="choice" data-i="4">④ { 1, 2, 2, 3, 3, 4, 5 }</button>
+    </div>
+    <div class="feedback">
+      <b>✓ 解説</b>
+      両方を合わせて、重複した 2・3 は1個だけにする → { 1, 2, 3, 4, 5 }。正解は ②。
+    </div>
+  </div>
+
+  <!-- C-4 -->
+  <div class="q-card" data-q="C4" data-ans="2">
+    <div class="q-num">C-4</div>
+    <div class="q-body">
+      U = { 1, 2, 3, 4, 5, 6 }、A = { 1, 2, 3 }、B = { 1, 3, 5 } のとき、{ 1, 3 } と等しい集合は？
+    </div>
+    <div class="choices">
+      <button class="choice" data-i="1">① A∪B</button>
+      <button class="choice" data-i="2">② A∩B</button>
+      <button class="choice" data-i="3">③ <span class="ov">A</span></button>
+      <button class="choice" data-i="4">④ <span class="ov">B</span></button>
+    </div>
+    <div class="feedback">
+      <b>✓ 解説</b>
+      AとBに共通する要素は 1・3 → A∩B = { 1, 3 }。正解は ② A∩B。
+    </div>
+  </div>
+
+  <div class="progress-box" id="prog-C">セットC：0／4問正解</div>
+</div>
+
+<!-- ===== セットD：補集合・ベン図 ===== -->
+<div class="set-panel" id="panel-D">
+  <div class="set-header">
+    <h2>セットD　補集合・ベン図</h2>
+    <p>全体集合の中で「Aに入っていない」要素を考えます。</p>
+  </div>
+
+  <!-- D-1 -->
+  <div class="q-card" data-q="D1" data-ans="3">
+    <div class="q-num">D-1</div>
+    <div class="q-body">
+      U = { 1, 2, 3, 4, 5, 6, 7, 8 }、A = { 2, 4, 6, 8 } のとき、<b><span class="ov">A</span></b> は？
+    </div>
+    <div class="choices">
+      <button class="choice" data-i="1">① { 2, 4, 6, 8 }</button>
+      <button class="choice" data-i="2">② { 1, 2, 3, 4 }</button>
+      <button class="choice" data-i="3">③ { 1, 3, 5, 7 }</button>
+      <button class="choice" data-i="4">④ { 5, 6, 7, 8 }</button>
+    </div>
+    <div class="feedback">
+      <b>✓ 解説</b>
+      UからAの要素を除く → { 1, 3, 5, 7 }（奇数）。正解は ③。
+    </div>
+  </div>
+
+  <!-- D-2 -->
+  <div class="q-card" data-q="D2" data-ans="2">
+    <div class="q-num">D-2</div>
+    <div class="q-body">
+      U = { 1, 2, 3, 4, 5 }、A = { 1, 3, 5 } のとき、<b><span class="ov">A</span></b> は？
+    </div>
+    <div class="choices">
+      <button class="choice" data-i="1">① { 1, 3, 5 }</button>
+      <button class="choice" data-i="2">② { 2, 4 }</button>
+      <button class="choice" data-i="3">③ { 1, 2, 3, 4, 5 }</button>
+      <button class="choice" data-i="4">④ { }</button>
+    </div>
+    <div class="feedback">
+      <b>✓ 解説</b>
+      UからAの要素を除く → { 2, 4 }。正解は ②。
+    </div>
+  </div>
+
+  <!-- D-3：ベン図 A∩B -->
+  <div class="q-card" data-q="D3" data-ans="3">
+    <div class="q-num">D-3</div>
+    <div class="q-body">
+      下のベン図の<b>塗りつぶし部分</b>を表す集合は？
+      <div class="venn-mini">
+        <svg viewBox="0 0 240 140" width="240" height="140" xmlns="http://www.w3.org/2000/svg">
+          <rect x="2" y="2" width="236" height="136" fill="#fff" stroke="#94a3b8" stroke-width="1"/>
+          <text x="14" y="22" font-size="12" fill="#64748b">U</text>
+          <defs><clipPath id="d3clip"><circle cx="95" cy="75" r="48"/></clipPath></defs>
+          <circle cx="145" cy="75" r="48" fill="#059669" fill-opacity="0.45" clip-path="url(#d3clip)"/>
+          <circle cx="95" cy="75" r="48" fill="none" stroke="#0f172a" stroke-width="1.8"/>
+          <circle cx="145" cy="75" r="48" fill="none" stroke="#0f172a" stroke-width="1.8"/>
+          <text x="62" y="80" font-size="16" font-weight="700" fill="#0f172a">A</text>
+          <text x="170" y="80" font-size="16" font-weight="700" fill="#0f172a">B</text>
+        </svg>
+      </div>
+    </div>
+    <div class="choices">
+      <button class="choice" data-i="1">① A</button>
+      <button class="choice" data-i="2">② A∪B</button>
+      <button class="choice" data-i="3">③ A∩B</button>
+      <button class="choice" data-i="4">④ <span class="ov">A</span></button>
+    </div>
+    <div class="feedback">
+      <b>✓ 解説</b>
+      AとBが重なっている部分（レンズ型）のみ塗られているので、A∩B。正解は ③。
+    </div>
+  </div>
+
+  <!-- D-4：ベン図 A∪B -->
+  <div class="q-card" data-q="D4" data-ans="2">
+    <div class="q-num">D-4</div>
+    <div class="q-body">
+      下のベン図の<b>塗りつぶし部分</b>を表す集合は？
+      <div class="venn-mini">
+        <svg viewBox="0 0 240 140" width="240" height="140" xmlns="http://www.w3.org/2000/svg">
+          <rect x="2" y="2" width="236" height="136" fill="#fff" stroke="#94a3b8" stroke-width="1"/>
+          <text x="14" y="22" font-size="12" fill="#64748b">U</text>
+          <circle cx="95" cy="75" r="48" fill="#059669" fill-opacity="0.45"/>
+          <circle cx="145" cy="75" r="48" fill="#059669" fill-opacity="0.45"/>
+          <circle cx="95" cy="75" r="48" fill="none" stroke="#0f172a" stroke-width="1.8"/>
+          <circle cx="145" cy="75" r="48" fill="none" stroke="#0f172a" stroke-width="1.8"/>
+          <text x="62" y="80" font-size="16" font-weight="700" fill="#0f172a">A</text>
+          <text x="170" y="80" font-size="16" font-weight="700" fill="#0f172a">B</text>
+        </svg>
+      </div>
+    </div>
+    <div class="choices">
+      <button class="choice" data-i="1">① A∩B</button>
+      <button class="choice" data-i="2">② A∪B</button>
+      <button class="choice" data-i="3">③ <span class="ov">A</span></button>
+      <button class="choice" data-i="4">④ <span class="ov">B</span></button>
+    </div>
+    <div class="feedback">
+      <b>✓ 解説</b>
+      AとBの両方の円全体が塗られているので、A∪B。正解は ②。
+    </div>
+  </div>
+
+  <div class="progress-box" id="prog-D">セットD：0／4問正解</div>
+</div>
+
+<!-- ===== セットE：空集合 ===== -->
+<div class="set-panel" id="panel-E">
+  <div class="set-header">
+    <h2>セットE　空集合 ∅</h2>
+    <p>共通の仲間が1人もいない＝空集合。R6-2 で出題された重要パターン。</p>
+  </div>
+
+  <!-- E-1：偶数/奇数（R6-2類題） -->
+  <div class="q-card" data-q="E1" data-ans="4">
+    <div class="q-num">E-1</div>
+    <div class="q-body">
+      A を偶数全体の集合、B を奇数全体の集合とするとき、<br>
+      「<b>A □ B = ∅</b>」が成り立つ。□ に入る記号はどれ？
+    </div>
+    <div class="choices">
+      <button class="choice" data-i="1">① ⊂</button>
+      <button class="choice" data-i="2">② ⊃</button>
+      <button class="choice" data-i="3">③ ∪</button>
+      <button class="choice" data-i="4">④ ∩</button>
+    </div>
+    <div class="feedback">
+      <b>✓ 解説</b>
+      偶数と奇数に<b>共通する数はない</b>（同時に偶数で奇数の数はない）。<br>
+      → A∩B＝∅（空集合）。正解は ④ ∩。
+    </div>
+  </div>
+
+  <!-- E-2：正の数/負の数 -->
+  <div class="q-card" data-q="E2" data-ans="4">
+    <div class="q-num">E-2</div>
+    <div class="q-body">
+      A を正の整数全体の集合、B を負の整数全体の集合とするとき、<br>
+      「<b>A □ B = ∅</b>」が成り立つ。□ に入る記号はどれ？
+    </div>
+    <div class="choices">
+      <button class="choice" data-i="1">① ⊂</button>
+      <button class="choice" data-i="2">② ⊃</button>
+      <button class="choice" data-i="3">③ ∪</button>
+      <button class="choice" data-i="4">④ ∩</button>
+    </div>
+    <div class="feedback">
+      <b>✓ 解説</b>
+      正の整数（1、2、3…）と負の整数（-1、-2、-3…）に<b>共通する数はない</b>。<br>
+      → A∩B＝∅。正解は ④ ∩。
+    </div>
+  </div>
+
+  <!-- E-3：赤たすき/白たすき -->
+  <div class="q-card" data-q="E3" data-ans="2">
+    <div class="q-num">E-3</div>
+    <div class="q-body">
+      運動会で、A を赤いたすきをした人のグループ、B を白いたすきをした人のグループとする。<br>
+      このとき、<b>A∩B</b> はどうなる？
+    </div>
+    <div class="choices">
+      <button class="choice" data-i="1">① 全員</button>
+      <button class="choice" data-i="2">② ∅（空集合）</button>
+      <button class="choice" data-i="3">③ A と同じ</button>
+      <button class="choice" data-i="4">④ B と同じ</button>
+    </div>
+    <div class="feedback">
+      <b>✓ 解説</b>
+      1人が同時に赤と白の<b>両方のたすき</b>をすることはできない。<br>
+      → 共通の仲間は0人 → A∩B＝<b>∅</b>。正解は ②。
+    </div>
+  </div>
+
+  <!-- E-4：3の倍数/5の倍数（共通要素あり＝∅でない） -->
+  <div class="q-card" data-q="E4" data-ans="2">
+    <div class="q-num">E-4</div>
+    <div class="q-body">
+      A を3の倍数全体の集合、B を5の倍数全体の集合とするとき、<b>A∩B</b> は…
+    </div>
+    <div class="choices">
+      <button class="choice" data-i="1">① 空集合 ∅ になる</button>
+      <button class="choice" data-i="2">② 15の倍数全体の集合</button>
+      <button class="choice" data-i="3">③ 8の倍数全体の集合</button>
+      <button class="choice" data-i="4">④ 全部の整数の集合</button>
+    </div>
+    <div class="feedback">
+      <b>✓ 解説</b>
+      3でも5でも割れる数 → <b>15、30、45…</b>（15の倍数）<br>
+      共通の仲間が<b>無限にいる</b>ので、空集合ではない。<br>
+      → A∩B＝<b>15の倍数全体</b>。正解は ②。<br>
+      <b>💡 注意</b>：「共通の数がない」だけが空集合。少しでも共通すれば空集合ではない。
+    </div>
+  </div>
+
+  <div class="progress-box" id="prog-E">セットE：0／4問正解</div>
+</div>
+
+<!-- ===== セットF：記号→ベン図 ===== -->
+<div class="set-panel" id="panel-F">
+  <div class="set-header">
+    <h2>セットF　記号からベン図を選ぶ</h2>
+    <p>記号の意味を理解しているか、ベン図を選んで確認しよう。</p>
+  </div>
+
+  <!-- F-1：A∩B を選ぶ -->
+  <div class="q-card" data-q="F1" data-ans="1">
+    <div class="q-num">F-1</div>
+    <div class="q-body">
+      集合「<b>A∩B</b>」を表すベン図はどれ？
+    </div>
+    <div class="venn-choices">
+      <!-- ① A∩B（共通部分）← 正解 -->
+      <button class="choice" data-i="1">
+        <div style="font-weight:700;margin-bottom:4px">①</div>
+        <svg viewBox="0 0 200 110" width="100%" xmlns="http://www.w3.org/2000/svg">
+          <rect x="2" y="2" width="196" height="106" fill="#fff" stroke="#94a3b8" stroke-width="1"/>
+          <text x="10" y="18" font-size="10" fill="#64748b">U</text>
+          <defs>
+            <pattern id="hf1a" patternUnits="userSpaceOnUse" width="7" height="7" patternTransform="rotate(45)">
+              <line x1="0" y1="0" x2="0" y2="7" stroke="#0f172a" stroke-width="0.9"/>
+            </pattern>
+            <clipPath id="cf1a"><circle cx="78" cy="58" r="38"/></clipPath>
+          </defs>
+          <g clip-path="url(#cf1a)">
+            <circle cx="122" cy="58" r="38" fill="url(#hf1a)"/>
+          </g>
+          <circle cx="78" cy="58" r="38" fill="none" stroke="#0f172a" stroke-width="1.5"/>
+          <circle cx="122" cy="58" r="38" fill="none" stroke="#0f172a" stroke-width="1.5"/>
+          <text x="58" y="63" font-size="13" font-weight="700">A</text>
+          <text x="138" y="63" font-size="13" font-weight="700">B</text>
+        </svg>
+      </button>
+
+      <!-- ② A∪B（和集合） -->
+      <button class="choice" data-i="2">
+        <div style="font-weight:700;margin-bottom:4px">②</div>
+        <svg viewBox="0 0 200 110" width="100%" xmlns="http://www.w3.org/2000/svg">
+          <rect x="2" y="2" width="196" height="106" fill="#fff" stroke="#94a3b8" stroke-width="1"/>
+          <text x="10" y="18" font-size="10" fill="#64748b">U</text>
+          <defs>
+            <pattern id="hf1b" patternUnits="userSpaceOnUse" width="7" height="7" patternTransform="rotate(45)">
+              <line x1="0" y1="0" x2="0" y2="7" stroke="#0f172a" stroke-width="0.9"/>
+            </pattern>
+          </defs>
+          <circle cx="78" cy="58" r="38" fill="url(#hf1b)"/>
+          <circle cx="122" cy="58" r="38" fill="url(#hf1b)"/>
+          <circle cx="78" cy="58" r="38" fill="none" stroke="#0f172a" stroke-width="1.5"/>
+          <circle cx="122" cy="58" r="38" fill="none" stroke="#0f172a" stroke-width="1.5"/>
+          <text x="58" y="63" font-size="13" font-weight="700">A</text>
+          <text x="138" y="63" font-size="13" font-weight="700">B</text>
+        </svg>
+      </button>
+
+      <!-- ③ A∩B̄（Aの中だけ） -->
+      <button class="choice" data-i="3">
+        <div style="font-weight:700;margin-bottom:4px">③</div>
+        <svg viewBox="0 0 200 110" width="100%" xmlns="http://www.w3.org/2000/svg">
+          <rect x="2" y="2" width="196" height="106" fill="#fff" stroke="#94a3b8" stroke-width="1"/>
+          <text x="10" y="18" font-size="10" fill="#64748b">U</text>
+          <defs>
+            <pattern id="hf1c" patternUnits="userSpaceOnUse" width="7" height="7" patternTransform="rotate(45)">
+              <line x1="0" y1="0" x2="0" y2="7" stroke="#0f172a" stroke-width="0.9"/>
+            </pattern>
+            <clipPath id="cf1c"><circle cx="78" cy="58" r="38"/></clipPath>
+            <mask id="mf1c">
+              <rect x="0" y="0" width="200" height="110" fill="white"/>
+              <circle cx="122" cy="58" r="38" fill="black"/>
+            </mask>
+          </defs>
+          <g clip-path="url(#cf1c)" mask="url(#mf1c)">
+            <rect x="0" y="0" width="200" height="110" fill="url(#hf1c)"/>
+          </g>
+          <circle cx="78" cy="58" r="38" fill="none" stroke="#0f172a" stroke-width="1.5"/>
+          <circle cx="122" cy="58" r="38" fill="none" stroke="#0f172a" stroke-width="1.5"/>
+          <text x="58" y="63" font-size="13" font-weight="700">A</text>
+          <text x="138" y="63" font-size="13" font-weight="700">B</text>
+        </svg>
+      </button>
+
+      <!-- ④ Ā∩B（Bの中だけ） -->
+      <button class="choice" data-i="4">
+        <div style="font-weight:700;margin-bottom:4px">④</div>
+        <svg viewBox="0 0 200 110" width="100%" xmlns="http://www.w3.org/2000/svg">
+          <rect x="2" y="2" width="196" height="106" fill="#fff" stroke="#94a3b8" stroke-width="1"/>
+          <text x="10" y="18" font-size="10" fill="#64748b">U</text>
+          <defs>
+            <pattern id="hf1d" patternUnits="userSpaceOnUse" width="7" height="7" patternTransform="rotate(45)">
+              <line x1="0" y1="0" x2="0" y2="7" stroke="#0f172a" stroke-width="0.9"/>
+            </pattern>
+            <clipPath id="cf1d"><circle cx="122" cy="58" r="38"/></clipPath>
+            <mask id="mf1d">
+              <rect x="0" y="0" width="200" height="110" fill="white"/>
+              <circle cx="78" cy="58" r="38" fill="black"/>
+            </mask>
+          </defs>
+          <g clip-path="url(#cf1d)" mask="url(#mf1d)">
+            <rect x="0" y="0" width="200" height="110" fill="url(#hf1d)"/>
+          </g>
+          <circle cx="78" cy="58" r="38" fill="none" stroke="#0f172a" stroke-width="1.5"/>
+          <circle cx="122" cy="58" r="38" fill="none" stroke="#0f172a" stroke-width="1.5"/>
+          <text x="58" y="63" font-size="13" font-weight="700">A</text>
+          <text x="138" y="63" font-size="13" font-weight="700">B</text>
+        </svg>
+      </button>
+    </div>
+    <div class="feedback">
+      <b>✓ 解説</b>
+      <b>A∩B</b> は「A かつ B」＝ AとBの<b>両方の仲間</b>。<br>
+      2つの円が<b>重なっているレンズ部分</b>だけ斜線になっている①が正解。
+    </div>
+  </div>
+
+  <!-- F-2：A∩B̄ を選ぶ -->
+  <div class="q-card" data-q="F2" data-ans="3">
+    <div class="q-num">F-2</div>
+    <div class="q-body">
+      集合「<b>A∩<span class="ov">B</span></b>」を表すベン図はどれ？
+    </div>
+    <div class="venn-choices">
+      <!-- ① A∩B -->
+      <button class="choice" data-i="1">
+        <div style="font-weight:700;margin-bottom:4px">①</div>
+        <svg viewBox="0 0 200 110" width="100%" xmlns="http://www.w3.org/2000/svg">
+          <rect x="2" y="2" width="196" height="106" fill="#fff" stroke="#94a3b8" stroke-width="1"/>
+          <text x="10" y="18" font-size="10" fill="#64748b">U</text>
+          <defs>
+            <pattern id="hf2a" patternUnits="userSpaceOnUse" width="7" height="7" patternTransform="rotate(45)">
+              <line x1="0" y1="0" x2="0" y2="7" stroke="#0f172a" stroke-width="0.9"/>
+            </pattern>
+            <clipPath id="cf2a"><circle cx="78" cy="58" r="38"/></clipPath>
+          </defs>
+          <g clip-path="url(#cf2a)">
+            <circle cx="122" cy="58" r="38" fill="url(#hf2a)"/>
+          </g>
+          <circle cx="78" cy="58" r="38" fill="none" stroke="#0f172a" stroke-width="1.5"/>
+          <circle cx="122" cy="58" r="38" fill="none" stroke="#0f172a" stroke-width="1.5"/>
+          <text x="58" y="63" font-size="13" font-weight="700">A</text>
+          <text x="138" y="63" font-size="13" font-weight="700">B</text>
+        </svg>
+      </button>
+
+      <!-- ② Ā（Aの外側全部） -->
+      <button class="choice" data-i="2">
+        <div style="font-weight:700;margin-bottom:4px">②</div>
+        <svg viewBox="0 0 200 110" width="100%" xmlns="http://www.w3.org/2000/svg">
+          <rect x="2" y="2" width="196" height="106" fill="#fff" stroke="#94a3b8" stroke-width="1"/>
+          <text x="10" y="18" font-size="10" fill="#64748b">U</text>
+          <defs>
+            <pattern id="hf2b" patternUnits="userSpaceOnUse" width="7" height="7" patternTransform="rotate(45)">
+              <line x1="0" y1="0" x2="0" y2="7" stroke="#0f172a" stroke-width="0.9"/>
+            </pattern>
+            <mask id="mf2b">
+              <rect x="0" y="0" width="200" height="110" fill="white"/>
+              <circle cx="78" cy="58" r="38" fill="black"/>
+            </mask>
+          </defs>
+          <rect x="2" y="2" width="196" height="106" fill="url(#hf2b)" mask="url(#mf2b)"/>
+          <circle cx="78" cy="58" r="38" fill="none" stroke="#0f172a" stroke-width="1.5"/>
+          <circle cx="122" cy="58" r="38" fill="none" stroke="#0f172a" stroke-width="1.5"/>
+          <text x="58" y="63" font-size="13" font-weight="700">A</text>
+          <text x="138" y="63" font-size="13" font-weight="700">B</text>
+        </svg>
+      </button>
+
+      <!-- ③ A∩B̄（Aの中だけ） ← 正解 -->
+      <button class="choice" data-i="3">
+        <div style="font-weight:700;margin-bottom:4px">③</div>
+        <svg viewBox="0 0 200 110" width="100%" xmlns="http://www.w3.org/2000/svg">
+          <rect x="2" y="2" width="196" height="106" fill="#fff" stroke="#94a3b8" stroke-width="1"/>
+          <text x="10" y="18" font-size="10" fill="#64748b">U</text>
+          <defs>
+            <pattern id="hf2c" patternUnits="userSpaceOnUse" width="7" height="7" patternTransform="rotate(45)">
+              <line x1="0" y1="0" x2="0" y2="7" stroke="#0f172a" stroke-width="0.9"/>
+            </pattern>
+            <clipPath id="cf2c"><circle cx="78" cy="58" r="38"/></clipPath>
+            <mask id="mf2c">
+              <rect x="0" y="0" width="200" height="110" fill="white"/>
+              <circle cx="122" cy="58" r="38" fill="black"/>
+            </mask>
+          </defs>
+          <g clip-path="url(#cf2c)" mask="url(#mf2c)">
+            <rect x="0" y="0" width="200" height="110" fill="url(#hf2c)"/>
+          </g>
+          <circle cx="78" cy="58" r="38" fill="none" stroke="#0f172a" stroke-width="1.5"/>
+          <circle cx="122" cy="58" r="38" fill="none" stroke="#0f172a" stroke-width="1.5"/>
+          <text x="58" y="63" font-size="13" font-weight="700">A</text>
+          <text x="138" y="63" font-size="13" font-weight="700">B</text>
+        </svg>
+      </button>
+
+      <!-- ④ Ā∩B（Bの中だけ） -->
+      <button class="choice" data-i="4">
+        <div style="font-weight:700;margin-bottom:4px">④</div>
+        <svg viewBox="0 0 200 110" width="100%" xmlns="http://www.w3.org/2000/svg">
+          <rect x="2" y="2" width="196" height="106" fill="#fff" stroke="#94a3b8" stroke-width="1"/>
+          <text x="10" y="18" font-size="10" fill="#64748b">U</text>
+          <defs>
+            <pattern id="hf2d" patternUnits="userSpaceOnUse" width="7" height="7" patternTransform="rotate(45)">
+              <line x1="0" y1="0" x2="0" y2="7" stroke="#0f172a" stroke-width="0.9"/>
+            </pattern>
+            <clipPath id="cf2d"><circle cx="122" cy="58" r="38"/></clipPath>
+            <mask id="mf2d">
+              <rect x="0" y="0" width="200" height="110" fill="white"/>
+              <circle cx="78" cy="58" r="38" fill="black"/>
+            </mask>
+          </defs>
+          <g clip-path="url(#cf2d)" mask="url(#mf2d)">
+            <rect x="0" y="0" width="200" height="110" fill="url(#hf2d)"/>
+          </g>
+          <circle cx="78" cy="58" r="38" fill="none" stroke="#0f172a" stroke-width="1.5"/>
+          <circle cx="122" cy="58" r="38" fill="none" stroke="#0f172a" stroke-width="1.5"/>
+          <text x="58" y="63" font-size="13" font-weight="700">A</text>
+          <text x="138" y="63" font-size="13" font-weight="700">B</text>
+        </svg>
+      </button>
+    </div>
+    <div class="feedback">
+      <b>✓ 解説：日本語で考えましょう</b>
+      <b>A∩<span class="ov">B</span></b> は「A であり、かつ B ではない」<br>
+      → A の中にあって、B には入っていない部分<br>
+      → <b>Aの中だけ斜線</b>がある ③ が正解。
+    </div>
+  </div>
+
+  <!-- F-3：Ā∩B を選ぶ -->
+  <div class="q-card" data-q="F3" data-ans="4">
+    <div class="q-num">F-3</div>
+    <div class="q-body">
+      集合「<b><span class="ov">A</span>∩B</b>」を表すベン図はどれ？
+    </div>
+    <div class="venn-choices">
+      <!-- ① A∪B -->
+      <button class="choice" data-i="1">
+        <div style="font-weight:700;margin-bottom:4px">①</div>
+        <svg viewBox="0 0 200 110" width="100%" xmlns="http://www.w3.org/2000/svg">
+          <rect x="2" y="2" width="196" height="106" fill="#fff" stroke="#94a3b8" stroke-width="1"/>
+          <text x="10" y="18" font-size="10" fill="#64748b">U</text>
+          <defs>
+            <pattern id="hf3a" patternUnits="userSpaceOnUse" width="7" height="7" patternTransform="rotate(45)">
+              <line x1="0" y1="0" x2="0" y2="7" stroke="#0f172a" stroke-width="0.9"/>
+            </pattern>
+          </defs>
+          <circle cx="78" cy="58" r="38" fill="url(#hf3a)"/>
+          <circle cx="122" cy="58" r="38" fill="url(#hf3a)"/>
+          <circle cx="78" cy="58" r="38" fill="none" stroke="#0f172a" stroke-width="1.5"/>
+          <circle cx="122" cy="58" r="38" fill="none" stroke="#0f172a" stroke-width="1.5"/>
+          <text x="58" y="63" font-size="13" font-weight="700">A</text>
+          <text x="138" y="63" font-size="13" font-weight="700">B</text>
+        </svg>
+      </button>
+
+      <!-- ② A∩B -->
+      <button class="choice" data-i="2">
+        <div style="font-weight:700;margin-bottom:4px">②</div>
+        <svg viewBox="0 0 200 110" width="100%" xmlns="http://www.w3.org/2000/svg">
+          <rect x="2" y="2" width="196" height="106" fill="#fff" stroke="#94a3b8" stroke-width="1"/>
+          <text x="10" y="18" font-size="10" fill="#64748b">U</text>
+          <defs>
+            <pattern id="hf3b" patternUnits="userSpaceOnUse" width="7" height="7" patternTransform="rotate(45)">
+              <line x1="0" y1="0" x2="0" y2="7" stroke="#0f172a" stroke-width="0.9"/>
+            </pattern>
+            <clipPath id="cf3b"><circle cx="78" cy="58" r="38"/></clipPath>
+          </defs>
+          <g clip-path="url(#cf3b)">
+            <circle cx="122" cy="58" r="38" fill="url(#hf3b)"/>
+          </g>
+          <circle cx="78" cy="58" r="38" fill="none" stroke="#0f172a" stroke-width="1.5"/>
+          <circle cx="122" cy="58" r="38" fill="none" stroke="#0f172a" stroke-width="1.5"/>
+          <text x="58" y="63" font-size="13" font-weight="700">A</text>
+          <text x="138" y="63" font-size="13" font-weight="700">B</text>
+        </svg>
+      </button>
+
+      <!-- ③ A∩B̄ -->
+      <button class="choice" data-i="3">
+        <div style="font-weight:700;margin-bottom:4px">③</div>
+        <svg viewBox="0 0 200 110" width="100%" xmlns="http://www.w3.org/2000/svg">
+          <rect x="2" y="2" width="196" height="106" fill="#fff" stroke="#94a3b8" stroke-width="1"/>
+          <text x="10" y="18" font-size="10" fill="#64748b">U</text>
+          <defs>
+            <pattern id="hf3c" patternUnits="userSpaceOnUse" width="7" height="7" patternTransform="rotate(45)">
+              <line x1="0" y1="0" x2="0" y2="7" stroke="#0f172a" stroke-width="0.9"/>
+            </pattern>
+            <clipPath id="cf3c"><circle cx="78" cy="58" r="38"/></clipPath>
+            <mask id="mf3c">
+              <rect x="0" y="0" width="200" height="110" fill="white"/>
+              <circle cx="122" cy="58" r="38" fill="black"/>
+            </mask>
+          </defs>
+          <g clip-path="url(#cf3c)" mask="url(#mf3c)">
+            <rect x="0" y="0" width="200" height="110" fill="url(#hf3c)"/>
+          </g>
+          <circle cx="78" cy="58" r="38" fill="none" stroke="#0f172a" stroke-width="1.5"/>
+          <circle cx="122" cy="58" r="38" fill="none" stroke="#0f172a" stroke-width="1.5"/>
+          <text x="58" y="63" font-size="13" font-weight="700">A</text>
+          <text x="138" y="63" font-size="13" font-weight="700">B</text>
+        </svg>
+      </button>
+
+      <!-- ④ Ā∩B（Bの中だけ） ← 正解 -->
+      <button class="choice" data-i="4">
+        <div style="font-weight:700;margin-bottom:4px">④</div>
+        <svg viewBox="0 0 200 110" width="100%" xmlns="http://www.w3.org/2000/svg">
+          <rect x="2" y="2" width="196" height="106" fill="#fff" stroke="#94a3b8" stroke-width="1"/>
+          <text x="10" y="18" font-size="10" fill="#64748b">U</text>
+          <defs>
+            <pattern id="hf3d" patternUnits="userSpaceOnUse" width="7" height="7" patternTransform="rotate(45)">
+              <line x1="0" y1="0" x2="0" y2="7" stroke="#0f172a" stroke-width="0.9"/>
+            </pattern>
+            <clipPath id="cf3d"><circle cx="122" cy="58" r="38"/></clipPath>
+            <mask id="mf3d">
+              <rect x="0" y="0" width="200" height="110" fill="white"/>
+              <circle cx="78" cy="58" r="38" fill="black"/>
+            </mask>
+          </defs>
+          <g clip-path="url(#cf3d)" mask="url(#mf3d)">
+            <rect x="0" y="0" width="200" height="110" fill="url(#hf3d)"/>
+          </g>
+          <circle cx="78" cy="58" r="38" fill="none" stroke="#0f172a" stroke-width="1.5"/>
+          <circle cx="122" cy="58" r="38" fill="none" stroke="#0f172a" stroke-width="1.5"/>
+          <text x="58" y="63" font-size="13" font-weight="700">A</text>
+          <text x="138" y="63" font-size="13" font-weight="700">B</text>
+        </svg>
+      </button>
+    </div>
+    <div class="feedback">
+      <b>✓ 解説：日本語で考えましょう</b>
+      <b><span class="ov">A</span>∩B</b> は「A ではなく、かつ B である」<br>
+      → A の外側にあって、B の中に入っている部分<br>
+      → <b>Bの中だけ斜線</b>がある ④ が正解。
+    </div>
+  </div>
+
+  <div class="progress-box" id="prog-F">セットF：0／3問正解</div>
+</div>
+
+<div class="nav">
+  <a href="./intro.html" class="btn btn-back">← 解説に戻る</a>
+  <a href="./check.html" class="btn btn-next">確認テストへ →</a>
+</div>
+
+</div>
+
+<script>
+// セット切替
+function switchSet(s){
+  document.querySelectorAll('.set-tab').forEach(t=>t.classList.toggle('active', t.dataset.set===s));
+  document.querySelectorAll('.set-panel').forEach(p=>p.classList.toggle('active', p.id==='panel-'+s));
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+// 進捗トラッキング
+const progress = {A:new Set(), B:new Set(), C:new Set(), D:new Set(), E:new Set(), F:new Set()};
+
+const setTotals = {A:4, B:4, C:4, D:4, E:4, F:3};
+
+function updateProgress(setKey){
+  const box = document.getElementById('prog-'+setKey);
+  const cnt = progress[setKey].size;
+  const total = setTotals[setKey];
+  box.textContent = `セット${setKey}：${cnt}／${total}問正解`;
+  if(cnt===total){
+    box.style.background = 'var(--primary)';
+    box.style.color = '#fff';
+    box.textContent = `🎉 セット${setKey} 全問正解！`;
+  }
+}
+
+// 各問題のクリック処理
+document.querySelectorAll('.q-card').forEach(card=>{
+  const ans = card.dataset.ans;
+  const qid = card.dataset.q;
+  const setKey = qid.charAt(0);
+  const choices = card.querySelectorAll('.choice');
+  const fb = card.querySelector('.feedback');
+
+  choices.forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      if(btn.classList.contains('disabled')) return;
+      const sel = btn.dataset.i;
+      if(sel === ans){
+        btn.classList.add('correct');
+        choices.forEach(c=>c.classList.add('disabled'));
+        fb.classList.remove('ng');
+        fb.classList.add('ok','show');
+        progress[setKey].add(qid);
+        updateProgress(setKey);
+      } else {
+        btn.classList.add('wrong','disabled');
+        fb.classList.remove('ok');
+        fb.classList.add('ng','show');
+        fb.querySelector('b').textContent = '× もう一度考えてみよう';
+        // 一定時間後に解説差し戻し
+        setTimeout(()=>{
+          fb.querySelector('b').textContent = '✓ 解説';
+        }, 100);
+      }
+    });
+  });
+});
+</script>
+</body>
+</html>

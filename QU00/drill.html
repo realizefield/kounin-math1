@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>QU00 演習</title>
+<style>
+:root{--primary:#ea580c;--primary-d:#c2410c;--primary-l:#fff7ed;--hint:#f59e0b;--warn:#dc2626;--bg:#f8fafc;--card:#fff;--text:#1e293b;--muted:#64748b;--border:#e2e8f0;}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:-apple-system,"Hiragino Sans","Yu Gothic",sans-serif;line-height:1.7;font-size:15px}
+header{position:sticky;top:0;background:var(--primary);color:#fff;padding:12px 16px;margin:-14px -16px 16px;box-shadow:0 2px 8px rgba(0,0,0,.15);z-index:10}
+header h1{margin:0;font-size:1.05em;font-weight:700}
+header .sub{font-size:.78em;opacity:.88}
+.wrap{max-width:680px;margin:0 auto;padding:14px 16px 40px}
+.steps{display:flex;gap:0;margin-bottom:16px}
+.step{flex:1;text-align:center;padding:8px 4px;font-size:.78em;font-weight:700;color:var(--muted);border-bottom:3px solid var(--border)}
+.step.active{color:var(--primary);border-color:var(--primary)}
+.set-tabs{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
+.set-tabs>.set-tab{flex:1 1 calc(33.33% - 4px);min-width:90px}
+@supports(display:grid){.set-tabs{display:grid;grid-template-columns:repeat(3,1fr)}}
+.set-tab{padding:10px 4px;background:#fff;border:2px solid var(--border);border-radius:10px;text-align:center;font-weight:700;font-size:.88em;cursor:pointer;color:var(--muted)}
+.set-tab.active{background:var(--primary);color:#fff;border-color:var(--primary)}
+.set-tab .stitle{font-size:.72em;font-weight:500;display:block;margin-top:2px}
+.set-tab.active .stitle{color:#fed7aa}
+.set-panel{display:none}
+.set-panel.active{display:block}
+.set-header{background:var(--primary-l);border-radius:10px;padding:12px 14px;margin-bottom:12px;border:1px solid #fed7aa}
+.set-header h2{margin:0 0 4px;font-size:1em;color:var(--primary-d)}
+.set-header p{margin:0;font-size:.88em;color:var(--muted)}
+.q-card{background:var(--card);border-radius:12px;padding:16px;margin-bottom:12px;box-shadow:0 1px 3px rgba(0,0,0,.06);border:1px solid var(--border)}
+.q-num{display:inline-block;background:var(--primary);color:#fff;border-radius:6px;padding:2px 10px;font-size:.82em;font-weight:700;margin-bottom:8px}
+.q-body{font-size:.95em;margin-bottom:10px}
+.choices{display:grid;gap:8px}
+.choices.two-cols{grid-template-columns:1fr 1fr}
+.choice{background:#f8fafc;border:2px solid var(--border);border-radius:8px;padding:10px 14px;font-size:.93em;cursor:pointer;text-align:left;width:100%;transition:.15s}
+.choice:hover{background:var(--primary-l);border-color:var(--primary)}
+.choice.correct{background:#f0fdf4;border-color:#16a34a;color:#15803d}
+.choice.wrong{background:#fef2f2;border-color:var(--warn);color:var(--warn)}
+.feedback{display:none;background:#f8fafc;border-left:4px solid #16a34a;border-radius:6px;padding:10px 12px;margin-top:10px;font-size:.88em}
+.feedback.show{display:block}
+.feedback.wrong-fb{border-color:var(--warn)}
+.progress-box{background:var(--card);border:2px dashed var(--primary);border-radius:10px;padding:12px;margin-top:16px;text-align:center;font-weight:700;color:var(--primary-d)}
+.nav{display:flex;gap:10px;margin-top:20px}
+.btn{display:block;padding:12px 16px;border-radius:10px;text-decoration:none;text-align:center;font-weight:700;font-size:.95em;flex:1}
+.btn-back{background:#f1f5f9;color:var(--muted)}
+.btn-next{background:var(--primary);color:#fff}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <h1>QU00　演習　座標と放物線の基礎</h1>
+  <div class="sub">セット選択 → 問題に取り組もう</div>
+</header>
+<div class="steps">
+  <div class="step">① 解説</div>
+  <div class="step active">② 演習</div>
+  <div class="step">③ 確認</div>
+</div>
+<div class="set-tabs">
+  <div class="set-tab active" data-set="A" onclick="switchSet('A')">セットA<span class="stitle">座標の読み方</span></div>
+  <div class="set-tab" data-set="B" onclick="switchSet('B')">セットB<span class="stitle">向き・形</span></div>
+  <div class="set-tab" data-set="C" onclick="switchSet('C')">セットC<span class="stitle">総合問題</span></div>
+</div>
+
+<!-- セットA：座標の読み方 -->
+<div class="set-panel active" id="panel-A">
+  <div class="set-header"><h2>セットA　座標の読み方</h2><p>（χ, y）の形を正しく読んで答えましょう。</p></div>
+
+  <div class="q-card" data-q="A1" data-ans="3">
+    <div class="q-num">A-1</div>
+    <div class="q-body">点 <b>A(3, 2)</b> の正しい位置は？</div>
+    <div class="choices">
+      <button class="choice" data-i="1">① χ＝2（右に2）、y＝3（上に3）</button>
+      <button class="choice" data-i="2">② χ＝3（右に3）、y＝－2（下に2）</button>
+      <button class="choice" data-i="3">③ χ＝3（右に3）、y＝2（上に2）</button>
+      <button class="choice" data-i="4">④ χ＝－3（左に3）、y＝2（上に2）</button>
+    </div>
+    <div class="feedback"><b>✓ 解説</b> A(3, 2) → <b>左がχ、右がy</b> の順。χ＝3（右に3）、y＝2（上に2）。第1象限の点。</div>
+  </div>
+
+  <div class="q-card" data-q="A2" data-ans="2">
+    <div class="q-num">A-2</div>
+    <div class="q-body">点 <b>B(－2, 3)</b> は何象限？</div>
+    <div class="choices two-cols">
+      <button class="choice" data-i="1">① 第1象限</button>
+      <button class="choice" data-i="2">② 第2象限</button>
+      <button class="choice" data-i="3">③ 第3象限</button>
+      <button class="choice" data-i="4">④ 第4象限</button>
+    </div>
+    <div class="feedback"><b>✓ 解説</b> χ＝－2（左）、y＝3（上） → χ－・y＋ → <b>第2象限</b>（左上）</div>
+  </div>
+
+  <div class="q-card" data-q="A3" data-ans="4">
+    <div class="q-num">A-3</div>
+    <div class="q-body">点 <b>C(1, 0)</b> はどこ？</div>
+    <div class="choices">
+      <button class="choice" data-i="1">① y軸上</button>
+      <button class="choice" data-i="2">② 原点</button>
+      <button class="choice" data-i="3">③ 第1象限</button>
+      <button class="choice" data-i="4">④ χ軸上</button>
+    </div>
+    <div class="feedback"><b>✓ 解説</b> y＝0 → <b>χ軸上</b>の点。（χ軸はy＝0の直線）</div>
+  </div>
+
+  <div class="q-card" data-q="A4" data-ans="1">
+    <div class="q-num">A-4</div>
+    <div class="q-body">正しいのはどれ？</div>
+    <div class="choices">
+      <button class="choice" data-i="1">① (2, 3) と (3, 2) は別の点</button>
+      <button class="choice" data-i="2">② (2, 3) と (3, 2) は同じ点</button>
+      <button class="choice" data-i="3">③ (0, 0) は第1象限</button>
+      <button class="choice" data-i="4">④ χ は上下方向を表す</button>
+    </div>
+    <div class="feedback"><b>✓ 解説</b> 順番が違うと<b>別の点</b>。(0, 0)は<b>原点</b>（象限には属さない）。χは<b>左右方向</b>。</div>
+  </div>
+
+  <div class="progress-box" id="prog-A">セットA：0／4問正解</div>
+</div>
+
+<!-- セットB：向き・形 -->
+<div class="set-panel" id="panel-B">
+  <div class="set-header"><h2>セットB　二次関数の向き・形</h2><p>a の符号と大きさからグラフの特徴を答えましょう。</p></div>
+
+  <div class="q-card" data-q="B1" data-ans="2">
+    <div class="q-num">B-1</div>
+    <div class="q-body">二次関数 <b>y = 4χ²</b> のグラフの向きは？</div>
+    <div class="choices two-cols">
+      <button class="choice" data-i="1">① 上に凸（山型）</button>
+      <button class="choice" data-i="2">② 下に凸（U字型）</button>
+    </div>
+    <div class="feedback"><b>✓ 解説</b> a ＝ 4 ＞ 0（プラス）→ <b>下に凸（U字型）</b></div>
+  </div>
+
+  <div class="q-card" data-q="B2" data-ans="1">
+    <div class="q-num">B-2</div>
+    <div class="q-body">二次関数 <b>y = －½χ²</b> のグラフの向きは？</div>
+    <div class="choices two-cols">
+      <button class="choice" data-i="1">① 上に凸（山型）</button>
+      <button class="choice" data-i="2">② 下に凸（U字型）</button>
+    </div>
+    <div class="feedback"><b>✓ 解説</b> a ＝ －½ ＜ 0（マイナス）→ <b>上に凸（山型）</b></div>
+  </div>
+
+  <div class="q-card" data-q="B3" data-ans="1">
+    <div class="q-num">B-3</div>
+    <div class="q-body">y＝3χ² と y＝½χ²、グラフが細いのはどちら？</div>
+    <div class="choices">
+      <button class="choice" data-i="1">① y＝3χ² の方が細い</button>
+      <button class="choice" data-i="2">② y＝½χ² の方が細い</button>
+      <button class="choice" data-i="3">③ どちらも同じ</button>
+    </div>
+    <div class="feedback"><b>✓ 解説</b> a の数字が大きいほど細くなる。3 ＞ ½ なので <b>y＝3χ²</b> の方が細い。</div>
+  </div>
+
+  <div class="q-card" data-q="B4" data-ans="3">
+    <div class="q-num">B-4</div>
+    <div class="q-body">y＝aχ²（a≠0）の頂点の座標はどこ？</div>
+    <div class="choices two-cols">
+      <button class="choice" data-i="1">① (1, 0)</button>
+      <button class="choice" data-i="2">② (0, 1)</button>
+      <button class="choice" data-i="3">③ (0, 0)</button>
+      <button class="choice" data-i="4">④ a によって変わる</button>
+    </div>
+    <div class="feedback"><b>✓ 解説</b> y＝aχ²では χ＝0 のとき y＝0。頂点は常に<b>原点 (0, 0)</b>。</div>
+  </div>
+
+  <div class="progress-box" id="prog-B">セットB：0／4問正解</div>
+</div>
+
+<!-- セットC：総合問題 -->
+<div class="set-panel" id="panel-C">
+  <div class="set-header"><h2>セットC　総合問題</h2><p>座標と二次関数の知識を組み合わせて答えましょう。</p></div>
+
+  <div class="q-card" data-q="C1" data-ans="2">
+    <div class="q-num">C-1</div>
+    <div class="q-body">点 <b>D(－3, －4)</b> は何象限？</div>
+    <div class="choices two-cols">
+      <button class="choice" data-i="1">① 第2象限</button>
+      <button class="choice" data-i="2">② 第3象限</button>
+      <button class="choice" data-i="3">③ 第4象限</button>
+      <button class="choice" data-i="4">④ 第1象限</button>
+    </div>
+    <div class="feedback"><b>✓ 解説</b> χ－、y－ → <b>第3象限</b>（左下）</div>
+  </div>
+
+  <div class="q-card" data-q="C2" data-ans="3">
+    <div class="q-num">C-2</div>
+    <div class="q-body">二次関数 <b>y = －3χ²</b> の頂点の座標は？</div>
+    <div class="choices two-cols">
+      <button class="choice" data-i="1">① (3, 0)</button>
+      <button class="choice" data-i="2">② (－3, 0)</button>
+      <button class="choice" data-i="3">③ (0, 0)</button>
+      <button class="choice" data-i="4">④ (0, 3)</button>
+    </div>
+    <div class="feedback"><b>✓ 解説</b> y＝aχ²の形では頂点は常に<b>原点 (0, 0)</b>。a＝－3（上に凸）でも頂点は (0, 0)。</div>
+  </div>
+
+  <div class="q-card" data-q="C3" data-ans="4">
+    <div class="q-num">C-3</div>
+    <div class="q-body">y が x の<b>二次関数</b>であるものはどれ？</div>
+    <div class="choices">
+      <button class="choice" data-i="1">① y ＝ 3x</button>
+      <button class="choice" data-i="2">② y ＝ x＋2</button>
+      <button class="choice" data-i="3">③ y ＝ 1/x</button>
+      <button class="choice" data-i="4">④ y ＝ 2x²＋1</button>
+    </div>
+    <div class="feedback"><b>✓ 解説</b> 二次関数は「x²の項がある」関数。④ y＝2x²＋1 → x²あり → <b>二次関数</b>。</div>
+  </div>
+
+  <div class="q-card" data-q="C4" data-ans="1">
+    <div class="q-num">C-4</div>
+    <div class="q-body">y＝aχ²でaが1→5に変わるとグラフはどう変わる？</div>
+    <div class="choices">
+      <button class="choice" data-i="1">① グラフが細くなる（より急になる）</button>
+      <button class="choice" data-i="2">② グラフが広くなる（よりなだらかになる）</button>
+      <button class="choice" data-i="3">③ 上に凸に変わる</button>
+      <button class="choice" data-i="4">④ 頂点が原点から動く</button>
+    </div>
+    <div class="feedback"><b>✓ 解説</b> a の数字が大きくなる → グラフは<b>細くなる</b>。向き・頂点は変わらない。</div>
+  </div>
+
+  <div class="progress-box" id="prog-C">セットC：0／4問正解</div>
+</div>
+
+<div class="nav">
+  <a href="./intro.html" class="btn btn-back">← 解説に戻る</a>
+  <a href="./check.html" class="btn btn-next">確認テストへ →</a>
+</div>
+</div>
+<script>
+function switchSet(s){
+  document.querySelectorAll('.set-tab').forEach(t=>t.classList.toggle('active',t.dataset.set===s));
+  document.querySelectorAll('.set-panel').forEach(p=>p.classList.toggle('active',p.id==='panel-'+s));
+}
+const progress={A:new Set(),B:new Set(),C:new Set()};
+const setTotals={A:4,B:4,C:4};
+function updateProgress(k){
+  const box=document.getElementById('prog-'+k);
+  const cnt=progress[k].size;
+  box.textContent=`セット${k}：${cnt}／${setTotals[k]}問正解`;
+  if(cnt===setTotals[k]){box.style.background='var(--primary)';box.style.color='#fff';box.textContent=`🎉 セット${k} 全問正解！`;}
+}
+document.querySelectorAll('.q-card').forEach(card=>{
+  const ans=card.dataset.ans,qid=card.dataset.q;
+  if(!qid) return;
+  const k=qid.charAt(0);
+  card.querySelectorAll('.choice').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      if(card.classList.contains('answered')) return;
+      card.classList.add('answered');
+      const correct=(btn.dataset.i===ans);
+      card.querySelectorAll('.choice').forEach(b=>{
+        if(b.dataset.i===ans) b.classList.add('correct');
+        if(b===btn&&!correct) b.classList.add('wrong');
+        b.disabled=true;
+      });
+      const fb=card.querySelector('.feedback');
+      fb.classList.add('show');
+      if(!correct) fb.classList.add('wrong-fb');
+      if(correct){progress[k].add(qid);updateProgress(k);}
+    });
+  });
+});
+</script>
+</body>
+</html>

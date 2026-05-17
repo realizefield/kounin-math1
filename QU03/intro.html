@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>QU03 様々な問題</title>
+<style>
+:root{
+  --primary:#ea580c;--primary-d:#c2410c;--primary-l:#fff7ed;
+  --hint:#f59e0b;--hint-bg:#fffbeb;--warn:#dc2626;
+  --bg:#f8fafc;--card:#fff;--text:#1e293b;--muted:#64748b;--border:#e2e8f0;
+  --green:#059669;--green-l:#f0fdf4;--blue:#0284c7;--blue-l:#eff6ff;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:'BIZ UDPGothic','BIZ UDP Gothic',-apple-system,"Hiragino Sans","Yu Gothic",sans-serif;line-height:1.9;font-size:15px;overflow-x:hidden}
+header{position:sticky;top:0;background:var(--primary);color:#fff;padding:12px 16px;box-shadow:0 2px 8px rgba(0,0,0,.15);z-index:10}
+header h1{margin:0;font-size:1.05em;font-weight:700}
+header .sub{font-size:.78em;opacity:.88;margin-top:2px}
+.steps{display:flex;background:#fff;border-bottom:1px solid var(--border)}
+.step{flex:1;text-align:center;padding:8px 4px;font-size:.78em;font-weight:700;color:var(--muted);border-bottom:3px solid var(--border)}
+.step.active{color:var(--primary);border-color:var(--primary)}
+.wrap{max-width:680px;margin:0 auto;padding:16px 16px 40px}
+.section{background:var(--card);border-radius:12px;padding:18px 20px;margin-bottom:16px;box-shadow:0 1px 3px rgba(0,0,0,.06);border:1px solid var(--border)}
+.section h2{margin:0 0 14px;font-size:1.05em;color:var(--primary-d);border-left:4px solid var(--primary);padding-left:10px}
+.tip{background:var(--hint-bg);border-left:4px solid var(--hint);border-radius:6px;padding:10px 14px;margin:10px 0;font-size:.92em}
+.warn-box{background:#fef2f2;border-left:4px solid var(--warn);border-radius:6px;padding:10px 14px;margin:10px 0;font-size:.92em}
+.example{background:var(--primary-l);border-left:4px solid var(--primary);border-radius:6px;padding:12px 14px;margin:12px 0}
+.example .ex-title{font-weight:700;color:var(--primary-d);margin-bottom:8px}
+.point-box{background:var(--green-l);border:2px solid var(--green);border-radius:10px;padding:14px 16px;margin:14px 0}
+.point-box h4{margin:0 0 8px;color:var(--green);font-size:.95em}
+.calc-box{background:#f8fafc;border:1px solid var(--border);border-radius:8px;padding:12px 16px;margin:10px 0;font-size:.95em;line-height:2.1}
+.calc-box .eq{color:var(--primary-d);font-weight:700}
+.step-row{display:flex;gap:10px;align-items:flex-start;margin-bottom:10px}
+.step-num{min-width:28px;height:28px;background:var(--primary);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.85em;flex-shrink:0;margin-top:3px}
+.step-body{flex:1;background:#f8fafc;border-radius:8px;padding:8px 12px;border:1px solid var(--border);font-size:.93em;line-height:1.7}
+table.summary{border-collapse:collapse;width:100%;margin:10px 0;font-size:.9em}
+table.summary th{background:var(--primary);color:#fff;padding:8px 6px;text-align:center}
+table.summary td{padding:8px 6px;border:1px solid var(--border);text-align:center;vertical-align:middle}
+table.summary tr:nth-child(even) td{background:#fff7ed}
+.nav{display:flex;gap:10px;margin-top:20px}
+.btn{display:block;padding:12px 16px;border-radius:10px;text-decoration:none;text-align:center;font-weight:700;font-size:.95em;flex:1}
+.btn-back{background:#f1f5f9;color:var(--muted)}
+.btn-next{background:var(--primary);color:#fff}
+canvas{display:block}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>QU03　様々な問題</h1>
+  <div class="sub">点を代入してa・kを求める／頂点と通る点から式を決める</div>
+</header>
+
+<div class="steps">
+  <div class="step active">① 解説</div>
+  <div class="step">② 演習</div>
+  <div class="step">③ 確認</div>
+</div>
+
+<div class="wrap">
+
+<!-- セクション1：点を代入してa・kを求める -->
+<div class="section">
+  <h2>1．点を代入して a・k の値を求める</h2>
+
+  <p>二次関数の式に「通る点の座標」を代入すると、未知の定数が求められます。</p>
+
+  <div class="point-box">
+    <h4>✅ 基本の考え方</h4>
+    グラフが点 (χ₀, y₀) を通る<br>
+    → その点を式に代入すると等式が成り立つ<br>
+    → 等式を解いて定数を求める
+  </div>
+
+  <div class="tip">
+    <b>💡 「通る」とは？</b><br>
+    グラフが点(3, 2)を通る → χ＝3のとき y＝2 になる<br>
+    → 式に χ＝3、y＝2 を代入すれば OK
+  </div>
+
+  <h3 style="font-size:.95em;color:var(--primary-d);margin:18px 0 8px;padding-bottom:4px;border-bottom:1px dashed var(--border)">【タイプ1】k（定数項）を求める</h3>
+
+  <div class="example">
+    <div class="ex-title">📌 例題　y＝χ²－2χ＋k のグラフが点(3, 2)を通るとき、k を求めよ</div>
+    <div class="calc-box">
+      <span class="eq">点(3, 2)を代入：　2 ＝ 3²－2×3＋k</span><br>
+      <span class="eq">　　　　　　　　　2 ＝ 9－6＋k</span><br>
+      <span class="eq">　　　　　　　　　2 ＝ 3＋k</span><br>
+      <span class="eq">　　　　　　　　　k ＝ －1</span>
+    </div>
+  </div>
+
+  <div class="example">
+    <div class="ex-title">📌 例題　y＝2(χ－1)²＋k のグラフが点(0, 6)を通るとき、k を求めよ</div>
+    <div class="calc-box">
+      <span class="eq">点(0, 6)を代入：　6 ＝ 2(0－1)²＋k</span><br>
+      <span class="eq">　　　　　　　　　6 ＝ 2×1＋k</span><br>
+      <span class="eq">　　　　　　　　　k ＝ 4</span>
+    </div>
+  </div>
+
+  <h3 style="font-size:.95em;color:var(--primary-d);margin:18px 0 8px;padding-bottom:4px;border-bottom:1px dashed var(--border)">【タイプ2】a（係数）を求める</h3>
+
+  <div class="example">
+    <div class="ex-title">📌 例題　y＝a(χ＋2)²－3 のグラフが点(－4, 5)を通るとき、a を求めよ</div>
+    <div class="calc-box">
+      <span class="eq">点(－4, 5)を代入：　5 ＝ a(－4＋2)²－3</span><br>
+      <span class="eq">　　　　　　　　　　5 ＝ a×4－3</span><br>
+      <span class="eq">　　　　　　　　　　8 ＝ 4a</span><br>
+      <span class="eq">　　　　　　　　　　a ＝ 2</span>
+    </div>
+  </div>
+
+  <div class="warn-box">
+    <b>⚠ よくあるミス</b><br>
+    代入するのは <b>χと y の両方</b>です。どちらか片方だけ代入するまちがいに注意！<br>
+    点(3, 2) → χ＝<b>3</b>、y＝<b>2</b> を両方代入
+  </div>
+</div>
+
+<!-- セクション2：頂点と通る点から式を決める -->
+<div class="section">
+  <h2>2．頂点と通る点から式を決める</h2>
+
+  <p>グラフの頂点がわかっていれば、式を <span style="font-weight:700;color:var(--primary-d)">y＝m(χ－p)²＋q</span> の形でおいて考えられます。</p>
+
+  <div class="point-box">
+    <h4>✅ 手順</h4>
+    <div class="step-row">
+      <div class="step-num">1</div>
+      <div class="step-body">頂点 (p, q) を使って <b>y＝m(χ－p)²＋q</b> とおく</div>
+    </div>
+    <div class="step-row">
+      <div class="step-num">2</div>
+      <div class="step-body">通る点の座標を代入して <b>m を求める</b></div>
+    </div>
+    <div class="step-row">
+      <div class="step-num">3</div>
+      <div class="step-body">m を戻して式を完成させる</div>
+    </div>
+  </div>
+
+  <div class="example">
+    <div class="ex-title">📌 例題（R5-2）　頂点が(1, －2)で点(0, 1)を通る二次関数を求めよ</div>
+    <div class="calc-box">
+      <span class="eq">頂点(1, －2) → y＝m(χ－1)²－2 とおく</span><br>
+      <span class="eq">点(0, 1)を代入：　1 ＝ m(0－1)²－2</span><br>
+      <span class="eq">　　　　　　　　　1 ＝ m－2</span><br>
+      <span class="eq">　　　　　　　　　m ＝ 3</span><br>
+      <span class="eq">よって　y＝<b>3(χ－1)²－2</b></span>
+    </div>
+  </div>
+
+  <div class="example">
+    <div class="ex-title">📌 例題（R4-1）　頂点が(1, 3)で原点(0, 0)を通る二次関数を求めよ</div>
+    <div class="calc-box">
+      <span class="eq">頂点(1, 3) → y＝m(χ－1)²＋3 とおく</span><br>
+      <span class="eq">点(0, 0)を代入：　0 ＝ m(0－1)²＋3</span><br>
+      <span class="eq">　　　　　　　　　0 ＝ m＋3</span><br>
+      <span class="eq">　　　　　　　　　m ＝ －3</span><br>
+      <span class="eq">よって　y＝<b>－3(χ－1)²＋3</b></span>
+    </div>
+  </div>
+
+  <div class="tip">
+    <b>💡 グラフの選択肢がある場合</b><br>
+    選択肢の式に頂点と通る点を代入して確認する方法でも解けます。<br>
+    ただし、<b>y＝m(χ－p)²＋q とおいてmを求める方法が確実</b>です。
+  </div>
+
+  <div class="coord-wrap" style="display:flex;justify-content:center;margin:14px 0">
+    <canvas id="c_ex" width="260" height="200"></canvas>
+  </div>
+</div>
+
+<!-- まとめ -->
+<div class="section" style="background:var(--primary-l);border-color:#fed7aa">
+  <h2>📋 まとめ</h2>
+  <table class="summary">
+    <tr><th>問題のタイプ</th><th>やること</th></tr>
+    <tr><td><b>定数 k を求める</b></td><td>式に点の座標を代入 → k を計算</td></tr>
+    <tr><td><b>係数 a を求める</b></td><td>式に点の座標を代入 → a を計算</td></tr>
+    <tr><td><b>頂点＋通る点から式を決める</b></td><td>y＝m(χ－p)²＋q とおいて代入 → m を求める</td></tr>
+  </table>
+</div>
+
+<div class="nav">
+  <a href="../gamba_kounin.html" class="btn btn-back">← 単元一覧へ</a>
+  <a href="./drill.html" class="btn btn-next">演習へ進む →</a>
+</div>
+</div>
+
+<script>
+function drawAxes(ctx,W,H,ox,oy){
+  ctx.save();ctx.strokeStyle='#94a3b8';ctx.lineWidth=1.3;ctx.fillStyle='#94a3b8';
+  ctx.beginPath();ctx.moveTo(8,oy);ctx.lineTo(W-8,oy);ctx.stroke();
+  ctx.beginPath();ctx.moveTo(W-5,oy);ctx.lineTo(W-12,oy-4);ctx.lineTo(W-12,oy+4);ctx.fill();
+  ctx.beginPath();ctx.moveTo(ox,H-8);ctx.lineTo(ox,8);ctx.stroke();
+  ctx.beginPath();ctx.moveTo(ox,5);ctx.lineTo(ox-4,12);ctx.lineTo(ox+4,12);ctx.fill();
+  ctx.font='9px sans-serif';ctx.fillText('χ',W-11,oy-5);ctx.fillText('y',ox+4,13);
+  ctx.fillStyle='#64748b';ctx.font='8px sans-serif';ctx.fillText('O',ox-12,oy+12);
+  ctx.restore();
+}
+function drawParabola(ctx,W,H,a,p,q,ox,oy,sc,color,xMin,xMax){
+  ctx.save();ctx.beginPath();ctx.rect(0,0,W,H);ctx.clip();
+  ctx.strokeStyle=color;ctx.lineWidth=2.4;ctx.lineJoin='round';
+  ctx.beginPath();let first=true;
+  for(let x=xMin;x<=xMax+0.001;x+=0.05){
+    const y=a*(x-p)**2+q;
+    const sx=ox+x*sc,sy=oy-y*sc;
+    if(first){ctx.moveTo(sx,sy);first=false;}else ctx.lineTo(sx,sy);
+  }
+  ctx.stroke();ctx.restore();
+}
+function drawDot(ctx,ox,oy,sc,px,py,color){
+  const sx=ox+px*sc,sy=oy-py*sc;
+  ctx.fillStyle=color;ctx.beginPath();ctx.arc(sx,sy,5,0,Math.PI*2);ctx.fill();
+  ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(sx,sy,2.2,0,Math.PI*2);ctx.fill();
+}
+function drawTick(ctx,ox,oy,sc,v,isX){
+  ctx.fillStyle='#94a3b8';ctx.font='8px sans-serif';
+  if(isX)ctx.fillText(v,ox+v*sc-3,oy+12);
+  else ctx.fillText(v,ox+4,oy-v*sc+4);
+}
+
+window.addEventListener('load',function(){
+  const c=document.getElementById('c_ex');
+  const ctx=c.getContext('2d');
+  const W=c.width,H=c.height,ox=90,oy=150,sc=30;
+  ctx.clearRect(0,0,W,H);
+  drawAxes(ctx,W,H,ox,oy);
+  // y=3(x-1)²-2  頂点(1,-2)
+  drawParabola(ctx,W,H,3,1,-2,ox,oy,sc,'#ea580c',-0.5,2.5);
+  drawDot(ctx,ox,oy,sc,1,-2,'#ea580c');
+  // 点(0,1)
+  drawDot(ctx,ox,oy,sc,0,1,'#0284c7');
+  ctx.fillStyle='#ea580c';ctx.font='bold 9px sans-serif';
+  ctx.fillText('頂点(1,－2)',ox+1*sc+5,oy+2*sc-5);
+  ctx.fillStyle='#0284c7';
+  ctx.fillText('(0, 1)',ox+4,oy-1*sc-5);
+  ctx.fillStyle='#ea580c';ctx.font='9px sans-serif';
+  ctx.fillText('y＝3(χ－1)²－2',ox+1*sc+5,oy-3*sc);
+  [-1,1,2].forEach(v=>drawTick(ctx,ox,oy,sc,v,true));
+  [-2,-1,1,2,3].forEach(v=>drawTick(ctx,ox,oy,sc,v,false));
+});
+</script>
+</body>
+</html>

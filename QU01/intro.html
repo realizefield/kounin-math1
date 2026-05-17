@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>QU01 頂点座標と平行移動</title>
+<style>
+:root{
+  --primary:#ea580c;--primary-d:#c2410c;--primary-l:#fff7ed;
+  --hint:#f59e0b;--hint-bg:#fffbeb;--warn:#dc2626;
+  --bg:#f8fafc;--card:#fff;--text:#1e293b;--muted:#64748b;--border:#e2e8f0;
+  --green:#059669;--green-l:#f0fdf4;--blue:#0284c7;--blue-l:#eff6ff;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:'BIZ UDPGothic','BIZ UDP Gothic',-apple-system,"Hiragino Sans","Yu Gothic",sans-serif;line-height:1.8;font-size:15px;overflow-x:hidden}
+header{position:sticky;top:0;background:var(--primary);color:#fff;padding:12px 16px;box-shadow:0 2px 8px rgba(0,0,0,.15);z-index:10}
+header h1{margin:0;font-size:1.05em;font-weight:700}
+header .sub{font-size:.78em;opacity:.88;margin-top:2px}
+.steps{display:flex;background:#fff;border-bottom:1px solid var(--border)}
+.step{flex:1;text-align:center;padding:8px 4px;font-size:.78em;font-weight:700;color:var(--muted);border-bottom:3px solid var(--border)}
+.step.active{color:var(--primary);border-color:var(--primary)}
+.wrap{max-width:680px;margin:0 auto;padding:16px 16px 40px}
+.section{background:var(--card);border-radius:12px;padding:18px 20px;margin-bottom:16px;box-shadow:0 1px 3px rgba(0,0,0,.06);border:1px solid var(--border)}
+.section h2{margin:0 0 14px;font-size:1.05em;color:var(--primary-d);border-left:4px solid var(--primary);padding-left:10px}
+.section h3{font-size:.95em;color:var(--primary-d);margin:18px 0 8px;padding-bottom:4px;border-bottom:1px dashed var(--border)}
+.formula{background:var(--primary-l);border-radius:8px;padding:12px 16px;margin:10px 0;font-size:1.05em;text-align:center;font-weight:700;color:var(--primary-d);border:1px solid #fed7aa}
+.formula-blue{background:var(--blue-l);border-radius:8px;padding:12px 16px;margin:10px 0;font-size:1.05em;text-align:center;font-weight:700;color:#1e40af;border:1px solid #bfdbfe}
+.tip{background:var(--hint-bg);border-left:4px solid var(--hint);border-radius:6px;padding:10px 14px;margin:10px 0;font-size:.92em}
+.warn-box{background:#fef2f2;border-left:4px solid var(--warn);border-radius:6px;padding:10px 14px;margin:10px 0;font-size:.92em}
+.example{background:var(--primary-l);border-left:4px solid var(--primary);border-radius:6px;padding:12px 14px;margin:12px 0}
+.example .ex-title{font-weight:700;color:var(--primary-d);margin-bottom:8px}
+.point-box{background:var(--green-l);border:2px solid var(--green);border-radius:10px;padding:14px 16px;margin:14px 0}
+.point-box h4{margin:0 0 8px;color:var(--green);font-size:.95em}
+.coord-wrap{display:flex;justify-content:center;margin:14px 0;gap:20px;flex-wrap:wrap}
+.graph-row{display:flex;flex-wrap:wrap;gap:20px;margin:14px 0;justify-content:center}
+.graph-item{text-align:center}
+.graph-item .g-label{font-size:.85em;font-weight:700;margin-top:4px}
+.graph-item .g-sub{font-size:.78em;color:var(--muted)}
+table.summary{border-collapse:collapse;width:100%;margin:10px 0;font-size:.9em}
+table.summary th{background:var(--primary);color:#fff;padding:8px 6px;text-align:center}
+table.summary td{padding:8px 6px;border:1px solid var(--border);text-align:center;vertical-align:middle}
+table.summary tr:nth-child(even) td{background:#fff7ed}
+.move-table{border-collapse:collapse;width:100%;margin:12px 0;font-size:.88em}
+.move-table th{background:#475569;color:#fff;padding:8px 6px;text-align:center}
+.move-table td{padding:8px 6px;border:1px solid var(--border);text-align:center;vertical-align:middle}
+.move-table .center-col{background:#fff7ed;font-weight:700}
+.nav{display:flex;gap:10px;margin-top:20px}
+.btn{display:block;padding:12px 16px;border-radius:10px;text-decoration:none;text-align:center;font-weight:700;font-size:.95em;flex:1}
+.btn-back{background:#f1f5f9;color:var(--muted)}
+.btn-next{background:var(--primary);color:#fff}
+canvas{display:block}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>QU01　頂点座標と平行移動</h1>
+  <div class="sub">y＝a(χ－p)²＋q の頂点を読み取る</div>
+</header>
+
+<div class="steps">
+  <div class="step active">① 解説</div>
+  <div class="step">② 演習</div>
+  <div class="step">③ 確認</div>
+</div>
+
+<div class="wrap">
+
+<!-- セクション1：χ軸方向の平行移動 -->
+<div class="section">
+  <h2>1．χ軸方向への平行移動　── y＝a(χ－p)²</h2>
+  <p>y＝χ² のグラフを<b>左右にずらす</b>と、式がどう変わるか見てみましょう。</p>
+
+  <div class="coord-wrap">
+    <canvas id="c_shift_x" width="300" height="200"></canvas>
+  </div>
+
+  <div class="example">
+    <div class="ex-title">📌 表で確認</div>
+    <table style="border-collapse:collapse;width:100%;font-size:.88em;margin:4px 0">
+      <tr>
+        <th style="background:#475569;color:#fff;padding:5px 4px;text-align:center">χ</th>
+        <td style="border:1px solid var(--border);padding:5px 6px;text-align:center">－1</td>
+        <td style="border:1px solid var(--border);padding:5px 6px;text-align:center">0</td>
+        <td style="border:1px solid var(--border);padding:5px 6px;text-align:center;background:#fff3cd"><b>1</b></td>
+        <td style="border:1px solid var(--border);padding:5px 6px;text-align:center">2</td>
+        <td style="border:1px solid var(--border);padding:5px 6px;text-align:center">3</td>
+      </tr>
+      <tr>
+        <th style="background:#ea580c;color:#fff;padding:5px 4px;text-align:center">χ²</th>
+        <td style="border:1px solid var(--border);padding:5px 6px;text-align:center">1</td>
+        <td style="border:1px solid var(--border);padding:5px 6px;text-align:center;background:#fff3cd"><b>0</b></td>
+        <td style="border:1px solid var(--border);padding:5px 6px;text-align:center">1</td>
+        <td style="border:1px solid var(--border);padding:5px 6px;text-align:center">4</td>
+        <td style="border:1px solid var(--border);padding:5px 6px;text-align:center">9</td>
+      </tr>
+      <tr>
+        <th style="background:#0284c7;color:#fff;padding:5px 4px;text-align:center">(χ－1)²</th>
+        <td style="border:1px solid var(--border);padding:5px 6px;text-align:center">4</td>
+        <td style="border:1px solid var(--border);padding:5px 6px;text-align:center">1</td>
+        <td style="border:1px solid var(--border);padding:5px 6px;text-align:center;background:#dbeafe"><b>0</b></td>
+        <td style="border:1px solid var(--border);padding:5px 6px;text-align:center">1</td>
+        <td style="border:1px solid var(--border);padding:5px 6px;text-align:center">4</td>
+      </tr>
+    </table>
+    y＝(χ－1)² は χ＝<b>1</b> のとき y＝0 → 頂点は <b>(1, 0)</b><br>
+    → y＝χ² を <b>右に1</b> 平行移動したグラフ
+  </div>
+
+  <div class="tip">
+    <b>💡 カッコの中のサインに注意！</b><br>
+    <b>(χ－1)²</b> → 右に1移動 → 頂点 <b>(1, 0)</b><br>
+    <b>(χ＋1)²</b> → 左に1移動 → 頂点 <b>(－1, 0)</b><br>
+    <span style="color:var(--warn)">「－」なら右、「＋」なら左（直感と逆！）</span>
+  </div>
+
+  <div class="formula">
+    y＝a(χ－p)² のグラフ<br>
+    <span style="font-size:.9em;font-weight:400">→ y＝aχ² を <b>χ軸方向に p だけ</b>平行移動</span><br>
+    頂点の座標は <b>(p, 0)</b>
+  </div>
+
+  <table class="move-table">
+    <tr><th>y＝a(χ＋p)²</th><th class="center-col">y＝aχ²（元）</th><th>y＝a(χ－p)²</th></tr>
+    <tr><td>左に p だけ移動</td><td class="center-col">─</td><td>右に p だけ移動</td></tr>
+    <tr><td>頂点 <b>(－p, 0)</b></td><td class="center-col">頂点 (0, 0)</td><td>頂点 <b>(p, 0)</b></td></tr>
+  </table>
+</div>
+
+<!-- セクション2：y軸方向の平行移動 -->
+<div class="section">
+  <h2>2．y軸方向への平行移動　── y＝aχ²＋q</h2>
+  <p>今度は y＝χ² のグラフを<b>上下にずらします</b>。</p>
+
+  <div class="graph-row">
+    <div class="graph-item">
+      <canvas id="c_shift_up" width="150" height="160"></canvas>
+      <div class="g-label" style="color:var(--blue)">y＝χ²＋1</div>
+      <div class="g-sub">上に1移動・頂点(0, 1)</div>
+    </div>
+    <div class="graph-item">
+      <canvas id="c_shift_down" width="150" height="160"></canvas>
+      <div class="g-label" style="color:var(--warn)">y＝χ²－1</div>
+      <div class="g-sub">下に1移動・頂点(0, －1)</div>
+    </div>
+  </div>
+
+  <div class="formula-blue">
+    y＝aχ²＋q のグラフ<br>
+    <span style="font-size:.9em;font-weight:400">→ y＝aχ² を <b>y軸方向に q だけ</b>平行移動</span><br>
+    頂点の座標は <b>(0, q)</b>
+  </div>
+</div>
+
+<!-- セクション3：両方同時の平行移動 -->
+<div class="section">
+  <h2>3．y＝a(χ－p)²＋q　── 頂点は(p, q)</h2>
+  <p>χ軸方向とy軸方向を<b>同時に移動</b>したのが y＝a(χ－p)²＋q の形です。</p>
+
+  <div class="coord-wrap">
+    <canvas id="c_vertex" width="280" height="220"></canvas>
+  </div>
+
+  <div class="tip">
+    <b>💡 「軸」とは？</b><br>
+    放物線はちょうど真ん中で左右対称になっています。その<b>対称の中心となる縦の直線</b>を<b>軸</b>といいます。<br>
+    y＝a(χ－p)²＋q の軸は <b>χ＝p</b> という直線です。<br>
+    頂点のχ座標と軸のχ座標は<b>つねに同じ値</b>になります。
+    <div style="text-align:center;margin:8px 0">
+      <canvas id="c_axis" width="200" height="160"></canvas>
+    </div>
+  </div>
+
+  <div class="point-box">
+    <h4>✅ 最重要公式</h4>
+    <div style="font-size:1.1em;text-align:center;margin:8px 0">
+      <b>y＝a(χ－p)²＋q</b> の頂点は <b style="color:var(--primary)">(p, q)</b>　軸は <b style="color:var(--primary)">χ＝p</b>
+    </div>
+    ・<b>p</b>：カッコの中の「χ－□」の□（符号に注意！）<br>
+    ・<b>q</b>：カッコの外の「＋□」の□
+  </div>
+
+  <div class="warn-box">
+    <b>⚠ 符号のわな！</b><br>
+    y＝(χ－2)²＋3 → 頂点は <b>(2, 3)</b>　✅<br>
+    y＝(χ＋2)²＋3 → 頂点は <b>(－2, 3)</b>　✅（「＋2」なので p＝－2）<br>
+    y＝(χ＋2)²＋3 → 頂点は (2, 3)　❌ （よくあるまちがい！）
+  </div>
+
+  <div class="example">
+    <div class="ex-title">📌 例題</div>
+    <b>① y＝3(χ－1)²＋2</b>　→ p＝1, q＝2 → 頂点 <b>(1, 2)</b>、軸 χ＝1<br><br>
+    <b>② y＝－2(χ＋3)²－1</b>　→ p＝－3, q＝－1 → 頂点 <b>(－3, －1)</b>、軸 χ＝－3<br><br>
+    <b>③ y＝(χ－4)²</b>　→ q＝0（数字なし）→ 頂点 <b>(4, 0)</b>、軸 χ＝4
+  </div>
+</div>
+
+<!-- セクション4：a>0/a<0のグラフ -->
+<div class="section">
+  <h2>4．a の符号でグラフの向きが決まる</h2>
+
+  <div class="graph-row">
+    <div class="graph-item">
+      <canvas id="c_apos" width="160" height="160"></canvas>
+      <div class="g-label" style="color:var(--primary)">a ＞ 0　下に凸</div>
+      <div class="g-sub">y＝χ², y＝2χ²</div>
+    </div>
+    <div class="graph-item">
+      <canvas id="c_aneg" width="160" height="160"></canvas>
+      <div class="g-label" style="color:var(--blue)">a ＜ 0　上に凸</div>
+      <div class="g-sub">y＝－χ², y＝－2χ²</div>
+    </div>
+  </div>
+
+  <div class="tip">
+    <b>「下に凸」</b> ＝ 下がとがっている ＝ U字型（コップの形）<br>
+    <b>「上に凸」</b> ＝ 上がとがっている ＝ 山型（富士山の形）
+  </div>
+</div>
+
+<!-- セクション5：ひらき具合 -->
+<div class="section">
+  <h2>5．|a| の大きさ → グラフのひらき具合</h2>
+  <div class="tip">
+    <b>💡 |a| とは？（絶対値）</b><br>
+    |a| は「a の<b>符号を無視した数</b>」のことです。<br>
+    例：|2| ＝ 2　　|－2| ＝ 2　　|－3| ＝ 3<br>
+    つまり「マイナスをとった数」と覚えておけばOKです。
+  </div>
+  <p><b>|a| が大きい</b>ほど細く（急に）、<b>小さい</b>ほど広く（なだらかに）なります。</p>
+
+  <div class="coord-wrap" style="position:relative;display:inline-block;margin:0 auto">
+    <canvas id="c_width" width="240" height="200"></canvas>
+    <div style="position:absolute;top:18px;right:4px;font-size:9px;font-weight:700;text-align:left;line-height:1.6;pointer-events:none">
+      <span style="color:#dc2626">y＝2χ²（細い）</span><br>
+      <span style="color:#ea580c">y＝χ²</span><br>
+      <span style="color:#0284c7">y＝<span style="display:inline-block;vertical-align:middle;text-align:center;font-size:9px;line-height:1.1"><span style="display:block;border-bottom:1px solid #0284c7;padding:0 1px">1</span><span style="display:block;padding:0 1px">2</span></span>χ²（広い）</span>
+    </div>
+  </div>
+</div>
+
+<!-- まとめ -->
+<div class="section" style="background:var(--primary-l);border-color:#fed7aa">
+  <h2>📋 まとめ</h2>
+  <table class="summary">
+    <tr><th>式の形</th><th>平行移動</th><th>頂点</th></tr>
+    <tr><td>y＝a(χ－p)²</td><td>χ軸方向に p</td><td><b>(p, 0)</b></td></tr>
+    <tr><td>y＝aχ²＋q</td><td>y軸方向に q</td><td><b>(0, q)</b></td></tr>
+    <tr><td>y＝a(χ－p)²＋q</td><td>χ軸方向に p、y軸方向に q</td><td><b>(p, q)</b></td></tr>
+  </table>
+</div>
+
+<div class="nav">
+  <a href="../gamba_kounin.html" class="btn btn-back">← 単元一覧へ</a>
+  <a href="./drill.html" class="btn btn-next">演習へ進む →</a>
+</div>
+
+</div><!-- /.wrap -->
+
+<script>
+// ===== 共通Canvas描画関数 =====
+function drawAxes(ctx, W, H, ox, oy, color) {
+  color = color || '#94a3b8';
+  ctx.save();
+  ctx.strokeStyle = color; ctx.lineWidth = 1.3; ctx.fillStyle = color;
+  ctx.beginPath(); ctx.moveTo(8,oy); ctx.lineTo(W-8,oy); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(W-5,oy); ctx.lineTo(W-12,oy-4); ctx.lineTo(W-12,oy+4); ctx.fill();
+  ctx.beginPath(); ctx.moveTo(ox,H-8); ctx.lineTo(ox,8); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(ox,5); ctx.lineTo(ox-4,12); ctx.lineTo(ox+4,12); ctx.fill();
+  ctx.font='9px sans-serif'; ctx.fillText('χ',W-11,oy-5); ctx.fillText('y',ox+4,13);
+  ctx.fillStyle='#64748b'; ctx.font='8px sans-serif'; ctx.fillText('O',ox-12,oy+12);
+  ctx.restore();
+}
+
+function drawParabola(ctx, W, H, a, p, q, ox, oy, sc, color, xMin, xMax, dash) {
+  ctx.save();
+  ctx.beginPath(); ctx.rect(0,0,W,H); ctx.clip();
+  ctx.strokeStyle = color; ctx.lineWidth = 2.4; ctx.lineJoin = 'round';
+  if (dash) ctx.setLineDash(dash);
+  ctx.beginPath();
+  let first = true;
+  for (let x = xMin; x <= xMax+0.001; x += 0.05) {
+    const y = a*(x-p)**2 + q;
+    const sx = ox + x*sc, sy = oy - y*sc;
+    if (first) { ctx.moveTo(sx,sy); first=false; } else ctx.lineTo(sx,sy);
+  }
+  ctx.stroke();
+  ctx.restore();
+}
+
+function drawDot(ctx, ox, oy, sc, px, py, color, r) {
+  r = r||4.5;
+  const sx=ox+px*sc, sy=oy-py*sc;
+  ctx.fillStyle=color; ctx.beginPath(); ctx.arc(sx,sy,r,0,Math.PI*2); ctx.fill();
+  ctx.fillStyle='#fff'; ctx.beginPath(); ctx.arc(sx,sy,r*0.45,0,Math.PI*2); ctx.fill();
+}
+
+function drawLabel(ctx, ox, oy, sc, px, py, text, color, dx, dy) {
+  ctx.fillStyle = color; ctx.font = 'bold 9px sans-serif';
+  ctx.fillText(text, ox+px*sc+(dx||4), oy-py*sc+(dy||0));
+}
+
+function drawArrow(ctx, x1, y1, x2, y2, color) {
+  ctx.save();
+  ctx.strokeStyle=color; ctx.fillStyle=color; ctx.lineWidth=1.5;
+  ctx.setLineDash([4,3]);
+  ctx.beginPath(); ctx.moveTo(x1,y1); ctx.lineTo(x2,y2); ctx.stroke();
+  ctx.setLineDash([]);
+  const angle=Math.atan2(y2-y1,x2-x1);
+  ctx.beginPath();
+  ctx.moveTo(x2,y2);
+  ctx.lineTo(x2-8*Math.cos(angle-0.4),y2-8*Math.sin(angle-0.4));
+  ctx.lineTo(x2-8*Math.cos(angle+0.4),y2-8*Math.sin(angle+0.4));
+  ctx.closePath(); ctx.fill();
+  ctx.restore();
+}
+
+function drawTick(ctx, ox, oy, sc, val, isX) {
+  ctx.fillStyle='#94a3b8'; ctx.font='8px sans-serif';
+  if (isX) ctx.fillText(val, ox+val*sc-3, oy+12);
+  else ctx.fillText(val, ox+4, oy-val*sc+4);
+}
+
+window.addEventListener('load', function() {
+
+  // ---- グラフ1: χ軸方向の平行移動 (c_shift_x) ----
+  (function(){
+    const c=document.getElementById('c_shift_x');
+    const ctx=c.getContext('2d');
+    const W=c.width,H=c.height,ox=120,oy=160,sc=22;
+    ctx.clearRect(0,0,W,H);
+    drawAxes(ctx,W,H,ox,oy);
+    // y=χ²（オレンジ・薄い）
+    drawParabola(ctx,W,H,1,0,0,ox,oy,sc,'rgba(234,88,12,0.35)',-2.5,2.5,[5,4]);
+    // y=(χ-1)²（青）
+    drawParabola(ctx,W,H,1,1,0,ox,oy,sc,'#0284c7',-1.5,3.5);
+    // 頂点
+    drawDot(ctx,ox,oy,sc,0,0,'rgba(234,88,12,0.5)',4);
+    drawDot(ctx,ox,oy,sc,1,0,'#0284c7');
+    // ラベル
+    ctx.fillStyle='rgba(234,88,12,0.7)'; ctx.font='bold 9px sans-serif';
+    ctx.fillText('y＝χ²',-10,oy-sc*6.5);
+    ctx.fillStyle='#0284c7';
+    ctx.fillText('y＝(χ－1)²',ox+sc*1.5,oy-sc*4);
+    // 右に1の矢印
+    drawArrow(ctx,ox,oy,ox+sc,oy,'#64748b');
+    ctx.fillStyle='#64748b'; ctx.font='8px sans-serif';
+    ctx.fillText('右に1',ox+4,oy-6);
+    // 目盛り
+    [-2,-1,1,2,3].forEach(v=>drawTick(ctx,ox,oy,sc,v,true));
+    [1,2,3,4].forEach(v=>drawTick(ctx,ox,oy,sc,v,false));
+  })();
+
+  // ---- グラフ2: y軸方向・上に移動 (c_shift_up) ----
+  (function(){
+    const c=document.getElementById('c_shift_up');
+    const ctx=c.getContext('2d');
+    const W=c.width,H=c.height,ox=75,oy=130,sc=20;
+    ctx.clearRect(0,0,W,H);
+    drawAxes(ctx,W,H,ox,oy);
+    drawParabola(ctx,W,H,1,0,0,ox,oy,sc,'rgba(234,88,12,0.3)',-2.5,2.5,[4,3]);
+    drawParabola(ctx,W,H,1,0,1,ox,oy,sc,'#0284c7',-2.5,2.5);
+    drawDot(ctx,ox,oy,sc,0,0,'rgba(234,88,12,0.4)',3.5);
+    drawDot(ctx,ox,oy,sc,0,1,'#0284c7');
+    drawLabel(ctx,ox,oy,sc,0,1,'(0,1)','#0284c7',6,-2);
+    drawArrow(ctx,ox,oy,ox,oy-sc,'#64748b');
+    ctx.fillStyle='#64748b'; ctx.font='8px sans-serif'; ctx.fillText('上に1',ox+3,oy-sc*0.5);
+    [-2,-1,1,2].forEach(v=>drawTick(ctx,ox,oy,sc,v,true));
+    [1,2,3].forEach(v=>drawTick(ctx,ox,oy,sc,v,false));
+  })();
+
+  // ---- グラフ3: y軸方向・下に移動 (c_shift_down) ----
+  (function(){
+    const c=document.getElementById('c_shift_down');
+    const ctx=c.getContext('2d');
+    const W=c.width,H=c.height,ox=75,oy=100,sc=20;
+    ctx.clearRect(0,0,W,H);
+    drawAxes(ctx,W,H,ox,oy);
+    drawParabola(ctx,W,H,1,0,0,ox,oy,sc,'rgba(234,88,12,0.3)',-2.5,2.5,[4,3]);
+    drawParabola(ctx,W,H,1,0,-1,ox,oy,sc,'#dc2626',-2.5,2.5);
+    drawDot(ctx,ox,oy,sc,0,0,'rgba(234,88,12,0.4)',3.5);
+    drawDot(ctx,ox,oy,sc,0,-1,'#dc2626');
+    drawLabel(ctx,ox,oy,sc,0,-1,'(0,－1)','#dc2626',6,4);
+    drawArrow(ctx,ox,oy,ox,oy+sc,'#64748b');
+    ctx.fillStyle='#64748b'; ctx.font='8px sans-serif'; ctx.fillText('下に1',ox+3,oy+sc*0.5);
+    [-2,-1,1,2].forEach(v=>drawTick(ctx,ox,oy,sc,v,true));
+    [-1,1,2].forEach(v=>drawTick(ctx,ox,oy,sc,v,false));
+  })();
+
+  // ---- 軸の説明グラフ (c_axis) ----
+  (function(){
+    const c=document.getElementById('c_axis');
+    if(!c)return;
+    const ctx=c.getContext('2d');
+    const W=c.width,H=c.height,ox=80,oy=140,sc=22;
+    ctx.clearRect(0,0,W,H);
+    drawAxes(ctx,W,H,ox,oy);
+    // y=(χ-2)²+1（オレンジ）
+    drawParabola(ctx,W,H,1,2,1,ox,oy,sc,'#ea580c',-0.5,4.5);
+    // 頂点(2,1)
+    drawDot(ctx,ox,oy,sc,2,1,'#ea580c');
+    // 軸 χ=2（青い縦線）
+    ctx.save();
+    ctx.strokeStyle='#0284c7'; ctx.lineWidth=1.5; ctx.setLineDash([5,3]);
+    ctx.beginPath();
+    ctx.moveTo(ox+2*sc, 5); ctx.lineTo(ox+2*sc, H-5);
+    ctx.stroke(); ctx.restore();
+    // 軸ラベル
+    ctx.fillStyle='#0284c7'; ctx.font='bold 9px sans-serif';
+    ctx.fillText('軸 χ＝2', ox+2*sc+4, 18);
+    // 頂点ラベル
+    ctx.fillStyle='#ea580c'; ctx.font='bold 9px sans-serif';
+    ctx.fillText('頂点(2,1)', ox+2*sc+5, oy-1*sc-5);
+    // 左右対称の矢印
+    ctx.save();
+    ctx.strokeStyle='#94a3b8'; ctx.lineWidth=1; ctx.setLineDash([3,2]);
+    ctx.beginPath(); ctx.moveTo(ox+sc,oy-sc); ctx.lineTo(ox+2*sc,oy-sc); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(ox+3*sc,oy-sc); ctx.lineTo(ox+2*sc,oy-sc); ctx.stroke();
+    ctx.restore();
+    ctx.fillStyle='#94a3b8'; ctx.font='8px sans-serif';
+    ctx.fillText('左右対称', ox+sc-2, oy-sc-5);
+    [-1,1,2,3,4].forEach(v=>drawTick(ctx,ox,oy,sc,v,true));
+    [1,2].forEach(v=>drawTick(ctx,ox,oy,sc,v,false));
+  })();
+
+  // ---- グラフ4: 頂点(2,3)の例 (c_vertex) ----
+  (function(){
+    const c=document.getElementById('c_vertex');
+    const ctx=c.getContext('2d');
+    const W=c.width,H=c.height,ox=80,oy=165,sc=24;
+    ctx.clearRect(0,0,W,H);
+    drawAxes(ctx,W,H,ox,oy);
+    // y=χ²（薄め）
+    drawParabola(ctx,W,H,1,0,0,ox,oy,sc,'rgba(234,88,12,0.3)',-2.5,3,[4,3]);
+    // y=(χ-2)²+3（青）
+    drawParabola(ctx,W,H,1,2,3,ox,oy,sc,'#0284c7',-0.5,4.5);
+    // 頂点(2,3)
+    drawDot(ctx,ox,oy,sc,2,3,'#0284c7');
+    // 点線
+    ctx.save(); ctx.strokeStyle='#0284c7'; ctx.lineWidth=1; ctx.setLineDash([4,3]);
+    ctx.beginPath(); ctx.moveTo(ox+2*sc,oy-3*sc); ctx.lineTo(ox+2*sc,oy); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(ox,oy-3*sc); ctx.lineTo(ox+2*sc,oy-3*sc); ctx.stroke();
+    ctx.restore();
+    // ラベル
+    ctx.fillStyle='#0284c7'; ctx.font='bold 9px sans-serif';
+    ctx.fillText('(2, 3)',ox+2*sc+5,oy-3*sc-3);
+    ctx.fillText('y＝(χ－2)²＋3',ox+2*sc+5,oy-sc*4.5);
+    ctx.fillStyle='rgba(234,88,12,0.6)'; ctx.font='9px sans-serif';
+    ctx.fillText('y＝χ²',8,oy-sc*5.5);
+    // p=2, q=3 ラベル
+    ctx.fillStyle='#0284c7'; ctx.font='8px sans-serif';
+    ctx.fillText('p＝2',ox+2*sc-8,oy+12);
+    ctx.fillText('q＝3',ox-28,oy-3*sc+4);
+    [-2,-1,1,2,3].forEach(v=>drawTick(ctx,ox,oy,sc,v,true));
+    [1,2,3,4].forEach(v=>drawTick(ctx,ox,oy,sc,v,false));
+  })();
+
+  // ---- グラフ5: a>0 下に凸 (c_apos) ----
+  (function(){
+    const c=document.getElementById('c_apos');
+    const ctx=c.getContext('2d');
+    const W=c.width,H=c.height,ox=80,oy=120,sc=20;
+    ctx.clearRect(0,0,W,H);
+    drawAxes(ctx,W,H,ox,oy);
+    drawParabola(ctx,W,H,1,0,0,ox,oy,sc,'#ea580c',-3,3);
+    drawDot(ctx,ox,oy,sc,0,0,'#ea580c');
+    ctx.fillStyle='#ea580c'; ctx.font='bold 9px sans-serif';
+    ctx.fillText('頂点',ox+4,oy+14);
+    [-2,-1,1,2].forEach(v=>drawTick(ctx,ox,oy,sc,v,true));
+  })();
+
+  // ---- グラフ6: a<0 上に凸 (c_aneg) ----
+  (function(){
+    const c=document.getElementById('c_aneg');
+    const ctx=c.getContext('2d');
+    const W=c.width,H=c.height,ox=80,oy=50,sc=20;
+    ctx.clearRect(0,0,W,H);
+    drawAxes(ctx,W,H,ox,oy);
+    drawParabola(ctx,W,H,-1,0,0,ox,oy,sc,'#0284c7',-3,3);
+    drawDot(ctx,ox,oy,sc,0,0,'#0284c7');
+    ctx.fillStyle='#0284c7'; ctx.font='bold 9px sans-serif';
+    ctx.fillText('頂点',ox+4,oy-7);
+    [-2,-1,1,2].forEach(v=>drawTick(ctx,ox,oy,sc,v,true));
+  })();
+
+  // ---- グラフ7: ひらき具合 (c_width) ----
+  (function(){
+    const c=document.getElementById('c_width');
+    const ctx=c.getContext('2d');
+    const W=c.width,H=c.height,ox=120,oy=180,sc=22;
+    ctx.clearRect(0,0,W,H);
+    drawAxes(ctx,W,H,ox,oy);
+    drawParabola(ctx,W,H,2,0,0,ox,oy,sc,'#dc2626',-3,3);
+    drawParabola(ctx,W,H,1,0,0,ox,oy,sc,'#ea580c',-3,3);
+    drawParabola(ctx,W,H,0.5,0,0,ox,oy,sc,'#0284c7',-3,3);
+    drawDot(ctx,ox,oy,sc,0,0,'#64748b',4);
+    [-2,-1,1,2].forEach(v=>drawTick(ctx,ox,oy,sc,v,true));
+  })();
+
+});
+</script>
+</body>
+</html>

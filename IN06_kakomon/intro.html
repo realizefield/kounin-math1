@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>IN06 不等式の文章題②（比較型）｜導入</title>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" onload="renderAllMath();"></script>
+
+<style>
+:root{
+  --primary:#1d4ed8;
+  --primary-light:#dbeafe;
+  --primary-mid:#3b82f6;
+  --accent:#e8372d;
+  --accent-light:#fff1f0;
+  --success:#16a34a;
+  --success-light:#dcfce7;
+  --warn:#d97706;
+  --warn-light:#fffbeb;
+  --bg:#f0f6ff;
+  --card:#ffffff;
+  --border:#bfdbfe;
+  --text:#1e293b;
+  --text-sub:#64748b;
+  --radius:12px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:60px;line-height:1.7;}
+.g-container{max-width:760px;margin:0 auto;}
+.page-header{background:var(--primary);color:#fff;padding:18px 24px 14px;text-align:center;box-shadow:0 3px 10px rgba(29,78,216,.25);}
+.page-header .unit-code{font-size:.82em;opacity:.85;letter-spacing:.1em;margin-bottom:4px;}
+.page-header h1{font-size:clamp(1.1em,3vw,1.55em);font-weight:700;margin:0;}
+
+.step-nav{display:flex;align-items:center;justify-content:center;padding:14px 12px;background:var(--card);border-bottom:1px solid var(--border);flex-wrap:nowrap;overflow-x:auto;position:sticky;top:0;z-index:10;}
+.step-item{display:flex;align-items:center;gap:6px;font-size:clamp(.75em,2vw,.88em);color:#94a3b8;white-space:nowrap;padding:4px 6px;}
+.step-item a{color:inherit;text-decoration:none;}
+.step-item.active{color:var(--primary);font-weight:700;}
+.step-circle{width:22px;height:22px;border-radius:50%;font-size:.76em;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.step-item.active .step-circle{background:var(--primary);color:#fff;box-shadow:0 0 0 3px var(--primary-light);}
+.step-item:not(.active) .step-circle{background:#94a3b8;color:#fff;}
+.step-arrow{color:#cbd5e1;font-size:1.1em;padding:0 2px;user-select:none;}
+
+.content{padding:20px 16px 40px;}
+.intro-lead{background:var(--primary-light);border-left:4px solid var(--primary);padding:14px 18px;border-radius:0 var(--radius) var(--radius) 0;margin-bottom:24px;color:var(--primary);font-size:.96em;line-height:1.75;}
+
+.section{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);padding:18px 18px 20px;margin-bottom:18px;}
+.section h2{font-size:1.1em;color:var(--primary);border-bottom:2px solid var(--primary-light);padding-bottom:8px;margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+.section h2 .num{background:var(--primary);color:#fff;width:26px;height:26px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:.85em;flex-shrink:0;}
+
+.kw-cond{color:var(--accent);font-weight:700;}
+.kw-num{background:linear-gradient(transparent 60%,#fff3a0 60%);font-weight:700;padding:0 2px;}
+
+.point-box{background:var(--success-light);border-left:4px solid var(--success);padding:12px 16px;border-radius:0 8px 8px 0;margin:12px 0;}
+.point-box .label{font-weight:700;color:var(--success);font-size:.9em;margin-bottom:4px;}
+
+.warn-box{background:var(--warn-light);border-left:4px solid var(--warn);padding:12px 16px;border-radius:0 8px 8px 0;margin:12px 0;}
+.warn-box .label{font-weight:700;color:var(--warn);font-size:.9em;margin-bottom:4px;}
+
+.example-box{background:#f8fafc;border:1px solid var(--border);border-radius:8px;padding:14px 16px;margin:12px 0;}
+.example-box .label{font-weight:700;color:var(--primary);font-size:.95em;margin-bottom:8px;display:flex;align-items:center;gap:6px;}
+
+.flow-step{display:flex;align-items:flex-start;gap:12px;margin-bottom:14px;padding:12px;background:#fff;border:1.5px solid var(--border);border-radius:10px;}
+.flow-step .num-circle{background:var(--primary);color:#fff;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0;font-size:.95em;}
+.flow-step .step-body{flex:1;}
+.flow-step .step-title{font-weight:700;color:var(--primary);margin-bottom:4px;font-size:.98em;}
+.flow-step .step-desc{font-size:.92em;color:var(--text);line-height:1.65;}
+
+.translate-box{background:#fff;border:2px solid var(--primary);border-radius:10px;padding:14px 16px;margin:12px 0;}
+.translate-box .tr-step{margin-bottom:10px;}
+.translate-box .tr-step:last-child{margin-bottom:0;}
+.translate-box .tr-label{font-size:.82em;color:var(--primary);font-weight:700;margin-bottom:4px;display:flex;align-items:center;gap:4px;}
+.translate-box .tr-content{background:#f8fafc;padding:8px 12px;border-radius:6px;font-size:.95em;line-height:1.7;}
+.translate-box .tr-content.final{background:var(--success-light);border-left:3px solid var(--success);}
+.translate-box .tr-arrow{text-align:center;color:var(--primary);font-size:1.3em;line-height:1;margin:6px 0;}
+
+.compare-table{width:100%;border-collapse:collapse;margin:10px 0;font-size:.93em;}
+.compare-table th{background:var(--primary);color:#fff;padding:8px;font-weight:700;border:1px solid var(--primary);}
+.compare-table td{padding:10px 12px;border:1px solid var(--border);background:#fff;text-align:center;vertical-align:middle;}
+.compare-table .label-col{background:var(--primary-light);font-weight:700;color:var(--primary);}
+
+.formula-box{background:#fff;border:2px solid var(--primary);border-radius:10px;padding:14px 16px;margin:12px 0;text-align:center;}
+.formula-box .label{font-size:.85em;color:var(--primary);font-weight:700;margin-bottom:6px;}
+
+.goal-box{background:linear-gradient(135deg,#dbeafe 0%,#e0e7ff 100%);border:2px solid var(--primary);border-radius:var(--radius);padding:16px;text-align:center;margin-top:20px;}
+.goal-box .label{font-size:.85em;color:var(--primary);font-weight:700;margin-bottom:6px;letter-spacing:.05em;}
+.goal-box .text{font-size:1.05em;color:var(--text);font-weight:700;line-height:1.6;}
+
+.btn-back{display:inline-block;margin-top:24px;padding:10px 22px;background:#fff;border:2px solid var(--primary);color:var(--primary);text-decoration:none;border-radius:8px;font-weight:700;font-size:.95em;}
+.btn-back:hover{background:var(--primary-light);}
+.btn-next{display:inline-block;margin-top:12px;margin-left:8px;padding:10px 22px;background:var(--primary);color:#fff;text-decoration:none;border-radius:8px;font-weight:700;font-size:.95em;}
+.btn-next:hover{background:var(--primary-mid);}
+.btn-row{text-align:center;margin-top:24px;}
+</style>
+</head>
+<body>
+<div class="g-container">
+
+<header class="page-header">
+  <div class="unit-code">IN06 ｜ 過去問版（教室／希望者用）</div>
+  <h1>不等式の文章題②（比較型）</h1>
+</header>
+
+<nav class="step-nav">
+  <div class="step-item active"><span class="step-circle">1</span>導入</div>
+  <span class="step-arrow">→</span>
+  <div class="step-item"><a href="example.html"><span class="step-circle">2</span>例題</a></div>
+  <span class="step-arrow">→</span>
+  <div class="step-item"><a href="drill.html"><span class="step-circle">3</span>演習</a></div>
+  <span class="step-arrow">→</span>
+  <div class="step-item"><a href="check.html"><span class="step-circle">4</span>確認</a></div>
+</nav>
+
+<div class="content">
+
+  <div class="intro-lead">
+    <strong>📝 高認の不等式文章題で最近よく出るパターンです。</strong><br>
+    <span class="kw-cond">2つの選択肢A・Bを比較して</span>，「どちらが安いか／何回以上で逆転するか」を考える問題です。<br>
+    <strong>例題（次のページ）で本物の過去問</strong>に挑戦するので，まずはここで解法をマスターしましょう！
+  </div>
+
+  <!-- ════════ 1. 比較型ってどんな問題？ ════════ -->
+  <section class="section">
+    <h2><span class="num">1</span>比較型の3つのパターン</h2>
+
+    <p style="margin-bottom:12px;font-size:.95em;">
+      高認では，こんな問題が出ています。
+    </p>
+
+    <div class="example-box">
+      <div class="label">📋 パターン1：時間累積比較型</div>
+      <p style="font-size:.92em;line-height:1.8;">
+        洗濯機A・Bを比較する。Aは本体5万円・電気代月600円。Bは本体7万円・電気代月400円。<br>
+        <span class="kw-cond">Bの方が安くなる</span>のは何か月以上使ったときか？
+      </p>
+    </div>
+
+    <div class="example-box">
+      <div class="label">📋 パターン2：時間配分型</div>
+      <p style="font-size:.92em;line-height:1.8;">
+        1日のレッスンで合計10コマを実施。実技は20分・座学は10分。<br>
+        全体を <span class="kw-num">3時間</span><span class="kw-cond">以内</span>にしたい。実技は最大何コマまでできるか？
+      </p>
+    </div>
+
+    <div class="example-box">
+      <div class="label">📋 パターン3：店舗比較型</div>
+      <p style="font-size:.92em;line-height:1.8;">
+        八百屋A（1個150円・送料0円）と<br>
+        通販B（1個100円・送料500円）。<br>
+        <span class="kw-cond">通販Bの方が安くなる</span>のは何個以上買うときか？
+      </p>
+    </div>
+
+    <div class="point-box">
+      <div class="label">★ 共通の考え方</div>
+      <p style="font-size:.92em;margin-top:4px;">
+        どのパターンも，<strong>2つの値を比べて不等式をつくる</strong>のがポイント！
+      </p>
+    </div>
+  </section>
+
+  <!-- ════════ 2. パターン1：時間累積比較型 ════════ -->
+  <section class="section">
+    <h2><span class="num">2</span>パターン1：時間累積比較型の解き方</h2>
+
+    <p style="margin-bottom:12px;font-size:.95em;">
+      まずは <strong>洗濯機の購入</strong>を例に，比較型の基本を学びます。
+    </p>
+
+    <div class="example-box">
+      <div class="label">📋 例：洗濯機A・B</div>
+      <table class="compare-table">
+        <thead>
+          <tr><th></th><th>洗濯機A</th><th>洗濯機B</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="label-col">最初にかかる費用</td>
+            <td><span class="kw-num">50,000円</span></td>
+            <td><span class="kw-num">70,000円</span></td>
+          </tr>
+          <tr>
+            <td class="label-col">月々の電気代</td>
+            <td><span class="kw-num">600円</span>/月</td>
+            <td><span class="kw-num">400円</span>/月</td>
+          </tr>
+        </tbody>
+      </table>
+      <p style="font-size:.93em;margin-top:8px;">
+        Aの方が最初は安いけど，電気代が高い。<br>
+        Bは最初高いけど，電気代が安い。<br>
+        <strong>長く使うほどBの方がお得になる</strong>はず！
+      </p>
+    </div>
+
+    <p style="font-size:.95em;margin-top:14px;">
+      では，何か月以上使えばBの方が安くなるでしょうか？
+    </p>
+
+    <div class="flow-step">
+      <div class="num-circle">1</div>
+      <div class="step-body">
+        <div class="step-title">時間（か月）を $x$ とおく</div>
+        <div class="step-desc">使用月数を $x$ か月とする。</div>
+      </div>
+    </div>
+
+    <div class="flow-step">
+      <div class="num-circle">2</div>
+      <div class="step-body">
+        <div class="step-title">A・Bそれぞれの<strong>合計費用</strong>を式で表す</div>
+        <div class="step-desc">
+          Aの合計 ＝ 最初の費用 ＋ 月の電気代 × 月数 ＝ $50000 + 600x$（円）<br>
+          Bの合計 ＝ 最初の費用 ＋ 月の電気代 × 月数 ＝ $70000 + 400x$（円）
+        </div>
+      </div>
+    </div>
+
+    <div class="flow-step">
+      <div class="num-circle">3</div>
+      <div class="step-body">
+        <div class="step-title">「Bの方が安い」を不等式で表す</div>
+        <div class="step-desc">
+          「Bの合計 が Aの合計 より小さい」を，整数の答えで考えると：<br>
+          $70000 + 400x \leqq 50000 + 600x$ の解で，<strong>境界より大きい整数</strong>が答え。
+        </div>
+      </div>
+    </div>
+
+    <div class="flow-step">
+      <div class="num-circle">4</div>
+      <div class="step-body">
+        <div class="step-title">不等式を解く</div>
+        <div class="step-desc">
+          $70000 - 50000 \leqq 600x - 400x$<br>
+          $20000 \leqq 200x$<br>
+          $x \geqq 100$<br>
+          → <strong>100か月以上</strong>使えばBの方が安くなる！
+        </div>
+      </div>
+    </div>
+
+    <div class="warn-box">
+      <div class="label">⚠ 整数の答えで「以上」を表現するコツ</div>
+      <p style="font-size:.92em;margin-top:4px;">
+        「Bの方が安い」というのは「Bの値段がAより小さい」ということ。<br>
+        計算結果が小数になる場合（例：$x \geqq 136.66\cdots$）は，<br>
+        月数は整数なので，<strong>137か月以上</strong>のように切り上げて答えます。
+      </p>
+    </div>
+  </section>
+
+  <!-- ════════ 3. パターン2：時間配分型 ════════ -->
+  <section class="section">
+    <h2><span class="num">3</span>パターン2：時間配分型の解き方</h2>
+
+    <p style="margin-bottom:12px;font-size:.95em;">
+      <strong>1日のレッスン</strong>のように，全体を「どう配分するか」で考えます。
+    </p>
+
+    <div class="example-box">
+      <div class="label">📋 例：1日のレッスン</div>
+      <p style="font-size:.93em;line-height:1.8;">
+        合計<span class="kw-num">10コマ</span>のレッスンを行う。実技は<span class="kw-num">20分</span>，座学は<span class="kw-num">10分</span>。<br>
+        全体時間を<span class="kw-num">180分</span><span class="kw-cond">以内</span>にしたい。<br>
+        <strong>実技</strong>は最大何コマまでできる？
+      </p>
+    </div>
+
+    <div class="point-box">
+      <div class="label">★ 実は「合計型（IN05）」の応用！</div>
+      <p style="font-size:.92em;margin-top:4px;">
+        実技 $x$ コマ，座学は $(10-x)$ コマとして，IN05と同じ立式パターンが使えます！<br>
+        <strong>$20x + 10(10-x) \leqq 180$</strong>
+      </p>
+    </div>
+
+    <div class="flow-step">
+      <div class="num-circle">1</div>
+      <div class="step-body">
+        <div class="step-title">実技の数を $x$ コマとおく</div>
+        <div class="step-desc">実技の最大数を聞かれているので，実技を $x$ コマとする。</div>
+      </div>
+    </div>
+
+    <div class="flow-step">
+      <div class="num-circle">2</div>
+      <div class="step-body">
+        <div class="step-title">座学は $(10-x)$ コマ</div>
+        <div class="step-desc">合計10コマなので，座学は $(10-x)$ コマ。</div>
+      </div>
+    </div>
+
+    <div class="flow-step">
+      <div class="num-circle">3</div>
+      <div class="step-body">
+        <div class="step-title">全体時間の不等式</div>
+        <div class="step-desc">
+          実技の合計時間 ＋ 座学の合計時間 ≦ 180分<br>
+          $20x + 10(10-x) \leqq 180$
+        </div>
+      </div>
+    </div>
+
+    <div class="flow-step">
+      <div class="num-circle">4</div>
+      <div class="step-body">
+        <div class="step-title">解く</div>
+        <div class="step-desc">
+          $20x + 100 - 10x \leqq 180$<br>
+          $10x \leqq 80$<br>
+          $x \leqq 8$<br>
+          → コマ数は整数なので，<strong>実技は最大8コマ</strong>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════ 4. パターン3：店舗比較型 ════════ -->
+  <section class="section">
+    <h2><span class="num">4</span>パターン3：店舗比較型の解き方</h2>
+
+    <p style="margin-bottom:12px;font-size:.95em;">
+      <strong>野菜の通販</strong>を例に。これは「<strong>個数</strong>」で比較するタイプです。
+    </p>
+
+    <div class="example-box">
+      <div class="label">📋 例：野菜の通販</div>
+      <table class="compare-table">
+        <thead>
+          <tr><th></th><th>八百屋A</th><th>通販B</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="label-col">1個の値段</td>
+            <td><span class="kw-num">150円</span></td>
+            <td><span class="kw-num">100円</span></td>
+          </tr>
+          <tr>
+            <td class="label-col">送料</td>
+            <td><span class="kw-num">0円</span></td>
+            <td><span class="kw-num">500円</span></td>
+          </tr>
+        </tbody>
+      </table>
+      <p style="font-size:.93em;margin-top:8px;">
+        八百屋Aは送料無料だけど少し高い，通販Bは送料がかかるけど野菜が安い。<br>
+        <strong>たくさん買うほど通販Bの方がお得</strong>になるはず！
+      </p>
+    </div>
+
+    <div class="flow-step">
+      <div class="num-circle">1</div>
+      <div class="step-body">
+        <div class="step-title">個数を $x$ 個とおく</div>
+        <div class="step-desc">買う個数を $x$ 個とする。</div>
+      </div>
+    </div>
+
+    <div class="flow-step">
+      <div class="num-circle">2</div>
+      <div class="step-body">
+        <div class="step-title">それぞれの<strong>合計費用</strong>を式で表す</div>
+        <div class="step-desc">
+          八百屋A：$150x$（円）<br>
+          通販B：$100x + 500$（円）
+        </div>
+      </div>
+    </div>
+
+    <div class="flow-step">
+      <div class="num-circle">3</div>
+      <div class="step-body">
+        <div class="step-title">「通販Bの方が安い」を不等式に</div>
+        <div class="step-desc">
+          $100x + 500 \leqq 150x$ の解で，<strong>境界より大きい整数</strong>が答え。
+        </div>
+      </div>
+    </div>
+
+    <div class="flow-step">
+      <div class="num-circle">4</div>
+      <div class="step-body">
+        <div class="step-title">解く</div>
+        <div class="step-desc">
+          $500 \leqq 150x - 100x$<br>
+          $500 \leqq 50x$<br>
+          $x \geqq 10$<br>
+          → 個数は整数なので，<strong>10個以上</strong>買えば通販Bの方が安い！
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════ 5. 比較型を見分けるコツ ════════ -->
+  <section class="section">
+    <h2><span class="num">5</span>パターンを見分けるコツ</h2>
+
+    <table class="compare-table">
+      <thead>
+        <tr>
+          <th>パターン</th>
+          <th>キーワード</th>
+          <th>立式の型</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="label-col">時間累積比較</td>
+          <td>「○か月以上」<br>「Aの方が安い」</td>
+          <td>$P_1 + a x \leqq P_2 + b x$</td>
+        </tr>
+        <tr>
+          <td class="label-col">時間配分</td>
+          <td>「○分以内」<br>「合わせて○クラス」</td>
+          <td>$a x + b(N - x) \leqq T$</td>
+        </tr>
+        <tr>
+          <td class="label-col">店舗比較</td>
+          <td>「○本以上で安くなる」</td>
+          <td>$p_1 x + g_1 \leqq p_2 x + g_2$</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="point-box">
+      <div class="label">★ 共通の解き方の流れ</div>
+      <ol style="padding-left:1.4em;font-size:.93em;margin-top:4px;">
+        <li>求めたいものを $x$ とおく</li>
+        <li>A・B両方の<strong>合計</strong>を式で表す（または合計を作る）</li>
+        <li>大小関係を不等式に書く</li>
+        <li>解いて，<strong>整数で答える</strong></li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ════════ 6. ゴール ════════ -->
+  <div class="goal-box">
+    <div class="label">🎯 この単元のゴール</div>
+    <div class="text">
+      最新の出題傾向に対応！<br>
+      <span class="kw-cond">3つのパターン</span>を見分けて，<br>
+      <strong>確実に解けるようになろう！</strong>
+    </div>
+  </div>
+
+  <div class="btn-row">
+    <a href="../gamba_kounin.html" class="btn-back">← 単元一覧へ</a>
+    <a href="example.html" class="btn-next">例題へ進む →</a>
+  </div>
+
+</div>
+</div>
+
+<script>
+function renderAllMath(){
+  if(typeof renderMathInElement === 'function'){
+    renderMathInElement(document.body, {
+      delimiters:[
+        {left:'$$',right:'$$',display:true},
+        {left:'$',right:'$',display:false}
+      ],
+      throwOnError:false
+    });
+  }
+}
+</script>
+</body>
+</html>

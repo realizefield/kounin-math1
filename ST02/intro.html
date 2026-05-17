@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ST02 命題と真偽 ｜ 解説</title>
+<style>
+:root{
+  --primary:#059669;
+  --primary-d:#047857;
+  --primary-l:#d1fae5;
+  --bg:#f8fafc;
+  --card:#ffffff;
+  --text:#0f172a;
+  --muted:#64748b;
+  --border:#e2e8f0;
+  --warn:#dc2626;
+  --warn-bg:#fef2f2;
+  --hint:#f59e0b;
+  --hint-bg:#fffbeb;
+  --true-c:#0891b2;
+  --false-c:#dc2626;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:-apple-system,"Hiragino Sans","Yu Gothic",sans-serif;line-height:1.7}
+.wrap{max-width:780px;margin:0 auto;padding:14px 16px 80px}
+header{position:sticky;top:0;background:var(--primary);color:#fff;padding:12px 16px;margin:-14px -16px 16px;box-shadow:0 2px 8px rgba(0,0,0,.1);z-index:10}
+header h1{margin:0;font-size:1.1em;font-weight:700}
+header .sub{font-size:.78em;opacity:.9;margin-top:2px}
+.section{background:var(--card);border-radius:12px;padding:18px;margin-bottom:16px;box-shadow:0 1px 3px rgba(0,0,0,.06);border:1px solid var(--border)}
+.section h2{margin:0 0 12px;font-size:1.05em;color:var(--primary-d);border-left:4px solid var(--primary);padding-left:10px}
+.section h3{margin:14px 0 8px;font-size:.98em;color:var(--text)}
+.kv{display:inline-block;background:var(--primary-l);color:var(--primary-d);padding:2px 8px;border-radius:6px;font-weight:700;margin:0 2px}
+.formula{background:var(--primary-l);border-radius:8px;padding:12px 14px;margin:10px 0;font-size:1.05em;text-align:center;font-weight:700;color:var(--primary-d)}
+.example{background:#f0fdf4;border-left:4px solid var(--primary);border-radius:6px;padding:12px 14px;margin:12px 0}
+.example .ex-title{font-weight:700;color:var(--primary-d);margin-bottom:6px;font-size:.95em}
+.tip{background:var(--hint-bg);border-left:4px solid var(--hint);border-radius:6px;padding:10px 12px;margin:10px 0;font-size:.93em}
+.tip b{color:#b45309}
+.true-tag{display:inline-block;background:var(--true-c);color:#fff;padding:2px 10px;border-radius:6px;font-weight:700;font-size:.9em;margin:0 2px}
+.false-tag{display:inline-block;background:var(--false-c);color:#fff;padding:2px 10px;border-radius:6px;font-weight:700;font-size:.9em;margin:0 2px}
+.proposition{background:#fff;border:2px solid var(--border);border-radius:8px;padding:10px 14px;margin:8px 0;font-size:.98em}
+.proposition .p-text{font-weight:500;color:var(--text)}
+.proposition .p-judge{margin-top:6px;font-size:.9em;color:var(--muted)}
+.big-arrow{display:inline-block;background:var(--primary);color:#fff;padding:2px 10px;border-radius:6px;font-weight:700;margin:0 4px}
+.nav{display:flex;justify-content:space-between;gap:10px;margin-top:24px}
+.btn{display:inline-block;padding:12px 18px;border-radius:10px;text-decoration:none;font-weight:700;font-size:.95em;text-align:center;flex:1}
+.btn-back{background:#e2e8f0;color:var(--text)}
+.btn-next{background:var(--primary);color:#fff;box-shadow:0 2px 6px rgba(5,150,105,.3)}
+.btn:active{transform:scale(.98)}
+.big{font-size:1.1em;font-weight:700}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:10px 0;font-size:.85em;text-align:center}
+.step{background:#f1f5f9;padding:8px 4px;border-radius:6px;color:var(--muted)}
+.step.active{background:var(--primary);color:#fff;font-weight:700}
+sup{font-size:.7em;vertical-align:super}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>ST02　命題と真偽　解説</h1>
+  <div class="sub">第3章　論理と集合</div>
+</header>
+
+<div class="steps">
+  <div class="step active">① 解説</div>
+  <div class="step">② 例題</div>
+  <div class="step">③ 演習・確認</div>
+</div>
+
+<!-- ===== セクション1：命題とは ===== -->
+<div class="section">
+  <h2>1．命題とは</h2>
+
+  <p>「<b>～ならば～である</b>」というような、<b>正しいか正しくないかを判定できる文や式</b>を <span class="kv big">命題</span> といいます。</p>
+
+  <h3>命題の例</h3>
+
+  <div class="proposition">
+    <div class="p-text">「χ<sup>2</sup>＝4 ならば χ＝2 である」</div>
+    <div class="p-judge">→ 正しい？正しくない？を判定できる文</div>
+  </div>
+
+  <div class="proposition">
+    <div class="p-text">「すべての辺の長さが等しい四角形は正方形である」</div>
+    <div class="p-judge">→ 正しい？正しくない？を判定できる文</div>
+  </div>
+
+  <div class="tip">
+    <b>💡 ポイント</b>：命題は<b>「ならば」型</b>か<b>「～は～である」型</b>の文で表されます。「明日は雨が降るかも」のような<b>あいまいな文は命題ではありません</b>（正しいかどうか判定できないから）。
+  </div>
+</div>
+
+<!-- ===== セクション2：真と偽 ===== -->
+<div class="section">
+  <h2>2．真と偽</h2>
+
+  <p>命題が<b>正しいとき</b>、その命題は <span class="true-tag">真（しん）</span> といいます。</p>
+  <p>命題が<b>正しくないとき</b>、その命題は <span class="false-tag">偽（ぎ）</span> といいます。</p>
+
+  <div class="tip">
+    <b>📖 ことばの注</b>：「偽」の訓読みは「<b>偽り（いつわり）</b>」です。「うそ」「正しくない」の意味。
+  </div>
+
+  <h3>例で確認</h3>
+
+  <div class="proposition">
+    <div class="p-text">「4＋3＝7 である」</div>
+    <div class="p-judge">→ 正しい <span class="true-tag">真</span></div>
+  </div>
+
+  <div class="proposition">
+    <div class="p-text">「2＋3＝6 である」</div>
+    <div class="p-judge">→ 正しくない <span class="false-tag">偽</span></div>
+  </div>
+
+  <div class="proposition">
+    <div class="p-text">「すべての三角形は二等辺三角形である」</div>
+    <div class="p-judge">→ 正しくない <span class="false-tag">偽</span>（直角三角形などは二等辺じゃない場合がある）</div>
+  </div>
+</div>
+
+<!-- ===== セクション3：反例 ===== -->
+<div class="section">
+  <h2>3．反例（はんれい）</h2>
+
+  <p>命題に<b>あてはまらない例</b>を <span class="kv big">反例</span> といいます。</p>
+
+  <div class="formula">
+    反例が1つでも見つかれば<br>その命題は <span class="false-tag">偽</span> ！
+  </div>
+
+  <h3>反例の見つけ方</h3>
+
+  <div class="proposition">
+    <div class="p-text">命題：「nが2の倍数ならば、nは4の倍数である」</div>
+    <div class="p-judge">
+      <b>反例を探す</b>：n＝2、n＝6、n＝10など、<b>2の倍数だけど4の倍数じゃない数</b>がある<br>
+      → 反例があるので <span class="false-tag">偽</span>
+    </div>
+  </div>
+
+  <div class="proposition">
+    <div class="p-text">命題：「nが4の倍数ならば、nは2の倍数である」</div>
+    <div class="p-judge">
+      <b>反例を探す</b>：4の倍数（4、8、12、16…）はすべて2で割れる<br>
+      → 反例が見つからない → <span class="true-tag">真</span>
+    </div>
+  </div>
+
+  <div class="tip">
+    <b>💡 重要な戦略</b><br>
+    高認では「<b>～は～である</b>」「<b>～ならば～</b>」の真偽判定がよく出ます。<br>
+    <b>真っぽく見えても、反例を1つ探してみる</b>クセをつけると、ミスが減ります。
+  </div>
+</div>
+
+<!-- ===== セクション4：真偽判定の手順 ===== -->
+<div class="section">
+  <h2>4．真偽判定の3ステップ</h2>
+
+  <div class="formula">
+    ① 命題の意味を理解する<br>
+    <span class="big-arrow">↓</span><br>
+    ② 反例を探してみる<br>
+    <span class="big-arrow">↓</span><br>
+    ③ 反例があれば <span class="false-tag">偽</span><br>
+    　 なければ <span class="true-tag">真</span>
+  </div>
+
+  <h3>練習で確認</h3>
+
+  <div class="proposition">
+    <div class="p-text">命題：「χ<sup>2</sup>＝9 ならば χ＝3 である」</div>
+    <div class="p-judge">
+      ① χ<sup>2</sup>＝9 を解くと χ＝3 と χ＝－3 の2つ<br>
+      ② 反例：χ＝－3 もχ<sup>2</sup>＝9 を満たすけど、χ＝3 ではない<br>
+      ③ 反例あり → <span class="false-tag">偽</span>
+    </div>
+  </div>
+
+  <div class="proposition">
+    <div class="p-text">命題：「a＞0、b＞0 ならば ab＞0 である」</div>
+    <div class="p-judge">
+      ① 正の数どうしの積は正の数<br>
+      ② どんなに探しても反例はない<br>
+      ③ 反例なし → <span class="true-tag">真</span>
+    </div>
+  </div>
+</div>
+
+<!-- ===== まとめ ===== -->
+<div class="section" style="background:var(--primary-l);border-color:var(--primary)">
+  <h2 style="color:var(--primary-d)">📌 まとめ</h2>
+  <ul style="margin:0;padding-left:1.4em;line-height:1.9">
+    <li><b>命題</b>：「～ならば～」「～は～である」のような、正しいか判定できる文</li>
+    <li><b>真</b>：命題が正しい</li>
+    <li><b>偽</b>：命題が正しくない</li>
+    <li><b>反例</b>：命題にあてはまらない例。1つでもあれば <span class="false-tag">偽</span></li>
+  </ul>
+</div>
+
+<div class="nav">
+  <a href="../gamba_kounin.html" class="btn btn-back">← 単元一覧へ</a>
+  <a href="./example.html" class="btn btn-next">例題へ進む →</a>
+</div>
+
+</div>
+</body>
+</html>

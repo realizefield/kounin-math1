@@ -1,0 +1,359 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ST02 命題と真偽 ｜ 確認テスト</title>
+<style>
+:root{
+  --primary:#059669;
+  --primary-d:#047857;
+  --primary-l:#d1fae5;
+  --bg:#f8fafc;
+  --card:#ffffff;
+  --text:#0f172a;
+  --muted:#64748b;
+  --border:#e2e8f0;
+  --correct:#16a34a;
+  --wrong:#dc2626;
+  --gold:#f59e0b;
+  --basic-tag:#059669;
+  --past-tag:#0891b2;
+  --true-c:#0891b2;
+  --false-c:#dc2626;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:-apple-system,"Hiragino Sans","Yu Gothic",sans-serif;line-height:1.7}
+.wrap{max-width:780px;margin:0 auto;padding:14px 16px 80px}
+header{position:sticky;top:0;background:var(--primary);color:#fff;padding:12px 16px;margin:-14px -16px 16px;box-shadow:0 2px 8px rgba(0,0,0,.1);z-index:10}
+header h1{margin:0;font-size:1.1em;font-weight:700}
+header .sub{font-size:.78em;opacity:.9;margin-top:2px}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:0 0 14px;font-size:.85em;text-align:center}
+.step{background:#f1f5f9;padding:8px 4px;border-radius:6px;color:var(--muted)}
+.step.active{background:var(--primary);color:#fff;font-weight:700}
+
+.intro-msg{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px 16px;margin-bottom:14px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.intro-msg h2{margin:0 0 6px;font-size:1em;color:var(--primary-d)}
+.intro-msg p{margin:0;font-size:.92em;color:var(--muted)}
+
+.section-divider{background:var(--primary-l);border-radius:10px;padding:10px 14px;margin:18px 0 10px;font-weight:700;color:var(--primary-d);font-size:.95em}
+.section-divider .tag{display:inline-block;padding:2px 8px;border-radius:6px;font-size:.85em;color:#fff;margin-right:8px}
+.section-divider .tag.basic{background:var(--basic-tag)}
+.section-divider .tag.past{background:var(--past-tag)}
+
+.q-card{background:var(--card);border-radius:12px;padding:16px;margin-bottom:14px;box-shadow:0 1px 3px rgba(0,0,0,.06);border:1px solid var(--border)}
+.q-num{display:inline-block;background:var(--primary);color:#fff;padding:2px 10px;border-radius:6px;font-weight:700;font-size:.82em;margin-bottom:8px;margin-right:6px}
+.year-tag{display:inline-block;background:var(--past-tag);color:#fff;padding:2px 10px;border-radius:6px;font-weight:700;font-size:.82em;margin-bottom:8px}
+.q-body{font-size:1em;margin-bottom:12px;line-height:1.8}
+.q-body .quote{background:#f0fdf4;border-left:3px solid var(--primary);padding:8px 12px;margin:6px 0;font-weight:500}
+.q-body .quote.p-q{background:#fff;border-left:3px solid var(--past-tag);padding:8px 12px;margin:4px 0}
+
+.choices{display:grid;gap:8px}
+.choices.two-cols{grid-template-columns:1fr 1fr}
+.choice{background:#fff;border:2px solid var(--border);border-radius:10px;padding:10px 14px;text-align:left;font-size:.98em;cursor:pointer;font-family:inherit;color:var(--text)}
+.choices.two-cols .choice{text-align:center;font-weight:700;font-size:1em}
+.choice:active{transform:scale(.98)}
+.choice.selected{background:var(--primary-l);border-color:var(--primary);color:var(--primary-d);font-weight:700}
+.choice.disabled{pointer-events:none;opacity:.7}
+.choice.correct{background:#dcfce7;border-color:var(--correct);color:#166534;font-weight:700}
+.choice.wrong{background:#fee2e2;border-color:var(--wrong);color:#991b1b}
+
+.feedback{margin-top:10px;padding:10px 12px;border-radius:8px;font-size:.92em;display:none;line-height:1.7}
+.feedback.show{display:block}
+.feedback.ok{background:#dcfce7;color:#166534;border-left:4px solid var(--correct)}
+.feedback.ng{background:#fee2e2;color:#991b1b;border-left:4px solid var(--wrong)}
+
+.true-tag{display:inline-block;background:var(--true-c);color:#fff;padding:2px 10px;border-radius:6px;font-weight:700;font-size:.9em}
+.false-tag{display:inline-block;background:var(--false-c);color:#fff;padding:2px 10px;border-radius:6px;font-weight:700;font-size:.9em}
+
+.submit-area{text-align:center;margin:20px 0}
+.btn-submit{background:var(--primary);color:#fff;border:none;padding:14px 36px;border-radius:10px;font-size:1.05em;font-weight:700;cursor:pointer;box-shadow:0 3px 8px rgba(5,150,105,.3);font-family:inherit}
+.btn-submit:active{transform:scale(.98)}
+.btn-submit:disabled{background:#cbd5e1;cursor:not-allowed;box-shadow:none}
+
+.result-box{background:var(--card);border:3px solid var(--primary);border-radius:14px;padding:20px;margin:18px 0;text-align:center;display:none}
+.result-box.show{display:block}
+.result-score{font-size:2.2em;font-weight:700;color:var(--primary-d);margin:8px 0}
+.result-msg{font-size:1em;color:var(--text);margin-bottom:8px}
+.result-box.passed{background:linear-gradient(135deg,#fef3c7,#fde68a);border-color:var(--gold)}
+.result-box.passed .result-score{color:#92400e}
+
+.nav{display:flex;justify-content:space-between;gap:10px;margin-top:24px}
+.btn{display:inline-block;padding:12px 18px;border-radius:10px;text-decoration:none;font-weight:700;font-size:.95em;text-align:center;flex:1}
+.btn-back{background:#e2e8f0;color:var(--text)}
+.btn-next{background:var(--primary);color:#fff;box-shadow:0 2px 6px rgba(5,150,105,.3)}
+.btn:active{transform:scale(.98)}
+
+.confetti{position:fixed;top:-10px;width:10px;height:10px;z-index:9999;pointer-events:none}
+@keyframes fall{
+  0%{transform:translateY(-20vh) rotate(0deg);opacity:1}
+  100%{transform:translateY(110vh) rotate(720deg);opacity:0}
+}
+sup{font-size:.7em;vertical-align:super}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>ST02　命題と真偽　確認テスト</h1>
+  <div class="sub">基礎3問＋苦手対策2問＋過去問2問　満点で合格</div>
+</header>
+
+<div class="steps">
+  <div class="step">① 解説</div>
+  <div class="step">② 例題</div>
+  <div class="step active">③ 演習・確認</div>
+</div>
+
+<div class="intro-msg">
+  <h2>📝 確認テストの進め方</h2>
+  <p>基礎3問・苦手対策2問・過去問2問の計7問です。全問選び終わってから「採点する」を押してください。満点で合格です。</p>
+</div>
+
+<!-- 基礎セクション -->
+<div class="section-divider">
+  <span class="tag basic">基礎</span>真偽判定の基本（3問）
+</div>
+
+<!-- Q1：基礎 -->
+<div class="q-card" data-q="1" data-ans="2">
+  <span class="q-num">問1</span>
+  <div class="q-body">
+    <div class="quote">「χ<sup>2</sup>＝25 ならば χ＝5 である」</div>
+    この命題は真か偽か。
+  </div>
+  <div class="choices two-cols">
+    <button class="choice" data-i="1">① 真</button>
+    <button class="choice" data-i="2">② 偽</button>
+  </div>
+  <div class="feedback"></div>
+</div>
+
+<!-- Q2：基礎 -->
+<div class="q-card" data-q="2" data-ans="1">
+  <span class="q-num">問2</span>
+  <div class="q-body">
+    <div class="quote">「n が10の倍数ならば、n は5の倍数である」</div>
+    この命題は真か偽か。
+  </div>
+  <div class="choices two-cols">
+    <button class="choice" data-i="1">① 真</button>
+    <button class="choice" data-i="2">② 偽</button>
+  </div>
+  <div class="feedback"></div>
+</div>
+
+<!-- Q3：基礎 -->
+<div class="q-card" data-q="3" data-ans="2">
+  <span class="q-num">問3</span>
+  <div class="q-body">
+    <div class="quote">「ab＝0 ならば a＝0 かつ b＝0 である」</div>
+    この命題は真か偽か。
+  </div>
+  <div class="choices two-cols">
+    <button class="choice" data-i="1">① 真</button>
+    <button class="choice" data-i="2">② 偽</button>
+  </div>
+  <div class="feedback"></div>
+</div>
+
+<!-- 苦手パターンセクション -->
+<div class="section-divider">
+  <span class="tag basic" style="background:#f59e0b">苦手対策</span>逆向き・多解パターン（2問）
+</div>
+
+<!-- 問4：逆向き型（倍数） -->
+<div class="q-card" data-q="4" data-ans="1">
+  <span class="q-num">問4</span>
+  <div class="q-body">
+    <div class="quote">「n が 4 の倍数ならば、n は偶数である」</div>
+    この命題は真か偽か。
+  </div>
+  <div class="choices two-cols">
+    <button class="choice" data-i="1">① 真</button>
+    <button class="choice" data-i="2">② 偽</button>
+  </div>
+  <div class="feedback"></div>
+</div>
+
+<!-- 問5：多解型（2次方程式） -->
+<div class="q-card" data-q="5" data-ans="2">
+  <span class="q-num">問5</span>
+  <div class="q-body">
+    <div class="quote">「χ<sup>2</sup>－2χ＝0 ならば χ＝2 である」</div>
+    この命題は真か偽か。
+  </div>
+  <div class="choices two-cols">
+    <button class="choice" data-i="1">① 真</button>
+    <button class="choice" data-i="2">② 偽</button>
+  </div>
+  <div class="feedback"></div>
+</div>
+
+<!-- 過去問セクション -->
+<div class="section-divider">
+  <span class="tag past">過去問</span>高認実戦問題(2問)
+</div>
+
+<!-- Q6：過去問1 -->
+<div class="q-card" data-q="6" data-ans="3">
+  <span class="year-tag">実戦問題1型</span><span class="q-num">問6</span>
+  <div class="q-body">
+    次の2つの命題 (P)、(Q) がある。
+    <div class="quote p-q"><b>(P)</b> 四角形ABCDの内角の大きさがすべて等しいならば、四角形ABCDは正方形である。</div>
+    <div class="quote p-q"><b>(Q)</b> 自然数 n が4の倍数ならば、n は偶数である。</div>
+    命題 (P)、(Q) の真偽の組み合わせとして正しいものはどれか。
+  </div>
+  <div class="choices">
+    <button class="choice" data-i="1">① (P) 真、(Q) 真</button>
+    <button class="choice" data-i="2">② (P) 真、(Q) 偽</button>
+    <button class="choice" data-i="3">③ (P) 偽、(Q) 真</button>
+    <button class="choice" data-i="4">④ (P) 偽、(Q) 偽</button>
+  </div>
+  <div class="feedback"></div>
+</div>
+
+<!-- Q7：過去問2 -->
+<div class="q-card" data-q="7" data-ans="3">
+  <span class="year-tag">実戦問題3型</span><span class="q-num">問7</span>
+  <div class="q-body">
+    次の2つの命題 (P)、(Q) がある。
+    <div class="quote p-q"><b>(P)</b> 三角形ABCが二等辺三角形ならば、三角形ABCは正三角形である。</div>
+    <div class="quote p-q"><b>(Q)</b> n が12の倍数ならば、n は4の倍数である。</div>
+    命題 (P)、(Q) の真偽の組み合わせとして正しいものはどれか。
+  </div>
+  <div class="choices">
+    <button class="choice" data-i="1">① (P) 真、(Q) 真</button>
+    <button class="choice" data-i="2">② (P) 真、(Q) 偽</button>
+    <button class="choice" data-i="3">③ (P) 偽、(Q) 真</button>
+    <button class="choice" data-i="4">④ (P) 偽、(Q) 偽</button>
+  </div>
+  <div class="feedback"></div>
+</div>
+
+<div class="submit-area">
+  <button class="btn-submit" id="btn-submit" onclick="grade()">採点する</button>
+</div>
+
+<div class="result-box" id="result">
+  <div class="result-msg" id="result-msg"></div>
+  <div class="result-score" id="result-score"></div>
+  <div id="result-detail" style="font-size:.92em;color:var(--muted)"></div>
+</div>
+
+<div class="nav">
+  <a href="./drill.html" class="btn btn-back">← 演習に戻る</a>
+  <a href="../gamba_kounin.html" class="btn btn-next">単元一覧へ →</a>
+</div>
+
+</div>
+
+<script>
+const answers = {1:'2', 2:'1', 3:'2', 4:'1', 5:'2', 6:'3', 7:'3'};
+const explanations = {
+  1: '【基礎】χ<sup>2</sup>＝25 の解は χ＝5 と χ＝－5 の2つ。χ＝－5 が反例なので <span class="false-tag">偽</span>（②）',
+  2: '【基礎】10の倍数（10, 20, 30…）はすべて5で割れる。反例なし → <span class="true-tag">真</span>（①）',
+  3: '【基礎】反例：a＝0、b＝3 のとき ab＝0 だが b≠0。または a＝5、b＝0 のとき ab＝0 だが a≠0。→ <span class="false-tag">偽</span>（②）',
+  4: '【苦手対策・倍数】4の倍数（4, 8, 12, 16…）はすべて2で割れる → 偶数。反例なし → <span class="true-tag">真</span>（①）',
+  5: '【苦手対策・多解】χ<sup>2</sup>－2χ＝0 を解くと χ(χ－2)＝0 → χ＝0、χ＝2 の2つ。χ＝0 が反例 → <span class="false-tag">偽</span>（②）',
+  6: '【実戦問題1型】(P)：内角が全て等しい四角形は<b>長方形</b>（正方形とは限らない） → <span class="false-tag">偽</span>。(Q)：4の倍数は必ず2でも割れる → <span class="true-tag">真</span>。組み合わせは「(P)偽、(Q)真」（③）',
+  7: '【実戦問題3型】(P)：二等辺三角形は2辺が等しいだけで、正三角形とは限らない → <span class="false-tag">偽</span>。(Q)：12の倍数（12, 24, 36…）は必ず4で割れる → <span class="true-tag">真</span>。組み合わせは「(P)偽、(Q)真」（③）'
+};
+const selections = {};
+
+document.querySelectorAll('.q-card').forEach(card=>{
+  const qid = card.dataset.q;
+  const choices = card.querySelectorAll('.choice');
+  choices.forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      if(btn.classList.contains('disabled')) return;
+      choices.forEach(c=>c.classList.remove('selected'));
+      btn.classList.add('selected');
+      selections[qid] = btn.dataset.i;
+    });
+  });
+});
+
+function grade(){
+  const unanswered = [];
+  for(let i=1; i<=7; i++){
+    if(!selections[i]) unanswered.push(i);
+  }
+  if(unanswered.length>0){
+    alert('未回答の問題があります：問' + unanswered.join('、問'));
+    return;
+  }
+
+  let correct = 0;
+  document.querySelectorAll('.q-card').forEach(card=>{
+    const qid = card.dataset.q;
+    const ans = answers[qid];
+    const sel = selections[qid];
+    const choices = card.querySelectorAll('.choice');
+    const fb = card.querySelector('.feedback');
+
+    choices.forEach(c=>{
+      c.classList.add('disabled');
+      c.classList.remove('selected');
+      if(c.dataset.i === ans) c.classList.add('correct');
+      if(c.dataset.i === sel && sel !== ans) c.classList.add('wrong');
+    });
+
+    if(sel === ans){
+      correct++;
+      fb.className = 'feedback ok show';
+      fb.innerHTML = '<b>✓ 正解</b><br>' + explanations[qid];
+    } else {
+      fb.className = 'feedback ng show';
+      fb.innerHTML = '<b>× 不正解</b><br>' + explanations[qid];
+    }
+  });
+
+  const result = document.getElementById('result');
+  const msg = document.getElementById('result-msg');
+  const score = document.getElementById('result-score');
+  const detail = document.getElementById('result-detail');
+
+  if(correct === 7){
+    result.className = 'result-box show passed';
+    msg.textContent = '🎉 全問正解！合格です！';
+    score.textContent = correct + ' / 7';
+    detail.textContent = 'ST02「命題と真偽」の単元クリア！次は「命題の否定」へ進みましょう。';
+    confetti();
+    markPassed('ST02');
+  } else {
+    result.className = 'result-box show';
+    msg.textContent = 'もう少し！全問正解で合格です';
+    score.textContent = correct + ' / 7';
+    detail.textContent = '解説を読んで、もう一度挑戦してみましょう。';
+  }
+
+  document.getElementById('btn-submit').disabled = true;
+  document.getElementById('btn-submit').textContent = '採点済み';
+  result.scrollIntoView({behavior:'smooth', block:'center'});
+}
+
+function confetti(){
+  const colors = ['#059669','#10b981','#34d399','#fbbf24','#f59e0b','#3b82f6'];
+  for(let i=0; i<60; i++){
+    const c = document.createElement('div');
+    c.className = 'confetti';
+    c.style.left = Math.random()*100 + 'vw';
+    c.style.background = colors[Math.floor(Math.random()*colors.length)];
+    c.style.borderRadius = Math.random()>0.5 ? '50%' : '2px';
+    c.style.animation = `fall ${2 + Math.random()*2}s linear ${Math.random()*0.5}s forwards`;
+    document.body.appendChild(c);
+    setTimeout(()=>c.remove(), 5000);
+  }
+}
+
+function markPassed(unitCode){
+  try{
+    localStorage.setItem('gamba_passed_' + unitCode, '1');
+    localStorage.setItem('gamba_passed_' + unitCode + '_date', new Date().toISOString());
+  }catch(e){}
+}
+</script>
+</body>
+</html>

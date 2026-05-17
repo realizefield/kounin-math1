@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>QU02 確認テスト　平方完成</title>
+<style>
+:root{
+  --primary:#ea580c;--primary-d:#c2410c;--primary-l:#fff7ed;
+  --hint:#f59e0b;--hint-bg:#fffbeb;--warn:#dc2626;
+  --bg:#f8fafc;--card:#fff;--text:#1e293b;--muted:#64748b;--border:#e2e8f0;
+  --green:#059669;--green-l:#f0fdf4;--blue:#0284c7;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:'BIZ UDPGothic','BIZ UDP Gothic',-apple-system,"Hiragino Sans","Yu Gothic",sans-serif;line-height:1.8;font-size:15px;overflow-x:hidden}
+header{position:sticky;top:0;background:var(--primary);color:#fff;padding:12px 16px;box-shadow:0 2px 8px rgba(0,0,0,.15);z-index:10}
+header h1{margin:0;font-size:1.05em;font-weight:700}
+header .sub{font-size:.78em;opacity:.88;margin-top:2px}
+.steps{display:flex;background:#fff;border-bottom:1px solid var(--border)}
+.step{flex:1;text-align:center;padding:8px 4px;font-size:.78em;font-weight:700;color:var(--muted);border-bottom:3px solid var(--border)}
+.step.active{color:var(--primary);border-color:var(--primary)}
+.wrap{max-width:680px;margin:0 auto;padding:16px 16px 40px}
+.intro-box{background:var(--primary-l);border-radius:10px;padding:14px 16px;margin-bottom:18px;border:1px solid #fed7aa;font-size:.92em}
+.q-card{background:var(--card);border-radius:12px;padding:18px 20px;margin-bottom:16px;box-shadow:0 1px 3px rgba(0,0,0,.06);border:1px solid var(--border)}
+.q-card.marked{border-color:var(--primary)}
+.q-header{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.q-badge{background:var(--primary);color:#fff;font-size:.78em;font-weight:700;padding:3px 10px;border-radius:20px;white-space:nowrap}
+.q-badge.kakomon{background:#7c3aed}
+.q-text{font-size:1.02em;font-weight:700;margin-bottom:14px;line-height:1.7}
+.choices{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.choice{padding:10px 12px;border:2px solid var(--border);border-radius:8px;background:#fff;cursor:pointer;font-size:.92em;text-align:center;transition:.15s;font-weight:500;line-height:1.5}
+.choice:hover{border-color:var(--primary);background:var(--primary-l)}
+.choice.selected{border-color:var(--primary);background:var(--primary-l)}
+.choice.correct{border-color:var(--green);background:var(--green-l);color:#065f46;font-weight:700}
+.choice.wrong{border-color:var(--warn);background:#fef2f2;color:var(--warn);font-weight:700}
+.feedback{display:none;margin-top:12px;padding:12px 14px;border-radius:8px;font-size:.9em;background:#f0fdf4;border-left:4px solid var(--green);color:#065f46;line-height:1.8}
+.feedback.show{display:block}
+/* グラフ付き問題 */
+.graph-q{display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap;margin-bottom:12px}
+.graph-wrap{flex-shrink:0}
+.graph-wrap canvas{display:block;border:1px solid var(--border);border-radius:8px;background:#fff}
+.graph-text{flex:1;min-width:200px}
+.submit-row{text-align:center;margin:20px 0 8px}
+.btn-submit{background:var(--primary);color:#fff;border:none;padding:14px 48px;border-radius:10px;font-size:1.05em;font-weight:700;cursor:pointer}
+.btn-submit:disabled{background:#94a3b8;cursor:default}
+.result-box{display:none;margin:16px 0;padding:20px;border-radius:12px;text-align:center;border:2px solid var(--border)}
+.result-box.show{display:block}
+.result-box.passed{border-color:var(--green);background:var(--green-l)}
+.result-msg{font-size:1.25em;font-weight:700;margin-bottom:6px}
+.result-score{font-size:2.2em;font-weight:700;color:var(--primary);margin:6px 0}
+.nav{display:flex;gap:10px;margin-top:20px}
+.btn{display:block;padding:12px 16px;border-radius:10px;text-decoration:none;text-align:center;font-weight:700;font-size:.95em;flex:1}
+.btn-back{background:#f1f5f9;color:var(--muted)}
+.btn-next{background:var(--primary);color:#fff}
+@keyframes confetti-fall{0%{transform:translateY(-20px) rotate(0deg);opacity:1}100%{transform:translateY(100vh) rotate(720deg);opacity:0}}
+.confetti-piece{position:fixed;width:10px;height:10px;border-radius:2px;animation:confetti-fall 2.5s ease-in forwards;pointer-events:none;z-index:9999}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>QU02　確認テスト</h1>
+  <div class="sub">平方完成・グラフから頂点を求める　全5問</div>
+</header>
+
+<div class="steps">
+  <div class="step"><a href="./intro.html" style="color:inherit;text-decoration:none">① 解説</a></div>
+  <div class="step"><a href="./drill.html" style="color:inherit;text-decoration:none">② 演習</a></div>
+  <div class="step active">③ 確認</div>
+</div>
+
+<div class="wrap">
+
+<div class="intro-box">
+  📝 <b>全5問・全問正解で合格</b>です。グラフ付きの過去問も含みます。
+</div>
+
+<!-- 問1：R6-1 平方完成 -->
+<div class="q-card" data-q="1">
+  <div class="q-header">
+    <span class="q-badge kakomon">過去問 R6-1</span>
+    <span style="font-size:.85em;color:var(--muted)">問1</span>
+  </div>
+  <div class="q-text">
+    二次関数 y＝χ²－4χ＋1 を y＝(χ－p)²＋q の形に変形すると<br>
+    y＝(χ－<b>ウ</b>)²－<b>エ</b> である。
+  </div>
+  <div class="choices">
+    <button class="choice" data-i="0" onclick="sel(this,1)">① ウ＝2, エ＝3</button>
+    <button class="choice" data-i="1" onclick="sel(this,1)">② ウ＝2, エ＝－3</button>
+    <button class="choice" data-i="2" onclick="sel(this,1)">③ ウ＝－2, エ＝3</button>
+    <button class="choice" data-i="3" onclick="sel(this,1)">④ ウ＝4, エ＝15</button>
+  </div>
+  <div class="feedback" id="fb-1"></div>
+</div>
+
+<!-- 問2：R5-2 グラフから頂点（平方完成） -->
+<div class="q-card" data-q="2">
+  <div class="q-header">
+    <span class="q-badge kakomon">過去問 R5-2</span>
+    <span style="font-size:.85em;color:var(--muted)">問2</span>
+  </div>
+  <div class="q-text">
+    二次関数 y＝χ²－6χ＋12 のグラフの頂点の座標は<br>
+    (<b>ウ</b>, <b>エ</b>) である。
+  </div>
+  <div class="choices">
+    <button class="choice" data-i="0" onclick="sel(this,2)">① (3, 3)</button>
+    <button class="choice" data-i="1" onclick="sel(this,2)">② (3, 12)</button>
+    <button class="choice" data-i="2" onclick="sel(this,2)">③ (－3, 3)</button>
+    <button class="choice" data-i="3" onclick="sel(this,2)">④ (6, 12)</button>
+  </div>
+  <div class="feedback" id="fb-2"></div>
+</div>
+
+<!-- 問3：R5-1 グラフから頂点（対称軸利用）-->
+<div class="q-card" data-q="3">
+  <div class="q-header">
+    <span class="q-badge kakomon">過去問 R5-1</span>
+    <span style="font-size:.85em;color:var(--muted)">問3</span>
+  </div>
+  <div class="q-text">
+    右のグラフは二次関数 y＝－χ²＋6χ－8 のグラフである。<br>
+    このグラフの頂点の座標は (<b>エ</b>, <b>オ</b>) である。
+  </div>
+  <div class="graph-q">
+    <div class="graph-wrap">
+      <canvas id="gQ3" width="150" height="130"></canvas>
+    </div>
+    <div class="graph-text">
+      <div class="choices" style="margin-top:0">
+        <button class="choice" data-i="0" onclick="sel(this,3)">① (3, 1)</button>
+        <button class="choice" data-i="1" onclick="sel(this,3)">② (2, 4)</button>
+        <button class="choice" data-i="2" onclick="sel(this,3)">③ (3, 9)</button>
+        <button class="choice" data-i="3" onclick="sel(this,3)">④ (2, 0)</button>
+      </div>
+    </div>
+  </div>
+  <div class="feedback" id="fb-3"></div>
+</div>
+
+<!-- 問4：R4-2 グラフから頂点（対称軸利用）-->
+<div class="q-card" data-q="4">
+  <div class="q-header">
+    <span class="q-badge kakomon">過去問 R4-2</span>
+    <span style="font-size:.85em;color:var(--muted)">問4</span>
+  </div>
+  <div class="q-text">
+    右のグラフは二次関数 y＝－χ²－4χ のグラフである。<br>
+    このグラフの頂点の座標は (<b>ウエ</b>, <b>オ</b>) である。
+  </div>
+  <div class="graph-q">
+    <div class="graph-wrap">
+      <canvas id="gQ4" width="150" height="130"></canvas>
+    </div>
+    <div class="graph-text">
+      <div class="choices" style="margin-top:0">
+        <button class="choice" data-i="0" onclick="sel(this,4)">① (－2, 4)</button>
+        <button class="choice" data-i="1" onclick="sel(this,4)">② (2, 4)</button>
+        <button class="choice" data-i="2" onclick="sel(this,4)">③ (－2, －4)</button>
+        <button class="choice" data-i="3" onclick="sel(this,4)">④ (0, 4)</button>
+      </div>
+    </div>
+  </div>
+  <div class="feedback" id="fb-4"></div>
+</div>
+
+<!-- 問5：R4-1 グラフから頂点（平方完成）-->
+<div class="q-card" data-q="5">
+  <div class="q-header">
+    <span class="q-badge kakomon">過去問 R4-1</span>
+    <span style="font-size:.85em;color:var(--muted)">問5</span>
+  </div>
+  <div class="q-text">
+    二次関数 y＝χ²－4χ＋5 のグラフの頂点の座標は (<b>ウ</b>, <b>エ</b>) である。
+  </div>
+  <div class="choices">
+    <button class="choice" data-i="0" onclick="sel(this,5)">① (2, 1)</button>
+    <button class="choice" data-i="1" onclick="sel(this,5)">② (－2, 1)</button>
+    <button class="choice" data-i="2" onclick="sel(this,5)">③ (2, 5)</button>
+    <button class="choice" data-i="3" onclick="sel(this,5)">④ (4, 5)</button>
+  </div>
+  <div class="feedback" id="fb-5"></div>
+</div>
+
+<div class="submit-row">
+  <button class="btn-submit" id="btn-submit" onclick="grade()">採点する</button>
+</div>
+
+<div class="result-box" id="result">
+  <div class="result-msg" id="result-msg"></div>
+  <div class="result-score" id="result-score"></div>
+  <div id="result-detail" style="font-size:.9em;color:var(--muted);margin-top:4px"></div>
+</div>
+
+<div class="nav">
+  <a href="./drill.html" class="btn btn-back">← 演習へ戻る</a>
+  <a href="../gamba_kounin.html" class="btn btn-next">単元一覧へ →</a>
+</div>
+
+</div>
+
+<script>
+// Canvas グラフ描画
+function drawGraph(id, a, p, q, opts) {
+  const canvas = document.getElementById(id);
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  const ox = opts.ox || W*0.45;
+  const oy = opts.oy || H*0.65;
+  const sc = opts.sc || 18;
+  ctx.clearRect(0, 0, W, H);
+  // 軸
+  ctx.strokeStyle = '#94a3b8'; ctx.lineWidth = 1.3;
+  ctx.beginPath(); ctx.moveTo(5,oy); ctx.lineTo(W-8,oy); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(ox,H-5); ctx.lineTo(ox,5); ctx.stroke();
+  ctx.fillStyle = '#94a3b8';
+  ctx.beginPath(); ctx.moveTo(W-5,oy); ctx.lineTo(W-12,oy-4); ctx.lineTo(W-12,oy+4); ctx.fill();
+  ctx.beginPath(); ctx.moveTo(ox,3); ctx.lineTo(ox-4,10); ctx.lineTo(ox+4,10); ctx.fill();
+  ctx.font='9px sans-serif'; ctx.fillText('χ',W-12,oy-5); ctx.fillText('y',ox+4,12);
+  ctx.fillStyle='#64748b'; ctx.font='8px sans-serif'; ctx.fillText('O',ox-12,oy+12);
+  // χ軸目盛り
+  if (opts.ticks) {
+    ctx.fillStyle='#94a3b8'; ctx.font='8px sans-serif';
+    opts.ticks.forEach(t => {
+      const tx = ox + t*sc;
+      if (tx > 10 && tx < W-10) ctx.fillText(t, tx-4, oy+13);
+    });
+  }
+  // 放物線
+  ctx.strokeStyle='#ea580c'; ctx.lineWidth=2.5; ctx.lineJoin='round';
+  const xMin=opts.xMin||(-6), xMax=opts.xMax||6;
+  ctx.beginPath();
+  let first=true;
+  for(let x=xMin; x<=xMax+0.001; x+=0.05){
+    const y=a*(x-p)**2+q;
+    const sx=ox+x*sc, sy=oy-y*sc;
+    if(sy<-5||sy>H+5){first=true;continue;}
+    if(first){ctx.moveTo(sx,sy);first=false;}else ctx.lineTo(sx,sy);
+  }
+  ctx.stroke();
+  // 頂点
+  const vx=ox+p*sc, vy=oy-q*sc;
+  if(vy>=0&&vy<=H){
+    ctx.fillStyle='#ea580c';
+    ctx.beginPath(); ctx.arc(vx,vy,4.5,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle='#fff';
+    ctx.beginPath(); ctx.arc(vx,vy,2,0,Math.PI*2); ctx.fill();
+  }
+}
+
+window.addEventListener('load', function(){
+  // 問3: y=-(χ-3)²+1  頂点(3,1) x軸交点(2,4)
+  // 平方完成：y=-x²+6x-8=-(x-3)²+1 → 頂点(3,1)
+  drawGraph('gQ3', -1, 3, 1, {ox:40, oy:80, sc:18, xMin:0, xMax:6, ticks:[2,4]});
+  // 問4: y=-(χ+2)²+4  頂点(-2,4) x軸交点(-4,0)
+  // y=-x²-4x=-(x+2)²+4 → 頂点(-2,4)
+  drawGraph('gQ4', -1, -2, 4, {ox:90, oy:100, sc:18, xMin:-6, xMax:2, ticks:[-4,0]});
+});
+
+const ANSWERS = {
+  1:{ans:0, exp:'y＝χ²－4χ＋(－2)²－(－2)²＋1＝χ²－4χ＋4－4＋1＝<b>(χ－2)²－3</b><br>→ ウ＝2, エ＝3（マイナス3のエ）。よって<b>①</b>'},
+  2:{ans:0, exp:'y＝χ²－6χ＋(－3)²－(－3)²＋12＝(χ－3)²－9＋12＝<b>(χ－3)²＋3</b><br>頂点 <b>(3, 3)→①</b>'},
+  3:{ans:0, exp:'y＝－χ²＋6χ－8。χ軸交点(2,0)と(4,0)から対称軸＝(2＋4)÷2＝3<br>y＝－9＋18－8＝<b>1</b>。頂点 <b>(3, 1)→①</b>'},
+  4:{ans:0, exp:'y＝－χ²－4χ。χ軸交点(－4,0)と(0,0)から対称軸＝(－4＋0)÷2＝－2<br>y＝－(－2)²－4×(－2)＝－4＋8＝<b>4</b>。頂点 <b>(－2, 4)→①</b>'},
+  5:{ans:0, exp:'y＝χ²－4χ＋(－2)²－(－2)²＋5＝(χ－2)²－4＋5＝<b>(χ－2)²＋1</b><br>頂点 <b>(2, 1)→①</b>'},
+};
+
+function sel(btn, qIdx){
+  const card=btn.closest('.q-card');
+  if(card.dataset.chosen)return;
+  card.querySelectorAll('.choice').forEach(b=>b.classList.remove('selected'));
+  btn.classList.add('selected');
+  card.dataset.chosen=btn.dataset.i;
+  card.classList.add('marked');
+}
+
+function grade(){
+  let correct=0;
+  for(let i=1;i<=5;i++){
+    const card=document.querySelector(`.q-card[data-q="${i}"]`);
+    const chosen=card.dataset.chosen;
+    if(!chosen){alert(`問${i}がまだ選択されていません`);return;}
+    const {ans,exp}=ANSWERS[i];
+    const isOK=parseInt(chosen)===ans;
+    if(isOK)correct++;
+    card.querySelectorAll('.choice').forEach(b=>{
+      b.disabled=true;
+      if(parseInt(b.dataset.i)===ans)b.classList.add('correct');
+      if(parseInt(b.dataset.i)===parseInt(chosen)&&!isOK)b.classList.add('wrong');
+    });
+    const fb=document.getElementById(`fb-${i}`);
+    fb.innerHTML=`<b>${isOK?'✅ 正解':'❌ 不正解'}</b>　${exp}`;
+    fb.className='feedback show';
+  }
+  const result=document.getElementById('result');
+  const msg=document.getElementById('result-msg');
+  const score=document.getElementById('result-score');
+  const detail=document.getElementById('result-detail');
+  if(correct===5){
+    result.className='result-box show passed';
+    msg.textContent='🎉 全問正解！合格です！';
+    score.textContent='5 / 5';
+    detail.textContent='QU02「平方完成」クリア！次は様々な問題へ進もう。';
+    confetti();
+    markPassed('QU02');
+  }else{
+    result.className='result-box show';
+    msg.textContent='もう少し！全問正解で合格です';
+    score.textContent=`${correct} / 5`;
+    detail.textContent='解説を読んで演習をやり直してみましょう。';
+  }
+  document.getElementById('btn-submit').disabled=true;
+  document.getElementById('btn-submit').textContent='採点済み';
+}
+
+function confetti(){
+  const colors=['#ea580c','#f59e0b','#16a34a','#0284c7','#dc2626'];
+  for(let i=0;i<60;i++){
+    const el=document.createElement('div');
+    el.className='confetti-piece';
+    el.style.cssText=`left:${Math.random()*100}vw;background:${colors[i%5]};animation-delay:${Math.random()*1.5}s;animation-duration:${2+Math.random()}s;`;
+    document.body.appendChild(el);
+    setTimeout(()=>el.remove(),4000);
+  }
+}
+
+function markPassed(code){
+  try{const k='gamba_passed';const d=JSON.parse(localStorage.getItem(k)||'{}');d[code]=true;localStorage.setItem(k,JSON.stringify(d));}catch(e){}
+}
+</script>
+</body>
+</html>

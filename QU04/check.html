@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>QU03 確認テスト　様々な問題</title>
+<style>
+:root{--primary:#ea580c;--primary-d:#c2410c;--primary-l:#fff7ed;--warn:#dc2626;--bg:#f8fafc;--card:#fff;--text:#1e293b;--muted:#64748b;--border:#e2e8f0;--green:#059669;--green-l:#f0fdf4;}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:'BIZ UDPGothic','BIZ UDP Gothic',-apple-system,"Hiragino Sans","Yu Gothic",sans-serif;line-height:1.8;font-size:15px;overflow-x:hidden}
+header{position:sticky;top:0;background:var(--primary);color:#fff;padding:12px 16px;box-shadow:0 2px 8px rgba(0,0,0,.15);z-index:10}
+header h1{margin:0;font-size:1.05em;font-weight:700}
+header .sub{font-size:.78em;opacity:.88;margin-top:2px}
+.steps{display:flex;background:#fff;border-bottom:1px solid var(--border)}
+.step{flex:1;text-align:center;padding:8px 4px;font-size:.78em;font-weight:700;color:var(--muted);border-bottom:3px solid var(--border)}
+.step.active{color:var(--primary);border-color:var(--primary)}
+.wrap{max-width:680px;margin:0 auto;padding:16px 16px 40px}
+.intro-box{background:var(--primary-l);border-radius:10px;padding:14px 16px;margin-bottom:18px;border:1px solid #fed7aa;font-size:.92em}
+.q-card{background:var(--card);border-radius:12px;padding:18px 20px;margin-bottom:16px;box-shadow:0 1px 3px rgba(0,0,0,.06);border:1px solid var(--border)}
+.q-card.marked{border-color:var(--primary)}
+.q-header{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.q-badge{background:var(--primary);color:#fff;font-size:.78em;font-weight:700;padding:3px 10px;border-radius:20px}
+.q-badge.kakomon{background:#7c3aed}
+.q-text{font-size:1.02em;font-weight:700;margin-bottom:14px;line-height:1.7}
+.choices{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.choice{padding:10px 12px;border:2px solid var(--border);border-radius:8px;background:#fff;cursor:pointer;font-size:.92em;text-align:center;transition:.15s;font-weight:500;line-height:1.5}
+.choice:hover{border-color:var(--primary);background:var(--primary-l)}
+.choice.selected{border-color:var(--primary);background:var(--primary-l)}
+.choice.correct{border-color:var(--green);background:var(--green-l);color:#065f46;font-weight:700}
+.choice.wrong{border-color:var(--warn);background:#fef2f2;color:var(--warn);font-weight:700}
+.feedback{display:none;margin-top:12px;padding:12px 14px;border-radius:8px;font-size:.9em;background:#f0fdf4;border-left:4px solid var(--green);color:#065f46;line-height:1.8}
+.feedback.show{display:block}
+.graph-q{display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap;margin-bottom:12px}
+.graph-wrap canvas{display:block;border:1px solid var(--border);border-radius:8px;background:#fff}
+.submit-row{text-align:center;margin:20px 0 8px}
+.btn-submit{background:var(--primary);color:#fff;border:none;padding:14px 48px;border-radius:10px;font-size:1.05em;font-weight:700;cursor:pointer}
+.btn-submit:disabled{background:#94a3b8;cursor:default}
+.result-box{display:none;margin:16px 0;padding:20px;border-radius:12px;text-align:center;border:2px solid var(--border)}
+.result-box.show{display:block}
+.result-box.passed{border-color:var(--green);background:var(--green-l)}
+.result-msg{font-size:1.25em;font-weight:700;margin-bottom:6px}
+.result-score{font-size:2.2em;font-weight:700;color:var(--primary);margin:6px 0}
+.nav{display:flex;gap:10px;margin-top:20px}
+.btn{display:block;padding:12px 16px;border-radius:10px;text-decoration:none;text-align:center;font-weight:700;font-size:.95em;flex:1}
+.btn-back{background:#f1f5f9;color:var(--muted)}
+.btn-next{background:var(--primary);color:#fff}
+@keyframes confetti-fall{0%{transform:translateY(-20px) rotate(0deg);opacity:1}100%{transform:translateY(100vh) rotate(720deg);opacity:0}}
+.confetti-piece{position:fixed;width:10px;height:10px;border-radius:2px;animation:confetti-fall 2.5s ease-in forwards;pointer-events:none;z-index:9999}
+</style>
+</head>
+<body>
+<header>
+  <h1>QU03　確認テスト</h1>
+  <div class="sub">様々な問題　全5問</div>
+</header>
+<div class="steps">
+  <div class="step"><a href="./intro.html" style="color:inherit;text-decoration:none">① 解説</a></div>
+  <div class="step"><a href="./drill.html" style="color:inherit;text-decoration:none">② 演習</a></div>
+  <div class="step active">③ 確認</div>
+</div>
+<div class="wrap">
+<div class="intro-box">📝 <b>全5問・全問正解で合格</b>です。過去問を含みます。</div>
+
+<!-- 問1 R5-1 kの値 -->
+<div class="q-card" data-q="1">
+  <div class="q-header"><span class="q-badge kakomon">過去問 R5-1</span><span style="font-size:.85em;color:var(--muted)">問1</span></div>
+  <div class="q-text">
+    二次関数 y＝χ²＋4kχ－k（k は定数）のグラフが点(0, 3)を通るとき、k の値は<b>イウ</b>である。
+  </div>
+  <div class="choices">
+    <button class="choice" data-i="0" onclick="sel(this,1)">① k＝－3</button>
+    <button class="choice" data-i="1" onclick="sel(this,1)">② k＝3</button>
+    <button class="choice" data-i="2" onclick="sel(this,1)">③ k＝１</button>
+    <button class="choice" data-i="3" onclick="sel(this,1)">④ k＝－１</button>
+  </div>
+  <div class="feedback" id="fb-1"></div>
+</div>
+
+<!-- 問2 R4-2 aの値 -->
+<div class="q-card" data-q="2">
+  <div class="q-header"><span class="q-badge kakomon">過去問 R4-2</span><span style="font-size:.85em;color:var(--muted)">問2</span></div>
+  <div class="q-text">
+    二次関数 y＝a(χ＋1)²－2（a は定数）のグラフが点(1, 6)を通るとき、a の値は<b>イ</b>である。
+  </div>
+  <div class="choices">
+    <button class="choice" data-i="0" onclick="sel(this,2)">① a＝1</button>
+    <button class="choice" data-i="1" onclick="sel(this,2)">② a＝2</button>
+    <button class="choice" data-i="2" onclick="sel(this,2)">③ a＝3</button>
+    <button class="choice" data-i="3" onclick="sel(this,2)">④ a＝4</button>
+  </div>
+  <div class="feedback" id="fb-2"></div>
+</div>
+
+<!-- 問3 R5-2 頂点と通る点から式を決める -->
+<div class="q-card" data-q="3">
+  <div class="q-header"><span class="q-badge kakomon">過去問 R5-2</span><span style="font-size:.85em;color:var(--muted)">問3</span></div>
+  <div class="q-text">
+    右の図は、頂点の座標が(1, －2)で点(0, 1)を通る二次関数のグラフである。<br>
+    グラフがこのようになる二次関数は<b>イ</b>である。
+  </div>
+  <div class="graph-q">
+    <div class="graph-wrap"><canvas id="gQ3" width="150" height="170"></canvas></div>
+    <div style="flex:1;min-width:200px">
+      <div class="choices" style="margin-top:0">
+        <button class="choice" data-i="0" onclick="sel(this,3)">① y＝(χ－1)²＋2</button>
+        <button class="choice" data-i="1" onclick="sel(this,3)">② y＝(χ－1)²－2</button>
+        <button class="choice" data-i="2" onclick="sel(this,3)">③ y＝3(χ－1)²＋2</button>
+        <button class="choice" data-i="3" onclick="sel(this,3)">④ y＝3(χ－1)²－2</button>
+      </div>
+    </div>
+  </div>
+  <div class="feedback" id="fb-3"></div>
+</div>
+
+<!-- 問4 R4-1 頂点と通る点から式を決める -->
+<div class="q-card" data-q="4">
+  <div class="q-header"><span class="q-badge kakomon">過去問 R4-1</span><span style="font-size:.85em;color:var(--muted)">問4</span></div>
+  <div class="q-text">
+    右の図は、頂点の座標が(1, 3)で原点を通る二次関数のグラフである。<br>
+    グラフがこのようになる二次関数は<b>イ</b>である。
+  </div>
+  <div class="graph-q">
+    <div class="graph-wrap"><canvas id="gQ4" width="150" height="170"></canvas></div>
+    <div style="flex:1;min-width:200px">
+      <div class="choices" style="margin-top:0">
+        <button class="choice" data-i="0" onclick="sel(this,4)">① y＝－(χ＋1)²＋3</button>
+        <button class="choice" data-i="1" onclick="sel(this,4)">② y＝－(χ－1)²＋3</button>
+        <button class="choice" data-i="2" onclick="sel(this,4)">③ y＝－3(χ＋1)²＋3</button>
+        <button class="choice" data-i="3" onclick="sel(this,4)">④ y＝－3(χ－1)²＋3</button>
+      </div>
+    </div>
+  </div>
+  <div class="feedback" id="fb-4"></div>
+</div>
+
+<!-- 問5 基礎確認 -->
+<div class="q-card" data-q="5">
+  <div class="q-header"><span class="q-badge">基礎確認</span><span style="font-size:.85em;color:var(--muted)">問5</span></div>
+  <div class="q-text">
+    二次関数 y＝a(χ－2)²＋1 のグラフが点(4, 9)を通るとき、a の値は？
+  </div>
+  <div class="choices">
+    <button class="choice" data-i="0" onclick="sel(this,5)">① a＝1</button>
+    <button class="choice" data-i="1" onclick="sel(this,5)">② a＝2</button>
+    <button class="choice" data-i="2" onclick="sel(this,5)">③ a＝3</button>
+    <button class="choice" data-i="3" onclick="sel(this,5)">④ a＝4</button>
+  </div>
+  <div class="feedback" id="fb-5"></div>
+</div>
+
+<div class="submit-row">
+  <button class="btn-submit" id="btn-submit" onclick="grade()">採点する</button>
+</div>
+<div class="result-box" id="result">
+  <div class="result-msg" id="result-msg"></div>
+  <div class="result-score" id="result-score"></div>
+  <div id="result-detail" style="font-size:.9em;color:var(--muted);margin-top:4px"></div>
+</div>
+<div class="nav">
+  <a href="./drill.html" class="btn btn-back">← 演習へ戻る</a>
+  <a href="../gamba_kounin.html" class="btn btn-next">単元一覧へ →</a>
+</div>
+</div>
+
+<script>
+function drawGraph(id,a,p,q,opts){
+  const canvas=document.getElementById(id);if(!canvas)return;
+  const ctx=canvas.getContext('2d');const W=canvas.width,H=canvas.height;
+  const ox=opts.ox||W*.5,oy=opts.oy||H*.6,sc=opts.sc||22;
+  ctx.clearRect(0,0,W,H);
+  ctx.save();ctx.beginPath();ctx.rect(0,0,W,H);ctx.clip();
+  ctx.strokeStyle='#94a3b8';ctx.lineWidth=1.3;ctx.fillStyle='#94a3b8';
+  ctx.beginPath();ctx.moveTo(5,oy);ctx.lineTo(W-8,oy);ctx.stroke();
+  ctx.beginPath();ctx.moveTo(W-5,oy);ctx.lineTo(W-12,oy-4);ctx.lineTo(W-12,oy+4);ctx.fill();
+  ctx.beginPath();ctx.moveTo(ox,H-5);ctx.lineTo(ox,5);ctx.stroke();
+  ctx.beginPath();ctx.moveTo(ox,5);ctx.lineTo(ox-4,12);ctx.lineTo(ox+4,12);ctx.fill();
+  ctx.font='9px sans-serif';ctx.fillText('χ',W-12,oy-5);ctx.fillText('y',ox+4,12);
+  ctx.fillStyle='#64748b';ctx.font='8px sans-serif';ctx.fillText('O',ox-12,oy+12);
+  ctx.strokeStyle='#ea580c';ctx.lineWidth=2.4;ctx.lineJoin='round';
+  ctx.beginPath();let first=true;
+  const xMin=opts.xMin||-4,xMax=opts.xMax||4;
+  for(let x=xMin;x<=xMax+0.001;x+=0.05){
+    const y=a*(x-p)**2+q;const sx=ox+x*sc,sy=oy-y*sc;
+    if(first){ctx.moveTo(sx,sy);first=false;}else ctx.lineTo(sx,sy);
+  }
+  ctx.stroke();
+  const vx=ox+p*sc,vy=oy-q*sc;
+  if(vy>=-5&&vy<=H+5){
+    ctx.fillStyle='#ea580c';ctx.beginPath();ctx.arc(vx,vy,4.5,0,Math.PI*2);ctx.fill();
+    ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(vx,vy,2,0,Math.PI*2);ctx.fill();
+  }
+  if(opts.pt){
+    const [px2,py2]=opts.pt;const sx2=ox+px2*sc,sy2=oy-py2*sc;
+    ctx.fillStyle='#0284c7';ctx.beginPath();ctx.arc(sx2,sy2,4.5,0,Math.PI*2);ctx.fill();
+    ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(sx2,sy2,2,0,Math.PI*2);ctx.fill();
+  }
+  ctx.restore();
+}
+
+window.addEventListener('load',function(){
+  // 問3: y=3(x-1)²-2 頂点(1,-2)、点(0,1)
+  // x=-0.5のときy=3×2.25-2=4.75 → sc=18にしてoyを大きく
+  drawGraph('gQ3',3,1,-2,{ox:65,oy:125,sc:18,xMin:-0.8,xMax:2.8,pt:[0,1]});
+  // 問4: y=-3(x-1)²+3 頂点(1,3)、原点(0,0)
+  drawGraph('gQ4',-3,1,3,{ox:60,oy:75,sc:22,xMin:-0.8,xMax:2.8,pt:[0,0]});
+});
+
+const ANSWERS={
+  1:{ans:0,exp:'χ＝0、y＝3を代入：3＝0＋0－k ＝ <b>－k</b> → k＝<b>－3</b>（①）'},
+  2:{ans:1,exp:'χ＝1、y＝6を代入：6＝a(1＋1)²－2＝4a－2 → 4a＝8 → a＝<b>2</b>（②）'},
+  3:{ans:3,exp:'y＝m(χ－1)²－2として(0,1)代入：1＝m－2 → m＝3 → <b>y＝3(χ－1)²－2</b>（④）'},
+  4:{ans:3,exp:'y＝m(χ－1)²＋3として(0,0)代入：0＝m＋3 → m＝－3 → <b>y＝－3(χ－1)²＋3</b>（④）'},
+  5:{ans:1,exp:'χ＝4、y＝9を代入：9＝a(4－2)²＋1＝4a＋1 → 4a＝8 → a＝<b>2</b>（②）'},
+};
+
+function sel(btn,qIdx){
+  const card=btn.closest('.q-card');if(card.dataset.chosen)return;
+  card.querySelectorAll('.choice').forEach(b=>b.classList.remove('selected'));
+  btn.classList.add('selected');card.dataset.chosen=btn.dataset.i;card.classList.add('marked');
+}
+function grade(){
+  let correct=0;
+  for(let i=1;i<=5;i++){
+    const card=document.querySelector(`.q-card[data-q="${i}"]`);
+    const chosen=card.dataset.chosen;
+    if(!chosen){alert(`問${i}がまだ選択されていません`);return;}
+    const{ans,exp}=ANSWERS[i];const isOK=parseInt(chosen)===ans;if(isOK)correct++;
+    card.querySelectorAll('.choice').forEach(b=>{
+      b.disabled=true;
+      if(parseInt(b.dataset.i)===ans)b.classList.add('correct');
+      if(parseInt(b.dataset.i)===parseInt(chosen)&&!isOK)b.classList.add('wrong');
+    });
+    const fb=document.getElementById(`fb-${i}`);
+    fb.innerHTML=`<b>${isOK?'✅ 正解':'❌ 不正解'}</b>　${exp}`;fb.className='feedback show';
+  }
+  const result=document.getElementById('result');
+  if(correct===5){
+    result.className='result-box show passed';
+    document.getElementById('result-msg').textContent='🎉 全問正解！合格です！';
+    document.getElementById('result-score').textContent='5 / 5';
+    document.getElementById('result-detail').textContent='QU03クリア！次は二次不等式へ進もう。';
+    confetti();markPassed('QU03');
+  }else{
+    result.className='result-box show';
+    document.getElementById('result-msg').textContent='もう少し！全問正解で合格です';
+    document.getElementById('result-score').textContent=`${correct} / 5`;
+    document.getElementById('result-detail').textContent='解説を読んで演習をやり直してみましょう。';
+  }
+  document.getElementById('btn-submit').disabled=true;document.getElementById('btn-submit').textContent='採点済み';
+}
+function confetti(){
+  const colors=['#ea580c','#f59e0b','#16a34a','#0284c7','#dc2626'];
+  for(let i=0;i<60;i++){
+    const el=document.createElement('div');el.className='confetti-piece';
+    el.style.cssText=`left:${Math.random()*100}vw;background:${colors[i%5]};animation-delay:${Math.random()*1.5}s;animation-duration:${2+Math.random()}s;`;
+    document.body.appendChild(el);setTimeout(()=>el.remove(),4000);
+  }
+}
+function markPassed(code){
+  try{const k='gamba_passed';const d=JSON.parse(localStorage.getItem(k)||'{}');d[code]=true;localStorage.setItem(k,JSON.stringify(d));}catch(e){}
+}
+</script>
+</body>
+</html>

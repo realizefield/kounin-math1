@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>QU02 演習　平方完成</title>
+<style>
+:root{
+  --primary:#ea580c;--primary-d:#c2410c;--primary-l:#fff7ed;
+  --hint:#f59e0b;--hint-bg:#fffbeb;--warn:#dc2626;
+  --bg:#f8fafc;--card:#fff;--text:#1e293b;--muted:#64748b;--border:#e2e8f0;
+  --green:#059669;--green-l:#f0fdf4;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:'BIZ UDPGothic','BIZ UDP Gothic',-apple-system,"Hiragino Sans","Yu Gothic",sans-serif;line-height:1.8;font-size:15px;overflow-x:hidden}
+header{position:sticky;top:0;background:var(--primary);color:#fff;padding:12px 16px;box-shadow:0 2px 8px rgba(0,0,0,.15);z-index:10}
+header h1{margin:0;font-size:1.05em;font-weight:700}
+header .sub{font-size:.78em;opacity:.88;margin-top:2px}
+.steps{display:flex;background:#fff;border-bottom:1px solid var(--border)}
+.step{flex:1;text-align:center;padding:8px 4px;font-size:.78em;font-weight:700;color:var(--muted);border-bottom:3px solid var(--border)}
+.step.active{color:var(--primary);border-color:var(--primary)}
+.wrap{max-width:680px;margin:0 auto;padding:16px 16px 40px}
+.set-selector{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap}
+.set-btn{padding:8px 18px;border:2px solid var(--border);border-radius:8px;background:#fff;font-weight:700;cursor:pointer;font-size:.9em;color:var(--muted)}
+.set-btn.active{border-color:var(--primary);color:var(--primary);background:var(--primary-l)}
+.drill-card{background:var(--card);border-radius:12px;padding:18px 20px;margin-bottom:14px;box-shadow:0 1px 3px rgba(0,0,0,.06);border:1px solid var(--border)}
+.q-num{font-size:.82em;font-weight:700;color:var(--muted);margin-bottom:6px}
+.q-text{font-size:1.02em;font-weight:700;color:var(--text);margin-bottom:12px;line-height:1.6}
+.choices{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.choice{padding:10px 12px;border:2px solid var(--border);border-radius:8px;background:#fff;cursor:pointer;font-size:.92em;text-align:center;transition:.15s;font-weight:500}
+.choice:hover{border-color:var(--primary);background:var(--primary-l)}
+.choice.selected{border-color:var(--primary);background:var(--primary-l)}
+.choice.correct{border-color:var(--green);background:var(--green-l);color:#065f46;font-weight:700}
+.choice.wrong{border-color:var(--warn);background:#fef2f2;color:var(--warn);font-weight:700}
+.feedback{display:none;margin-top:10px;padding:10px 12px;border-radius:8px;font-size:.9em;background:#f0fdf4;border-left:4px solid var(--green);color:#065f46;line-height:1.7}
+.feedback.show{display:block}
+.submit-row{text-align:center;margin:20px 0 8px}
+.btn-submit{background:var(--primary);color:#fff;border:none;padding:13px 40px;border-radius:10px;font-size:1em;font-weight:700;cursor:pointer}
+.btn-submit:disabled{background:#94a3b8;cursor:default}
+.result-box{display:none;margin:16px 0;padding:18px 20px;border-radius:12px;text-align:center;border:2px solid var(--border)}
+.result-box.show{display:block}
+.result-box.passed{border-color:var(--green);background:var(--green-l)}
+.result-msg{font-size:1.2em;font-weight:700;margin-bottom:6px}
+.result-score{font-size:2em;font-weight:700;color:var(--primary);margin:4px 0}
+.nav{display:flex;gap:10px;margin-top:20px}
+.btn{display:block;padding:12px 16px;border-radius:10px;text-decoration:none;text-align:center;font-weight:700;font-size:.95em;flex:1}
+.btn-back{background:#f1f5f9;color:var(--muted)}
+.btn-next{background:var(--primary);color:#fff}
+@keyframes confetti-fall{0%{transform:translateY(-20px) rotate(0deg);opacity:1}100%{transform:translateY(100vh) rotate(720deg);opacity:0}}
+.confetti-piece{position:fixed;width:10px;height:10px;border-radius:2px;animation:confetti-fall 2.5s ease-in forwards;pointer-events:none;z-index:9999}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>QU02　演習　平方完成</h1>
+  <div class="sub">一般形から標準形へ変形して頂点を求めよう</div>
+</header>
+
+<div class="steps">
+  <div class="step"><a href="./intro.html" style="color:inherit;text-decoration:none">① 解説</a></div>
+  <div class="step active">② 演習</div>
+  <div class="step">③ 確認</div>
+</div>
+
+<div class="wrap">
+
+<div class="set-selector">
+  <button class="set-btn active" onclick="loadSet(0)">セットA</button>
+  <button class="set-btn" onclick="loadSet(1)">セットB</button>
+  <button class="set-btn" onclick="loadSet(2)">セットC</button>
+  <button class="set-btn" onclick="loadSet(3)">セットD</button>
+</div>
+
+<div id="quiz-area"></div>
+
+<div class="submit-row">
+  <button class="btn-submit" id="btn-submit" onclick="grade()">採点する</button>
+</div>
+
+<div class="result-box" id="result">
+  <div class="result-msg" id="result-msg"></div>
+  <div class="result-score" id="result-score"></div>
+  <div id="result-detail" style="font-size:.9em;color:var(--muted)"></div>
+</div>
+
+<div class="nav">
+  <a href="./intro.html" class="btn btn-back">← 解説へ戻る</a>
+  <a href="./check.html" class="btn btn-next">確認テストへ →</a>
+</div>
+
+</div>
+
+<script>
+const SETS = [
+  // セットA：平方完成して頂点を求める（基本）
+  [
+    {
+      q: 'y＝χ²－4χ＋1 を平方完成すると？',
+      choices: ['y＝(χ－2)²＋1', 'y＝(χ－2)²－3', 'y＝(χ＋2)²－3', 'y＝(χ＋2)²＋1'],
+      ans: 1,
+      exp: '－4の半分＝－2、(－2)²＝4<br>y＝χ²－4χ＋4－4＋1＝<b>(χ－2)²－3</b><br>頂点 (2, －3)'
+    },
+    {
+      q: 'y＝χ²＋6χ＋7 の頂点の座標は？',
+      choices: ['(3, 7)', '(－3, 7)', '(3, －2)', '(－3, －2)'],
+      ans: 3,
+      exp: '＋6の半分＝3、3²＝9<br>y＝χ²＋6χ＋9－9＋7＝(χ＋3)²－2<br>頂点 <b>(－3, －2)</b>'
+    },
+    {
+      q: 'y＝χ²－8χ＋21 の頂点の座標は？',
+      choices: ['(4, 5)', '(－4, 5)', '(4, 21)', '(－4, 21)'],
+      ans: 0,
+      exp: '－8の半分＝－4、(－4)²＝16<br>y＝χ²－8χ＋16－16＋21＝(χ－4)²＋5<br>頂点 <b>(4, 5)</b>'
+    },
+    {
+      q: 'y＝χ²＋4χ＋1 の頂点の座標は？',
+      choices: ['(2, 1)', '(2, －3)', '(－2, 1)', '(－2, －3)'],
+      ans: 3,
+      exp: '＋4の半分＝2、2²＝4<br>y＝χ²＋4χ＋4－4＋1＝(χ＋2)²－3<br>頂点 <b>(－2, －3)</b>'
+    },
+  ],
+  // セットB：標準形を読む・一般形に変換
+  [
+    {
+      q: 'y＝χ²－2χ＋4 の頂点の座標は？',
+      choices: ['(1, 3)', '(－1, 3)', '(1, 4)', '(－1, 4)'],
+      ans: 0,
+      exp: '－2の半分＝－1、(－1)²＝1<br>y＝χ²－2χ＋1－1＋4＝(χ－1)²＋3<br>頂点 <b>(1, 3)</b>'
+    },
+    {
+      q: 'y＝χ²＋10χ＋23 の頂点の座標は？',
+      choices: ['(5, 23)', '(－5, 23)', '(5, －2)', '(－5, －2)'],
+      ans: 3,
+      exp: '＋10の半分＝5、5²＝25<br>y＝χ²＋10χ＋25－25＋23＝(χ＋5)²－2<br>頂点 <b>(－5, －2)</b>'
+    },
+    {
+      q: 'y＝χ²－6χ＋16 の頂点の座標は？',
+      choices: ['(3, 16)', '(3, 7)', '(－3, 7)', '(－3, 16)'],
+      ans: 1,
+      exp: '－6の半分＝－3、(－3)²＝9<br>y＝χ²－6χ＋9－9＋16＝(χ－3)²＋7<br>頂点 <b>(3, 7)</b>'
+    },
+    {
+      q: 'y＝χ²－2χ の頂点の座標は？（定数項なし）',
+      choices: ['(1, 0)', '(1, －1)', '(－1, 0)', '(－1, －1)'],
+      ans: 1,
+      exp: '－2の半分＝－1、(－1)²＝1<br>y＝χ²－2χ＋1－1＝(χ－1)²－1<br>頂点 <b>(1, －1)</b>'
+    },
+  ],
+  // セットC：グラフを使って頂点を求める
+  [
+    {
+      q: 'y＝－χ²－4χ のグラフがχ軸と (－4,0)・(0,0) で交わる。頂点は？',
+      choices: ['(－2, 4)', '(2, 4)', '(－2, －4)', '(2, －4)'],
+      ans: 0,
+      exp: '対称軸 ＝ (－4＋0)÷2 ＝ <b>－2</b><br>y＝－(－2)²－4×(－2) ＝ －4＋8 ＝ <b>4</b><br>頂点 <b>(－2, 4)</b>'
+    },
+    {
+      q: 'y＝－3χ²＋6χ のグラフがχ軸と (0,0)・(2,0) で交わる。頂点は？',
+      choices: ['(1, 3)', '(1, －3)', '(－1, 3)', '(－1, －3)'],
+      ans: 0,
+      exp: '対称軸 ＝ (0＋2)÷2 ＝ <b>1</b><br>y＝－3×1²＋6×1 ＝ 3<br>頂点 <b>(1, 3)</b>'
+    },
+    {
+      q: 'y＝3χ²－12χ＋9 のグラフがχ軸と (1,0)・(3,0) で交わる。頂点は？',
+      choices: ['(2, 3)', '(2, －3)', '(－2, 3)', '(－2, －3)'],
+      ans: 1,
+      exp: '対称軸 ＝ (1＋3)÷2 ＝ <b>2</b><br>y＝3×2²－12×2＋9 ＝ 12－24＋9 ＝ <b>－3</b><br>頂点 <b>(2, －3)</b>'
+    },
+    {
+      q: 'y＝2χ²－4χ＋1 のグラフがχ軸と (0,0)・(2,0) 付近で交わる。頂点は？',
+      choices: ['(1, 1)', '(1, －1)', '(－1, 1)', '(－1, －1)'],
+      ans: 1,
+      exp: '対称軸 ＝ (0＋2)÷2 ＝ <b>1</b><br>y＝2×1²－4×1＋1 ＝ 2－4＋1 ＝ <b>－1</b><br>頂点 <b>(1, －1)</b>'
+    },
+  ],
+  // セットD：総合（平方完成 + グラフ理解）
+  [
+    {
+      q: 'y＝χ²－4χ＋5 を標準形にすると？',
+      choices: ['y＝(χ－2)²＋1', 'y＝(χ＋2)²＋1', 'y＝(χ－2)²－1', 'y＝(χ＋2)²－1'],
+      ans: 0,
+      exp: '－4の半分＝－2、(－2)²＝4<br>y＝χ²－4χ＋4－4＋5＝<b>(χ－2)²＋1</b><br>頂点 (2, 1)'
+    },
+    {
+      q: 'y＝χ²＋4χ－1 の頂点の座標は？',
+      choices: ['(2, 3)', '(2, －5)', '(－2, 3)', '(－2, －5)'],
+      ans: 3,
+      exp: '＋4の半分＝2、2²＝4<br>y＝χ²＋4χ＋4－4－1＝(χ＋2)²－5<br>頂点 <b>(－2, －5)</b>'
+    },
+    {
+      q: 'y＝χ²－6χ＋16 の最小値（頂点のy座標）は？',
+      choices: ['16', '7', '－7', '0'],
+      ans: 1,
+      exp: 'y＝χ²－6χ＋9－9＋16＝(χ－3)²＋7<br>頂点 (3, 7)。最小値は <b>7</b>（χ＝3のとき）'
+    },
+    {
+      q: 'y＝－χ²＋2χ＋3 のグラフがχ軸と (－1,0)・(3,0) で交わる。最大値は？',
+      choices: ['3', '4', '5', '1'],
+      ans: 1,
+      exp: '対称軸 ＝ (－1＋3)÷2 ＝ 1<br>y＝－1²＋2×1＋3 ＝ 4<br>上に凸なので最大値は <b>4</b>'
+    },
+  ],
+];
+
+let currentSet = 0;
+
+function loadSet(idx) {
+  currentSet = idx;
+  document.querySelectorAll('.set-btn').forEach((b,i) => b.classList.toggle('active', i===idx));
+  document.getElementById('btn-submit').disabled = false;
+  document.getElementById('btn-submit').textContent = '採点する';
+  document.getElementById('result').className = 'result-box';
+  const area = document.getElementById('quiz-area');
+  area.innerHTML = '';
+  SETS[idx].forEach((q, i) => {
+    const card = document.createElement('div');
+    card.className = 'drill-card';
+    card.dataset.q = i;
+    card.innerHTML = `
+      <div class="q-num">問 ${i+1}</div>
+      <div class="q-text">${q.q}</div>
+      <div class="choices">
+        ${q.choices.map((c,j)=>`<button class="choice" data-i="${j}" onclick="pick(this,${i})">${c}</button>`).join('')}
+      </div>
+      <div class="feedback" id="fb-${i}"></div>
+    `;
+    area.appendChild(card);
+  });
+}
+
+function pick(btn, qIdx) {
+  const card = btn.closest('.drill-card');
+  if (card.dataset.chosen) return;
+  card.querySelectorAll('.choice').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  card.dataset.chosen = btn.dataset.i;
+}
+
+function grade() {
+  const qs = SETS[currentSet];
+  let correct = 0;
+  qs.forEach((q, i) => {
+    const card = document.querySelector(`.drill-card[data-q="${i}"]`);
+    const chosen = card.dataset.chosen;
+    if (!chosen) { alert(`問${i+1}がまだ選択されていません`); return; }
+    const isOK = parseInt(chosen) === q.ans;
+    if (isOK) correct++;
+    card.querySelectorAll('.choice').forEach(b => {
+      b.disabled = true;
+      if (parseInt(b.dataset.i) === q.ans) b.classList.add('correct');
+      if (parseInt(b.dataset.i) === parseInt(chosen) && !isOK) b.classList.add('wrong');
+    });
+    const fb = document.getElementById(`fb-${i}`);
+    fb.innerHTML = q.exp;
+    fb.className = 'feedback show';
+  });
+  const result = document.getElementById('result');
+  if (correct === qs.length) {
+    result.className = 'result-box show passed';
+    document.getElementById('result-msg').textContent = '🎉 全問正解！';
+    document.getElementById('result-score').textContent = `${correct} / ${qs.length}`;
+    document.getElementById('result-detail').textContent = '次は確認テストへ進もう！';
+    confetti();
+  } else {
+    result.className = 'result-box show';
+    document.getElementById('result-msg').textContent = 'もう一度確認しましょう';
+    document.getElementById('result-score').textContent = `${correct} / ${qs.length}`;
+    document.getElementById('result-detail').textContent = '解説を読んで別のセットも挑戦してみよう。';
+  }
+  document.getElementById('btn-submit').disabled = true;
+  document.getElementById('btn-submit').textContent = '採点済み';
+}
+
+function confetti() {
+  const colors = ['#ea580c','#f59e0b','#16a34a','#0284c7','#dc2626'];
+  for (let i = 0; i < 50; i++) {
+    const el = document.createElement('div');
+    el.className = 'confetti-piece';
+    el.style.cssText = `left:${Math.random()*100}vw;background:${colors[i%5]};animation-delay:${Math.random()*1.2}s;animation-duration:${2+Math.random()}s;`;
+    document.body.appendChild(el);
+    setTimeout(() => el.remove(), 3500);
+  }
+}
+
+loadSet(0);
+</script>
+</body>
+</html>

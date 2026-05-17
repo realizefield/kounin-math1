@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>IN06 不等式の文章題②｜例題</title>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" onload="renderAllMath();"></script>
+
+<style>
+:root{
+  --primary:#1d4ed8;
+  --primary-light:#dbeafe;
+  --primary-mid:#3b82f6;
+  --accent:#e8372d;
+  --accent-light:#fff1f0;
+  --success:#16a34a;
+  --success-light:#dcfce7;
+  --warn:#d97706;
+  --warn-light:#fffbeb;
+  --bg:#f0f6ff;
+  --card:#ffffff;
+  --border:#bfdbfe;
+  --text:#1e293b;
+  --text-sub:#64748b;
+  --radius:12px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:60px;line-height:1.7;}
+.g-container{max-width:760px;margin:0 auto;}
+.page-header{background:var(--primary);color:#fff;padding:18px 24px 14px;text-align:center;box-shadow:0 3px 10px rgba(29,78,216,.25);}
+.page-header .unit-code{font-size:.82em;opacity:.85;letter-spacing:.1em;margin-bottom:4px;}
+.page-header h1{font-size:clamp(1.1em,3vw,1.55em);font-weight:700;margin:0;}
+
+.step-nav{display:flex;align-items:center;justify-content:center;padding:14px 12px;background:var(--card);border-bottom:1px solid var(--border);flex-wrap:nowrap;overflow-x:auto;position:sticky;top:0;z-index:10;}
+.step-item{display:flex;align-items:center;gap:6px;font-size:clamp(.75em,2vw,.88em);color:#94a3b8;white-space:nowrap;padding:4px 6px;}
+.step-item a{color:inherit;text-decoration:none;}
+.step-item.active{color:var(--primary);font-weight:700;}
+.step-circle{width:22px;height:22px;border-radius:50%;font-size:.76em;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.step-item.active .step-circle{background:var(--primary);color:#fff;box-shadow:0 0 0 3px var(--primary-light);}
+.step-item:not(.active) .step-circle{background:#94a3b8;color:#fff;}
+.step-arrow{color:#cbd5e1;font-size:1.1em;padding:0 2px;user-select:none;}
+
+.content{padding:20px 16px 40px;}
+.intro-lead{background:var(--primary-light);border-left:4px solid var(--primary);padding:14px 18px;border-radius:0 var(--radius) var(--radius) 0;margin-bottom:24px;color:var(--primary);font-size:.94em;}
+
+.kw-cond{color:var(--accent);font-weight:700;}
+.kw-num{background:linear-gradient(transparent 60%,#fff3a0 60%);font-weight:700;padding:0 2px;}
+
+.qcard{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);padding:18px;margin-bottom:22px;}
+.qcard-head{display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap;}
+.qcard-tag{background:var(--accent);color:#fff;padding:4px 12px;border-radius:6px;font-size:.85em;font-weight:700;}
+.qcard-year{color:var(--text-sub);font-size:.85em;}
+.qcard-title{font-weight:700;color:var(--primary);font-size:1em;margin-left:auto;}
+
+.q-statement{background:#f8fafc;border-left:4px solid var(--primary-mid);padding:12px 16px;border-radius:0 8px 8px 0;font-size:.95em;line-height:1.85;margin-bottom:14px;}
+
+.compare-table{width:100%;border-collapse:collapse;margin:10px 0;font-size:.92em;}
+.compare-table th{background:var(--primary);color:#fff;padding:8px;font-weight:700;border:1px solid var(--primary);}
+.compare-table td{padding:10px 12px;border:1px solid var(--border);background:#fff;text-align:center;vertical-align:middle;}
+.compare-table .label-col{background:var(--primary-light);font-weight:700;color:var(--primary);}
+
+.toggle-btn{display:block;width:100%;padding:10px 14px;margin-top:10px;background:#fff;border:2px solid var(--success);color:var(--success);border-radius:8px;font-size:.95em;font-weight:700;cursor:pointer;text-align:left;font-family:inherit;}
+.toggle-btn:hover{background:var(--success-light);}
+.toggle-btn .arrow{float:right;transition:transform .2s;}
+.toggle-btn.open .arrow{transform:rotate(90deg);}
+
+.toggle-content{display:none;margin-top:10px;padding:14px 16px;background:#fafbff;border:1px solid var(--border);border-radius:8px;font-size:.93em;line-height:1.85;}
+.toggle-content.show{display:block;animation:fadeIn .3s;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(-4px);}to{opacity:1;transform:translateY(0);}}
+
+.solve-step{padding:10px 0;border-bottom:1px dashed #e2e8f0;}
+.solve-step:last-child{border-bottom:none;}
+.solve-step .step-head{font-weight:700;color:var(--primary);margin-bottom:6px;font-size:.95em;display:flex;align-items:center;gap:6px;}
+.solve-step .step-head .num{background:var(--primary);color:#fff;width:22px;height:22px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:.78em;flex-shrink:0;}
+.solve-step .step-body{font-size:.93em;line-height:1.85;padding-left:0;}
+
+.translate-box{background:#fff;border:2px solid var(--primary);border-radius:8px;padding:12px 14px;margin:8px 0;}
+.tr-step{margin-bottom:8px;}
+.tr-step:last-child{margin-bottom:0;}
+.tr-label{font-size:.82em;color:var(--primary);font-weight:700;margin-bottom:4px;}
+.tr-content{background:#f8fafc;padding:8px 12px;border-radius:6px;font-size:.93em;line-height:1.75;}
+.tr-content.final{background:var(--success-light);border-left:3px solid var(--success);}
+.tr-arrow{text-align:center;color:var(--primary);font-size:1.2em;line-height:1;margin:4px 0;}
+
+.calc-line{background:#fff;border:1px solid #e2e8f0;border-radius:6px;padding:8px 12px;margin:6px 0;font-size:.95em;}
+.calc-line .op-label{color:var(--text-sub);font-size:.82em;display:inline-block;margin-right:6px;}
+
+.answer-box{background:var(--success-light);border:2px solid var(--success);border-radius:8px;padding:10px 14px;color:var(--success);font-weight:700;font-size:1em;margin-top:10px;text-align:center;}
+
+.summary{background:linear-gradient(135deg,#dbeafe 0%,#e0e7ff 100%);border:2px solid var(--primary);border-radius:var(--radius);padding:18px;margin-top:20px;}
+.summary h3{color:var(--primary);font-size:1.05em;margin-bottom:10px;text-align:center;}
+.summary ol{padding-left:1.6em;font-size:.95em;line-height:1.85;}
+.summary ol li{margin-bottom:4px;}
+
+.btn-row{text-align:center;margin-top:24px;}
+.btn-back,.btn-next{display:inline-block;margin:4px;padding:10px 22px;text-decoration:none;border-radius:8px;font-weight:700;font-size:.95em;}
+.btn-back{background:#fff;border:2px solid var(--primary);color:var(--primary);}
+.btn-back:hover{background:var(--primary-light);}
+.btn-next{background:var(--primary);color:#fff;border:2px solid var(--primary);}
+.btn-next:hover{background:var(--primary-mid);}
+</style>
+</head>
+<body>
+<div class="g-container">
+
+<header class="page-header">
+  <div class="unit-code">IN06 ｜ 過去問版（教室／希望者用）</div>
+  <h1>不等式の文章題②（比較型）｜例題</h1>
+</header>
+
+<nav class="step-nav">
+  <div class="step-item"><a href="intro.html"><span class="step-circle">1</span>導入</a></div>
+  <span class="step-arrow">→</span>
+  <div class="step-item active"><span class="step-circle">2</span>例題</div>
+  <span class="step-arrow">→</span>
+  <div class="step-item"><a href="drill.html"><span class="step-circle">3</span>演習</a></div>
+  <span class="step-arrow">→</span>
+  <div class="step-item"><a href="check.html"><span class="step-circle">4</span>確認</a></div>
+</nav>
+
+<div class="content">
+
+  <div class="intro-lead">
+    📚 <strong>過去3年分の本物の過去問</strong>を3問とも完全解説します。<br>
+    <strong>例題1：R4年（冷蔵庫）／例題2：R6年（文化祭）／例題3：R7年（備蓄水）</strong><br>
+    この3つの解き方をしっかりマスターすれば，本番でも怖くありません！
+  </div>
+
+  <!-- ════════ 例題1：R4-2 冷蔵庫A・B ════════ -->
+  <div class="qcard">
+    <div class="qcard-head">
+      <span class="qcard-tag">例題1</span>
+      <span class="qcard-year">令和4年・第2回・第2問</span>
+      <span class="qcard-title" style="font-size:.9em;">★累積比較型</span>
+    </div>
+
+    <div class="q-statement">
+      冷蔵庫の購入を検討している。2つの冷蔵庫A，Bについて，<br>
+      Aは販売価格 <span class="kw-num">120000円</span>で送料と設置費用を合わせて <span class="kw-num">3000円</span>かかり，<br>
+      Bは販売価格 <span class="kw-num">164000円</span>で送料と設置費用はかからない。<br>
+      Aの電気代は1か月当たり <span class="kw-num">800円</span>で，Bの電気代は1か月当たり <span class="kw-num">500円</span>であるとき，<br>
+      購入時にかかる費用（送料及び設置費用を含む）と電気代を合わせた金額が<strong>AよりBの方が安くなる</strong>のは，何か月以上使用したときか。
+    </div>
+
+    <table class="compare-table">
+      <thead>
+        <tr><th></th><th>冷蔵庫A</th><th>冷蔵庫B</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="label-col">最初にかかる費用</td>
+          <td><span class="kw-num">123,000円</span></td>
+          <td><span class="kw-num">164,000円</span></td>
+        </tr>
+        <tr>
+          <td class="label-col">月々の電気代</td>
+          <td><span class="kw-num">800円/月</span></td>
+          <td><span class="kw-num">500円/月</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <button class="toggle-btn" onclick="toggleBox(this)">
+      ✅ 解き方を見る<span class="arrow">▶</span>
+    </button>
+    <div class="toggle-content">
+
+      <div class="solve-step">
+        <div class="step-head"><span class="num">1</span>使用月数を $x$ とおく</div>
+        <div class="step-body">使用月数を $x$ か月とする。</div>
+      </div>
+
+      <div class="solve-step">
+        <div class="step-head"><span class="num">2</span>A・Bの合計費用を式で表す</div>
+        <div class="step-body">
+          Aの合計：$123000 + 800x$（円）<br>
+          Bの合計：$164000 + 500x$（円）
+        </div>
+      </div>
+
+      <div class="solve-step">
+        <div class="step-head"><span class="num">3</span>「Bの方が安い」を不等式に</div>
+        <div class="step-body">
+          <div class="translate-box">
+            <div class="tr-step">
+              <div class="tr-label">📖 文章を不等式の形に</div>
+              <div class="tr-content">
+                「<strong>Bの方が安い</strong>」<br>
+                ↓ つまり「Bの合計 が Aの合計 以下」と考えると：<br>
+                <strong>Bの合計 $\leqq$ Aの合計</strong>
+              </div>
+            </div>
+            <div class="tr-arrow">↓</div>
+            <div class="tr-step">
+              <div class="tr-label">✨ 完成した不等式</div>
+              <div class="tr-content final">
+                <strong>$164000 + 500x \leqq 123000 + 800x$</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="solve-step">
+        <div class="step-head"><span class="num">4</span>不等式を解く</div>
+        <div class="step-body">
+          <div class="calc-line"><span class="op-label">数字を左へ・$x$ を右へ：</span>$164000 - 123000 \leqq 800x - 500x$</div>
+          <div class="calc-line"><span class="op-label">整理する：</span>$41000 \leqq 300x$</div>
+          <div class="calc-line"><span class="op-label">両辺を係数で割る：</span>$x \geqq 136.66\cdots$</div>
+        </div>
+      </div>
+
+      <div class="answer-box">
+        ✅ 答え：月数は整数なので，<span style="font-size:1.3em;">137</span> か月以上使用したときにBの方が安くなる
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════ 例題2：R6-2 文化祭ステージ ════════ -->
+  <div class="qcard">
+    <div class="qcard-head">
+      <span class="qcard-tag">例題2</span>
+      <span class="qcard-year">令和6年・第2回・第2問</span>
+      <span class="qcard-title" style="font-size:.9em;">★時間配分型</span>
+    </div>
+
+    <div class="q-statement">
+      ある高校の文化祭の企画で，<span class="kw-num">12クラス</span>がクラスごとに劇かダンスのステージ発表をすることにした。<br>
+      劇は <span class="kw-num">15分</span>，ダンスは <span class="kw-num">8分</span> の時間を割り当てて，発表時間を全体で <span class="kw-num">2時間30分</span><span class="kw-cond">以内</span>としたい。<br>
+      このとき，劇の発表は，最大何クラス割り当てることができるか。
+    </div>
+
+    <button class="toggle-btn" onclick="toggleBox(this)">
+      ✅ 解き方を見る<span class="arrow">▶</span>
+    </button>
+    <div class="toggle-content">
+
+      <div class="solve-step">
+        <div class="step-head"><span class="num">1</span>劇の数を $x$ クラスとおく</div>
+        <div class="step-body">劇の最大数を聞かれているので，劇を $x$ クラスとする。</div>
+      </div>
+
+      <div class="solve-step">
+        <div class="step-head"><span class="num">2</span>ダンスは $(12-x)$ クラス</div>
+        <div class="step-body">合計12クラスなので，ダンスは $(12-x)$ クラス。</div>
+      </div>
+
+      <div class="solve-step">
+        <div class="step-head"><span class="num">3</span>時間制限を不等式に</div>
+        <div class="step-body">
+          <div class="translate-box">
+            <div class="tr-step">
+              <div class="tr-label">📖 文章を不等式の形に</div>
+              <div class="tr-content">
+                「全体を <span class="kw-num">150分</span><span class="kw-cond">以内</span> に」<br>
+                ↓<br>
+                <strong>劇の時間 ＋ ダンスの時間 $\leqq$ 150</strong>
+              </div>
+            </div>
+            <div class="tr-arrow">↓</div>
+            <div class="tr-step">
+              <div class="tr-label">✨ 完成した不等式</div>
+              <div class="tr-content final">
+                <strong>$15x + 8(12-x) \leqq 150$</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="solve-step">
+        <div class="step-head"><span class="num">4</span>不等式を解く</div>
+        <div class="step-body">
+          <div class="calc-line"><span class="op-label">かっこを外す：</span>$15x + 96 - 8x \leqq 150$</div>
+          <div class="calc-line"><span class="op-label">整理する：</span>$7x \leqq 54$</div>
+          <div class="calc-line"><span class="op-label">両辺を係数で割る：</span>$x \leqq 7.71\cdots$</div>
+        </div>
+      </div>
+
+      <div class="answer-box">
+        ✅ 答え：クラス数は整数なので，劇は最大 <span style="font-size:1.3em;">7</span> クラス（小数点以下は切り捨て）
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════ 例題3：R7-2 備蓄水 ════════ -->
+  <div class="qcard">
+    <div class="qcard-head">
+      <span class="qcard-tag">例題3</span>
+      <span class="qcard-year">令和7年・第2回・第2問</span>
+      <span class="qcard-title" style="font-size:.9em;">★店舗比較型</span>
+    </div>
+
+    <div class="q-statement">
+      ペットボトルに入った備蓄水を車で買いに行くことにした。<br>
+      家から5km離れたスーパーマーケットでは，この備蓄水を1本 <span class="kw-num">120円</span>で販売しており，ガソリン代は <span class="kw-num">170円</span>かかる。<br>
+      また，家から15km離れたホームセンターでは，同じ備蓄水を1本 <span class="kw-num">90円</span>で販売しており，ガソリン代は <span class="kw-num">510円</span>かかる。<br>
+      このとき，ガソリン代と備蓄水の購入費用の合計について，<strong>スーパーマーケットよりホームセンターの方が安くなる</strong>のは，備蓄水を何本以上購入するときか。
+    </div>
+
+    <table class="compare-table">
+      <thead>
+        <tr><th></th><th>スーパー</th><th>ホームセンター</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="label-col">1本の値段</td>
+          <td><span class="kw-num">120円</span></td>
+          <td><span class="kw-num">90円</span></td>
+        </tr>
+        <tr>
+          <td class="label-col">ガソリン代</td>
+          <td><span class="kw-num">170円</span></td>
+          <td><span class="kw-num">510円</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <button class="toggle-btn" onclick="toggleBox(this)">
+      ✅ 解き方を見る<span class="arrow">▶</span>
+    </button>
+    <div class="toggle-content">
+
+      <div class="solve-step">
+        <div class="step-head"><span class="num">1</span>本数を $x$ 本とおく</div>
+        <div class="step-body">買う本数を $x$ 本とする。</div>
+      </div>
+
+      <div class="solve-step">
+        <div class="step-head"><span class="num">2</span>それぞれの合計費用を式で表す</div>
+        <div class="step-body">
+          スーパー：$120x + 170$（円）<br>
+          ホームセンター：$90x + 510$（円）
+        </div>
+      </div>
+
+      <div class="solve-step">
+        <div class="step-head"><span class="num">3</span>「ホームセンターの方が安い」を不等式に</div>
+        <div class="step-body">
+          <div class="translate-box">
+            <div class="tr-step">
+              <div class="tr-label">📖 文章を不等式の形に</div>
+              <div class="tr-content">
+                「<strong>ホームセンターの方が安い</strong>」<br>
+                ↓<br>
+                <strong>ホームセンター $\leqq$ スーパー</strong>
+              </div>
+            </div>
+            <div class="tr-arrow">↓</div>
+            <div class="tr-step">
+              <div class="tr-label">✨ 完成した不等式</div>
+              <div class="tr-content final">
+                <strong>$90x + 510 \leqq 120x + 170$</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="solve-step">
+        <div class="step-head"><span class="num">4</span>不等式を解く</div>
+        <div class="step-body">
+          <div class="calc-line"><span class="op-label">数字を左へ・$x$ を右へ：</span>$510 - 170 \leqq 120x - 90x$</div>
+          <div class="calc-line"><span class="op-label">整理する：</span>$340 \leqq 30x$</div>
+          <div class="calc-line"><span class="op-label">両辺を係数で割る：</span>$x \geqq 11.33\cdots$</div>
+        </div>
+      </div>
+
+      <div class="answer-box">
+        ✅ 答え：本数は整数なので，<span style="font-size:1.3em;">12</span> 本以上買うとホームセンターの方が安くなる
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════ まとめ ════════ -->
+  <div class="summary">
+    <h3>📌 比較型の解き方 まとめ</h3>
+    <ol>
+      <li>聞かれているもの（時間／個数）を $x$ とおく</li>
+      <li>2つの場合の<strong>合計</strong>を式で表す</li>
+      <li>「○○の方が安い／○○以内」を <strong>$\leqq$</strong> で表す</li>
+      <li>解いて，<strong>整数で答える</strong></li>
+    </ol>
+    <p style="margin-top:10px;font-size:.9em;color:var(--primary);text-align:center;font-weight:700;">
+      ✨ 同じパターンを繰り返し練習しよう！
+    </p>
+  </div>
+
+  <div class="btn-row">
+    <a href="intro.html" class="btn-back">← 導入へ</a>
+    <a href="drill.html" class="btn-next">演習へ進む →</a>
+  </div>
+
+</div>
+</div>
+
+<script>
+function toggleBox(btn){
+  btn.classList.toggle('open');
+  const next = btn.nextElementSibling;
+  if(next && next.classList.contains('toggle-content')){
+    next.classList.toggle('show');
+    if(next.classList.contains('show') && typeof renderMathInElement === 'function'){
+      renderMathInElement(next, {
+        delimiters:[
+          {left:'$$',right:'$$',display:true},
+          {left:'$',right:'$',display:false}
+        ],
+        throwOnError:false
+      });
+    }
+  }
+}
+function renderAllMath(){
+  if(typeof renderMathInElement === 'function'){
+    renderMathInElement(document.body, {
+      delimiters:[
+        {left:'$$',right:'$$',display:true},
+        {left:'$',right:'$',display:false}
+      ],
+      throwOnError:false
+    });
+  }
+}
+</script>
+</body>
+</html>

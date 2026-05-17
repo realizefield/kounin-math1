@@ -1,0 +1,502 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ST02 命題と真偽 ｜ 演習</title>
+<style>
+:root{
+  --primary:#059669;
+  --primary-d:#047857;
+  --primary-l:#d1fae5;
+  --bg:#f8fafc;
+  --card:#ffffff;
+  --text:#0f172a;
+  --muted:#64748b;
+  --border:#e2e8f0;
+  --correct:#16a34a;
+  --wrong:#dc2626;
+  --true-c:#0891b2;
+  --false-c:#dc2626;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:-apple-system,"Hiragino Sans","Yu Gothic",sans-serif;line-height:1.7}
+.wrap{max-width:780px;margin:0 auto;padding:14px 16px 80px}
+header{position:sticky;top:0;background:var(--primary);color:#fff;padding:12px 16px;margin:-14px -16px 16px;box-shadow:0 2px 8px rgba(0,0,0,.1);z-index:10}
+header h1{margin:0;font-size:1.1em;font-weight:700}
+header .sub{font-size:.78em;opacity:.9;margin-top:2px}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:0 0 14px;font-size:.85em;text-align:center}
+.step{background:#f1f5f9;padding:8px 4px;border-radius:6px;color:var(--muted)}
+.step.active{background:var(--primary);color:#fff;font-weight:700}
+
+.set-tabs{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
+.set-tabs > .set-tab{flex:1 1 calc(33.33% - 4px);min-width:90px}
+@supports (display:grid){.set-tabs{display:grid;grid-template-columns:repeat(3,1fr)}}
+.set-tab{padding:10px 4px;background:#fff;border:2px solid var(--border);border-radius:10px;text-align:center;font-weight:700;font-size:.9em;cursor:pointer;color:var(--muted);user-select:none}
+.set-tab.active{background:var(--primary);color:#fff;border-color:var(--primary)}
+.set-tab .stitle{font-size:.72em;font-weight:500;display:block;margin-top:2px}
+.set-tab.active .stitle{color:#d1fae5}
+
+.set-panel{display:none}
+.set-panel.active{display:block}
+.set-header{background:var(--primary-l);border-radius:10px;padding:12px 14px;margin-bottom:12px}
+.set-header h2{margin:0;font-size:1em;color:var(--primary-d)}
+.set-header p{margin:4px 0 0;font-size:.85em;color:var(--muted)}
+
+.q-card{background:var(--card);border-radius:12px;padding:16px;margin-bottom:14px;box-shadow:0 1px 3px rgba(0,0,0,.06);border:1px solid var(--border)}
+.q-num{display:inline-block;background:var(--primary);color:#fff;padding:2px 10px;border-radius:6px;font-weight:700;font-size:.85em;margin-bottom:8px}
+.q-body{font-size:1em;margin-bottom:12px;line-height:1.8}
+.q-body .quote{background:#f0fdf4;border-left:3px solid var(--primary);padding:8px 12px;margin:6px 0;font-weight:500}
+
+.choices{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.choice{background:#fff;border:2px solid var(--border);border-radius:10px;padding:12px 8px;text-align:center;font-size:1em;cursor:pointer;font-family:inherit;color:var(--text);font-weight:700}
+.choice:active{transform:scale(.98)}
+.choice.correct{background:#dcfce7;border-color:var(--correct);color:#166534}
+.choice.wrong{background:#fee2e2;border-color:var(--wrong);color:#991b1b}
+.choice.disabled{pointer-events:none;opacity:.85}
+
+.feedback{margin-top:10px;padding:10px 12px;border-radius:8px;font-size:.93em;display:none;line-height:1.7}
+.feedback.show{display:block}
+.feedback.ok{background:#dcfce7;color:#166534;border-left:4px solid var(--correct)}
+.feedback.ng{background:#fee2e2;color:#991b1b;border-left:4px solid var(--wrong)}
+.feedback b.title{display:block;margin-bottom:4px}
+
+.true-tag{display:inline-block;background:var(--true-c);color:#fff;padding:2px 10px;border-radius:6px;font-weight:700;font-size:.9em}
+.false-tag{display:inline-block;background:var(--false-c);color:#fff;padding:2px 10px;border-radius:6px;font-weight:700;font-size:.9em}
+
+.progress-box{background:var(--card);border:2px dashed var(--primary);border-radius:10px;padding:12px 14px;margin-top:16px;text-align:center;font-weight:700;color:var(--primary-d)}
+
+.nav{display:flex;justify-content:space-between;gap:10px;margin-top:24px}
+.btn{display:inline-block;padding:12px 18px;border-radius:10px;text-decoration:none;font-weight:700;font-size:.95em;text-align:center;flex:1}
+.btn-back{background:#e2e8f0;color:var(--text)}
+.btn-next{background:var(--primary);color:#fff;box-shadow:0 2px 6px rgba(5,150,105,.3)}
+.btn:active{transform:scale(.98)}
+sup{font-size:.7em;vertical-align:super}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>ST02　命題と真偽　演習</h1>
+  <div class="sub">真偽判定の練習</div>
+</header>
+
+<div class="steps">
+  <div class="step">① 解説</div>
+  <div class="step">② 例題</div>
+  <div class="step active">③ 演習・確認</div>
+</div>
+
+<div class="set-tabs">
+  <div class="set-tab active" data-set="A" onclick="switchSet('A')">セットA<span class="stitle">テキスト準拠</span></div>
+  <div class="set-tab" data-set="B" onclick="switchSet('B')">セットB<span class="stitle">追加練習</span></div>
+  <div class="set-tab" data-set="C" onclick="switchSet('C')">セットC<span class="stitle">逆向き・場合分け</span></div>
+</div>
+
+<!-- ===== セットA：テキスト練習1 ===== -->
+<div class="set-panel active" id="panel-A">
+  <div class="set-header">
+    <h2>セットA　テキスト練習1</h2>
+    <p>テキストの練習1の4問です。真か偽かを判定してください。</p>
+  </div>
+
+  <!-- A-1 -->
+  <div class="q-card" data-q="A1" data-ans="2">
+    <div class="q-num">A-1</div>
+    <div class="q-body">
+      <div class="quote">「a×b＞0 ならば、a＞0、b＞0 である」</div>
+      この命題は真か偽か。
+    </div>
+    <div class="choices">
+      <button class="choice" data-i="1">① 真</button>
+      <button class="choice" data-i="2">② 偽</button>
+    </div>
+    <div class="feedback">
+      <b class="title">✓ 解説</b>
+      <b>反例</b>：a＝－2、b＝－1 のとき、ab＝(－2)×(－1)＝2＞0 となるが、a＞0 でも b＞0 でもない。<br>
+      （マイナス × マイナス ＝ プラス になる場合がある）<br>
+      反例があるので <span class="false-tag">偽</span>
+    </div>
+  </div>
+
+  <!-- A-2 -->
+  <div class="q-card" data-q="A2" data-ans="2">
+    <div class="q-num">A-2</div>
+    <div class="q-body">
+      <div class="quote">「2つの辺の長さが等しい三角形は正三角形である」</div>
+      この命題は真か偽か。
+    </div>
+    <div class="choices">
+      <button class="choice" data-i="1">① 真</button>
+      <button class="choice" data-i="2">② 偽</button>
+    </div>
+    <div class="feedback">
+      <b class="title">✓ 解説</b>
+      <b>反例</b>：2辺だけ等しい三角形（二等辺三角形）はたくさんある。<br>
+      例えば、辺の長さが 5, 5, 3 の三角形は二等辺三角形だが、正三角形ではない。<br>
+      → 正三角形は二等辺三角形の<b>一種</b>であって、すべての二等辺三角形が正三角形ではない。<br>
+      反例があるので <span class="false-tag">偽</span>
+    </div>
+  </div>
+
+  <!-- A-3 -->
+  <div class="q-card" data-q="A3" data-ans="1">
+    <div class="q-num">A-3</div>
+    <div class="q-body">
+      <div class="quote">「n が8の倍数ならば、n は2の倍数である」</div>
+      この命題は真か偽か。
+    </div>
+    <div class="choices">
+      <button class="choice" data-i="1">① 真</button>
+      <button class="choice" data-i="2">② 偽</button>
+    </div>
+    <div class="feedback">
+      <b class="title">✓ 解説</b>
+      8の倍数は 8、16、24、32、40… → <b>すべて2で割れる</b>。<br>
+      「8の倍数 ＝ 2の倍数の中の特別なもの」だから、反例は見つからない。<br>
+      → <span class="true-tag">真</span>
+    </div>
+  </div>
+
+  <!-- A-4 -->
+  <div class="q-card" data-q="A4" data-ans="1">
+    <div class="q-num">A-4</div>
+    <div class="q-body">
+      <div class="quote">「n が3の倍数ならば、n<sup>2</sup> は9の倍数である」</div>
+      この命題は真か偽か。
+    </div>
+    <div class="choices">
+      <button class="choice" data-i="1">① 真</button>
+      <button class="choice" data-i="2">② 偽</button>
+    </div>
+    <div class="feedback">
+      <b class="title">✓ 解説</b>
+      n が3の倍数なら、n＝3a（a は自然数）と書ける。<br>
+      n<sup>2</sup>＝(3a)<sup>2</sup>＝9a<sup>2</sup> → これは9の倍数。<br>
+      具体例：n＝6 のとき n<sup>2</sup>＝36＝9×4 ✓<br>
+      反例は見つからないので <span class="true-tag">真</span>
+    </div>
+  </div>
+
+  <div class="progress-box" id="prog-A">セットA：0／4問正解</div>
+</div>
+
+<!-- ===== セットB：追加練習 ===== -->
+<div class="set-panel" id="panel-B">
+  <div class="set-header">
+    <h2>セットB　追加練習</h2>
+    <p>テキスト範囲外の追加問題。反例を見つける練習を増やします。</p>
+  </div>
+
+  <!-- B-1 -->
+  <div class="q-card" data-q="B1" data-ans="2">
+    <div class="q-num">B-1</div>
+    <div class="q-body">
+      <div class="quote">「n が偶数ならば、n は4の倍数である」</div>
+      この命題は真か偽か。
+    </div>
+    <div class="choices">
+      <button class="choice" data-i="1">① 真</button>
+      <button class="choice" data-i="2">② 偽</button>
+    </div>
+    <div class="feedback">
+      <b class="title">✓ 解説</b>
+      <b>反例</b>：n＝2、n＝6、n＝10 などは偶数だが、4の倍数ではない。<br>
+      反例があるので <span class="false-tag">偽</span>
+    </div>
+  </div>
+
+  <!-- B-2 -->
+  <div class="q-card" data-q="B2" data-ans="1">
+    <div class="q-num">B-2</div>
+    <div class="q-body">
+      <div class="quote">「χ＝3 ならば χ<sup>2</sup>＝9 である」</div>
+      この命題は真か偽か。
+    </div>
+    <div class="choices">
+      <button class="choice" data-i="1">① 真</button>
+      <button class="choice" data-i="2">② 偽</button>
+    </div>
+    <div class="feedback">
+      <b class="title">✓ 解説</b>
+      χ＝3 なら、χ<sup>2</sup>＝3<sup>2</sup>＝9。間違いなく9になる。<br>
+      反例なし → <span class="true-tag">真</span><br>
+      <small>※「χ<sup>2</sup>＝9 ならば χ＝3」と取り違えやすいので注意（こちらは偽：χ＝－3 が反例）</small>
+    </div>
+  </div>
+
+  <!-- B-3 -->
+  <div class="q-card" data-q="B3" data-ans="2">
+    <div class="q-num">B-3</div>
+    <div class="q-body">
+      <div class="quote">「すべての長方形は正方形である」</div>
+      この命題は真か偽か。
+    </div>
+    <div class="choices">
+      <button class="choice" data-i="1">① 真</button>
+      <button class="choice" data-i="2">② 偽</button>
+    </div>
+    <div class="feedback">
+      <b class="title">✓ 解説</b>
+      <b>反例</b>：縦3cm、横5cmの長方形は正方形ではない。<br>
+      長方形は「4つの角がすべて直角」、正方形は「それ＋すべての辺の長さが等しい」。<br>
+      正方形は長方形の<b>一種</b>であって、逆は成り立たない。<br>
+      反例があるので <span class="false-tag">偽</span>
+    </div>
+  </div>
+
+  <!-- B-4 -->
+  <div class="q-card" data-q="B4" data-ans="1">
+    <div class="q-num">B-4</div>
+    <div class="q-body">
+      <div class="quote">「n が6の倍数ならば、n は3の倍数である」</div>
+      この命題は真か偽か。
+    </div>
+    <div class="choices">
+      <button class="choice" data-i="1">① 真</button>
+      <button class="choice" data-i="2">② 偽</button>
+    </div>
+    <div class="feedback">
+      <b class="title">✓ 解説</b>
+      6の倍数は 6、12、18、24、30… → すべて3で割れる。<br>
+      「6＝2×3」なので、6の倍数は必ず3でも割れる。<br>
+      反例なし → <span class="true-tag">真</span>
+    </div>
+  </div>
+
+  <div class="progress-box" id="prog-B">セットB：0／4問正解</div>
+</div>
+
+<!-- ===== セットC：逆向き・場合分け（応用） ===== -->
+<div class="set-panel" id="panel-C">
+  <div class="set-header">
+    <h2>セットC　逆向き・場合分け（応用）</h2>
+    <p>命題が苦手な生徒がつまずきやすいパターンを集めました。「日本語で考える」のがコツ。</p>
+  </div>
+
+  <!-- C-1：χ=3 → χ²=9（真） -->
+  <div class="q-card" data-q="C1" data-ans="1">
+    <div class="q-num">C-1</div>
+    <div class="q-body">
+      <div class="quote">「χ＝3 ならば χ<sup>2</sup>＝9 である」</div>
+      この命題は真か偽か。
+    </div>
+    <div class="choices">
+      <button class="choice" data-i="1">① 真</button>
+      <button class="choice" data-i="2">② 偽</button>
+    </div>
+    <div class="feedback">
+      <b class="title">✓ 解説：日本語で考えましょう</b>
+      χ＝3 を χ<sup>2</sup> に代入 → 3<sup>2</sup>＝9 ✓<br>
+      χ が3なら、必ず χ<sup>2</sup> は9になる。反例なし。<br>
+      → <span class="true-tag">真</span><br>
+      <small>※「χ<sup>2</sup>＝9 ならば χ＝3」（χ＝-3 が反例で偽）とは逆向き。<b>向きを変えると真偽が変わる</b>！</small>
+    </div>
+  </div>
+
+  <!-- C-2：n が 6 の倍数 → 3 の倍数（真） -->
+  <div class="q-card" data-q="C2" data-ans="1">
+    <div class="q-num">C-2</div>
+    <div class="q-body">
+      <div class="quote">「n が 6 の倍数ならば、n は 3 の倍数である」</div>
+      この命題は真か偽か。
+    </div>
+    <div class="choices">
+      <button class="choice" data-i="1">① 真</button>
+      <button class="choice" data-i="2">② 偽</button>
+    </div>
+    <div class="feedback">
+      <b class="title">✓ 解説：日本語で考えましょう</b>
+      6 の倍数は 6、12、18、24、30… → <b>すべて 3 で割れる</b>。<br>
+      「6 ＝ 2 × 3」だから、6 の倍数は必ず 3 でも割れる。<br>
+      反例なし → <span class="true-tag">真</span>
+    </div>
+  </div>
+
+  <!-- C-3：n が 3 の倍数 → 6 の倍数（偽） -->
+  <div class="q-card" data-q="C3" data-ans="2">
+    <div class="q-num">C-3 <span style="font-weight:400;font-size:.85em;color:#d1fae5">（C-2 の逆向き）</span></div>
+    <div class="q-body">
+      <div class="quote">「n が 3 の倍数ならば、n は 6 の倍数である」</div>
+      この命題は真か偽か。
+    </div>
+    <div class="choices">
+      <button class="choice" data-i="1">① 真</button>
+      <button class="choice" data-i="2">② 偽</button>
+    </div>
+    <div class="feedback">
+      <b class="title">✓ 解説：日本語で考えましょう</b>
+      <b>反例</b>：n＝3、9、15、21… これらは 3 の倍数だけど、6 では割れない。<br>
+      （3 の倍数の中には、6 の倍数でない数がたくさんある）<br>
+      反例があるので → <span class="false-tag">偽</span><br>
+      <small>※C-2（6 の倍数 → 3 の倍数）は真でしたが、<b>逆向きにすると偽</b>になります！</small>
+    </div>
+  </div>
+
+  <!-- C-4：ab > 0 → a>0, b>0（偽） -->
+  <div class="q-card" data-q="C4" data-ans="2">
+    <div class="q-num">C-4 <span style="font-weight:400;font-size:.85em;color:#d1fae5">（正負の積）</span></div>
+    <div class="q-body">
+      <div class="quote">「ab＞0 ならば a＞0、b＞0 である」</div>
+      この命題は真か偽か。
+    </div>
+    <div class="choices">
+      <button class="choice" data-i="1">① 真</button>
+      <button class="choice" data-i="2">② 偽</button>
+    </div>
+    <div class="feedback">
+      <b class="title">✓ 解説：日本語で考えましょう</b>
+      ab＞0（積がプラス）になるのは：<br>
+      ・(+)×(+) ＝ + ✓<br>
+      ・<b>(-)×(-) ＝ +</b> ✓ ← これも！<br>
+      <b>反例</b>：a＝-2、b＝-3 のとき ab＝6＞0 だが、a も b も負！<br>
+      反例があるので → <span class="false-tag">偽</span>
+    </div>
+  </div>
+
+  <!-- C-5：ab < 0 → a<0, b>0（偽） -->
+  <div class="q-card" data-q="C5" data-ans="2">
+    <div class="q-num">C-5 <span style="font-weight:400;font-size:.85em;color:#d1fae5">（正負の積）</span></div>
+    <div class="q-body">
+      <div class="quote">「ab＜0 ならば a＜0、b＞0 である」</div>
+      この命題は真か偽か。
+    </div>
+    <div class="choices">
+      <button class="choice" data-i="1">① 真</button>
+      <button class="choice" data-i="2">② 偽</button>
+    </div>
+    <div class="feedback">
+      <b class="title">✓ 解説：日本語で考えましょう</b>
+      ab＜0（積がマイナス）になるのは：<br>
+      ・(-)×(+) ＝ -（a＜0、b＞0）<br>
+      ・<b>(+)×(-) ＝ -（a＞0、b＜0）も</b>OK<br>
+      <b>反例</b>：a＝2、b＝-3 のとき ab＝-6＜0 だが、a＞0、b＜0（命題と逆）。<br>
+      反例があるので → <span class="false-tag">偽</span><br>
+      <small>※「a＜0、b＞0」だけが ab＜0 になるわけではない。</small>
+    </div>
+  </div>
+
+  <!-- C-6：a>0, b<0 → ab<0（真） -->
+  <div class="q-card" data-q="C6" data-ans="1">
+    <div class="q-num">C-6 <span style="font-weight:400;font-size:.85em;color:#d1fae5">（正負の積）</span></div>
+    <div class="q-body">
+      <div class="quote">「a＞0、b＜0 ならば ab＜0 である」</div>
+      この命題は真か偽か。
+    </div>
+    <div class="choices">
+      <button class="choice" data-i="1">① 真</button>
+      <button class="choice" data-i="2">② 偽</button>
+    </div>
+    <div class="feedback">
+      <b class="title">✓ 解説：日本語で考えましょう</b>
+      a が正、b が負なら、(+)×(-) ＝ <b>マイナス</b>。<br>
+      a＞0 かつ b＜0 のとき、ab は必ず負になる。反例なし。<br>
+      → <span class="true-tag">真</span><br>
+      <small>※こちらは「条件 → 結果」の向きが正しいので真。C-5 とよく見比べよう。</small>
+    </div>
+  </div>
+
+  <!-- C-7：χ²-3χ=0 → χ=3（偽） -->
+  <div class="q-card" data-q="C7" data-ans="2">
+    <div class="q-num">C-7 <span style="font-weight:400;font-size:.85em;color:#d1fae5">（多解パターン）</span></div>
+    <div class="q-body">
+      <div class="quote">「χ<sup>2</sup>－3χ＝0 ならば χ＝3 である」</div>
+      この命題は真か偽か。
+    </div>
+    <div class="choices">
+      <button class="choice" data-i="1">① 真</button>
+      <button class="choice" data-i="2">② 偽</button>
+    </div>
+    <div class="feedback">
+      <b class="title">✓ 解説：日本語で考えましょう</b>
+      χ<sup>2</sup>－3χ＝0 を解くと：χ(χ－3)＝0 → χ＝0、χ＝3。<br>
+      <b>解は2つ</b>（χ＝0 と χ＝3）。<br>
+      <b>反例</b>：χ＝0 も χ<sup>2</sup>－3χ＝0 を満たすけど、χ＝3 ではない！<br>
+      反例があるので → <span class="false-tag">偽</span>
+    </div>
+  </div>
+
+  <!-- C-8：χ=3 → χ²-3χ=0（真） -->
+  <div class="q-card" data-q="C8" data-ans="1">
+    <div class="q-num">C-8 <span style="font-weight:400;font-size:.85em;color:#d1fae5">（C-7 の逆向き）</span></div>
+    <div class="q-body">
+      <div class="quote">「χ＝3 ならば χ<sup>2</sup>－3χ＝0 である」</div>
+      この命題は真か偽か。
+    </div>
+    <div class="choices">
+      <button class="choice" data-i="1">① 真</button>
+      <button class="choice" data-i="2">② 偽</button>
+    </div>
+    <div class="feedback">
+      <b class="title">✓ 解説：日本語で考えましょう</b>
+      χ＝3 を χ<sup>2</sup>－3χ に代入：<br>
+      3<sup>2</sup>－3×3 ＝ 9－9 ＝ 0 ✓<br>
+      χ＝3 なら、必ず χ<sup>2</sup>－3χ＝0 になる。反例なし。<br>
+      → <span class="true-tag">真</span><br>
+      <small>※C-7（χ<sup>2</sup>－3χ＝0 ならば χ＝3）は偽でしたが、<b>逆向きは真</b>。<br>
+      <b>2次方程式は解が2つあるので、片方だけ書くと偽になりがち！</b></small>
+    </div>
+  </div>
+
+  <div class="progress-box" id="prog-C">セットC：0／8問正解</div>
+</div>
+
+<div class="nav">
+  <a href="./example.html" class="btn btn-back">← 例題に戻る</a>
+  <a href="./check.html" class="btn btn-next">確認テストへ →</a>
+</div>
+
+</div>
+
+<script>
+function switchSet(s){
+  document.querySelectorAll('.set-tab').forEach(t=>t.classList.toggle('active', t.dataset.set===s));
+  document.querySelectorAll('.set-panel').forEach(p=>p.classList.toggle('active', p.id==='panel-'+s));
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+const progress = {A:new Set(), B:new Set(), C:new Set()};
+const setTotals = {A:4, B:4, C:8};
+
+function updateProgress(setKey){
+  const box = document.getElementById('prog-'+setKey);
+  const cnt = progress[setKey].size;
+  const total = setTotals[setKey];
+  box.textContent = `セット${setKey}：${cnt}／${total}問正解`;
+  if(cnt===total){
+    box.style.background = 'var(--primary)';
+    box.style.color = '#fff';
+    box.textContent = `🎉 セット${setKey} 全問正解！`;
+  }
+}
+
+document.querySelectorAll('.q-card').forEach(card=>{
+  const ans = card.dataset.ans;
+  const qid = card.dataset.q;
+  const setKey = qid.charAt(0);
+  const choices = card.querySelectorAll('.choice');
+  const fb = card.querySelector('.feedback');
+
+  choices.forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      if(btn.classList.contains('disabled')) return;
+      const sel = btn.dataset.i;
+      if(sel === ans){
+        btn.classList.add('correct');
+        choices.forEach(c=>c.classList.add('disabled'));
+        fb.classList.remove('ng');
+        fb.classList.add('ok','show');
+        progress[setKey].add(qid);
+        updateProgress(setKey);
+      } else {
+        btn.classList.add('wrong','disabled');
+        fb.classList.remove('ok');
+        fb.classList.add('ng','show');
+      }
+    });
+  });
+});
+</script>
+</body>
+</html>

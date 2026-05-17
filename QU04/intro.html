@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>QU04 二次不等式</title>
+<style>
+:root{
+  --primary:#ea580c;--primary-d:#c2410c;--primary-l:#fff7ed;
+  --hint:#f59e0b;--hint-bg:#fffbeb;--warn:#dc2626;
+  --bg:#f8fafc;--card:#fff;--text:#1e293b;--muted:#64748b;--border:#e2e8f0;
+  --green:#059669;--green-l:#f0fdf4;--blue:#0284c7;--blue-l:#eff6ff;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:'BIZ UDPGothic','BIZ UDP Gothic',-apple-system,"Hiragino Sans","Yu Gothic",sans-serif;line-height:1.9;font-size:15px;overflow-x:hidden}
+header{position:sticky;top:0;background:var(--primary);color:#fff;padding:12px 16px;box-shadow:0 2px 8px rgba(0,0,0,.15);z-index:10}
+header h1{margin:0;font-size:1.05em;font-weight:700}
+header .sub{font-size:.78em;opacity:.88;margin-top:2px}
+.steps{display:flex;background:#fff;border-bottom:1px solid var(--border)}
+.step{flex:1;text-align:center;padding:8px 4px;font-size:.78em;font-weight:700;color:var(--muted);border-bottom:3px solid var(--border)}
+.step.active{color:var(--primary);border-color:var(--primary)}
+.wrap{max-width:680px;margin:0 auto;padding:16px 16px 40px}
+.section{background:var(--card);border-radius:12px;padding:18px 20px;margin-bottom:16px;box-shadow:0 1px 3px rgba(0,0,0,.06);border:1px solid var(--border)}
+.section h2{margin:0 0 14px;font-size:1.05em;color:var(--primary-d);border-left:4px solid var(--primary);padding-left:10px}
+.section h3{font-size:.95em;color:var(--primary-d);margin:18px 0 8px;padding-bottom:4px;border-bottom:1px dashed var(--border)}
+.tip{background:var(--hint-bg);border-left:4px solid var(--hint);border-radius:6px;padding:10px 14px;margin:10px 0;font-size:.92em}
+.warn-box{background:#fef2f2;border-left:4px solid var(--warn);border-radius:6px;padding:10px 14px;margin:10px 0;font-size:.92em}
+.example{background:var(--primary-l);border-left:4px solid var(--primary);border-radius:6px;padding:12px 14px;margin:12px 0}
+.example .ex-title{font-weight:700;color:var(--primary-d);margin-bottom:8px}
+.point-box{background:var(--green-l);border:2px solid var(--green);border-radius:10px;padding:14px 16px;margin:14px 0}
+.point-box h4{margin:0 0 8px;color:var(--green);font-size:.95em}
+.calc-box{background:#f8fafc;border:1px solid var(--border);border-radius:8px;padding:12px 16px;margin:10px 0;font-size:.95em;line-height:2.1}
+.calc-box .eq{color:var(--primary-d);font-weight:700}
+.step-row{display:flex;gap:10px;align-items:flex-start;margin-bottom:10px}
+.step-num{min-width:28px;height:28px;background:var(--primary);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.85em;flex-shrink:0;margin-top:3px}
+.step-body{flex:1;background:#f8fafc;border-radius:8px;padding:8px 12px;border:1px solid var(--border);font-size:.93em;line-height:1.7}
+.graph-row{display:flex;flex-wrap:wrap;gap:16px;margin:14px 0;justify-content:center}
+.graph-item{text-align:center}
+.graph-item .g-label{font-size:.85em;font-weight:700;margin-top:6px}
+.graph-item .g-sub{font-size:.78em;color:var(--muted)}
+table.summary{border-collapse:collapse;width:100%;margin:10px 0;font-size:.9em}
+table.summary th{background:var(--primary);color:#fff;padding:8px 6px;text-align:center}
+table.summary td{padding:8px 6px;border:1px solid var(--border);text-align:center;vertical-align:middle}
+table.summary tr:nth-child(even) td{background:#fff7ed}
+.nav{display:flex;gap:10px;margin-top:20px}
+.btn{display:block;padding:12px 16px;border-radius:10px;text-decoration:none;text-align:center;font-weight:700;font-size:.95em;flex:1}
+.btn-back{background:#f1f5f9;color:var(--muted)}
+.btn-next{background:var(--primary);color:#fff}
+canvas{display:block}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>QU04　二次不等式</h1>
+  <div class="sub">グラフを使って不等式を解く</div>
+</header>
+
+<div class="steps">
+  <div class="step active">① 解説</div>
+  <div class="step">② 演習</div>
+  <div class="step">③ 確認</div>
+</div>
+
+<div class="wrap">
+
+<!-- セクション1：χ軸との共有点 -->
+<div class="section">
+  <h2>1．χ軸との共有点を求める</h2>
+
+  <p>二次関数のグラフと χ軸の交点を求めるには、<b>y＝0 として方程式を解く</b>だけです。</p>
+
+  <div class="point-box">
+    <h4>✅ 手順</h4>
+    y＝f(χ) のグラフと χ軸の交点を求める<br>
+    → <b>f(χ) ＝ 0</b> を解く（因数分解）<br>
+    → 解が χ＝α、β → 交点は <b>(α, 0)</b> と <b>(β, 0)</b>
+  </div>
+
+  <div class="example">
+    <div class="ex-title">📌 例題　y＝χ²＋χ－6 とχ軸の共有点を求めよ</div>
+    <div class="calc-box">
+      <span class="eq">χ²＋χ－6 ＝ 0</span><br>
+      <span class="eq">(χ＋3)(χ－2) ＝ 0</span><br>
+      <span class="eq">χ ＝ －3、2</span><br>
+      → 共有点は <b>(－3, 0)</b> と <b>(2, 0)</b>
+    </div>
+  </div>
+
+  <div class="example">
+    <div class="ex-title">📌 例題　y＝2χ²＋5χ－3 とχ軸の共有点を求めよ</div>
+    <div class="calc-box">
+      <span class="eq">2χ²＋5χ－3 ＝ 0</span><br>
+      <span class="eq">(2χ－1)(χ＋3) ＝ 0</span><br>
+      <span class="eq">χ ＝ <span style="display:inline-block;vertical-align:middle;text-align:center;line-height:1.2"><span style="display:block;border-bottom:1px solid #333;padding:0 2px">1</span><span style="display:block">2</span></span>、－3</span><br>
+      → 共有点は <b>(－3, 0)</b> と <b>(<span style="display:inline-block;vertical-align:middle;text-align:center;line-height:1.2;font-size:.85em"><span style="display:block;border-bottom:1px solid #c2410c;padding:0 2px">1</span><span style="display:block">2</span></span>, 0)</b>
+    </div>
+  </div>
+</div>
+
+<!-- セクション2：二次不等式の考え方 -->
+<div class="section">
+  <h2>2．二次不等式とグラフの関係</h2>
+
+  <p>二次不等式は<b>グラフで考える</b>と解きやすいです。</p>
+
+  <div class="tip">
+    <b>💡 グラフと不等式の関係</b><br>
+    y ＞ 0 → グラフが <b>χ軸より上</b> にある部分の χ の範囲<br>
+    y ＜ 0 → グラフが <b>χ軸より下</b> にある部分の χ の範囲
+  </div>
+
+  <div class="graph-row">
+    <div class="graph-item">
+      <canvas id="c_above" width="180" height="150"></canvas>
+      <div class="g-label" style="color:var(--primary)">y ＞ 0 の範囲</div>
+      <div class="g-sub">χ＜α または χ＞β（外側）</div>
+    </div>
+    <div class="graph-item">
+      <canvas id="c_below" width="180" height="150"></canvas>
+      <div class="g-label" style="color:var(--blue)">y ＜ 0 の範囲</div>
+      <div class="g-sub">α＜χ＜β（内側）</div>
+    </div>
+  </div>
+
+  <div class="point-box">
+    <h4>✅ 覚え方</h4>
+    下に凸（a＞0）のグラフで α＜β のとき：<br><br>
+    <b>＞ 0（χ軸より上）→ 外側：χ＜α または χ＞β</b><br>
+    <b>＜ 0（χ軸より下）→ 内側：α＜χ＜β</b><br><br>
+    <span style="color:var(--muted);font-size:.9em">≧、≦ の場合は α、β を含む（等号あり）</span>
+  </div>
+</div>
+
+<!-- セクション3：手順と例題 -->
+<div class="section">
+  <h2>3．二次不等式を解く手順</h2>
+
+  <div class="step-row">
+    <div class="step-num">1</div>
+    <div class="step-body">右辺を0にする（移項してまとめる）</div>
+  </div>
+  <div class="step-row">
+    <div class="step-num">2</div>
+    <div class="step-body">左辺を<b>因数分解</b>して α、β を求める（α＜β）</div>
+  </div>
+  <div class="step-row">
+    <div class="step-num">3</div>
+    <div class="step-body">グラフの向き（aの符号）を確認して<b>内側か外側か</b>判断</div>
+  </div>
+  <div class="step-row">
+    <div class="step-num">4</div>
+    <div class="step-body">答えを書く</div>
+  </div>
+
+  <h3>例題①：＞0（外側）</h3>
+  <div class="example">
+    <div class="ex-title">χ²－5χ＋4 ＞ 0 を解け</div>
+    <div class="calc-box">
+      <span class="eq">χ²－5χ＋4 ＝ (χ－1)(χ－4) ＝ 0</span><span style="color:var(--muted);font-size:.85em;margin-left:6px">← まず＝0を解く</span><br>
+      <span class="eq">χ ＝ 1、4</span><br>
+      a＝1＞0 → 下に凸 → ＞0 なので <b>外側</b><br>
+      <span class="eq">答え：χ＜1 または χ＞4</span>
+    </div>
+  </div>
+
+  <h3>例題②：＜0（内側）</h3>
+  <div class="example">
+    <div class="ex-title">χ²－5χ＋4 ＜ 0 を解け</div>
+    <div class="calc-box">
+      同様に χ＝1、4<br>
+      a＞0 → 下に凸 → ＜0 なので <b>内側</b><br>
+      <span class="eq">答え：1＜χ＜4</span>
+    </div>
+  </div>
+
+  <h3>例題③：移項が必要な場合</h3>
+  <div class="example">
+    <div class="ex-title">5χ²－6χ＋2 ≦ 2χ²＋5χ－4 を解け</div>
+    <div class="calc-box">
+      <span class="eq">5χ²－2χ²－6χ－5χ＋2＋4 ≦ 0</span>
+      <span style="color:var(--muted);font-size:.85em;margin-left:6px">← 右辺を0にする</span><br>
+      <span class="eq">3χ²－11χ＋6 ≦ 0</span><br>
+      <span class="eq">(3χ－2)(χ－3) ≦ 0</span><br>
+      <span class="eq">χ ＝ <span style="display:inline-block;vertical-align:middle;text-align:center;line-height:1.2;font-size:.85em"><span style="display:block;border-bottom:1px solid #333;padding:0 2px">2</span><span style="display:block">3</span></span>、3</span><br>
+      a＞0 → ≦0 → <b>内側</b>（等号含む）<br>
+      <span class="eq">答え：<span style="display:inline-block;vertical-align:middle;text-align:center;line-height:1.2;font-size:.85em"><span style="display:block;border-bottom:1px solid #c2410c;padding:0 2px">2</span><span style="display:block">3</span></span> ≦ χ ≦ 3</span>
+    </div>
+  </div>
+
+  <div class="warn-box">
+    <b>⚠ 右辺を必ず 0 にしてから解く！</b><br>
+    左辺と右辺に式がある場合は、<b>必ず移項して右辺を0</b>にしてから因数分解します。<br>
+    例：(χ－1)(χ＋2) ≧ 0 → そのまま解ける<br>
+    例：5χ²－6χ＋2 ≦ 2χ²＋5χ－4 → まず移項！
+  </div>
+</div>
+
+<!-- まとめ -->
+<div class="section" style="background:var(--primary-l);border-color:#fed7aa">
+  <h2>📋 まとめ</h2>
+  <table class="summary">
+    <tr><th>不等式</th><th>グラフのイメージ</th><th>答えの形</th></tr>
+    <tr><td><b>f(χ) ＞ 0</b></td><td>χ軸より上（a＞0）</td><td>χ＜α または χ＞β（外側）</td></tr>
+    <tr><td><b>f(χ) ＜ 0</b></td><td>χ軸より下（a＞0）</td><td>α＜χ＜β（内側）</td></tr>
+    <tr><td><b>f(χ) ≧ 0</b></td><td>χ軸以上（a＞0）</td><td>χ≦α または χ≧β（外側・等号含む）</td></tr>
+    <tr><td><b>f(χ) ≦ 0</b></td><td>χ軸以下（a＞0）</td><td>α≦χ≦β（内側・等号含む）</td></tr>
+  </table>
+  <div class="tip" style="margin-top:10px">
+    <b>キーワード</b>：＞0・≧0 → <b>外側</b>　／　＜0・≦0 → <b>内側</b>（a＞0の場合）
+  </div>
+</div>
+
+<div class="nav">
+  <a href="../gamba_kounin.html" class="btn btn-back">← 単元一覧へ</a>
+  <a href="./drill.html" class="btn btn-next">演習へ進む →</a>
+</div>
+</div>
+
+<script>
+function drawAxes(ctx,W,H,ox,oy){
+  ctx.save();ctx.strokeStyle='#94a3b8';ctx.lineWidth=1.3;ctx.fillStyle='#94a3b8';
+  ctx.beginPath();ctx.moveTo(8,oy);ctx.lineTo(W-8,oy);ctx.stroke();
+  ctx.beginPath();ctx.moveTo(W-5,oy);ctx.lineTo(W-12,oy-4);ctx.lineTo(W-12,oy+4);ctx.fill();
+  ctx.beginPath();ctx.moveTo(ox,H-8);ctx.lineTo(ox,8);ctx.stroke();
+  ctx.beginPath();ctx.moveTo(ox,5);ctx.lineTo(ox-4,12);ctx.lineTo(ox+4,12);ctx.fill();
+  ctx.font='9px sans-serif';ctx.fillText('χ',W-11,oy-5);ctx.fillText('y',ox+4,13);
+  ctx.fillStyle='#64748b';ctx.font='8px sans-serif';ctx.fillText('O',ox-12,oy+12);
+  ctx.restore();
+}
+
+window.addEventListener('load',function(){
+  // y>0 の範囲（外側）：y=(x-1)(x-3), α=1, β=3
+  (function(){
+    const c=document.getElementById('c_above');
+    const ctx=c.getContext('2d');const W=c.width,H=c.height,ox=50,oy=100,sc=28;
+    ctx.clearRect(0,0,W,H);
+    // 塗り（外側：x<1 と x>3）
+    ctx.save();ctx.beginPath();ctx.rect(0,0,W,H);ctx.clip();
+    ctx.fillStyle='rgba(234,88,12,0.15)';
+    // 左側塗り
+    ctx.beginPath();
+    for(let x=-1.5;x<=1+0.001;x+=0.05){
+      const y=(x-1)*(x-3);const sx=ox+x*sc,sy=oy-y*sc;
+      if(x===-1.5)ctx.moveTo(sx,oy);
+      if(sy<oy)ctx.lineTo(sx,sy);else ctx.lineTo(sx,oy);
+    }
+    ctx.lineTo(ox+1*sc,oy);ctx.closePath();ctx.fill();
+    // 右側塗り
+    ctx.beginPath();
+    ctx.moveTo(ox+3*sc,oy);
+    for(let x=3;x<=5+0.001;x+=0.05){
+      const y=(x-1)*(x-3);const sx=ox+x*sc,sy=oy-y*sc;
+      if(sy<oy)ctx.lineTo(sx,sy);else ctx.lineTo(sx,oy);
+    }
+    ctx.lineTo(W,oy);ctx.lineTo(W,oy);ctx.closePath();ctx.fill();
+    ctx.restore();
+    drawAxes(ctx,W,H,ox,oy);
+    // 放物線
+    ctx.save();ctx.beginPath();ctx.rect(0,0,W,H);ctx.clip();
+    ctx.strokeStyle='#ea580c';ctx.lineWidth=2.2;ctx.lineJoin='round';
+    ctx.beginPath();let first=true;
+    for(let x=-1.5;x<=5.5;x+=0.05){
+      const y=(x-1)*(x-3);const sx=ox+x*sc,sy=oy-y*sc;
+      if(first){ctx.moveTo(sx,sy);first=false;}else ctx.lineTo(sx,sy);
+    }
+    ctx.stroke();ctx.restore();
+    // α=1, β=3の点
+    ctx.fillStyle='#ea580c';
+    ctx.beginPath();ctx.arc(ox+1*sc,oy,4,0,Math.PI*2);ctx.fill();
+    ctx.beginPath();ctx.arc(ox+3*sc,oy,4,0,Math.PI*2);ctx.fill();
+    ctx.fillStyle='#ea580c';ctx.font='bold 8px sans-serif';
+    ctx.fillText('α=1',ox+1*sc-8,oy+14);
+    ctx.fillText('β=3',ox+3*sc-8,oy+14);
+    // 外側ラベル
+    ctx.fillStyle='rgba(234,88,12,0.8)';ctx.font='bold 9px sans-serif';
+    ctx.fillText('外側',ox-1*sc,oy-25);
+    ctx.fillText('外側',ox+4*sc,oy-25);
+  })();
+
+  // y<0 の範囲（内側）
+  (function(){
+    const c=document.getElementById('c_below');
+    const ctx=c.getContext('2d');const W=c.width,H=c.height,ox=50,oy=80,sc=28;
+    ctx.clearRect(0,0,W,H);
+    // 内側塗り
+    ctx.save();ctx.beginPath();ctx.rect(0,0,W,H);ctx.clip();
+    ctx.fillStyle='rgba(2,132,199,0.15)';
+    ctx.beginPath();ctx.moveTo(ox+1*sc,oy);
+    for(let x=1;x<=3+0.001;x+=0.05){
+      const y=(x-1)*(x-3);const sx=ox+x*sc,sy=oy-y*sc;
+      ctx.lineTo(sx,sy);
+    }
+    ctx.lineTo(ox+3*sc,oy);ctx.closePath();ctx.fill();
+    ctx.restore();
+    drawAxes(ctx,W,H,ox,oy);
+    ctx.save();ctx.beginPath();ctx.rect(0,0,W,H);ctx.clip();
+    ctx.strokeStyle='#0284c7';ctx.lineWidth=2.2;ctx.lineJoin='round';
+    ctx.beginPath();let first=true;
+    for(let x=-1.5;x<=5.5;x+=0.05){
+      const y=(x-1)*(x-3);const sx=ox+x*sc,sy=oy-y*sc;
+      if(first){ctx.moveTo(sx,sy);first=false;}else ctx.lineTo(sx,sy);
+    }
+    ctx.stroke();ctx.restore();
+    ctx.fillStyle='#0284c7';
+    ctx.beginPath();ctx.arc(ox+1*sc,oy,4,0,Math.PI*2);ctx.fill();
+    ctx.beginPath();ctx.arc(ox+3*sc,oy,4,0,Math.PI*2);ctx.fill();
+    ctx.fillStyle='#0284c7';ctx.font='bold 8px sans-serif';
+    ctx.fillText('α=1',ox+1*sc-8,oy+14);
+    ctx.fillText('β=3',ox+3*sc-8,oy+14);
+    ctx.fillStyle='rgba(2,132,199,0.8)';ctx.font='bold 9px sans-serif';
+    ctx.fillText('内側',ox+1.8*sc,oy+30);
+  })();
+});
+</script>
+</body>
+</html>

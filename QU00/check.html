@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>QU00 確認テスト</title>
+<style>
+:root{--primary:#ea580c;--primary-d:#c2410c;--primary-l:#fff7ed;--warn:#dc2626;--bg:#f8fafc;--card:#fff;--text:#1e293b;--muted:#64748b;--border:#e2e8f0;}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:-apple-system,"Hiragino Sans","Yu Gothic",sans-serif;line-height:1.7;font-size:15px}
+header{position:sticky;top:0;background:var(--primary);color:#fff;padding:12px 16px;margin:-14px -16px 16px;box-shadow:0 2px 8px rgba(0,0,0,.15);z-index:10}
+header h1{margin:0;font-size:1.05em;font-weight:700}
+header .sub{font-size:.78em;opacity:.88}
+.wrap{max-width:680px;margin:0 auto;padding:14px 16px 40px}
+.steps{display:flex;gap:0;margin-bottom:16px}
+.step{flex:1;text-align:center;padding:8px 4px;font-size:.78em;font-weight:700;color:var(--muted);border-bottom:3px solid var(--border)}
+.step.active{color:var(--primary);border-color:var(--primary)}
+.intro-note{background:var(--primary-l);border:1px solid #fed7aa;border-radius:10px;padding:12px 14px;margin-bottom:16px;font-size:.9em}
+.q-card{background:var(--card);border-radius:12px;padding:16px;margin-bottom:14px;border:1px solid var(--border);box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.q-num{display:inline-block;background:var(--primary);color:#fff;border-radius:6px;padding:2px 10px;font-size:.82em;font-weight:700;margin-bottom:8px}
+.q-body{font-size:.95em;margin-bottom:10px}
+.choices{display:grid;gap:8px}
+.choices.two-cols{grid-template-columns:1fr 1fr}
+.choice{background:#f8fafc;border:2px solid var(--border);border-radius:8px;padding:10px 14px;font-size:.93em;cursor:pointer;text-align:left;width:100%;transition:.15s}
+.choice:hover:not(:disabled){background:var(--primary-l);border-color:var(--primary)}
+.choice.correct{background:#f0fdf4;border-color:#16a34a;color:#15803d}
+.choice.wrong{background:#fef2f2;border-color:var(--warn);color:var(--warn)}
+.feedback{display:none;background:#f8fafc;border-top:1px solid var(--border);padding-top:8px;margin-top:8px;font-size:.88em}
+.feedback.show{display:block}
+.submit-area{text-align:center;margin:20px 0}
+.btn-submit{background:var(--primary);color:#fff;border:none;border-radius:12px;padding:14px 40px;font-size:1em;font-weight:700;cursor:pointer}
+.btn-submit:disabled{background:#cbd5e1}
+.result-box{display:none;background:var(--card);border-radius:14px;padding:20px;margin:16px 0;border:2px solid var(--border);text-align:center}
+.result-box.show{display:block}
+.result-box.passed{border-color:var(--primary);background:var(--primary-l)}
+.result-msg{font-size:1.3em;font-weight:700;margin-bottom:6px}
+.result-score{font-size:2em;font-weight:700;color:var(--primary);margin:8px 0}
+.result-detail{font-size:.9em;color:var(--muted)}
+.nav{display:flex;gap:10px;margin-top:20px}
+.btn{display:block;padding:12px 16px;border-radius:10px;text-decoration:none;text-align:center;font-weight:700;font-size:.95em;flex:1}
+.btn-back{background:#f1f5f9;color:var(--muted)}
+.btn-home{background:var(--primary);color:#fff}
+.confetti-piece{position:fixed;width:10px;height:10px;top:-10px;opacity:0;animation:fall 3s ease-in forwards;pointer-events:none;z-index:9999;border-radius:2px}
+@keyframes fall{0%{opacity:1;transform:translateY(0) rotate(0)}100%{opacity:0;transform:translateY(100vh) rotate(720deg)}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <h1>QU00　確認テスト</h1>
+  <div class="sub">全6問　満点で合格</div>
+</header>
+<div class="steps">
+  <div class="step">① 解説</div>
+  <div class="step">② 演習</div>
+  <div class="step active">③ 確認</div>
+</div>
+<div class="intro-note">6問すべて選んでから「採点する」を押してください。満点で合格です。</div>
+
+<!-- 問1 -->
+<div class="q-card" data-q="1" data-ans="3">
+  <span class="q-num">問1</span>
+  <div class="q-body">点 <b>A(－3, 2)</b> の正しい位置はどれ？</div>
+  <div class="choices">
+    <button class="choice" data-i="1">① χ＝3（右に3）、y＝2（上に2）</button>
+    <button class="choice" data-i="2">② χ＝－3（左に3）、y＝－2（下に2）</button>
+    <button class="choice" data-i="3">③ χ＝－3（左に3）、y＝2（上に2）</button>
+    <button class="choice" data-i="4">④ χ＝2（右に2）、y＝－3（下に3）</button>
+  </div>
+  <div class="feedback"></div>
+</div>
+
+<!-- 問2 -->
+<div class="q-card" data-q="2" data-ans="4">
+  <span class="q-num">問2</span>
+  <div class="q-body">点 <b>B(2, －3)</b> は何象限ですか？</div>
+  <div class="choices two-cols">
+    <button class="choice" data-i="1">① 第1象限</button>
+    <button class="choice" data-i="2">② 第2象限</button>
+    <button class="choice" data-i="3">③ 第3象限</button>
+    <button class="choice" data-i="4">④ 第4象限</button>
+  </div>
+  <div class="feedback"></div>
+</div>
+
+<!-- 問3 -->
+<div class="q-card" data-q="3" data-ans="1">
+  <span class="q-num">問3</span>
+  <div class="q-body">二次関数 <b>y = －2χ²</b> のグラフはどの向き？</div>
+  <div class="choices two-cols">
+    <button class="choice" data-i="1">① 上に凸（山型）</button>
+    <button class="choice" data-i="2">② 下に凸（U字型）</button>
+  </div>
+  <div class="feedback"></div>
+</div>
+
+<!-- 問4 -->
+<div class="q-card" data-q="4" data-ans="2">
+  <span class="q-num">問4</span>
+  <div class="q-body">y＝5χ² と y＝½χ² を比べたとき、グラフが<b>広い（なだらかな）</b>のはどちら？</div>
+  <div class="choices two-cols">
+    <button class="choice" data-i="1">① y＝5χ²</button>
+    <button class="choice" data-i="2">② y＝½χ²</button>
+  </div>
+  <div class="feedback"></div>
+</div>
+
+<!-- 問5 -->
+<div class="q-card" data-q="5" data-ans="3">
+  <span class="q-num">問5</span>
+  <div class="q-body">二次関数 <b>y = ½χ²</b> の頂点の座標はどれ？</div>
+  <div class="choices two-cols">
+    <button class="choice" data-i="1">① (½, 0)</button>
+    <button class="choice" data-i="2">② (0, ½)</button>
+    <button class="choice" data-i="3">③ (0, 0)</button>
+    <button class="choice" data-i="4">④ (1, ½)</button>
+  </div>
+  <div class="feedback"></div>
+</div>
+
+<!-- 問6 -->
+<div class="q-card" data-q="6" data-ans="2">
+  <span class="q-num">問6</span>
+  <div class="q-body">次の4つの中で、y が x の<b>二次関数</b>であるものはどれ？</div>
+  <div class="choices">
+    <button class="choice" data-i="1">① y ＝ 5x</button>
+    <button class="choice" data-i="2">② y ＝ －3x²</button>
+    <button class="choice" data-i="3">③ y ＝ 3/x</button>
+    <button class="choice" data-i="4">④ y ＝ x＋3</button>
+  </div>
+  <div class="feedback"></div>
+</div>
+
+<div class="submit-area">
+  <button class="btn-submit" id="btn-submit" onclick="grade()">採点する</button>
+</div>
+<div class="result-box" id="result">
+  <div class="result-msg" id="result-msg"></div>
+  <div class="result-score" id="result-score"></div>
+  <div class="result-detail" id="result-detail"></div>
+</div>
+<div class="nav">
+  <a href="./drill.html" class="btn btn-back">← 演習に戻る</a>
+  <a href="../gamba_kounin.html" class="btn btn-home">単元一覧へ →</a>
+</div>
+</div>
+
+<script>
+const answers={1:'3',2:'4',3:'1',4:'2',5:'3',6:'2'};
+const explanations={
+  1:'A(－3, 2) → χ＝<b>－3</b>（左に3）、y＝<b>2</b>（上に2）。左がχ・右がy。（③）',
+  2:'B(2, －3) → χ＝2（プラス）、y＝－3（マイナス）→ χ＋・y－ → <b>第4象限</b>（右下）（④）',
+  3:'a ＝ <b>－2 ＜ 0</b>（マイナス）→ <b>上に凸（山型）</b>（①）',
+  4:'a の数字が小さいほどグラフは広い。½ ＜ 5 なので <b>y＝½χ²</b> の方が広い（②）',
+  5:'y＝aχ²の形では頂点は常に<b>原点 (0, 0)</b>。a＝½でも頂点は(0, 0)（③）',
+  6:'二次関数は「x²の項がある」関数。② y＝－3x² → x²あり → <b>二次関数</b>（②）'
+};
+
+// クリック即時フィードバック（採点前）
+document.querySelectorAll('.q-card').forEach(card=>{
+  card.querySelectorAll('.choice').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      if(card.classList.contains('marked')) return;
+      card.classList.add('marked');
+      card.dataset.chosen=btn.dataset.i;
+    });
+  });
+});
+
+function grade(){
+  let correct=0;
+  for(let i=1;i<=6;i++){
+    const card=document.querySelector(`.q-card[data-q="${i}"]`);
+    if(!card) continue;
+    const chosen=card.dataset.chosen;
+    if(!chosen){alert(`問${i}がまだ選択されていません`);return;}
+    const ans=answers[i];
+    const isCorrect=(chosen===ans);
+    if(isCorrect) correct++;
+    card.querySelectorAll('.choice').forEach(b=>{
+      b.disabled=true;
+      if(b.dataset.i===ans) b.classList.add('correct');
+      if(b.dataset.i===chosen&&!isCorrect) b.classList.add('wrong');
+    });
+    const fb=card.querySelector('.feedback');
+    if(fb){fb.innerHTML=`<b>解説</b>：${explanations[i]}`;fb.classList.add('show');}
+  }
+  const result=document.getElementById('result');
+  const msg=document.getElementById('result-msg');
+  const score=document.getElementById('result-score');
+  const detail=document.getElementById('result-detail');
+  if(correct===6){
+    result.className='result-box show passed';
+    msg.textContent='🎉 全問正解！合格です！';
+    score.textContent=correct+' / 6';
+    detail.textContent='QU00「座標と放物線の基礎」の単元クリア！次の単元へ進みましょう。';
+    confetti();
+    markPassed('QU00');
+  } else {
+    result.className='result-box show';
+    msg.textContent='もう少し！全問正解で合格です';
+    score.textContent=correct+' / 6';
+    detail.textContent='解説を読んで、もう一度挑戦してみましょう。';
+  }
+  document.getElementById('btn-submit').disabled=true;
+  document.getElementById('btn-submit').textContent='採点済み';
+}
+
+function confetti(){
+  const colors=['#ea580c','#f59e0b','#16a34a','#0284c7','#dc2626'];
+  for(let i=0;i<60;i++){
+    const el=document.createElement('div');
+    el.className='confetti-piece';
+    el.style.cssText=`left:${Math.random()*100}vw;background:${colors[i%5]};animation-delay:${Math.random()*1.5}s;animation-duration:${2+Math.random()}s;`;
+    document.body.appendChild(el);
+    setTimeout(()=>el.remove(),4000);
+  }
+}
+function markPassed(code){
+  try{const k='gamba_passed';const d=JSON.parse(localStorage.getItem(k)||'{}');d[code]=true;localStorage.setItem(k,JSON.stringify(d));}catch(e){}
+}
+</script>
+</body>
+</html>

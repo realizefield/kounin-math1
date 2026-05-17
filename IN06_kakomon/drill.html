@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>IN06 不等式の文章題②｜演習</title>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" 
+        onload="window._katexReady=true; if(window._onKatexReady) window._onKatexReady();"></script>
+
+<style>
+:root{
+  --primary:#1d4ed8;
+  --primary-light:#dbeafe;
+  --primary-mid:#3b82f6;
+  --accent:#e8372d;
+  --accent-light:#fff1f0;
+  --success:#16a34a;
+  --success-light:#dcfce7;
+  --warn:#d97706;
+  --warn-light:#fffbeb;
+  --bg:#f0f6ff;
+  --card:#ffffff;
+  --border:#bfdbfe;
+  --text:#1e293b;
+  --text-sub:#64748b;
+  --radius:12px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:60px;line-height:1.7;}
+.g-container{max-width:760px;margin:0 auto;}
+.page-header{background:var(--primary);color:#fff;padding:18px 24px 14px;text-align:center;box-shadow:0 3px 10px rgba(29,78,216,.25);}
+.page-header .unit-code{font-size:.82em;opacity:.85;letter-spacing:.1em;margin-bottom:4px;}
+.page-header h1{font-size:clamp(1.1em,3vw,1.55em);font-weight:700;margin:0;}
+
+.step-nav{display:flex;align-items:center;justify-content:center;padding:14px 12px;background:var(--card);border-bottom:1px solid var(--border);flex-wrap:nowrap;overflow-x:auto;position:sticky;top:0;z-index:10;}
+.step-item{display:flex;align-items:center;gap:6px;font-size:clamp(.75em,2vw,.88em);color:#94a3b8;white-space:nowrap;padding:4px 6px;}
+.step-item a{color:inherit;text-decoration:none;}
+.step-item.active{color:var(--primary);font-weight:700;}
+.step-circle{width:22px;height:22px;border-radius:50%;font-size:.76em;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.step-item.active .step-circle{background:var(--primary);color:#fff;box-shadow:0 0 0 3px var(--primary-light);}
+.step-item:not(.active) .step-circle{background:#94a3b8;color:#fff;}
+.step-arrow{color:#cbd5e1;font-size:1.1em;padding:0 2px;user-select:none;}
+
+.content{padding:20px 16px 40px;}
+.intro-lead{background:var(--primary-light);border-left:4px solid var(--primary);padding:14px 18px;border-radius:0 var(--radius) var(--radius) 0;margin-bottom:18px;color:var(--primary);font-size:.94em;}
+
+.kw-cond{color:var(--accent);font-weight:700;}
+.kw-num{background:linear-gradient(transparent 60%,#fff3a0 60%);font-weight:700;padding:0 2px;}
+
+.set-selector{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);padding:14px 16px;margin-bottom:16px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.set-selector label{font-weight:700;color:var(--primary);font-size:.95em;}
+.set-selector select{padding:8px 14px;border:2px solid var(--primary);border-radius:8px;font-size:.95em;background:#fff;color:var(--primary);font-weight:700;font-family:inherit;cursor:pointer;flex:1;min-width:120px;}
+.set-selector .reload-btn{padding:8px 14px;background:var(--primary);color:#fff;border:none;border-radius:8px;font-weight:700;cursor:pointer;font-size:.9em;font-family:inherit;}
+.set-selector .reload-btn:hover{background:var(--primary-mid);}
+
+.qcard{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:14px;}
+.qcard-head{display:flex;align-items:center;gap:8px;margin-bottom:10px;flex-wrap:wrap;}
+.qcard-num{background:var(--primary);color:#fff;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.9em;flex-shrink:0;}
+.qcard-year{color:var(--accent);background:var(--accent-light);padding:2px 8px;border-radius:6px;font-weight:700;font-size:.82em;}
+.qcard-pattern{color:var(--primary);background:var(--primary-light);padding:2px 8px;border-radius:6px;font-weight:700;font-size:.82em;}
+
+.q-statement{background:#f8fafc;border-left:3px solid var(--primary-mid);padding:10px 14px;border-radius:0 6px 6px 0;font-size:.93em;line-height:1.85;margin-bottom:12px;}
+
+.choices{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px;}
+.choice-btn{padding:10px 12px;background:#fff;border:2px solid var(--border);border-radius:8px;cursor:pointer;font-family:inherit;font-size:.95em;text-align:center;transition:all .15s;}
+.choice-btn:hover{background:var(--primary-light);border-color:var(--primary);}
+.choice-btn.correct{background:var(--success);color:#fff;border-color:var(--success);}
+.choice-btn.wrong{background:var(--accent);color:#fff;border-color:var(--accent);}
+.choice-btn:disabled{cursor:default;}
+
+.result-panel{display:none;margin-top:12px;padding:14px;border-radius:8px;font-size:.92em;line-height:1.75;}
+.result-panel.ok{background:var(--success-light);border:1.5px solid var(--success);}
+.result-panel.ng{background:var(--accent-light);border:1.5px solid var(--accent);}
+.result-panel .verdict{font-weight:700;font-size:1.02em;margin-bottom:10px;}
+.result-panel.ok .verdict{color:var(--success);}
+.result-panel.ng .verdict{color:var(--accent);}
+
+.sol-title{font-weight:700;color:var(--primary);font-size:.92em;background:var(--primary-light);padding:6px 10px;border-radius:6px;display:inline-block;margin-bottom:10px;}
+
+.sol-step{display:flex;gap:10px;margin-bottom:8px;align-items:flex-start;}
+.sol-num{background:var(--primary);color:#fff;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.78em;flex-shrink:0;line-height:1;}
+.sol-body{flex:1;background:#fff;padding:8px 12px;border-radius:6px;border:1px solid var(--border);font-size:.91em;line-height:1.7;color:var(--text);}
+.sol-body strong{color:var(--primary);}
+
+.calc-line{background:#f8fafc;border-left:3px solid var(--primary-mid);padding:5px 10px;margin:4px 0;font-size:.9em;color:var(--text);border-radius:0 4px 4px 0;}
+.calc-line .op-label{color:var(--text-sub);font-size:.82em;display:inline-block;margin-right:6px;}
+
+.int-note{background:var(--success-light);border-left:3px solid var(--success);padding:6px 10px;margin-top:8px;border-radius:0 4px 4px 0;color:var(--success);font-weight:700;font-size:.9em;}
+
+.score-box{display:none;background:linear-gradient(135deg,#dbeafe 0%,#e0e7ff 100%);border:2px solid var(--primary);border-radius:var(--radius);padding:18px;text-align:center;margin-top:18px;}
+.score-box.show{display:block;}
+.score-box .score-num{font-size:1.5em;font-weight:700;color:var(--primary);}
+.score-box .msg{margin-top:6px;font-size:.95em;}
+
+.btn-row{text-align:center;margin-top:20px;}
+.btn-back,.btn-next{display:inline-block;margin:4px;padding:10px 22px;text-decoration:none;border-radius:8px;font-weight:700;font-size:.95em;}
+.btn-back{background:#fff;border:2px solid var(--primary);color:var(--primary);}
+.btn-back:hover{background:var(--primary-light);}
+.btn-next{background:var(--primary);color:#fff;border:2px solid var(--primary);}
+.btn-next:hover{background:var(--primary-mid);}
+</style>
+</head>
+<body>
+<div class="g-container">
+
+<header class="page-header">
+  <div class="unit-code">IN06 ｜ 過去問版（教室／希望者用）</div>
+  <h1>不等式の文章題②（比較型）｜演習</h1>
+</header>
+
+<nav class="step-nav">
+  <div class="step-item"><a href="intro.html"><span class="step-circle">1</span>導入</a></div>
+  <span class="step-arrow">→</span>
+  <div class="step-item"><a href="example.html"><span class="step-circle">2</span>例題</a></div>
+  <span class="step-arrow">→</span>
+  <div class="step-item active"><span class="step-circle">3</span>演習</div>
+  <span class="step-arrow">→</span>
+  <div class="step-item"><a href="check.html"><span class="step-circle">4</span>確認</a></div>
+</nav>
+
+<div class="content">
+
+  <div class="intro-lead">
+    📝 過去問と<strong>同じ解き方</strong>で解ける反復練習です。<br>
+    <strong>Aセット：累積比較型</strong>（R4年型）／<strong>Bセット：時間配分型</strong>（R6年型）／<strong>Cセット：店舗比較型</strong>（R7年型）<br>
+    各セット4問とも，過去問と<strong>同じ立式パターン</strong>です。何度も解いて型を体に染み込ませましょう！
+  </div>
+
+  <div class="set-selector">
+    <label for="setSel">セット選択：</label>
+    <select id="setSel" onchange="loadSet()">
+      <option value="A">Aセット：累積比較型（R4年型）</option>
+      <option value="B">Bセット：時間配分型（R6年型）</option>
+      <option value="C">Cセット：店舗比較型（R7年型）</option>
+    </select>
+    <button class="reload-btn" onclick="loadSet()">🔄 やり直し</button>
+  </div>
+
+  <div id="quizArea"></div>
+
+  <div id="scoreBox" class="score-box">
+    <div class="score-num"><span id="scoreText"></span></div>
+    <div class="msg" id="scoreMsg"></div>
+  </div>
+
+  <div class="btn-row">
+    <a href="example.html" class="btn-back">← 例題へ戻る</a>
+    <a href="check.html" class="btn-next">確認テストへ →</a>
+  </div>
+
+</div>
+</div>
+
+<script>
+/* ─────────── 解説生成ヘルパー ─────────── */
+
+/* パターン1：累積比較型 */
+function buildAccumSolution(p){
+  return `
+    <div class="sol-title">📖 累積比較型の解き方</div>
+    <div class="sol-step">
+      <span class="sol-num">①</span>
+      <div class="sol-body">使用月数を $x$ ${p.unit}とおく。</div>
+    </div>
+    <div class="sol-step">
+      <span class="sol-num">②</span>
+      <div class="sol-body">
+        ${p.nameA}の合計：${p.exprA}<br>
+        ${p.nameB}の合計：${p.exprB}
+      </div>
+    </div>
+    <div class="sol-step">
+      <span class="sol-num">③</span>
+      <div class="sol-body">
+        「<strong>${p.cheaperSide}の方が安い</strong>」<br>
+        → ${p.equation}
+      </div>
+    </div>
+    <div class="sol-step">
+      <span class="sol-num">④</span>
+      <div class="sol-body">
+        <div class="calc-line"><span class="op-label">移項：</span>${p.move}</div>
+        <div class="calc-line"><span class="op-label">整理：</span>${p.simplify}</div>
+        <div class="calc-line"><span class="op-label">解く：</span>${p.final}</div>
+        <div class="int-note">✅ ${p.unit}は整数なので，${p.answer}${p.unit}以上で${p.cheaperSide}の方が安くなる</div>
+      </div>
+    </div>
+  `;
+}
+
+/* パターン2：時間配分型 */
+function buildAllocSolution(p){
+  return `
+    <div class="sol-title">📖 時間配分型の解き方</div>
+    <div class="sol-step">
+      <span class="sol-num">①</span>
+      <div class="sol-body"><strong>${p.askName}</strong>を $x$ ${p.unit}とおく。</div>
+    </div>
+    <div class="sol-step">
+      <span class="sol-num">②</span>
+      <div class="sol-body">合計${p.total}${p.unit}なので，<strong>${p.otherName}</strong>は $(${p.total}-x)$ ${p.unit}。</div>
+    </div>
+    <div class="sol-step">
+      <span class="sol-num">③</span>
+      <div class="sol-body">
+        合計時間 $\\leqq$ ${p.limit}<br>
+        → ${p.equation}
+      </div>
+    </div>
+    <div class="sol-step">
+      <span class="sol-num">④</span>
+      <div class="sol-body">
+        <div class="calc-line"><span class="op-label">かっこを外す：</span>${p.expand}</div>
+        <div class="calc-line"><span class="op-label">整理：</span>${p.simplify}</div>
+        <div class="calc-line"><span class="op-label">解く：</span>${p.final}</div>
+        <div class="int-note">✅ ${p.unit}は整数なので，最大 ${p.answer}${p.unit}${p.cutoffNote ? '（小数点以下は切り捨て）' : ''}</div>
+      </div>
+    </div>
+  `;
+}
+
+/* パターン3：店舗比較型 */
+function buildShopSolution(p){
+  return `
+    <div class="sol-title">📖 店舗比較型の解き方</div>
+    <div class="sol-step">
+      <span class="sol-num">①</span>
+      <div class="sol-body">${p.unitName}を $x$ ${p.unit}とおく。</div>
+    </div>
+    <div class="sol-step">
+      <span class="sol-num">②</span>
+      <div class="sol-body">
+        ${p.nameA}：${p.exprA}<br>
+        ${p.nameB}：${p.exprB}
+      </div>
+    </div>
+    <div class="sol-step">
+      <span class="sol-num">③</span>
+      <div class="sol-body">
+        「<strong>${p.cheaperSide}の方が安い</strong>」<br>
+        → ${p.equation}
+      </div>
+    </div>
+    <div class="sol-step">
+      <span class="sol-num">④</span>
+      <div class="sol-body">
+        <div class="calc-line"><span class="op-label">移項：</span>${p.move}</div>
+        <div class="calc-line"><span class="op-label">整理：</span>${p.simplify}</div>
+        <div class="calc-line"><span class="op-label">解く：</span>${p.final}</div>
+        <div class="int-note">✅ ${p.unit}は整数なので，${p.answer}${p.unit}以上で${p.cheaperSide}の方が安くなる</div>
+      </div>
+    </div>
+  `;
+}
+
+/* ─────────── 問題データ ─────────── */
+const QUIZ_SETS = {
+  /* ════════ Aセット：累積比較型（R4-2型） ════════ */
+  A: [
+    /* A1：洗濯機A・B（R4型・架空） */
+    {
+      year:'類題',
+      pattern:'R4型',
+      text:'洗濯機A・Bを比較する。Aは本体<span class="kw-num">50000円</span>+電気代<span class="kw-num">600円</span>/月，Bは本体<span class="kw-num">70000円</span>+電気代<span class="kw-num">400円</span>/月。<strong>BがAより安くなる</strong>のは何か月以上か。',
+      choices:['80か月以上','100か月以上','120か月以上','150か月以上'],
+      ans:1,
+      solution: buildAccumSolution({
+        unit:'か月',
+        nameA:'A', nameB:'B',
+        exprA:'$50000 + 600x$',
+        exprB:'$70000 + 400x$',
+        cheaperSide:'B',
+        equation:'$70000 + 400x \\leqq 50000 + 600x$',
+        move:'$20000 \\leqq 200x$',
+        simplify:'$200x \\geqq 20000$',
+        final:'$x \\geqq 100$',
+        answer:'100'
+      })
+    },
+    /* A2：電気給湯器（数値違い） */
+    {
+      year:'類題',
+      pattern:'R4型',
+      text:'電気給湯器A・Bを比較する。Aは本体<span class="kw-num">40000円</span>+電気代<span class="kw-num">800円</span>/月，Bは本体<span class="kw-num">80000円</span>+電気代<span class="kw-num">300円</span>/月。<strong>BがAより安くなる</strong>のは何か月以上か。',
+      choices:['60か月以上','80か月以上','100か月以上','120か月以上'],
+      ans:1,
+      solution: buildAccumSolution({
+        unit:'か月',
+        nameA:'A', nameB:'B',
+        exprA:'$40000 + 800x$',
+        exprB:'$80000 + 300x$',
+        cheaperSide:'B',
+        equation:'$80000 + 300x \\leqq 40000 + 800x$',
+        move:'$40000 \\leqq 500x$',
+        simplify:'$500x \\geqq 40000$',
+        final:'$x \\geqq 80$',
+        answer:'80'
+      })
+    },
+    /* A3：別の数値 */
+    {
+      year:'類題',
+      pattern:'R4型',
+      text:'プリンタA・Bを比較する。Aは本体<span class="kw-num">50000円</span>+インク<span class="kw-num">600円</span>/月，Bは本体<span class="kw-num">80000円</span>+インク<span class="kw-num">400円</span>/月。<strong>BがAより安くなる</strong>のは何か月以上か。',
+      choices:['100か月以上','120か月以上','150か月以上','180か月以上'],
+      ans:2,
+      solution: buildAccumSolution({
+        unit:'か月',
+        nameA:'A', nameB:'B',
+        exprA:'$50000 + 600x$',
+        exprB:'$80000 + 400x$',
+        cheaperSide:'B',
+        equation:'$80000 + 400x \\leqq 50000 + 600x$',
+        move:'$30000 \\leqq 200x$',
+        simplify:'$200x \\geqq 30000$',
+        final:'$x \\geqq 150$',
+        answer:'150'
+      })
+    },
+    /* A4：仕上げ */
+    {
+      year:'類題',
+      pattern:'R4型',
+      text:'エアコンA・Bを比較する。Aは本体<span class="kw-num">80000円</span>+電気代<span class="kw-num">700円</span>/月，Bは本体<span class="kw-num">110000円</span>+電気代<span class="kw-num">400円</span>/月。<strong>BがAより安くなる</strong>のは何か月以上か。',
+      choices:['80か月以上','100か月以上','120か月以上','150か月以上'],
+      ans:1,
+      solution: buildAccumSolution({
+        unit:'か月',
+        nameA:'A', nameB:'B',
+        exprA:'$80000 + 700x$',
+        exprB:'$110000 + 400x$',
+        cheaperSide:'B',
+        equation:'$110000 + 400x \\leqq 80000 + 700x$',
+        move:'$30000 \\leqq 300x$',
+        simplify:'$300x \\geqq 30000$',
+        final:'$x \\geqq 100$',
+        answer:'100'
+      })
+    }
+  ],
+
+  /* ════════ Bセット：時間配分型（R6-2型） ════════ */
+  B: [
+    /* B1：1日のレッスン（R6型・架空） */
+    {
+      year:'類題',
+      pattern:'R6型',
+      text:'1日のレッスンで合計<span class="kw-num">10コマ</span>を行う。実技は<span class="kw-num">20分</span>，座学は<span class="kw-num">10分</span>。全体を <span class="kw-num">3時間</span><span class="kw-cond">以内</span>にしたい。<strong>実技</strong>は最大何コマまでできるか。',
+      choices:['6コマ','7コマ','8コマ','9コマ'],
+      ans:2,
+      solution: buildAllocSolution({
+        askName:'実技', otherName:'座学', unit:'コマ',
+        total:10, limit:180,
+        equation:'$20x + 10(10-x) \\leqq 180$',
+        expand:'$20x + 100 - 10x \\leqq 180$',
+        simplify:'$10x \\leqq 80$',
+        final:'$x \\leqq 8$',
+        answer:'8'
+      })
+    },
+    /* B2：数値・場面を変更 */
+    {
+      year:'類題',
+      pattern:'R6型',
+      text:'体育祭で<span class="kw-num">10種目</span>を実施。徒競走は<span class="kw-num">12分</span>，リレーは<span class="kw-num">20分</span>。全体を <span class="kw-num">3時間</span><span class="kw-cond">以内</span>にしたい。<strong>リレー</strong>は最大何種目まで実施できるか。',
+      choices:['6種目','7種目','8種目','9種目'],
+      ans:1,
+      solution: buildAllocSolution({
+        askName:'リレー', otherName:'徒競走', unit:'種目',
+        total:10, limit:180,
+        equation:'$20x + 12(10-x) \\leqq 180$',
+        expand:'$20x + 120 - 12x \\leqq 180$',
+        simplify:'$8x \\leqq 60$',
+        final:'$x \\leqq 7.5$',
+        answer:'7',
+        cutoffNote:true
+      })
+    },
+    /* B3：きれいに割り切れる */
+    {
+      year:'類題',
+      pattern:'R6型',
+      text:'コンサートで<span class="kw-num">15曲</span>演奏。バラードは<span class="kw-num">4分</span>，アップテンポは<span class="kw-num">6分</span>。全体を <span class="kw-num">80分</span><span class="kw-cond">以内</span>にしたい。<strong>アップテンポ</strong>は最大何曲か。',
+      choices:['8曲','9曲','10曲','11曲'],
+      ans:2,
+      solution: buildAllocSolution({
+        askName:'アップテンポ', otherName:'バラード', unit:'曲',
+        total:15, limit:80,
+        equation:'$6x + 4(15-x) \\leqq 80$',
+        expand:'$6x + 60 - 4x \\leqq 80$',
+        simplify:'$2x \\leqq 20$',
+        final:'$x \\leqq 10$',
+        answer:'10'
+      })
+    },
+    /* B4：別の数値 */
+    {
+      year:'類題',
+      pattern:'R6型',
+      text:'発表会で<span class="kw-num">8グループ</span>が短い演技か長い演技を行う。短い演技は<span class="kw-num">6分</span>，長い演技は<span class="kw-num">9分</span>。全体を <span class="kw-num">60分</span><span class="kw-cond">以内</span>にしたい。<strong>長い演技</strong>は最大何グループか。',
+      choices:['3グループ','4グループ','5グループ','6グループ'],
+      ans:1,
+      solution: buildAllocSolution({
+        askName:'長い演技', otherName:'短い演技', unit:'グループ',
+        total:8, limit:60,
+        equation:'$9x + 6(8-x) \\leqq 60$',
+        expand:'$9x + 48 - 6x \\leqq 60$',
+        simplify:'$3x \\leqq 12$',
+        final:'$x \\leqq 4$',
+        answer:'4'
+      })
+    }
+  ],
+
+  /* ════════ Cセット：店舗比較型（R7-2型） ════════ */
+  C: [
+    /* C1：野菜の通販（R7型・架空） */
+    {
+      year:'類題',
+      pattern:'R7型',
+      text:'野菜を買う。八百屋Aは<span class="kw-num">150円</span>/個+送料0円，通販Bは<span class="kw-num">100円</span>/個+送料<span class="kw-num">500円</span>。<strong>通販Bの方が安くなる</strong>のは何個以上か。',
+      choices:['8個以上','10個以上','12個以上','15個以上'],
+      ans:1,
+      solution: buildShopSolution({
+        unitName:'個数', unit:'個',
+        nameA:'八百屋A', nameB:'通販B',
+        exprA:'$150x$',
+        exprB:'$100x + 500$',
+        cheaperSide:'通販B',
+        equation:'$100x + 500 \\leqq 150x$',
+        move:'$500 \\leqq 50x$',
+        simplify:'$50x \\geqq 500$',
+        final:'$x \\geqq 10$',
+        answer:'10'
+      })
+    },
+    /* C2：野菜 */
+    {
+      year:'類題',
+      pattern:'R7型',
+      text:'野菜を買う。近所A店は<span class="kw-num">200円</span>/個+0円，遠くの直売所Bは<span class="kw-num">130円</span>/個+ガソリン<span class="kw-num">450円</span>。<strong>直売所Bの方が安くなる</strong>のは何個以上か。',
+      choices:['5個以上','6個以上','7個以上','8個以上'],
+      ans:2,
+      solution: buildShopSolution({
+        unitName:'個数', unit:'個',
+        nameA:'近所A店', nameB:'直売所B',
+        exprA:'$200x$',
+        exprB:'$130x + 450$',
+        cheaperSide:'直売所B',
+        equation:'$130x + 450 \\leqq 200x$',
+        move:'$450 \\leqq 70x$',
+        simplify:'$70x \\geqq 450$',
+        final:'$x \\geqq 6.42\\cdots$',
+        answer:'7'
+      })
+    },
+    /* C3：文房具 */
+    {
+      year:'類題',
+      pattern:'R7型',
+      text:'文房具をまとめ買い。近所店は<span class="kw-num">80円</span>/個+0円，ネット通販は<span class="kw-num">50円</span>/個+送料<span class="kw-num">800円</span>。<strong>ネット通販の方が安くなる</strong>のは何個以上か。',
+      choices:['25個以上','26個以上','27個以上','30個以上'],
+      ans:2,
+      solution: buildShopSolution({
+        unitName:'個数', unit:'個',
+        nameA:'近所店', nameB:'ネット通販',
+        exprA:'$80x$',
+        exprB:'$50x + 800$',
+        cheaperSide:'ネット通販',
+        equation:'$50x + 800 \\leqq 80x$',
+        move:'$800 \\leqq 30x$',
+        simplify:'$30x \\geqq 800$',
+        final:'$x \\geqq 26.66\\cdots$',
+        answer:'27'
+      })
+    },
+    /* C4：本 */
+    {
+      year:'類題',
+      pattern:'R7型',
+      text:'本を買う。近くの書店は<span class="kw-num">1500円</span>/冊+0円，遠くの書店は<span class="kw-num">1200円</span>/冊+交通費<span class="kw-num">800円</span>。<strong>遠くの書店の方が安くなる</strong>のは何冊以上か。',
+      choices:['2冊以上','3冊以上','4冊以上','5冊以上'],
+      ans:1,
+      solution: buildShopSolution({
+        unitName:'冊数', unit:'冊',
+        nameA:'近くの書店', nameB:'遠くの書店',
+        exprA:'$1500x$',
+        exprB:'$1200x + 800$',
+        cheaperSide:'遠くの書店',
+        equation:'$1200x + 800 \\leqq 1500x$',
+        move:'$800 \\leqq 300x$',
+        simplify:'$300x \\geqq 800$',
+        final:'$x \\geqq 2.66\\cdots$',
+        answer:'3'
+      })
+    }
+  ]
+};
+
+let currentSet = 'A';
+let answered = [];
+let answers = [];
+
+function loadSet(){
+  currentSet = document.getElementById('setSel').value;
+  const set = QUIZ_SETS[currentSet];
+  answered = new Array(set.length).fill(false);
+  answers = new Array(set.length).fill(null);
+  document.getElementById('scoreBox').classList.remove('show');
+
+  let html = '';
+  set.forEach((q, i) => {
+    html += `
+      <div class="qcard">
+        <div class="qcard-head">
+          <span class="qcard-num">${i+1}</span>
+          <span class="qcard-year">${q.year}</span>
+          <span class="qcard-pattern">${q.pattern}</span>
+        </div>
+        <div class="q-statement">${q.text}</div>
+        <div class="choices" id="choices${i}">
+          ${q.choices.map((c,j) => 
+            `<button class="choice-btn" onclick="selectChoice(${i},${j})">${j+1}）${c}</button>`
+          ).join('')}
+        </div>
+        <div class="result-panel" id="rp${i}"></div>
+      </div>
+    `;
+  });
+  document.getElementById('quizArea').innerHTML = html;
+
+  if(window._katexReady){
+    renderArea();
+  }else{
+    window._onKatexReady = renderArea;
+  }
+}
+
+function renderArea(){
+  if(typeof renderMathInElement === 'function'){
+    renderMathInElement(document.getElementById('quizArea'), {
+      delimiters:[
+        {left:'$$',right:'$$',display:true},
+        {left:'$',right:'$',display:false}
+      ],
+      throwOnError:false
+    });
+  }
+}
+
+function selectChoice(qi, ci){
+  if(answered[qi]) return;
+  answered[qi] = true;
+  answers[qi] = ci;
+
+  const q = QUIZ_SETS[currentSet][qi];
+  const correct = (ci === q.ans);
+  const buttons = document.querySelectorAll(`#choices${qi} .choice-btn`);
+  buttons.forEach((b, j) => {
+    b.disabled = true;
+    if(j === q.ans) b.classList.add('correct');
+    else if(j === ci) b.classList.add('wrong');
+  });
+
+  const rp = document.getElementById('rp'+qi);
+  rp.style.display = 'block';
+  rp.className = 'result-panel ' + (correct ? 'ok' : 'ng');
+  rp.innerHTML = 
+    `<div class="verdict">${correct ? '✅ 正解！' : `❌ 不正解…　正解は【${q.ans+1}）${q.choices[q.ans]}】`}</div>`
+    + q.solution;
+
+  if(typeof renderMathInElement === 'function'){
+    renderMathInElement(rp, {
+      delimiters:[
+        {left:'$$',right:'$$',display:true},
+        {left:'$',right:'$',display:false}
+      ],
+      throwOnError:false
+    });
+  }
+
+  if(answered.every(v => v)) showScore();
+}
+
+function showScore(){
+  const set = QUIZ_SETS[currentSet];
+  const correct = answers.filter((a, i) => a === set[i].ans).length;
+  const box = document.getElementById('scoreBox');
+  box.classList.add('show');
+  document.getElementById('scoreText').textContent = `${correct} / ${set.length} 問正解`;
+  
+  const msgs = [
+    'もう一度挑戦💪 例題に戻ろう',
+    '惜しい！立式を見直そう📖',
+    'いい調子！もう一歩！✨',
+    'すごい！ほぼ完璧🌟',
+    '満点！この型はバッチリ🎉'
+  ];
+  document.getElementById('scoreMsg').textContent = msgs[Math.min(correct, set.length)];
+}
+
+window.addEventListener('load', () => {
+  loadSet();
+});
+</script>
+</body>
+</html>
