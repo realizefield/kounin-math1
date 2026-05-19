@@ -20,6 +20,7 @@
   --in:#1d4ed8;   --in-l:#eff6ff;   --in-b:#bfdbfe;
   --st:#059669;   --st-l:#f0fdf4;   --st-b:#a7f3d0;
   --qu:#d97706;   --qu-l:#fffbeb;   --qu-b:#fde68a;
+  --tr:#7c3aed;   --tr-l:#f5f3ff;   --tr-b:#ddd6fe;
 
   --purple:#9333ea; --purple-l:#faf5ff;
   --radius:14px;
@@ -107,12 +108,14 @@ body{
 .unit-card.in{border-left:4px solid var(--in)}
 .unit-card.st{border-left:4px solid var(--st)}
 .unit-card.qu{border-left:4px solid var(--qu)}
+.unit-card.tr{border-left:4px solid var(--tr)}
 .unit-card.kakomon{border-left:4px solid var(--purple)}
 
 .unit-card:hover.ef{border-color:var(--ef);background:var(--ef-l)}
 .unit-card:hover.in{border-color:var(--in);background:var(--in-l)}
 .unit-card:hover.st{border-color:var(--st);background:var(--st-l)}
 .unit-card:hover.qu{border-color:var(--qu);background:var(--qu-l)}
+.unit-card:hover.tr{border-color:var(--tr);background:var(--tr-l)}
 .unit-card:hover.kakomon{border-color:var(--purple);background:var(--purple-l)}
 
 /* コードバッジ */
@@ -128,6 +131,7 @@ body{
 .code-in{background:var(--in-l);color:var(--in);border:1px solid var(--in-b)}
 .code-st{background:var(--st-l);color:var(--st);border:1px solid var(--st-b)}
 .code-qu{background:var(--qu-l);color:var(--qu);border:1px solid var(--qu-b)}
+.code-tr{background:var(--tr-l);color:var(--tr);border:1px solid var(--tr-b)}
 .code-kakomon{background:var(--purple-l);color:var(--purple);border:1px solid #e9d5ff}
 
 /* テキスト部分 */
@@ -731,6 +735,149 @@ body{
         <button class="chk btn-b" data-unit="QU09" onclick="setStatus(this,'QU09','B')">B</button>
         <button class="chk btn-c" data-unit="QU09" onclick="setStatus(this,'QU09','C')">C</button>
       </div>
+    </a>
+
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════ -->
+<!--  第5章 三角比                   -->
+<!-- ═══════════════════════════════ -->
+<div class="chapter">
+  <div class="chapter-header">
+    <div class="chapter-badge" style="background:var(--tr)">5</div>
+    <div>
+      <div class="chapter-title">三角比</div>
+      <div class="chapter-sub">TRシリーズ ── sin・cos・tan の定義から正弦・余弦定理まで</div>
+    </div>
+  </div>
+
+  <div class="unit-list">
+
+    <a href="TR01.html" class="unit-card tr" data-unit="TR01">
+      <span class="unit-code code-tr">TR01</span>
+      <div class="unit-info">
+        <div class="unit-name">sin・cos・tan の定義</div>
+        <div class="unit-sub">斜辺・対辺・隣辺の比とは何か</div>
+      </div>
+      <div class="unit-pages">
+        <span class="page-tag">説明</span><span class="page-tag">例題</span><span class="page-tag">練習</span><span class="page-tag">確認</span>
+      </div>
+      <span class="unit-arrow">›</span>
+      <div class="check-btns" onclick="event.preventDefault()">
+        <button class="chk btn-a" data-unit="TR01" onclick="setStatus(this,'TR01','A')">A</button>
+        <button class="chk btn-b" data-unit="TR01" onclick="setStatus(this,'TR01','B')">B</button>
+        <button class="chk btn-c" data-unit="TR01" onclick="setStatus(this,'TR01','C')">C</button>
+      </div>
+    </a>
+
+    <a href="TR02.html" class="unit-card tr" data-unit="TR02" style="opacity:.5;pointer-events:none;">
+      <span class="unit-code code-tr">TR02</span>
+      <div class="unit-info">
+        <div class="unit-name">30°・45°・60° の値</div>
+        <div class="unit-sub">よく使う角度の sin・cos・tan を覚える</div>
+      </div>
+      <div class="unit-pages">
+        <span class="page-tag">準備中</span>
+      </div>
+      <span class="unit-arrow">›</span>
+    </a>
+
+    <a href="TR03.html" class="unit-card tr" data-unit="TR03" style="opacity:.5;pointer-events:none;">
+      <span class="unit-code code-tr">TR03</span>
+      <div class="unit-info">
+        <div class="unit-name">辺の長さを求める</div>
+        <div class="unit-sub">斜辺×sin θ・斜辺×cos θ・隣辺×tan θ の応用</div>
+      </div>
+      <div class="unit-pages">
+        <span class="page-tag">準備中</span>
+      </div>
+      <span class="unit-arrow">›</span>
+    </a>
+
+    <a href="TR04.html" class="unit-card tr" data-unit="TR04" style="opacity:.5;pointer-events:none;">
+      <span class="unit-code code-tr">TR04</span>
+      <div class="unit-info">
+        <div class="unit-name">応用問題</div>
+        <div class="unit-sub">sin・tan を使った長さと角度の問題</div>
+      </div>
+      <div class="unit-pages">
+        <span class="page-tag">準備中</span>
+      </div>
+      <span class="unit-arrow">›</span>
+    </a>
+
+    <a href="TR05.html" class="unit-card tr" data-unit="TR05" style="opacity:.5;pointer-events:none;">
+      <span class="unit-code code-tr">TR05</span>
+      <div class="unit-info">
+        <div class="unit-name">鈍角の三角比・単位円</div>
+        <div class="unit-sub">90°〜180° の sin・cos・tan を単位円で理解する</div>
+      </div>
+      <div class="unit-pages">
+        <span class="page-tag">準備中</span>
+      </div>
+      <span class="unit-arrow">›</span>
+    </a>
+
+    <a href="TR06.html" class="unit-card tr" data-unit="TR06" style="opacity:.5;pointer-events:none;">
+      <span class="unit-code code-tr">TR06</span>
+      <div class="unit-info">
+        <div class="unit-name">sin(180°−θ) など</div>
+        <div class="unit-sub">補角・余角の公式と変換</div>
+      </div>
+      <div class="unit-pages">
+        <span class="page-tag">準備中</span>
+      </div>
+      <span class="unit-arrow">›</span>
+    </a>
+
+    <a href="TR07.html" class="unit-card tr" data-unit="TR07" style="opacity:.5;pointer-events:none;">
+      <span class="unit-code code-tr">TR07</span>
+      <div class="unit-info">
+        <div class="unit-name">三角比の相互関係</div>
+        <div class="unit-sub">$\sin^2\theta+\cos^2\theta=1$ などの重要公式</div>
+      </div>
+      <div class="unit-pages">
+        <span class="page-tag">準備中</span>
+      </div>
+      <span class="unit-arrow">›</span>
+    </a>
+
+    <a href="TR08.html" class="unit-card tr" data-unit="TR08" style="opacity:.5;pointer-events:none;">
+      <span class="unit-code code-tr">TR08</span>
+      <div class="unit-info">
+        <div class="unit-name">正弦定理</div>
+        <div class="unit-sub">$\dfrac{a}{\sin A}=2R$ ── 辺と角の関係</div>
+      </div>
+      <div class="unit-pages">
+        <span class="page-tag">準備中</span>
+      </div>
+      <span class="unit-arrow">›</span>
+    </a>
+
+    <a href="TR09.html" class="unit-card tr" data-unit="TR09" style="opacity:.5;pointer-events:none;">
+      <span class="unit-code code-tr">TR09</span>
+      <div class="unit-info">
+        <div class="unit-name">余弦定理</div>
+        <div class="unit-sub">$a^2=b^2+c^2-2bc\cos A$ ── 3辺と角の関係</div>
+      </div>
+      <div class="unit-pages">
+        <span class="page-tag">準備中</span>
+      </div>
+      <span class="unit-arrow">›</span>
+    </a>
+
+    <a href="TR10.html" class="unit-card tr" data-unit="TR10" style="opacity:.5;pointer-events:none;">
+      <span class="unit-code code-tr">TR10</span>
+      <div class="unit-info">
+        <div class="unit-name">三角形の面積</div>
+        <div class="unit-sub">$S=\dfrac{1}{2}bc\sin A$ ── sin を使った面積公式</div>
+      </div>
+      <div class="unit-pages">
+        <span class="page-tag">準備中</span>
+      </div>
+      <span class="unit-arrow">›</span>
     </a>
 
   </div>
