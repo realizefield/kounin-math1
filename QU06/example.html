@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QU06 変域あり最大・最小値 ② 例題</title>
+<link href="https://fonts.googleapis.com/css2?family=BIZ+UDPGothic:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'BIZ UDPGothic', sans-serif; background: #fafaf9; color: #1c1917; font-size: 16px; line-height: 1.7; }
+.header { background: #d97706; color: white; padding: 14px 20px; }
+.header h1 { font-size: 1.1rem; font-weight: 700; }
+.header p { font-size: 0.85rem; opacity: 0.9; margin-top: 2px; }
+.container { max-width: 680px; margin: 0 auto; padding: 20px 16px 60px; }
+.card { background: white; border-radius: 12px; padding: 20px; margin-bottom: 18px; box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
+.card h2 { font-size: 1rem; font-weight: 700; color: #d97706; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 2px solid #fde68a; }
+.step-nav { display: flex; gap: 8px; margin-bottom: 18px; flex-wrap: wrap; }
+.step-btn { flex: 1; min-width: 80px; padding: 8px 4px; border: none; border-radius: 8px; font-family: inherit; font-size: 0.78rem; cursor: pointer; font-weight: 700; }
+.step-btn.active { background: #d97706; color: white; }
+.step-btn.done { background: #d1fae5; color: #065f46; }
+.step-btn.inactive { background: #f5f5f4; color: #a8a29e; }
+canvas { display: block; margin: 8px auto; border-radius: 8px; }
+.problem-box { background: #fffbeb; border: 2px solid #d97706; border-radius: 10px; padding: 16px; margin-bottom: 14px; }
+.problem-box p { font-size: 0.95rem; }
+.solution { margin-top: 8px; }
+.sol-step { display: flex; gap: 10px; margin-bottom: 10px; align-items: flex-start; }
+.sol-num { background: #d97706; color: white; border-radius: 50%; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.85rem; flex-shrink: 0; margin-top: 2px; }
+.sol-text { font-size: 0.92rem; line-height: 1.7; }
+.answer-box { background: #fef3c7; border-radius: 8px; padding: 12px 14px; margin-top: 10px; font-weight: 700; color: #92400e; font-size: 0.95rem; }
+.toggle-btn { background: #f5f5f4; border: 1px solid #d6d3d1; border-radius: 8px; padding: 8px 16px; font-family: inherit; font-size: 0.88rem; cursor: pointer; margin-top: 10px; }
+.toggle-btn:hover { background: #e7e5e4; }
+.hidden { display: none; }
+.nav-btn { display: block; width: 100%; padding: 14px; background: #d97706; color: white; border: none; border-radius: 10px; font-family: inherit; font-size: 1rem; font-weight: 700; cursor: pointer; text-align: center; margin-top: 8px; }
+.nav-btn:hover { background: #b45309; }
+.back-link { display: block; text-align: center; color: #a8a29e; font-size: 0.85rem; margin-top: 14px; text-decoration: none; }
+.back-link:hover { color: #d97706; }
+.note { background: #f0fdf4; border-left: 3px solid #10b981; padding: 10px 14px; border-radius: 0 8px 8px 0; margin: 10px 0; font-size: 0.88rem; color: #065f46; }
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>QU06 ② 例題 ― 変域あり最大・最小値</h1>
+  <p>第4章 二次関数 ／ 難易度 ★★★</p>
+</div>
+<div class="container">
+  <div class="step-nav">
+    <button class="step-btn done" onclick="location.href='intro.html'">①導入</button>
+    <button class="step-btn active">②例題</button>
+    <button class="step-btn inactive" onclick="location.href='drill.html'">③練習</button>
+    <button class="step-btn inactive" onclick="location.href='check.html'">④確認</button>
+  </div>
+
+  <!-- 例題1：頂点が変域内（上向き） -->
+  <div class="card">
+    <h2>【例題1】頂点が変域の中にある（上向き）</h2>
+    <div class="problem-box">
+      <p id="prob1"></p>
+    </div>
+    <canvas id="cv1" width="340" height="200"></canvas>
+    <button class="toggle-btn" onclick="toggleSol('sol1',this)">解答・解説を見る</button>
+    <div id="sol1" class="hidden solution">
+      <div class="sol-step">
+        <div class="sol-num">1</div>
+        <div class="sol-text">
+          <strong>平方完成して頂点を確認</strong><br>
+          <span id="s1_1"></span>
+        </div>
+      </div>
+      <div class="sol-step">
+        <div class="sol-num">2</div>
+        <div class="sol-text">
+          <strong>頂点のxは変域の中？外？</strong><br>
+          変域は <span id="s1_2a"></span>、頂点のxは <span id="s1_2b"></span><br>
+          <span id="s1_2c"></span> ✅ <strong>変域の中にある</strong>
+        </div>
+      </div>
+      <div class="sol-step">
+        <div class="sol-num">3</div>
+        <div class="sol-text">
+          <strong>最小値 = 頂点のy座標</strong><br>
+          <span id="s1_3"></span>
+        </div>
+      </div>
+      <div class="sol-step">
+        <div class="sol-num">4</div>
+        <div class="sol-text">
+          <strong>最大値 = 頂点から遠い端点</strong><br>
+          左端 <span id="s1_4a"></span> → <span id="s1_4b"></span><br>
+          右端 <span id="s1_4c"></span> → <span id="s1_4d"></span><br>
+          左端の方が頂点から遠いので、<span id="s1_4e"></span> が最大値
+        </div>
+      </div>
+      <div class="answer-box" id="ans1"></div>
+      <div class="note">💡 迷ったら両端点を代入して比べるのが確実です！</div>
+    </div>
+  </div>
+
+  <!-- 例題2：頂点が変域の外（上向き） -->
+  <div class="card">
+    <h2>【例題2】頂点が変域の外にある（上向き）</h2>
+    <div class="problem-box">
+      <p id="prob2"></p>
+    </div>
+    <canvas id="cv2" width="340" height="200"></canvas>
+    <button class="toggle-btn" onclick="toggleSol('sol2',this)">解答・解説を見る</button>
+    <div id="sol2" class="hidden solution">
+      <div class="sol-step">
+        <div class="sol-num">1</div>
+        <div class="sol-text">
+          <strong>平方完成して頂点を確認</strong><br>
+          <span id="s2_1"></span>
+        </div>
+      </div>
+      <div class="sol-step">
+        <div class="sol-num">2</div>
+        <div class="sol-text">
+          <strong>頂点のxは変域の中？外？</strong><br>
+          変域は <span id="s2_2a"></span>、頂点のxは <span id="s2_2b"></span><br>
+          <span id="s2_2c"></span> ⚠️ <strong>変域の外！</strong>
+        </div>
+      </div>
+      <div class="sol-step">
+        <div class="sol-num">3</div>
+        <div class="sol-text">
+          <strong>両端点を代入して比べる</strong><br>
+          <span id="s2_3a"></span><br>
+          <span id="s2_3b"></span>
+        </div>
+      </div>
+      <div class="answer-box" id="ans2"></div>
+    </div>
+  </div>
+
+  <!-- 例題3：下向き放物線 -->
+  <div class="card">
+    <h2>【例題3】下向き放物線（a &lt; 0）R5-2 類似</h2>
+    <div class="problem-box">
+      <p id="prob3"></p>
+    </div>
+    <canvas id="cv3" width="340" height="200"></canvas>
+    <button class="toggle-btn" onclick="toggleSol('sol3',this)">解答・解説を見る</button>
+    <div id="sol3" class="hidden solution">
+      <div class="sol-step">
+        <div class="sol-num">1</div>
+        <div class="sol-text">
+          <strong>下向き（a &lt; 0）→ 頂点が最大値</strong><br>
+          <span id="s3_1"></span>
+        </div>
+      </div>
+      <div class="sol-step">
+        <div class="sol-num">2</div>
+        <div class="sol-text">
+          <strong>頂点は変域の中にある？</strong><br>
+          <span id="s3_2"></span>
+        </div>
+      </div>
+      <div class="sol-step">
+        <div class="sol-num">3</div>
+        <div class="sol-text">
+          <strong>最小値 ＝ 頂点から遠い端点</strong><br>
+          <span id="s3_3a"></span><br>
+          <span id="s3_3b"></span><br>
+          <span id="s3_3c"></span>
+        </div>
+      </div>
+      <div class="answer-box" id="ans3"></div>
+    </div>
+  </div>
+
+  <button class="nav-btn" onclick="location.href='drill.html'">③ 練習へ進む →</button>
+  <a href="../gamba_kounin.html" class="back-link">← メニューに戻る</a>
+</div>
+
+<script>
+function toggleSol(id, btn){
+  const el = document.getElementById(id);
+  if(el.classList.contains('hidden')){
+    el.classList.remove('hidden');
+    btn.textContent = '解答・解説を隠す';
+  } else {
+    el.classList.add('hidden');
+    btn.textContent = '解答・解説を見る';
+  }
+}
+
+function k(expr){ return katex.renderToString(expr, {throwOnError:false}); }
+
+// ---- 例題1の設定 ----
+// y = (x-1)^2 - 2, 変域 -1 ≦ x ≦ 4
+document.getElementById('prob1').innerHTML =
+  '2次関数 ' + k('y=(x-1)^2-2') + ' について、変域を ' + k('-1 \\leqq x \\leqq 4') + ' とするとき、最大値と最小値を求めよ。';
+document.getElementById('s1_1').innerHTML = k('y=(x-1)^2-2') + '　頂点は ' + k('(1,\\,-2)') + '　上向き';
+document.getElementById('s1_2a').innerHTML = k('-1 \\leqq x \\leqq 4');
+document.getElementById('s1_2b').innerHTML = k('x=1');
+document.getElementById('s1_2c').innerHTML = k('-1 \\leqq 1 \\leqq 4');
+document.getElementById('s1_3').innerHTML = '最小値 = ' + k('-2') + '（頂点のy座標）';
+document.getElementById('s1_4a').innerHTML = k('x=-1');
+document.getElementById('s1_4b').innerHTML = 'y = ' + k('(-1-1)^2-2=4-2=2');
+document.getElementById('s1_4c').innerHTML = k('x=4');
+document.getElementById('s1_4d').innerHTML = 'y = ' + k('(4-1)^2-2=9-2=7');
+document.getElementById('s1_4e').innerHTML = k('y=7');
+document.getElementById('ans1').innerHTML = '最大値 ' + k('7') + '（' + k('x=4') + ' のとき）、最小値 ' + k('-2') + '（' + k('x=1') + ' のとき）';
+
+// ---- 例題2の設定 ----
+// y = (x-1)^2 + 2, 変域 3 ≦ x ≦ 5
+document.getElementById('prob2').innerHTML =
+  '2次関数 ' + k('y=(x-1)^2+2') + ' について、変域を ' + k('3 \\leqq x \\leqq 5') + ' とするとき、最大値と最小値を求めよ。';
+document.getElementById('s2_1').innerHTML = k('y=(x-1)^2+2') + '　頂点は ' + k('(1,\\,2)') + '　上向き';
+document.getElementById('s2_2a').innerHTML = k('3 \\leqq x \\leqq 5');
+document.getElementById('s2_2b').innerHTML = k('x=1');
+document.getElementById('s2_2c').innerHTML = k('x=1') + ' は変域 ' + k('[3,\\,5]') + ' の外';
+document.getElementById('s2_3a').innerHTML = k('x=3') + ' のとき ' + k('y=(3-1)^2+2=6');
+document.getElementById('s2_3b').innerHTML = k('x=5') + ' のとき ' + k('y=(5-1)^2+2=18');
+document.getElementById('ans2').innerHTML = '最大値 ' + k('18') + '（' + k('x=5') + ' のとき）、最小値 ' + k('6') + '（' + k('x=3') + ' のとき）';
+
+// ---- 例題3の設定 ----
+// y = -(x-1)^2 + 3、変域 0 ≦ x ≦ 2（R5-2 類似）
+document.getElementById('prob3').innerHTML =
+  '2次関数 ' + k('y=-(x-1)^2+3') + ' について、変域を ' + k('0 \\leqq x \\leqq 2') + ' とするとき、最大値と最小値を求めよ。';
+document.getElementById('s3_1').innerHTML =
+  '下向き（' + k('a=-1<0') + '）。頂点は ' + k('(1,\\,3)') + '。頂点が最大値。';
+document.getElementById('s3_2').innerHTML =
+  '変域は ' + k('0 \\leqq x \\leqq 2') + '。頂点 ' + k('x=1') + ' は変域の中にある ✅';
+document.getElementById('s3_3a').innerHTML =
+  '最大値 ＝ 頂点のy座標 ＝ ' + k('3');
+document.getElementById('s3_3b').innerHTML =
+  '端点：' + k('x=0') + ' のとき ' + k('y=-(0-1)^2+3=2') + '　' +
+  k('x=2') + ' のとき ' + k('y=-(2-1)^2+3=2');
+document.getElementById('s3_3c').innerHTML =
+  '両端点とも y=2 なので、最小値 ＝ ' + k('2');
+document.getElementById('ans3').innerHTML =
+  '最大値 ' + k('3') + '（' + k('x=1') + ' のとき）、最小値 ' + k('2') + '（' + k('x=0') + ' または ' + k('x=2') + ' のとき）';
+
+// ---- グラフ描画共通関数 ----
+function drawParabola(cvId, fn, domain, vertex, isUp, highlights){
+  const cv = document.getElementById(cvId);
+  const ctx = cv.getContext('2d');
+  const W=cv.width, H=cv.height;
+  const [vx,vy] = vertex;
+  const mL=30, mR=30, mT=12, mB=30;
+  const drawW=W-mL-mR, drawH=H-mT-mB;
+
+  // 変域内の全y値を収集（●半径6px分を余白に換算して加算）
+  const allY = [];
+  for(let x=domain[0]; x<=domain[1]+0.001; x+=0.05) allY.push(fn(x));
+  const ylo=Math.min(...allY), yhi=Math.max(...allY);
+  const yrange = yhi - ylo || 1;
+
+  function px(x){ return mL + (x-domain[0])/(domain[1]-domain[0])*drawW; }
+  function py(y){ return mT + (yhi-y)/yrange*drawH; }
+
+  ctx.clearRect(0,0,W,H);
+
+  // 全体放物線（薄い）- 変域より少し広く、範囲外は描かない
+  ctx.strokeStyle='#e7e5e4'; ctx.lineWidth=1.5;
+  ctx.beginPath();
+  let gs=false;
+  for(let x=domain[0]-1; x<=domain[1]+1; x+=0.05){
+    const y=fn(x); const qy=py(y);
+    if(qy<-10||qy>H+10){gs=false;continue;}
+    if(!gs){ctx.moveTo(px(x),qy);gs=true;} else ctx.lineTo(px(x),qy);
+  }
+  ctx.stroke();
+
+  // 変域の放物線（オレンジ）
+  ctx.strokeStyle='#d97706'; ctx.lineWidth=3;
+  ctx.beginPath();
+  for(let x=domain[0]; x<=domain[1]+0.001; x+=0.04){
+    const y=fn(x);
+    x===domain[0]?ctx.moveTo(px(x),py(y)):ctx.lineTo(px(x),py(y));
+  }
+  ctx.stroke();
+
+  // 端点●
+  [domain[0],domain[1]].forEach(x=>{
+    ctx.fillStyle='#d97706';
+    ctx.beginPath(); ctx.arc(px(x),py(fn(x)),5,0,Math.PI*2); ctx.fill();
+  });
+
+  // 頂点●
+  const vinDomain = vx>=domain[0] && vx<=domain[1];
+  ctx.fillStyle = vinDomain ? '#b45309' : '#a8a29e';
+  ctx.beginPath(); ctx.arc(px(vx),py(vy),6,0,Math.PI*2); ctx.fill();
+
+  // ラベル
+  ctx.font='11px BIZ UDPGothic'; ctx.fillStyle='#57534e';
+  ctx.fillText(domain[0], px(domain[0])-6, oy+14);
+  ctx.fillText(domain[1], px(domain[1])-6, oy+14);
+  if(Math.abs(px(vx)-px(domain[0]))>20 && Math.abs(px(vx)-px(domain[1]))>20)
+    ctx.fillText(vx, px(vx)-4, oy+14);
+}
+
+drawParabola('cv1', x=>(x-1)*(x-1)-2, [-1,4], [1,-2], true, []);
+drawParabola('cv2', x=>(x-1)*(x-1)+2, [3,5], [1,2], true, []);
+drawParabola('cv3', x=>(-(x-1)*(x-1)+3), [0,2], [1,3], false, []);
+</script>
+</body>
+</html>
