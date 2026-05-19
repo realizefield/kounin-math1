@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QU09 2次不等式 ① 導入</title>
+<link href="https://fonts.googleapis.com/css2?family=BIZ+UDPGothic:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'BIZ UDPGothic',sans-serif;background:#fafaf9;color:#1c1917;font-size:16px;line-height:1.85;}
+.header{background:#d97706;color:white;padding:14px 20px;}
+.header h1{font-size:1.1rem;font-weight:700;}
+.header p{font-size:0.85rem;opacity:0.9;margin-top:2px;}
+.container{max-width:680px;margin:0 auto;padding:20px 16px 60px;}
+.card{background:white;border-radius:12px;padding:22px;margin-bottom:18px;box-shadow:0 1px 4px rgba(0,0,0,0.08);}
+.card h2{font-size:1rem;font-weight:700;color:#d97706;margin-bottom:14px;padding-bottom:8px;border-bottom:2px solid #fde68a;}
+.step-nav{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap;}
+.step-btn{flex:1;min-width:80px;padding:8px 4px;border:none;border-radius:8px;font-family:inherit;font-size:0.78rem;cursor:pointer;font-weight:700;}
+.step-btn.active{background:#d97706;color:white;}
+.step-btn.inactive{background:#f5f5f4;color:#a8a29e;}
+canvas{display:block;margin:12px auto;}
+.hl{background:#fffbeb;border-left:4px solid #d97706;border-radius:0 8px 8px 0;padding:14px 16px;margin:14px 0;font-size:0.95rem;}
+.important{background:#fef3c7;border:2px solid #d97706;border-radius:10px;padding:16px;margin:14px 0;}
+.important h3{font-size:0.95rem;font-weight:700;color:#92400e;margin-bottom:8px;}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:14px 0;}
+.col-box{border-radius:10px;padding:14px;text-align:center;}
+.col-box.blue{border:2px solid #3b82f6;background:#eff6ff;}
+.col-box.green{border:2px solid #10b981;background:#f0fdf4;}
+.col-box h4{font-size:0.9rem;font-weight:700;margin-bottom:8px;}
+.col-box.blue h4{color:#1d4ed8;}
+.col-box.green h4{color:#065f46;}
+.step-row{display:flex;gap:12px;margin-bottom:12px;align-items:flex-start;}
+.step-circle{background:#d97706;color:white;border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.9rem;flex-shrink:0;margin-top:3px;}
+.step-text{font-size:0.93rem;line-height:1.8;}
+.warn{background:#fef2f2;border-left:4px solid #ef4444;border-radius:0 8px 8px 0;padding:12px 14px;margin:12px 0;font-size:0.92rem;}
+.nav-btn{display:block;width:100%;padding:14px;background:#d97706;color:white;border:none;border-radius:10px;font-family:inherit;font-size:1rem;font-weight:700;cursor:pointer;text-align:center;margin-top:8px;}
+.nav-btn:hover{background:#b45309;}
+.back-link{display:block;text-align:center;color:#a8a29e;font-size:0.85rem;margin-top:14px;text-decoration:none;}
+.back-link:hover{color:#d97706;}
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>QU09 ① 導入 ― 2次不等式</h1>
+  <p>第4章 二次関数 ／ 難易度 ★★★ ／ 最重要（8回中7回出題！）</p>
+</div>
+<div class="container">
+  <div class="step-nav">
+    <button class="step-btn active">①導入</button>
+    <button class="step-btn inactive" onclick="location.href='QU09_example.html'">②例題</button>
+    <button class="step-btn inactive" onclick="location.href='QU09_drill.html'">③練習</button>
+    <button class="step-btn inactive" onclick="location.href='QU09_check.html'">④確認</button>
+  </div>
+
+  <!-- ① 2次不等式とは -->
+  <div class="card">
+    <h2>📌 2次不等式とは？</h2>
+    <p>たとえば <span id="ineq0"></span> のように、2次式に不等号がついたものを「2次不等式」といいます。</p>
+    <p style="margin-top:8px;">「この式が 0 より大きくなる（または小さくなる）x の範囲はどこか？」を求める問題です。</p>
+    <div class="hl" style="margin-top:12px;">
+      <strong>グラフで考えるのが一番わかりやすい方法です。</strong><br>
+      放物線が x 軸より「上」にある部分と「下」にある部分を見れば、答えがわかります。
+    </div>
+    <canvas id="cvMain" width="320" height="200"></canvas>
+    <p style="text-align:center;font-size:0.85rem;color:#78716c;">青の部分（y &lt; 0）→ x軸より下　　緑の部分（y &gt; 0）→ x軸より上</p>
+  </div>
+
+  <!-- ② 内側・外側のルール -->
+  <div class="card">
+    <h2>🔑 「内側」と「外側」で覚えましょう</h2>
+    <p>上向き放物線（a &gt; 0）で、x軸との交点が <span id="ab_label"></span> のとき：</p>
+    <div class="two-col" style="margin-top:14px;">
+      <div class="col-box blue">
+        <h4>y &lt; 0（x軸より下）</h4>
+        <canvas id="cvInner" width="130" height="120"></canvas>
+        <p style="font-size:0.9rem;margin-top:6px;"><strong>「内側」</strong><br><span id="inner_ans"></span></p>
+      </div>
+      <div class="col-box green">
+        <h4>y &gt; 0（x軸より上）</h4>
+        <canvas id="cvOuter" width="130" height="120"></canvas>
+        <p style="font-size:0.9rem;margin-top:6px;"><strong>「外側」</strong><br><span id="outer_ans"></span></p>
+      </div>
+    </div>
+    <div class="important" style="margin-top:14px;">
+      <h3>💡 覚え方</h3>
+      <p style="font-size:0.93rem; line-height:1.9;">
+        <strong>&lt; 0（x軸より下）→ 「内側」→ </strong><span id="inner_rule"></span><br>
+        <strong>&gt; 0（x軸より上）→ 「外側」→ </strong><span id="outer_rule"></span><br><br>
+        ≦ や ≧ のときは、等号を含めるだけです（α、β もふくむ）。
+      </p>
+    </div>
+  </div>
+
+  <!-- ③ 解く手順 -->
+  <div class="card">
+    <h2>✅ 解く手順</h2>
+    <div class="step-row">
+      <div class="step-circle">1</div>
+      <div class="step-text">
+        <strong>因数分解</strong>して x 軸との交点（根）α、β を求めます。<br>
+        <span id="step1ex"></span>
+      </div>
+    </div>
+    <div class="step-row">
+      <div class="step-circle">2</div>
+      <div class="step-text">
+        <strong>不等号の向きを確認</strong>します。<br>
+        &lt; 0 または ≦ 0 なら「内側」、&gt; 0 または ≧ 0 なら「外側」
+      </div>
+    </div>
+    <div class="step-row">
+      <div class="step-circle">3</div>
+      <div class="step-text">
+        <strong>答えを書きます。</strong><br>
+        内側：<span id="step3in"></span>　外側：<span id="step3out"></span>
+      </div>
+    </div>
+    <div class="warn" style="margin-top:12px;">
+      <strong>⚠️ 係数が負（a &lt; 0）のとき</strong><br>
+      まず両辺を −1 倍して a &gt; 0 にしてから考えます。<br>
+      このとき<strong>不等号の向きが逆になる</strong>ことに注意してください。
+    </div>
+  </div>
+
+  <button class="nav-btn" onclick="location.href='QU09_example.html'">② 例題へ進む →</button>
+  <a href="../gamba_kounin.html" class="back-link">← メニューに戻る</a>
+</div>
+
+<script>
+function k(e){return katex.renderToString(e,{throwOnError:false});}
+
+document.getElementById('ineq0').innerHTML=k('x^2-5x+4>0');
+document.getElementById('ab_label').innerHTML=k('\\alpha < \\beta');
+document.getElementById('inner_ans').innerHTML=k('\\alpha < x < \\beta');
+document.getElementById('outer_ans').innerHTML=k('x<\\alpha')+' または '+k('x>\\beta');
+document.getElementById('inner_rule').innerHTML=k('\\alpha < x < \\beta');
+document.getElementById('outer_rule').innerHTML=k('x<\\alpha')+' または '+k('x>\\beta');
+document.getElementById('step1ex').innerHTML='例：'+k('x^2-5x+4=(x-1)(x-4)=0')+'　→ '+k('x=1,\\;4');
+document.getElementById('step3in').innerHTML=k('\\alpha < x < \\beta');
+document.getElementById('step3out').innerHTML=k('x<\\alpha')+' または '+k('x>\\beta');
+
+// メイン図：y=(x-0.5)(x-3)、内側青・外側緑
+(function(){
+  const cv=document.getElementById('cvMain');
+  const ctx=cv.getContext('2d');
+  const W=cv.width,H=cv.height;
+  const r1=0.5,r2=3;
+  const mL=28,mR=20,mT=14,mB=28;
+  const allY=[]; for(let x=r1-0.8;x<=r2+0.8;x+=0.1) allY.push((x-r1)*(x-r2));
+  const ylo=Math.min(...allY),yhi=Math.max(...allY);
+  const xspan=r2-r1+1.6;
+  function px(x){return mL+(x-r1+0.8)/xspan*(W-mL-mR);}
+  function py(y){return mT+(yhi-y)/(yhi-ylo)*(H-mT-mB);}
+  const f=x=>(x-r1)*(x-r2);
+  ctx.clearRect(0,0,W,H);
+
+  // x軸
+  ctx.strokeStyle='#d6d3d1';ctx.lineWidth=1;
+  ctx.beginPath();ctx.moveTo(mL-6,py(0));ctx.lineTo(W-mR+6,py(0));ctx.stroke();
+
+  // 内側塗り（青）
+  ctx.save();ctx.beginPath();
+  ctx.moveTo(px(r1),py(0));
+  for(let x=r1;x<=r2;x+=0.04) ctx.lineTo(px(x),py(f(x)));
+  ctx.lineTo(px(r2),py(0));ctx.closePath();
+  ctx.fillStyle='rgba(59,130,246,0.2)';ctx.fill();ctx.restore();
+
+  // 外側塗り（緑）
+  [[r1-0.8,r1],[r2,r2+0.8]].forEach(([xa,xb])=>{
+    ctx.save();ctx.beginPath();ctx.moveTo(px(xa),py(0));
+    for(let x=xa;x<=xb;x+=0.04){const y=f(x);const qy=py(y);if(qy>mT&&qy<H-mB)ctx.lineTo(px(x),qy);}
+    ctx.lineTo(px(xb),py(0));ctx.closePath();
+    ctx.fillStyle='rgba(16,185,129,0.18)';ctx.fill();ctx.restore();
+  });
+
+  // 放物線
+  ctx.strokeStyle='#d97706';ctx.lineWidth=2.5;ctx.beginPath();
+  let gs=false;
+  for(let x=r1-0.8;x<=r2+0.8;x+=0.04){
+    const y=f(x);const qy=py(y);
+    if(qy<mT-4||qy>H+4){gs=false;continue;}
+    gs?ctx.lineTo(px(x),qy):ctx.moveTo(px(x),qy);gs=true;
+  }
+  ctx.stroke();
+
+  // 交点●
+  [r1,r2].forEach(r=>{
+    ctx.fillStyle='#b45309';ctx.beginPath();ctx.arc(px(r),py(0),5,0,Math.PI*2);ctx.fill();
+    ctx.fillStyle='#57534e';ctx.font='12px BIZ UDPGothic';
+    ctx.fillText(r,px(r)-4,py(0)+15);
+  });
+
+  // ラベル
+  ctx.fillStyle='#1d4ed8';ctx.font='bold 11px BIZ UDPGothic';
+  ctx.fillText('y<0（内側）',px((r1+r2)/2)-22,py(f((r1+r2)/2))+10);
+  ctx.fillStyle='#059669';ctx.font='bold 11px BIZ UDPGothic';
+  ctx.fillText('y>0',px(r2+0.4),py(f(r2+0.4))-4);
+})();
+
+// 内側図
+function drawSide(id, shade){
+  const cv=document.getElementById(id);
+  const ctx=cv.getContext('2d');
+  const W=cv.width,H=cv.height;
+  const r1=0.5,r2=2.5;
+  const mL=16,mR=16,mT=10,mB=22;
+  const f=x=>(x-r1)*(x-r2);
+  const allY=[]; for(let x=r1-0.5;x<=r2+0.5;x+=0.1) allY.push(f(x));
+  const ylo=Math.min(...allY),yhi=Math.max(...allY);
+  function px(x){return mL+(x-r1+0.5)/(r2-r1+1)*(W-mL-mR);}
+  function py(y){return mT+(yhi-y)/(yhi-ylo)*(H-mT-mB);}
+  ctx.clearRect(0,0,W,H);
+  ctx.strokeStyle='#d6d3d1';ctx.lineWidth=1;
+  ctx.beginPath();ctx.moveTo(mL-4,py(0));ctx.lineTo(W-mR+4,py(0));ctx.stroke();
+
+  if(shade==='inner'){
+    ctx.save();ctx.beginPath();ctx.moveTo(px(r1),py(0));
+    for(let x=r1;x<=r2;x+=0.04) ctx.lineTo(px(x),py(f(x)));
+    ctx.lineTo(px(r2),py(0));ctx.closePath();
+    ctx.fillStyle='rgba(59,130,246,0.25)';ctx.fill();ctx.restore();
+  } else {
+    [[r1-0.5,r1],[r2,r2+0.5]].forEach(([xa,xb])=>{
+      ctx.save();ctx.beginPath();ctx.moveTo(px(xa),py(0));
+      for(let x=xa;x<=xb;x+=0.04){const qy=py(f(x));if(qy>mT&&qy<H-mB)ctx.lineTo(px(x),qy);}
+      ctx.lineTo(px(xb),py(0));ctx.closePath();
+      ctx.fillStyle='rgba(16,185,129,0.25)';ctx.fill();ctx.restore();
+    });
+  }
+  ctx.strokeStyle='#d97706';ctx.lineWidth=2;ctx.beginPath();
+  let gs=false;
+  for(let x=r1-0.5;x<=r2+0.5;x+=0.04){
+    const y=f(x);const qy=py(y);
+    if(qy<mT-4||qy>H+4){gs=false;continue;}
+    gs?ctx.lineTo(px(x),qy):ctx.moveTo(px(x),qy);gs=true;
+  }
+  ctx.stroke();
+  [r1,r2].forEach(r=>{
+    ctx.fillStyle='#b45309';ctx.beginPath();ctx.arc(px(r),py(0),4,0,Math.PI*2);ctx.fill();
+    ctx.fillStyle='#57534e';ctx.font='10px BIZ UDPGothic';
+    ctx.fillText(r===r1?'α':'β',px(r)-4,py(0)+14);
+  });
+}
+drawSide('cvInner','inner');
+drawSide('cvOuter','outer');
+</script>
+</body>
+</html>

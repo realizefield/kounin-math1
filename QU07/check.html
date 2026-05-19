@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QU07 x軸との共有点 ④ 確認テスト</title>
+<link href="https://fonts.googleapis.com/css2?family=BIZ+UDPGothic:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'BIZ UDPGothic',sans-serif;background:#fafaf9;color:#1c1917;font-size:16px;line-height:1.7;}
+.header{background:#d97706;color:white;padding:14px 20px;}
+.header h1{font-size:1.1rem;font-weight:700;}
+.header p{font-size:0.85rem;opacity:0.9;margin-top:2px;}
+.container{max-width:680px;margin:0 auto;padding:20px 16px 60px;}
+.card{background:white;border-radius:12px;padding:20px;margin-bottom:18px;box-shadow:0 1px 4px rgba(0,0,0,0.08);}
+.step-nav{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap;}
+.step-btn{flex:1;min-width:80px;padding:8px 4px;border:none;border-radius:8px;font-family:inherit;font-size:0.78rem;cursor:pointer;font-weight:700;}
+.step-btn.active{background:#d97706;color:white;}
+.step-btn.done{background:#d1fae5;color:#065f46;}
+.prob-num{font-size:0.95rem;font-weight:700;color:#d97706;margin:14px 0 6px;}
+.prob-num:first-child{margin-top:0;}
+.problem-text{background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:12px;font-size:0.93rem;margin-bottom:8px;}
+canvas{display:block;margin:4px auto;}
+.choices{display:flex;flex-direction:column;gap:7px;margin:8px 0;}
+.choice-inp{padding:11px 14px;border:2px solid #e7e5e4;border-radius:8px;font-family:inherit;font-size:0.9rem;cursor:pointer;background:white;text-align:left;}
+.choice-inp:hover{border-color:#d97706;background:#fffbeb;}
+.divider{border:none;border-top:1px solid #f5f5f4;margin:16px 0;}
+.submit-btn{width:100%;padding:14px;background:#d97706;color:white;border:none;border-radius:10px;font-family:inherit;font-size:1rem;font-weight:700;cursor:pointer;margin-top:12px;}
+.submit-btn:hover{background:#b45309;}
+.result-card{background:white;border-radius:12px;padding:24px;box-shadow:0 1px 4px rgba(0,0,0,0.08);display:none;}
+.score-big{font-size:3rem;font-weight:700;color:#d97706;text-align:center;}
+.score-label{text-align:center;color:#78716c;font-size:0.9rem;}
+.review-item{border-left:4px solid #e7e5e4;padding:10px 14px;margin:8px 0;border-radius:0 8px 8px 0;font-size:0.88rem;}
+.review-item.ok{border-color:#10b981;background:#f0fdf4;}
+.review-item.ng{border-color:#ef4444;background:#fef2f2;}
+.nav-btn{display:block;width:100%;padding:14px;background:#059669;color:white;border:none;border-radius:10px;font-family:inherit;font-size:1rem;font-weight:700;cursor:pointer;text-align:center;margin-top:10px;}
+.back-link{display:block;text-align:center;color:#a8a29e;font-size:0.85rem;margin-top:14px;text-decoration:none;}
+.back-link:hover{color:#d97706;}
+#confetti-container{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9999;}
+</style>
+</head>
+<body>
+<div id="confetti-container"></div>
+<div class="header">
+  <h1>QU07 ④ 確認テスト ― x軸との共有点の座標</h1>
+  <p>第4章 二次関数 ／ 5問</p>
+</div>
+<div class="container">
+  <div class="step-nav">
+    <button class="step-btn done" onclick="location.href='QU07_intro.html'">①導入</button>
+    <button class="step-btn done" onclick="location.href='QU07_example.html'">②例題</button>
+    <button class="step-btn done" onclick="location.href='QU07_drill.html'">③練習</button>
+    <button class="step-btn active">④確認</button>
+  </div>
+
+  <div class="card" id="testCard">
+
+    <div class="prob-num">問1</div>
+    <div class="problem-text" id="q1t"></div>
+    <canvas id="cv1" width="300" height="150"></canvas>
+    <div class="choices" id="c1">
+      <button class="choice-inp" onclick="setAns(0,0,this)">① x＝−3 と x＝2</button>
+      <button class="choice-inp" onclick="setAns(0,1,this)">② x＝3 と x＝−2</button>
+      <button class="choice-inp" onclick="setAns(0,2,this)">③ x＝3 と x＝2</button>
+      <button class="choice-inp" onclick="setAns(0,3,this)">④ x＝−3 と x＝−2</button>
+    </div>
+    <hr class="divider">
+
+    <div class="prob-num">問2</div>
+    <div class="problem-text" id="q2t"></div>
+    <canvas id="cv2" width="300" height="150"></canvas>
+    <div class="choices" id="c2">
+      <button class="choice-inp" onclick="setAns(1,0,this)">① x＝<span style="display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;font-size:0.85em;line-height:1.2;margin:0 1px;"><span style="border-bottom:1.5px solid currentColor;padding:0 2px;">1</span><span style="padding:0 2px;">2</span></span> と x＝−3</button>
+      <button class="choice-inp" onclick="setAns(1,1,this)">② x＝−<span style="display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;font-size:0.85em;line-height:1.2;margin:0 1px;"><span style="border-bottom:1.5px solid currentColor;padding:0 2px;">1</span><span style="padding:0 2px;">2</span></span> と x＝3</button>
+      <button class="choice-inp" onclick="setAns(1,2,this)">③ x＝<span style="display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;font-size:0.85em;line-height:1.2;margin:0 1px;"><span style="border-bottom:1.5px solid currentColor;padding:0 2px;">1</span><span style="padding:0 2px;">2</span></span> と x＝3</button>
+      <button class="choice-inp" onclick="setAns(1,3,this)">④ x＝−<span style="display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;font-size:0.85em;line-height:1.2;margin:0 1px;"><span style="border-bottom:1.5px solid currentColor;padding:0 2px;">1</span><span style="padding:0 2px;">2</span></span> と x＝−3</button>
+    </div>
+    <hr class="divider">
+
+    <div class="prob-num">問3</div>
+    <div class="problem-text" id="q3t"></div>
+    <canvas id="cv3" width="300" height="150"></canvas>
+    <div class="choices" id="c3">
+      <button class="choice-inp" onclick="setAns(2,0,this)">① x＝<span style="display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;font-size:0.85em;line-height:1.2;margin:0 1px;"><span style="border-bottom:1.5px solid currentColor;padding:0 2px;">1</span><span style="padding:0 2px;">3</span></span> と x＝<span style="display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;font-size:0.85em;line-height:1.2;margin:0 1px;"><span style="border-bottom:1.5px solid currentColor;padding:0 2px;">3</span><span style="padding:0 2px;">2</span></span></button>
+      <button class="choice-inp" onclick="setAns(2,1,this)">② x＝−<span style="display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;font-size:0.85em;line-height:1.2;margin:0 1px;"><span style="border-bottom:1.5px solid currentColor;padding:0 2px;">1</span><span style="padding:0 2px;">3</span></span> と x＝<span style="display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;font-size:0.85em;line-height:1.2;margin:0 1px;"><span style="border-bottom:1.5px solid currentColor;padding:0 2px;">3</span><span style="padding:0 2px;">2</span></span></button>
+      <button class="choice-inp" onclick="setAns(2,2,this)">③ x＝<span style="display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;font-size:0.85em;line-height:1.2;margin:0 1px;"><span style="border-bottom:1.5px solid currentColor;padding:0 2px;">1</span><span style="padding:0 2px;">3</span></span> と x＝−<span style="display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;font-size:0.85em;line-height:1.2;margin:0 1px;"><span style="border-bottom:1.5px solid currentColor;padding:0 2px;">3</span><span style="padding:0 2px;">2</span></span></button>
+      <button class="choice-inp" onclick="setAns(2,3,this)">④ x＝−<span style="display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;font-size:0.85em;line-height:1.2;margin:0 1px;"><span style="border-bottom:1.5px solid currentColor;padding:0 2px;">1</span><span style="padding:0 2px;">3</span></span> と x＝−<span style="display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;font-size:0.85em;line-height:1.2;margin:0 1px;"><span style="border-bottom:1.5px solid currentColor;padding:0 2px;">3</span><span style="padding:0 2px;">2</span></span></button>
+    </div>
+    <hr class="divider">
+
+    <div class="prob-num">問4（R7-2 類似）</div>
+    <div class="problem-text" id="q4t"></div>
+    <canvas id="cv4" width="300" height="150"></canvas>
+    <div class="choices" id="c4">
+      <button class="choice-inp" onclick="setAns(3,0,this)">① x＝<span style="display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;font-size:0.85em;line-height:1.2;margin:0 1px;"><span style="border-bottom:1.5px solid currentColor;padding:0 2px;">1</span><span style="padding:0 2px;">2</span></span> と x＝5</button>
+      <button class="choice-inp" onclick="setAns(3,1,this)">② x＝−<span style="display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;font-size:0.85em;line-height:1.2;margin:0 1px;"><span style="border-bottom:1.5px solid currentColor;padding:0 2px;">1</span><span style="padding:0 2px;">2</span></span> と x＝5</button>
+      <button class="choice-inp" onclick="setAns(3,2,this)">③ x＝<span style="display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;font-size:0.85em;line-height:1.2;margin:0 1px;"><span style="border-bottom:1.5px solid currentColor;padding:0 2px;">1</span><span style="padding:0 2px;">2</span></span> と x＝−5</button>
+      <button class="choice-inp" onclick="setAns(3,3,this)">④ x＝2 と x＝5</button>
+    </div>
+    <hr class="divider">
+
+    <div class="prob-num">問5（R4-1 類似）</div>
+    <div class="problem-text" id="q5t"></div>
+    <canvas id="cv5" width="300" height="150"></canvas>
+    <div class="choices" id="c5">
+      <button class="choice-inp" onclick="setAns(4,0,this)">① x＝<span style="display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;font-size:0.85em;line-height:1.2;margin:0 1px;"><span style="border-bottom:1.5px solid currentColor;padding:0 2px;">3</span><span style="padding:0 2px;">2</span></span> と x＝2</button>
+      <button class="choice-inp" onclick="setAns(4,1,this)">② x＝−<span style="display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;font-size:0.85em;line-height:1.2;margin:0 1px;"><span style="border-bottom:1.5px solid currentColor;padding:0 2px;">3</span><span style="padding:0 2px;">2</span></span> と x＝−2</button>
+      <button class="choice-inp" onclick="setAns(4,2,this)">③ x＝<span style="display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;font-size:0.85em;line-height:1.2;margin:0 1px;"><span style="border-bottom:1.5px solid currentColor;padding:0 2px;">3</span><span style="padding:0 2px;">2</span></span> と x＝−2</button>
+      <button class="choice-inp" onclick="setAns(4,3,this)">④ x＝−<span style="display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;font-size:0.85em;line-height:1.2;margin:0 1px;"><span style="border-bottom:1.5px solid currentColor;padding:0 2px;">3</span><span style="padding:0 2px;">2</span></span> と x＝2</button>
+    </div>
+
+    <button class="submit-btn" onclick="submit()">採点する</button>
+  </div>
+
+  <div class="result-card" id="resultCard">
+    <div class="score-big" id="scoreBig"></div>
+    <div class="score-label">/ 5問正解</div>
+    <div id="reviewArea" style="margin-top:20px;"></div>
+    <button class="nav-btn" onclick="location.href='../gamba_kounin.html'">✅ メニューに戻る</button>
+    <button class="nav-btn" style="background:#d97706;margin-top:8px;" onclick="location.reload()">もう一度テストを受ける</button>
+  </div>
+  <a href="../gamba_kounin.html" class="back-link">← メニューに戻る</a>
+</div>
+
+<script>
+function k(e){return katex.renderToString(e,{throwOnError:false});}
+
+
+const qs=[
+  {fn:x=>x*x+x-6,    r0:-3,   r1:2,    ans:0, fnStr:'y=x^2+x-6',         sol:'(x+3)(x−2)=0 → x=−3, 2'},
+  {fn:x=>2*x*x+5*x-3,r0:-3,   r1:0.5,  ans:0, fnStr:'y=2x^2+5x-3', sol:'(2x−1)(x+3)=0 → x=1/2, −3'},
+  {fn:x=>6*x*x+7*x-3,r0:-1.5, r1:1/3,  ans:2, fnStr:'y=6x^2+7x-3', sol:'(3x−1)(2x+3)=0 → x=1/3, −3/2'},
+  {fn:x=>2*x*x-11*x+5,r0:0.5, r1:5,   ans:0, fnStr:'y=2x^2-11x+5',       sol:'(2x−1)(x−5)=0 → x=1/2, 5'},
+  {fn:x=>2*x*x-x-6,  r0:-1.5, r1:2,    ans:3, fnStr:'y=2x^2-x-6',    sol:'(2x+3)(x−2)=0 → x=−3/2, 2'},
+];
+
+qs.forEach((q,i)=>{
+  document.getElementById('q'+(i+1)+'t').innerHTML=
+    '2次関数 '+k(q.fnStr)+' のグラフとx軸との共有点のx座標を求めよ。';
+});
+
+function drawG(id,q){
+  const cv=document.getElementById(id);
+  const ctx=cv.getContext('2d');
+  const W=cv.width,H=cv.height;
+  const mL=32,mR=24,mT=14,mB=20;
+  const allY=[]; for(let x=q.r0-0.5;x<=q.r1+0.5;x+=0.05) allY.push(q.fn(x));
+  const ylo=Math.min(...allY),yhi=Math.max(...allY);
+  const xspan=q.r1-q.r0+1;
+  function px(x){return mL+(x-q.r0+0.5)/xspan*(W-mL-mR);}
+  function py(y){return mT+(yhi-y)/(yhi-ylo||1)*(H-mT-mB);}
+  ctx.clearRect(0,0,W,H);
+  if(py(0)>mT&&py(0)<H-mB){
+    ctx.strokeStyle='#d6d3d1';ctx.lineWidth=1;
+    ctx.beginPath();ctx.moveTo(mL-6,py(0));ctx.lineTo(W-mR+6,py(0));ctx.stroke();
+  }
+  ctx.strokeStyle='#d97706';ctx.lineWidth=2.5;ctx.beginPath();
+  let gs=false;
+  for(let x=q.r0-0.5;x<=q.r1+0.5;x+=0.04){
+    const y=q.fn(x);const qy=py(y);
+    if(qy<-8||qy>H+8){gs=false;continue;}
+    if(!gs){ctx.moveTo(px(x),qy);gs=true;} else ctx.lineTo(px(x),qy);
+  }
+  ctx.stroke();
+  [q.r0,q.r1].forEach(r=>{
+    ctx.fillStyle='#b45309';ctx.beginPath();ctx.arc(px(r),py(0),5,0,Math.PI*2);ctx.fill();
+  });
+}
+qs.forEach((q,i)=>drawG('cv'+(i+1),q));
+
+const chosen=[null,null,null,null,null];
+function setAns(qi,val,btn){
+  chosen[qi]=val;
+  btn.closest('div').querySelectorAll('.choice-inp').forEach(b=>{
+    b.style.borderColor=b===btn?'#d97706':'';
+    b.style.background=b===btn?'#fffbeb':'white';
+  });
+}
+
+const choiceTexts=[
+  ['x=−3とx=2','x=3とx=−2','x=3とx=2','x=−3とx=−2'],
+  ['x=1/2とx=−3','x=−1/2とx=3','x=1/2とx=3','x=−1/2とx=−3'],
+  ['x=1/3とx=3/2','x=−1/3とx=3/2','x=1/3とx=−3/2','x=−1/3とx=−3/2'],
+  ['x=1/2とx=5','x=−1/2とx=5','x=1/2とx=−5','x=2とx=5'],
+  ['x=3/2とx=2','x=−3/2とx=−2','x=3/2とx=−2','x=−3/2とx=2'],
+];
+
+function submit(){
+  let score=0;
+  const revs=qs.map((q,i)=>{const ok=(chosen[i]===q.ans);if(ok)score++;return{ok,q,i};});
+  document.getElementById('testCard').style.display='none';
+  document.getElementById('resultCard').style.display='block';
+  document.getElementById('scoreBig').textContent=score;
+  document.getElementById('reviewArea').innerHTML='<h3 style="font-size:0.95rem;margin-bottom:10px;">解答・解説</h3>'+
+  revs.map((r,i)=>`<div class="review-item ${r.ok?'ok':'ng'}">
+    <strong>問${i+1}</strong> ${r.ok?'✅ 正解':'❌ 不正解'}　正解：${choiceTexts[i][r.q.ans]}<br>
+    ${r.q.sol}
+  </div>`).join('');
+  if(score===5){markPassed();launchConfetti();}
+}
+
+function markPassed(){try{localStorage.setItem('QU07_passed','1');}catch(e){}}
+function launchConfetti(){
+  const c=document.getElementById('confetti-container');
+  const cols=['#d97706','#fbbf24','#10b981','#3b82f6','#8b5cf6'];
+  for(let i=0;i<80;i++){
+    const el=document.createElement('div');const sz=Math.random()*10+6;
+    el.style.cssText=`position:absolute;width:${sz}px;height:${sz}px;background:${cols[Math.floor(Math.random()*cols.length)]};left:${Math.random()*100}%;top:-20px;border-radius:${Math.random()>.5?'50%':'2px'};animation:fall ${Math.random()*2+1.5}s linear ${Math.random()}s forwards;`;
+    c.appendChild(el);
+  }
+  const s=document.createElement('style');s.textContent='@keyframes fall{to{transform:translateY(100vh) rotate(720deg);opacity:0;}}';
+  document.head.appendChild(s);setTimeout(()=>c.innerHTML='',4000);
+}
+</script>
+</body>
+</html>

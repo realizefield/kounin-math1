@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QU07 x軸との共有点 ② 例題</title>
+<link href="https://fonts.googleapis.com/css2?family=BIZ+UDPGothic:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'BIZ UDPGothic',sans-serif;background:#fafaf9;color:#1c1917;font-size:16px;line-height:1.7;}
+.header{background:#d97706;color:white;padding:14px 20px;}
+.header h1{font-size:1.1rem;font-weight:700;}
+.header p{font-size:0.85rem;opacity:0.9;margin-top:2px;}
+.container{max-width:680px;margin:0 auto;padding:20px 16px 60px;}
+.card{background:white;border-radius:12px;padding:20px;margin-bottom:18px;box-shadow:0 1px 4px rgba(0,0,0,0.08);}
+.card h2{font-size:1rem;font-weight:700;color:#d97706;margin-bottom:12px;padding-bottom:8px;border-bottom:2px solid #fde68a;}
+.step-nav{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap;}
+.step-btn{flex:1;min-width:80px;padding:8px 4px;border:none;border-radius:8px;font-family:inherit;font-size:0.78rem;cursor:pointer;font-weight:700;}
+.step-btn.active{background:#d97706;color:white;}
+.step-btn.done{background:#d1fae5;color:#065f46;}
+.step-btn.inactive{background:#f5f5f4;color:#a8a29e;}
+.problem-box{background:#fffbeb;border:2px solid #d97706;border-radius:10px;padding:14px;margin-bottom:12px;font-size:0.95rem;}
+canvas{display:block;margin:8px auto;}
+.toggle-btn{background:#f5f5f4;border:1px solid #d6d3d1;border-radius:8px;padding:8px 16px;font-family:inherit;font-size:0.88rem;cursor:pointer;margin-top:10px;}
+.hidden{display:none;}
+.sol-step{display:flex;gap:10px;margin-bottom:10px;align-items:flex-start;}
+.sol-num{background:#d97706;color:white;border-radius:50%;width:24px;height:24px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.85rem;flex-shrink:0;margin-top:2px;}
+.sol-text{font-size:0.92rem;line-height:1.7;}
+.answer-box{background:#fef3c7;border-radius:8px;padding:12px 14px;margin-top:10px;font-weight:700;color:#92400e;font-size:0.93rem;}
+.nav-btn{display:block;width:100%;padding:14px;background:#d97706;color:white;border:none;border-radius:10px;font-family:inherit;font-size:1rem;font-weight:700;cursor:pointer;text-align:center;margin-top:8px;}
+.nav-btn:hover{background:#b45309;}
+.back-link{display:block;text-align:center;color:#a8a29e;font-size:0.85rem;margin-top:14px;text-decoration:none;}
+.back-link:hover{color:#d97706;}
+.frac{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;margin:0 2px;}
+.frac .num{border-bottom:1.5px solid currentColor;padding:0 3px;line-height:1.3;font-size:0.88em;}
+.frac .den{padding:0 3px;line-height:1.3;font-size:0.88em;}
+.badge{display:inline-block;background:#d97706;color:white;border-radius:6px;padding:2px 8px;font-size:0.78rem;font-weight:700;margin-right:6px;}
+.badge.green{background:#059669;}
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>QU07 ② 例題 ― x軸との共有点の座標</h1>
+  <p>第4章 二次関数 ／ 難易度 ★★☆</p>
+</div>
+<div class="container">
+  <div class="step-nav">
+    <button class="step-btn done" onclick="location.href='QU07_intro.html'">①導入</button>
+    <button class="step-btn active">②例題</button>
+    <button class="step-btn inactive" onclick="location.href='QU07_drill.html'">③練習</button>
+    <button class="step-btn inactive" onclick="location.href='QU07_check.html'">④確認</button>
+  </div>
+
+  <!-- 例題1：簡単な因数分解 -->
+  <div class="card">
+    <h2>【例題1】因数分解（整数解）</h2>
+    <div class="problem-box"><p id="p1"></p></div>
+    <canvas id="cv1" width="320" height="150"></canvas>
+    <button class="toggle-btn" onclick="tog('s1',this)">解答・解説を見る</button>
+    <div id="s1" class="hidden">
+      <div class="sol-step"><div class="sol-num">1</div>
+        <div class="sol-text"><strong>y = 0 を代入</strong><br><span id="s1a"></span></div></div>
+      <div class="sol-step"><div class="sol-num">2</div>
+        <div class="sol-text"><strong>因数分解</strong><br><span id="s1b"></span></div></div>
+      <div class="sol-step"><div class="sol-num">3</div>
+        <div class="sol-text"><strong>共有点の座標</strong><br><span id="s1c"></span></div></div>
+      <div class="answer-box" id="a1"></div>
+    </div>
+  </div>
+
+  <!-- 例題2：たすき掛け（係数あり） -->
+  <div class="card">
+    <h2>【例題2】たすき掛け（係数あり）</h2>
+    <div class="problem-box"><p id="p2"></p></div>
+    <canvas id="cv2" width="320" height="150"></canvas>
+    <button class="toggle-btn" onclick="tog('s2',this)">解答・解説を見る</button>
+    <div id="s2" class="hidden">
+      <div class="sol-step"><div class="sol-num">1</div>
+        <div class="sol-text"><strong>y = 0 を代入</strong><br><span id="s2a"></span></div></div>
+      <div class="sol-step"><div class="sol-num">2</div>
+        <div class="sol-text"><strong>たすき掛けで因数分解</strong><br><span id="s2b"></span></div></div>
+      <div class="sol-step"><div class="sol-num">3</div>
+        <div class="sol-text"><strong>共有点の座標</strong><br><span id="s2c"></span></div></div>
+      <div class="answer-box" id="a2"></div>
+    </div>
+  </div>
+
+  <!-- 例題3：解の公式 -->
+  <div class="card">
+    <h2>【例題3】解の公式（分数・ルートが出る）</h2>
+    <div class="problem-box"><p id="p3"></p></div>
+    <canvas id="cv3" width="320" height="150"></canvas>
+    <button class="toggle-btn" onclick="tog('s3',this)">解答・解説を見る</button>
+    <div id="s3" class="hidden">
+      <div class="sol-step"><div class="sol-num">1</div>
+        <div class="sol-text"><strong>y = 0 を代入・a, b, c を確認</strong><br><span id="s3a"></span></div></div>
+      <div class="sol-step"><div class="sol-num">2</div>
+        <div class="sol-text"><strong>解の公式に代入</strong><br><span id="s3b"></span></div></div>
+      <div class="sol-step"><div class="sol-num">3</div>
+        <div class="sol-text"><strong>計算して整理</strong><br><span id="s3c"></span></div></div>
+      <div class="answer-box" id="a3"></div>
+    </div>
+  </div>
+
+  <!-- 例題4：過去問類似（R4-1）-->
+  <div class="card">
+    <h2>【例題4】過去問類似（R4-1 形式）</h2>
+    <div class="problem-box"><p id="p4"></p></div>
+    <canvas id="cv4" width="320" height="150"></canvas>
+    <button class="toggle-btn" onclick="tog('s4',this)">解答・解説を見る</button>
+    <div id="s4" class="hidden">
+      <div class="sol-step"><div class="sol-num">1</div>
+        <div class="sol-text"><span id="s4a"></span></div></div>
+      <div class="sol-step"><div class="sol-num">2</div>
+        <div class="sol-text"><span id="s4b"></span></div></div>
+      <div class="answer-box" id="a4"></div>
+    </div>
+  </div>
+
+  <button class="nav-btn" onclick="location.href='QU07_drill.html'">③ 練習へ進む →</button>
+  <a href="../gamba_kounin.html" class="back-link">← メニューに戻る</a>
+</div>
+
+<script>
+function k(e){return katex.renderToString(e,{throwOnError:false});}
+function tog(id,btn){
+  const el=document.getElementById(id);
+  el.classList.toggle('hidden');
+  btn.textContent=el.classList.contains('hidden')?'解答・解説を見る':'解答・解説を隠す';
+}
+
+// 例題1: y = x²+x−6
+document.getElementById('p1').innerHTML = '2次関数 '+k('y=x^2+x-6')+' のグラフとx軸との共有点の座標を求めよ。';
+document.getElementById('s1a').innerHTML = k('x^2+x-6=0');
+document.getElementById('s1b').innerHTML = k('(x+3)(x-2)=0')+' より '+k('x=-3,\\;2');
+document.getElementById('s1c').innerHTML = '共有点は '+k('(-3,\\,0)')+' と '+k('(2,\\,0)');
+document.getElementById('a1').innerHTML = '答）'+k('(-3,\\,0)')+' と '+k('(2,\\,0)');
+
+// 例題2: y = 6x²+7x−3（先生テキストの例題と同じ）
+document.getElementById('p2').innerHTML = '2次関数 '+k('y=6x^2+7x-3')+' のグラフとx軸との共有点の座標を求めよ。';
+document.getElementById('s2a').innerHTML = k('6x^2+7x-3=0');
+document.getElementById('s2b').innerHTML = k('(3x-1)(2x+3)=0')+' より '+k('x=\\dfrac{1}{3},\\;-\\dfrac{3}{2}');
+document.getElementById('s2c').innerHTML = '共有点は '+k('\\left(\\dfrac{1}{3},\\,0\\right)')+' と '+k('\\left(-\\dfrac{3}{2},\\,0\\right)');
+document.getElementById('a2').innerHTML = '答）'+k('\\left(\\dfrac{1}{3},\\,0\\right)')+' と '+k('\\left(-\\dfrac{3}{2},\\,0\\right)');
+
+// 例題3: y = x²−5x+2（解の公式）
+document.getElementById('p3').innerHTML = '2次関数 '+k('y=x^2-5x+2')+' のグラフとx軸との共有点の座標を求めよ。';
+document.getElementById('s3a').innerHTML = k('x^2-5x+2=0')+' → '+k('a=1,\\;b=-5,\\;c=2');
+document.getElementById('s3b').innerHTML = k('x=\\dfrac{-(-5)\\pm\\sqrt{(-5)^2-4\\cdot1\\cdot2}}{2\\cdot1}=\\dfrac{5\\pm\\sqrt{25-8}}{2}');
+document.getElementById('s3c').innerHTML = k('x=\\dfrac{5\\pm\\sqrt{17}}{2}');
+document.getElementById('a3').innerHTML = '答）'+k('\\left(\\dfrac{5+\\sqrt{17}}{2},\\,0\\right)')+' と '+k('\\left(\\dfrac{5-\\sqrt{17}}{2},\\,0\\right)');
+
+// 例題4: y = 2x²−x−6（R4-1類似）
+document.getElementById('p4').innerHTML = '2次関数 '+k('y=2x^2-x-6')+' のグラフとx軸との共有点の座標を求めよ。';
+document.getElementById('s4a').innerHTML = k('2x^2-x-6=0')+' → たすき掛け：'+k('(2x+3)(x-2)=0')+' より '+k('x=-\\dfrac{3}{2},\\;2');
+document.getElementById('s4b').innerHTML = '共有点は '+k('\\left(-\\dfrac{3}{2},\\,0\\right)')+' と '+k('(2,\\,0)');
+document.getElementById('a4').innerHTML = '答）'+k('\\left(-\\dfrac{3}{2},\\,0\\right)')+' と '+k('(2,\\,0)');
+
+// グラフ共通
+function drawGraph(id, fn, roots){
+  const cv=document.getElementById(id);
+  const ctx=cv.getContext('2d');
+  const W=cv.width,H=cv.height;
+  const r0=roots[0], r1=roots[1];
+  const mL=32,mR=24,mT=14,mB=28;
+  const allY=[]; for(let x=r0-0.5;x<=r1+0.5;x+=0.05) allY.push(fn(x));
+  const ylo=Math.min(...allY), yhi=Math.max(...allY);
+  const xspan=r1-r0+1;
+  function px(x){return mL+(x-r0+0.5)/xspan*(W-mL-mR);}
+  function py(y){return mT+(yhi-y)/(yhi-ylo||1)*(H-mT-mB);}
+  ctx.clearRect(0,0,W,H);
+  // y=0ライン
+  if(py(0)>mT&&py(0)<H-mB){
+    ctx.strokeStyle='#d6d3d1';ctx.lineWidth=1;
+    ctx.beginPath();ctx.moveTo(mL-6,py(0));ctx.lineTo(W-mR+6,py(0));ctx.stroke();
+  }
+  // 放物線
+  ctx.strokeStyle='#d97706';ctx.lineWidth=2.5;ctx.beginPath();
+  let gs=false;
+  for(let x=r0-0.5;x<=r1+0.5;x+=0.04){
+    const y=fn(x);const qy=py(y);
+    if(qy<-8||qy>H+8){gs=false;continue;}
+    if(!gs){ctx.moveTo(px(x),qy);gs=true;} else ctx.lineTo(px(x),qy);
+  }
+  ctx.stroke();
+  // 共有点
+  roots.forEach(r=>{
+    ctx.fillStyle='#b45309';
+    ctx.beginPath();ctx.arc(px(r),py(0),5,0,Math.PI*2);ctx.fill();
+  });
+}
+
+drawGraph('cv1', x=>x*x+x-6, [-3,2]);
+drawGraph('cv2', x=>6*x*x+7*x-3, [-1.5,1/3]);
+drawGraph('cv3', x=>x*x-5*x+2, [(5-Math.sqrt(17))/2,(5+Math.sqrt(17))/2]);
+drawGraph('cv4', x=>2*x*x-x-6, [-1.5,2]);
+</script>
+</body>
+</html>

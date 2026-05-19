@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>QU05 解説 ― 二次関数の識別</title>
+<link href="https://fonts.googleapis.com/css2?family=BIZ+UDPGothic:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<style>
+:root{
+  --primary:#d97706;--primary-d:#b45309;--primary-l:#fffbeb;
+  --bg:#f8fafc;--card:#fff;--text:#1e293b;--muted:#64748b;--border:#e2e8f0;
+  --green:#059669;--green-l:#f0fdf4;--red:#dc2626;--red-l:#fef2f2;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'BIZ UDPGothic',sans-serif;background:var(--bg);color:var(--text);font-size:15px;line-height:1.8;padding-bottom:60px}
+.page-header{background:linear-gradient(135deg,var(--primary),var(--primary-d));color:#fff;padding:16px;position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,.15)}
+.page-header h1{font-size:17px;font-weight:700}
+.page-header p{font-size:12px;opacity:.85;margin-top:2px}
+.steps{display:flex;background:#fff;border-bottom:1px solid var(--border)}
+.step{flex:1;text-align:center;padding:8px 4px;font-size:.78em;font-weight:700;color:var(--muted);border-bottom:3px solid var(--border)}
+.step.active{color:var(--primary);border-color:var(--primary)}
+.wrap{max-width:680px;margin:0 auto;padding:16px 16px 40px}
+.section{background:var(--card);border-radius:12px;padding:18px 20px;margin-bottom:16px;box-shadow:0 1px 3px rgba(0,0,0,.06);border:1px solid var(--border)}
+.section h2{margin:0 0 14px;font-size:1.05em;color:var(--primary-d);border-left:4px solid var(--primary);padding-left:10px}
+.section h3{font-size:.95em;color:var(--primary-d);margin:18px 0 8px;padding-bottom:4px;border-bottom:1px dashed var(--border)}
+.tip{background:var(--primary-l);border-left:4px solid var(--primary);border-radius:6px;padding:12px 14px;margin:12px 0;font-size:.93em}
+.ok-box{background:var(--green-l);border:2px solid var(--green);border-radius:10px;padding:14px 16px;margin:12px 0}
+.ok-box h4{color:var(--green);font-size:.95em;font-weight:700;margin-bottom:8px}
+.ng-box{background:var(--red-l);border:2px solid var(--red);border-radius:10px;padding:14px 16px;margin:12px 0}
+.ng-box h4{color:var(--red);font-size:.95em;font-weight:700;margin-bottom:8px}
+.example{background:var(--primary-l);border-left:4px solid var(--primary);border-radius:6px;padding:12px 14px;margin:12px 0}
+.example .ex-title{font-weight:700;color:var(--primary-d);margin-bottom:8px;font-size:.95em}
+.check-list{list-style:none;padding:0;margin:8px 0}
+.check-list li{padding:6px 0;font-size:.93em;border-bottom:1px solid var(--border);display:flex;gap:8px;align-items:flex-start}
+.check-list li:last-child{border-bottom:none}
+.check-list .mark{font-size:1.1em;flex-shrink:0;margin-top:1px}
+table.judge{border-collapse:collapse;width:100%;margin:12px 0;font-size:.9em}
+table.judge th{background:var(--primary);color:#fff;padding:8px;text-align:center}
+table.judge td{padding:8px;border:1px solid var(--border);text-align:center;vertical-align:middle;line-height:1.7}
+table.judge tr:nth-child(even) td{background:#fff7ed}
+.canvas-wrap{display:flex;justify-content:center;gap:16px;flex-wrap:wrap;margin:14px 0}
+.nav{display:flex;gap:10px;margin-top:20px}
+.btn{display:block;padding:12px 16px;border-radius:10px;text-decoration:none;text-align:center;font-weight:700;font-size:.95em;flex:1}
+.btn-back{background:#f1f5f9;color:var(--muted)}
+.btn-next{background:var(--primary);color:#fff}
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <h1>QU05　二次関数の識別</h1>
+  <p>どれが二次関数か・上下の開き方を判断する</p>
+</div>
+
+<div class="steps">
+  <div class="step active">① 解説</div>
+  <div class="step"><a href="./practice.html" style="color:inherit;text-decoration:none">② 演習</a></div>
+  <div class="step"><a href="./check.html" style="color:inherit;text-decoration:none">③ 確認</a></div>
+</div>
+
+<div class="wrap">
+
+<!-- セクション1：二次関数とは -->
+<div class="section">
+  <h2>1．二次関数とは</h2>
+  <p>yがxの式で表されるとき、<strong>x²の項があり、それが最高次の項</strong>であるものを二次関数といいます。</p>
+  <div class="tip">
+    <strong>二次関数の一般形：</strong><br>
+    <div style="text-align:center;margin:8px 0;font-size:1.05em" id="general_form"></div>
+    ただし <span id="a_neq"></span>（aが0だと二次関数にならない）
+  </div>
+</div>
+
+<!-- セクション2：見分け方 -->
+<div class="section">
+  <h2>2．二次関数の見分け方</h2>
+  <p>次の3つのステップで判断します。</p>
+
+  <div class="ok-box">
+    <h4>✅ 二次関数になる条件</h4>
+    <ul class="check-list">
+      <li><span class="mark">①</span><span>x²の項がある</span></li>
+      <li><span class="mark">②</span><span>x²が最高次（x³やx⁴がない）</span></li>
+      <li><span class="mark">③</span><span>xが分母にない・根号の中にない</span></li>
+    </ul>
+  </div>
+
+  <h3>よく出る例で確認しよう</h3>
+
+  <table class="judge">
+    <tr>
+      <th>式</th><th>二次関数？</th><th>理由</th>
+    </tr>
+    <tr>
+      <td id="ex1"></td>
+      <td style="color:var(--green);font-weight:700">✅ Yes</td>
+      <td>x²の項あり、a≠0</td>
+    </tr>
+    <tr>
+      <td id="ex2"></td>
+      <td style="color:var(--green);font-weight:700">✅ Yes</td>
+      <td>展開するとx²の項あり</td>
+    </tr>
+    <tr>
+      <td id="ex3"></td>
+      <td style="color:var(--red);font-weight:700">❌ No</td>
+      <td>x²がない（一次関数）</td>
+    </tr>
+    <tr>
+      <td id="ex4"></td>
+      <td style="color:var(--red);font-weight:700">❌ No</td>
+      <td>xが分母にある（分数関数）</td>
+    </tr>
+    <tr>
+      <td id="ex5"></td>
+      <td style="color:var(--red);font-weight:700">❌ No</td>
+      <td>根号の中にxがある（無理関数）</td>
+    </tr>
+    <tr>
+      <td id="ex6"></td>
+      <td style="color:var(--red);font-weight:700">❌ No</td>
+      <td>xの最高次がx³（三次関数）</td>
+    </tr>
+  </table>
+</div>
+
+<!-- セクション3：上に開く・下に開く -->
+<div class="section">
+  <h2>3．上に開く？　下に開く？</h2>
+  <p>二次関数の式 <span id="standard_form"></span> で、<strong>aの符号</strong>を見るだけでわかります。</p>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0">
+    <div class="ok-box" style="text-align:center">
+      <h4 id="a_pos"></h4>
+      <div style="font-size:0.9em;margin-bottom:8px">グラフは<strong>上に開く</strong>（U字型）</div>
+      <canvas id="cv_up" width="130" height="110"></canvas>
+      <div style="font-size:0.85em;margin-top:6px;color:var(--green)">最小値あり</div>
+    </div>
+    <div class="ng-box" style="text-align:center">
+      <h4 id="a_neg"></h4>
+      <div style="font-size:0.9em;margin-bottom:8px">グラフは<strong>下に開く</strong>（逆U字型）</div>
+      <canvas id="cv_down" width="130" height="110"></canvas>
+      <div style="font-size:0.85em;margin-top:6px;color:var(--red)">最大値あり</div>
+    </div>
+  </div>
+
+  <div class="tip">
+    <strong>💡 覚え方：</strong>aがプラス → グラフがプラス方向（上）に開く<br>
+    aがマイナス → グラフがマイナス方向（下）に開く
+  </div>
+</div>
+
+<!-- セクション4：過去問の例題 -->
+<div class="section">
+  <h2>4．過去問の例題</h2>
+
+  <div class="example">
+    <div class="ex-title">📌 例題1（R7-1 類似）次のうち、yがxの二次関数であるものはどれか。</div>
+    <div style="font-size:.93em;margin:8px 0">
+      ① <span id="p1_a"></span>　　② <span id="p1_b"></span>　　③ <span id="p1_c"></span>　　④ <span id="p1_d"></span>
+    </div>
+    <div style="background:#f8fafc;border-radius:8px;padding:10px 12px;margin-top:8px;font-size:.9em;line-height:1.9">
+      ① x²がない → 一次関数 ❌<br>
+      ② <span id="p1_b2"></span> → x²あり ✅ <strong>これが正解</strong><br>
+      ③ xが分母 → 分数関数 ❌<br>
+      ④ 根号の中にx → 無理関数 ❌
+    </div>
+  </div>
+
+  <div class="example">
+    <div class="ex-title">📌 例題2（R6-2 類似）次のうち、グラフが「上に開く」二次関数はどれか。</div>
+    <div style="font-size:.93em;margin:8px 0">
+      ① <span id="p2_a"></span>　　② <span id="p2_b"></span>　　③ <span id="p2_c"></span>　　④ <span id="p2_d"></span>
+    </div>
+    <div style="background:#f8fafc;border-radius:8px;padding:10px 12px;margin-top:8px;font-size:.9em;line-height:1.9">
+      ① <span id="p2_a2"></span> → a＜0 → 下に開く ❌<br>
+      ② <span id="p2_b2"></span> → a＜0 → 下に開く ❌<br>
+      ③ <span id="p2_c2"></span> → <strong>a＞0 → 上に開く ✅ これが正解</strong><br>
+      ④ <span id="p2_d2"></span> → a＜0 → 下に開く ❌
+    </div>
+  </div>
+</div>
+
+<!-- まとめ -->
+<div class="section" style="background:var(--primary-l);border-color:#fed7aa">
+  <h2>📋 まとめ</h2>
+  <ul class="check-list">
+    <li><span class="mark">✅</span><span><strong>二次関数 = x²の項が最高次</strong>、分母・根号の中にxがない</span></li>
+    <li><span class="mark">✅</span><span><strong>a＞0 → 上に開く</strong>（U字）、最小値あり</span></li>
+    <li><span class="mark">✅</span><span><strong>a＜0 → 下に開く</strong>（逆U字）、最大値あり</span></li>
+    <li><span class="mark">✅</span><span>迷ったら<strong>aの符号だけ</strong>見ればOK</span></li>
+  </ul>
+</div>
+
+<div class="nav">
+  <a href="../gamba_kounin.html" class="btn btn-back">← 単元一覧へ</a>
+  <a href="./practice.html" class="btn btn-next">演習へ進む →</a>
+</div>
+
+</div>
+
+<script>
+function k(e){ return katex.renderToString(e, {throwOnError:false}); }
+
+// セクション1
+document.getElementById('general_form').innerHTML = k('y = ax^2 + bx + c');
+document.getElementById('a_neq').innerHTML = k('a \\neq 0');
+
+// セクション2 表
+document.getElementById('ex1').innerHTML = k('y = x^2 - 4x + 1');
+document.getElementById('ex2').innerHTML = k('y = -2(x+1)^2');
+document.getElementById('ex3').innerHTML = k('y = 3x + 2');
+document.getElementById('ex4').innerHTML = k('y = \\dfrac{1}{x^2}');
+document.getElementById('ex5').innerHTML = k('y = \\sqrt{x}');
+document.getElementById('ex6').innerHTML = k('y = x^3 - 2x');
+
+// セクション3
+document.getElementById('standard_form').innerHTML = k('y = a(x-p)^2 + q');
+document.getElementById('a_pos').innerHTML = 'a &gt; 0';
+document.getElementById('a_neg').innerHTML = 'a &lt; 0';
+
+// セクション4 例題1
+document.getElementById('p1_a').innerHTML = k('y = 3x + 2');
+document.getElementById('p1_b').innerHTML = k('y = -2(x+1)^2');
+document.getElementById('p1_c').innerHTML = k('y = \\dfrac{1}{x^2}');
+document.getElementById('p1_d').innerHTML = k('y = \\sqrt{x}');
+document.getElementById('p1_b2').innerHTML = k('y = -2(x+1)^2 = -2x^2 - 4x - 2');
+
+// 例題2
+document.getElementById('p2_a').innerHTML = k('y = -x^2 + 2');
+document.getElementById('p2_b').innerHTML = k('y = -(x-1)^2');
+document.getElementById('p2_c').innerHTML = k('y = 2(x+3)^2 - 1');
+document.getElementById('p2_d').innerHTML = k('y = -3x^2 + x');
+document.getElementById('p2_a2').innerHTML = k('a = -1');
+document.getElementById('p2_b2').innerHTML = k('a = -1');
+document.getElementById('p2_c2').innerHTML = k('a = 2');
+document.getElementById('p2_d2').innerHTML = k('a = -3');
+
+// グラフ描画
+function drawParabola(id, a, color){
+  const cv = document.getElementById(id);
+  const ctx = cv.getContext('2d');
+  const W=cv.width, H=cv.height;
+  const ox=W/2, oy=H/2, sc=22;
+  ctx.clearRect(0,0,W,H);
+
+  // 軸
+  ctx.strokeStyle='#d6d3d1'; ctx.lineWidth=1;
+  ctx.beginPath(); ctx.moveTo(8,oy); ctx.lineTo(W-8,oy); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(ox,8); ctx.lineTo(ox,H-8); ctx.stroke();
+
+  // 放物線
+  ctx.strokeStyle=color; ctx.lineWidth=2.5;
+  ctx.beginPath();
+  let first=true;
+  for(let x=-2.8; x<=2.8; x+=0.05){
+    const y = a*x*x;
+    const sx=ox+x*sc, sy=oy-y*sc;
+    if(sy<4||sy>H-4){first=true;continue;}
+    first ? ctx.moveTo(sx,sy) : ctx.lineTo(sx,sy);
+    first=false;
+  }
+  ctx.stroke();
+
+  // 頂点
+  ctx.fillStyle=color;
+  ctx.beginPath(); ctx.arc(ox,oy,4,0,Math.PI*2); ctx.fill();
+}
+
+drawParabola('cv_up',   1,  '#059669');
+drawParabola('cv_down', -1, '#dc2626');
+</script>
+</body>
+</html>

@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QU07 x軸との共有点 ① 導入</title>
+<link href="https://fonts.googleapis.com/css2?family=BIZ+UDPGothic:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'BIZ UDPGothic',sans-serif;background:#fafaf9;color:#1c1917;font-size:16px;line-height:1.85;}
+.header{background:#d97706;color:white;padding:14px 20px;}
+.header h1{font-size:1.1rem;font-weight:700;}
+.header p{font-size:0.85rem;opacity:0.9;margin-top:2px;}
+.container{max-width:680px;margin:0 auto;padding:20px 16px 60px;}
+.card{background:white;border-radius:12px;padding:22px;margin-bottom:18px;box-shadow:0 1px 4px rgba(0,0,0,0.08);}
+.card h2{font-size:1rem;font-weight:700;color:#d97706;margin-bottom:14px;padding-bottom:8px;border-bottom:2px solid #fde68a;}
+.step-nav{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap;}
+.step-btn{flex:1;min-width:80px;padding:8px 4px;border:none;border-radius:8px;font-family:inherit;font-size:0.78rem;cursor:pointer;font-weight:700;}
+.step-btn.active{background:#d97706;color:white;}
+.step-btn.inactive{background:#f5f5f4;color:#a8a29e;}
+.step-btn.done{background:#d1fae5;color:#065f46;}
+canvas{display:block;margin:12px auto;}
+.hl{background:#fffbeb;border-left:4px solid #d97706;border-radius:0 8px 8px 0;padding:14px 16px;margin:14px 0;font-size:0.95rem;}
+.important{background:#fef3c7;border:2px solid #d97706;border-radius:10px;padding:16px;margin:14px 0;}
+.important h3{font-size:0.95rem;font-weight:700;color:#92400e;margin-bottom:8px;}
+.step-row{display:flex;gap:12px;margin-bottom:12px;align-items:flex-start;}
+.step-circle{background:#d97706;color:white;border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.9rem;flex-shrink:0;margin-top:3px;}
+.step-text{font-size:0.93rem;line-height:1.8;}
+.method{border-radius:10px;padding:16px;margin:12px 0;}
+.method.blue{border:2px solid #3b82f6;background:#eff6ff;}
+.method.green{border:2px solid #10b981;background:#f0fdf4;}
+.method-title{font-weight:700;font-size:0.95rem;margin-bottom:8px;}
+.method.blue .method-title{color:#1d4ed8;}
+.method.green .method-title{color:#065f46;}
+.calc{background:#f8f8f7;border-radius:8px;padding:12px 16px;margin:10px 0;font-size:0.93rem;line-height:2.2;}
+.nav-btn{display:block;width:100%;padding:14px;background:#d97706;color:white;border:none;border-radius:10px;font-family:inherit;font-size:1rem;font-weight:700;cursor:pointer;text-align:center;margin-top:8px;}
+.nav-btn:hover{background:#b45309;}
+.back-link{display:block;text-align:center;color:#a8a29e;font-size:0.85rem;margin-top:14px;text-decoration:none;}
+.back-link:hover{color:#d97706;}
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>QU07 ① 導入 ― x軸との共有点の座標</h1>
+  <p>第4章 二次関数 ／ 難易度 ★★☆</p>
+</div>
+<div class="container">
+  <div class="step-nav">
+    <button class="step-btn active">①導入</button>
+    <button class="step-btn inactive" onclick="location.href='QU07_example.html'">②例題</button>
+    <button class="step-btn inactive" onclick="location.href='QU07_drill.html'">③練習</button>
+    <button class="step-btn inactive" onclick="location.href='QU07_check.html'">④確認</button>
+  </div>
+
+  <!-- ① 共有点とは -->
+  <div class="card">
+    <h2>📌 x軸との共有点とは？</h2>
+    <p>放物線がx軸と交わる点のことを、<strong>x軸との共有点</strong>といいます。</p>
+    <p style="margin-top:8px;">下の図を見てください。放物線がx軸と2か所で交わっていますね。その交わった点が「共有点」です。</p>
+    <canvas id="cvMain" width="320" height="200"></canvas>
+    <div class="hl">
+      <strong>共有点では、必ず y = 0 になっています。</strong><br>
+      なぜなら、x軸はy = 0 の直線だからです。<br>
+      交わっているということは、その点のyの値がちょうど0ということです。
+    </div>
+  </div>
+
+  <!-- ② なぜ y=0 を代入するのか -->
+  <div class="card">
+    <h2>💡 どうやって求めるの？</h2>
+    <p>たとえば <span id="fn_ex"></span> というグラフがあったとします。</p>
+    <p style="margin-top:8px;">共有点では y = 0 なので、式に y = 0 を代入します。</p>
+    <div class="calc" id="calc_ex"></div>
+    <p style="margin-top:8px;">これを解くと x = −1 または x = 3 が求まります。</p>
+    <p style="margin-top:6px;">つまり、共有点の座標は <span id="ans_ex"></span> と <span id="ans_ex2"></span> です。</p>
+    <div class="hl" style="margin-top:14px;">
+      <strong>共有点を求める手順</strong><br>
+      y = 0 を代入 → 2次方程式を解く → x の値が共有点のx座標
+    </div>
+  </div>
+
+  <!-- ③ 2次方程式の解き方 -->
+  <div class="card">
+    <h2>🔧 2次方程式の解き方は2種類</h2>
+    <p>y = 0 を代入すると2次方程式になります。解き方は主に2つあります。</p>
+
+    <div class="method blue" style="margin-top:14px;">
+      <div class="method-title">方法① 因数分解</div>
+      <p style="font-size:0.93rem;">
+        式を <span id="factor_form"></span> の形にできるときに使います。<br>
+        <span id="factor_rule"></span> になったら <span id="factor_sol"></span> です。<br><br>
+        たすき掛けも因数分解の一つです。<br>
+        整数できれいに解けるときに使いやすい方法です。
+      </p>
+    </div>
+
+    <div class="method green" style="margin-top:12px;">
+      <div class="method-title">方法② 解の公式</div>
+      <p style="font-size:0.93rem;">
+        因数分解がうまくできないときに使います。<br>
+        <span id="eq_abc"></span> のとき、
+      </p>
+      <div style="text-align:center;margin:12px 0;font-size:1.05rem;" id="formula"></div>
+      <p style="font-size:0.93rem;">
+        この公式に a・b・c の値を当てはめれば必ず解けます。<br>
+        分数の答えが出る問題では特に役立ちます。
+      </p>
+      <a href="https://realizefield.github.io/gamba-chugaku/qe05/intro.html"
+         target="_blank"
+         style="display:inline-block;margin-top:10px;padding:10px 20px;background:#10b981;color:white;border-radius:8px;font-weight:700;font-size:0.93rem;text-decoration:none;">
+        📖 解の公式の解説はこちら →
+      </a>
+    </div>
+  </div>
+
+  <!-- ④ 手順まとめ -->
+  <div class="card">
+    <h2>✅ 解く手順</h2>
+    <div class="step-row">
+      <div class="step-circle">1</div>
+      <div class="step-text"><strong>y = 0 を代入</strong>して2次方程式をつくります。</div>
+    </div>
+    <div class="step-row">
+      <div class="step-circle">2</div>
+      <div class="step-text">因数分解または解の公式で <strong>x の値</strong>を求めます。</div>
+    </div>
+    <div class="step-row">
+      <div class="step-circle">3</div>
+      <div class="step-text">
+        求めた x の値をつかって、共有点の座標を<br>
+        <span id="point_form"></span> の形で答えます。<br>
+        <span style="font-size:0.88rem;color:#78716c;">（y座標は必ず 0 です）</span>
+      </div>
+    </div>
+
+    <div class="important" style="margin-top:16px;">
+      <h3>💡 高認では分数の答えが多い！</h3>
+      <p style="font-size:0.93rem;">
+        高認の過去問では <span id="ex_frac"></span> のような分数の座標がよく出ます。<br>
+        たすき掛けか解の公式を使いこなせるようにしておきましょう。
+      </p>
+    </div>
+  </div>
+
+  <button class="nav-btn" onclick="location.href='QU07_example.html'">② 例題へ進む →</button>
+  <a href="../gamba_kounin.html" class="back-link">← メニューに戻る</a>
+</div>
+
+<script>
+function k(e){return katex.renderToString(e,{throwOnError:false});}
+
+document.getElementById('fn_ex').innerHTML = k('y = x^2 - 2x - 3');
+document.getElementById('calc_ex').innerHTML =
+  'y = 0 を代入：<br>' +
+  k('0 = x^2 - 2x - 3') + '<br>' +
+  k('0 = (x+1)(x-3)') + '<br>' +
+  k('x = -1 \\quad \\text{または} \\quad x = 3');
+document.getElementById('ans_ex').innerHTML = k('(-1,\\; 0)');
+document.getElementById('ans_ex2').innerHTML = k('(3,\\; 0)');
+
+document.getElementById('factor_form').innerHTML = k('(x - \\alpha)(x - \\beta) = 0');
+document.getElementById('factor_rule').innerHTML = k('(x-\\alpha)(x-\\beta)=0');
+document.getElementById('factor_sol').innerHTML = k('x = \\alpha \\text{ または } x = \\beta');
+
+document.getElementById('eq_abc').innerHTML = k('ax^2+bx+c=0');
+document.getElementById('formula').innerHTML = k('x = \\dfrac{-b \\pm \\sqrt{b^2 - 4ac}}{2a}');
+document.getElementById('point_form').innerHTML = k('(x,\\; 0)');
+document.getElementById('ex_frac').innerHTML = k('\\left(\\dfrac{1}{3},\\; 0\\right)');
+
+// グラフ描画
+(function(){
+  const cv = document.getElementById('cvMain');
+  const ctx = cv.getContext('2d');
+  const W=cv.width, H=cv.height;
+  const f = x => x*x - 2*x - 3; // 交点 x=-1, x=3
+  const r1=-1, r2=3;
+  const mL=36, mR=24, mT=16, mB=36;
+  const allY=[]; for(let x=r1-0.5;x<=r2+0.5;x+=0.1) allY.push(f(x));
+  const ylo=Math.min(...allY), yhi=Math.max(...allY);
+  const drawW=W-mL-mR, drawH=H-mT-mB;
+  function px(x){return mL+(x-r1+0.5)/(r2-r1+1)*drawW;}
+  function py(y){return mT+(yhi-y)/(yhi-ylo)*drawH;}
+
+  ctx.clearRect(0,0,W,H);
+
+  // y=0 ライン
+  ctx.strokeStyle='#d6d3d1'; ctx.lineWidth=1;
+  ctx.beginPath(); ctx.moveTo(mL-8,py(0)); ctx.lineTo(W-mR+8,py(0)); ctx.stroke();
+  ctx.fillStyle='#a8a29e'; ctx.font='11px BIZ UDPGothic';
+  ctx.fillText('y=0（x軸）',mL,py(0)-5);
+
+  // 放物線
+  ctx.strokeStyle='#d97706'; ctx.lineWidth=2.5;
+  ctx.beginPath();
+  for(let x=r1-0.5;x<=r2+0.5;x+=0.04){
+    const y=f(x);
+    x===r1-0.5?ctx.moveTo(px(x),py(y)):ctx.lineTo(px(x),py(y));
+  }
+  ctx.stroke();
+
+  // 共有点
+  [[r1,0],[r2,0]].forEach(([x,y])=>{
+    ctx.fillStyle='#b45309';
+    ctx.beginPath(); ctx.arc(px(x),py(y),6,0,Math.PI*2); ctx.fill();
+    ctx.strokeStyle='white'; ctx.lineWidth=1.5;
+    ctx.beginPath(); ctx.arc(px(x),py(y),6,0,Math.PI*2); ctx.stroke();
+  });
+
+  // ラベル
+  ctx.fillStyle='#92400e'; ctx.font='bold 12px BIZ UDPGothic';
+  ctx.fillText('共有点',px(r1)+8,py(0)-8);
+  ctx.fillText('共有点',px(r2)+8,py(0)-8);
+  ctx.fillStyle='#57534e'; ctx.font='12px BIZ UDPGothic';
+  ctx.fillText(r1,px(r1)-6,py(0)+16);
+  ctx.fillText(r2,px(r2)-4,py(0)+16);
+
+  // 式ラベル
+  ctx.fillStyle='#d97706'; ctx.font='12px BIZ UDPGothic';
+  ctx.fillText('y = x²－2x－3',px(r2)-20,py(f(r2))+14);
+})();
+</script>
+</body>
+</html>
