@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TR04 応用問題・式を選ぶ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=BIZ+UDPGothic:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'BIZ UDPGothic',sans-serif;background:#f5f3ff;color:#1e1b4b;min-height:100vh;}
+.header{background:linear-gradient(135deg,#7c3aed,#5b21b6);color:#fff;padding:16px 20px;display:flex;align-items:center;gap:12px;}
+.header-icon{font-size:28px;}
+.header-title{font-size:18px;font-weight:700;}
+.header-sub{font-size:12px;opacity:.8;margin-top:2px;}
+.step-nav{display:flex;background:#fff;border-bottom:2px solid #ede9fe;overflow:hidden;}
+.step-btn{flex:1;padding:10px 4px;border:none;background:transparent;font-family:'BIZ UDPGothic',sans-serif;font-size:12px;color:#6b7280;cursor:pointer;transition:.2s;display:flex;flex-direction:column;align-items:center;gap:3px;}
+.step-btn.active{background:#7c3aed;color:#fff;}
+.step-btn.done{background:#ede9fe;color:#5b21b6;}
+.step-icon{font-size:16px;}
+.content{padding:16px;max-width:640px;margin:0 auto;}
+.card{background:#fff;border-radius:12px;padding:18px;margin-bottom:14px;box-shadow:0 2px 8px rgba(124,58,237,.08);}
+.card-title{font-size:14px;font-weight:700;color:#5b21b6;margin-bottom:12px;}
+.explain{font-size:14px;line-height:1.8;color:#374151;}
+.point-box{background:#f5f3ff;border-left:4px solid #7c3aed;padding:12px 14px;border-radius:0 8px 8px 0;margin:12px 0;}
+.point-box .label{font-size:11px;font-weight:700;color:#7c3aed;margin-bottom:6px;}
+.hint-box{background:#fefce8;border-left:4px solid #f59e0b;padding:10px 14px;border-radius:0 8px 8px 0;margin:10px 0;font-size:13px;line-height:1.9;}
+.hint-box .label{font-size:11px;font-weight:700;color:#92400e;margin-bottom:3px;}
+.important{background:#7c3aed;color:#fff;border-radius:10px;padding:14px 16px;margin:12px 0;}
+.important .imp-title{font-size:12px;font-weight:700;opacity:.85;margin-bottom:10px;}
+.imp-row{display:flex;align-items:center;gap:10px;margin-bottom:8px;font-size:14px;font-weight:700;}
+.imp-row:last-child{margin-bottom:0;}
+.imp-label{background:rgba(255,255,255,.25);border-radius:6px;padding:3px 10px;font-size:13px;min-width:40px;text-align:center;}
+
+/* 問題カード */
+.q-block{background:#fff;border-radius:10px;padding:14px;margin-bottom:10px;border:2px solid #ede9fe;}
+.q-block.correct{border-color:#10b981;}
+.q-block.wrong{border-color:#ef4444;}
+.q-num{font-size:11px;color:#9ca3af;margin-bottom:6px;}
+.q-text{font-size:14px;margin-bottom:6px;line-height:1.8;}
+.q-scene{font-size:13px;color:#374151;line-height:1.8;margin-bottom:10px;background:#f9fafb;border-radius:8px;padding:10px 12px;}
+
+/* 6択ボタン */
+.choices6{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px;}
+.choice{padding:9px 10px;border-radius:8px;border:2px solid #e5e7eb;background:#fff;font-family:'BIZ UDPGothic',sans-serif;font-size:13px;cursor:pointer;text-align:left;transition:.15s;line-height:1.6;}
+.choice:hover{border-color:#7c3aed;background:#f5f3ff;}
+.choice.selected-correct{background:#d1fae5;border-color:#10b981;color:#065f46;}
+.choice.selected-wrong{background:#fee2e2;border-color:#ef4444;color:#991b1b;}
+.choice.show-correct{background:#d1fae5;border-color:#10b981;}
+.feedback{font-size:13px;margin-top:10px;padding:8px 12px;border-radius:6px;line-height:1.9;}
+.feedback.ok{background:#d1fae5;color:#065f46;}
+.feedback.ng{background:#fee2e2;color:#991b1b;}
+
+/* セットタブ */
+.drill-intro{font-size:13px;color:#6b7280;margin-bottom:14px;}
+.set-tabs{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;}
+.set-tab{padding:6px 14px;border-radius:20px;border:2px solid #ede9fe;background:#fff;font-family:'BIZ UDPGothic',sans-serif;font-size:13px;cursor:pointer;color:#6b7280;transition:.2s;}
+.set-tab.active{background:#7c3aed;border-color:#7c3aed;color:#fff;font-weight:700;}
+
+.drill-action{display:flex;justify-content:center;margin-top:14px;}
+.btn-check{background:#7c3aed;color:#fff;border:none;padding:12px 32px;border-radius:24px;font-family:'BIZ UDPGothic',sans-serif;font-size:15px;font-weight:700;cursor:pointer;}
+.btn-check:disabled{opacity:.5;cursor:default;}
+.score-box{background:#fff;border-radius:12px;padding:16px;text-align:center;margin-bottom:14px;border:2px solid #ede9fe;}
+.score-circle{width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,#7c3aed,#5b21b6);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;margin:0 auto 10px;font-size:24px;font-weight:700;}
+.score-label{font-size:11px;opacity:.8;}
+.nav-row{display:flex;gap:10px;justify-content:center;margin-top:16px;}
+.btn-nav{padding:10px 24px;border-radius:20px;border:2px solid #7c3aed;background:#fff;color:#7c3aed;font-family:'BIZ UDPGothic',sans-serif;font-size:14px;font-weight:700;cursor:pointer;}
+.btn-nav.primary{background:#7c3aed;color:#fff;}
+.back-link{display:block;text-align:center;margin-top:16px;color:#9ca3af;font-size:13px;text-decoration:none;}
+.back-link:hover{color:#7c3aed;}
+.confetti-wrap{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:999;}
+
+/* 縦型分数 */
+.frac{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;margin:0 2px;line-height:1.2;}
+.frac .num{border-bottom:1.5px solid currentColor;padding:0 3px 1px;text-align:center;font-size:.95em;}
+.frac .den{padding:1px 3px 0;text-align:center;font-size:.95em;}
+.choice .frac .num,.choice .frac .den{font-size:.82em;}
+.feedback .frac .num,.feedback .frac .den{font-size:.85em;}
+
+/* 図のラベル */
+.fig-wrap{display:flex;justify-content:center;margin:10px 0;}
+
+/* 手順フロー */
+.flow-box{display:flex;flex-direction:column;gap:6px;margin:10px 0;}
+.flow-step{display:flex;align-items:flex-start;gap:10px;font-size:13px;line-height:1.8;}
+.flow-num{background:#7c3aed;color:#fff;border-radius:50%;width:22px;height:22px;min-width:22px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;margin-top:1px;}
+.flow-arrow{color:#7c3aed;font-size:18px;text-align:center;margin-left:6px;}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-icon">🏗️</div>
+  <div>
+    <div class="header-title">TR04　応用問題・式を選ぶ</div>
+    <div class="header-sub">図を見て「どの式で求めるか」を判断しよう</div>
+  </div>
+</div>
+
+<nav class="step-nav">
+  <button class="step-btn active" id="nav-intro" onclick="goStep('intro')">
+    <span class="step-icon">📖</span>説明
+  </button>
+  <button class="step-btn" id="nav-example" onclick="goStep('example')">
+    <span class="step-icon">💡</span>例題
+  </button>
+  <button class="step-btn" id="nav-drill" onclick="goStep('drill')">
+    <span class="step-icon">✏️</span>練習
+  </button>
+  <button class="step-btn" id="nav-check" onclick="goStep('check')">
+    <span class="step-icon">✅</span>確認
+  </button>
+</nav>
+
+<div class="content">
+
+<!-- ===== INTRO ===== -->
+<div id="step-intro">
+
+<div class="card">
+  <div class="card-title">📖 高認の問題パターン</div>
+  <p class="explain">
+    高認の試験では，毎回このような問題が出ます。
+  </p>
+  <div class="q-scene" style="margin-top:10px;">
+    下の図は，〇〇の様子を表したものである。<br>
+    AB＝20 m，∠ACB＝36°のとき，<br>
+    <b>高さ AC を求める式はどれか。</b><br>
+    次の①〜⑥のうちから正しいものを一つ選べ。
+  </div>
+  <p class="explain" style="font-size:13px;color:#6b7280;margin-top:6px;">
+    ← このように「式を選ぶ」問題です。計算はしません。
+  </p>
+</div>
+
+<div class="card">
+  <div class="card-title">🔑 解き方の手順</div>
+  <div class="flow-box">
+    <div class="flow-step">
+      <div class="flow-num">1</div>
+      <div>図の中の<b>直角三角形</b>を見つける</div>
+    </div>
+    <div class="flow-arrow">↓</div>
+    <div class="flow-step">
+      <div class="flow-num">2</div>
+      <div>「わかっている辺」を確認する<br>
+        <span style="color:#374151;font-size:12px;">斜辺？　底辺（隣辺）？</span>
+      </div>
+    </div>
+    <div class="flow-arrow">↓</div>
+    <div class="flow-step">
+      <div class="flow-num">3</div>
+      <div>「求めたい辺」を確認する<br>
+        <span style="color:#374151;font-size:12px;">高さ（対辺）？　底辺（隣辺）？</span>
+      </div>
+    </div>
+    <div class="flow-arrow">↓</div>
+    <div class="flow-step">
+      <div class="flow-num">4</div>
+      <div>公式にあてはめる</div>
+    </div>
+  </div>
+
+  <div class="important" style="margin-top:12px;">
+    <div class="imp-title">【公式まとめ】</div>
+    <div class="imp-row"><span class="imp-label">sin</span> 斜辺 × sin θ ＝ 対辺（高さ）</div>
+    <div class="imp-row"><span class="imp-label">cos</span> 斜辺 × cos θ ＝ 隣辺（底辺）</div>
+    <div class="imp-row"><span class="imp-label">tan</span> 隣辺 × tan θ ＝ 対辺（高さ）</div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-title">🎯 どれを使うか一発判断</div>
+  <div class="fig-wrap">
+    <canvas id="c-judge" width="260" height="190"></canvas>
+  </div>
+  <div class="hint-box">
+    <div class="label">💡 ポイント</div>
+    <b>斜辺と角θ</b> がわかっていて <b>高さ</b> を求めたい → <b style="color:#dc2626;">sin θ</b><br>
+    <b>斜辺と角θ</b> がわかっていて <b>底辺</b> を求めたい → <b style="color:#2563eb;">cos θ</b><br>
+    <b>底辺と角θ</b> がわかっていて <b>高さ</b> を求めたい → <b style="color:#059669;">tan θ</b>
+  </div>
+</div>
+
+<div class="nav-row">
+  <button class="btn-nav primary" onclick="goStep('example')">例題へ →</button>
+</div>
+<a href="../gamba_kounin.html" class="back-link">← 単元一覧に戻る</a>
+</div><!-- /intro -->
+
+
+<!-- ===== EXAMPLE ===== -->
+<div id="step-example" style="display:none;">
+
+<!-- 例題1：sin -->
+<div class="card">
+  <div class="card-title">💡 例題1：ロープの長さから高さを求める式</div>
+  <div class="q-scene">
+    下の図のように，クライミングのロープの長さ AB が 5 m，地面との角度 ∠ABC＝50° である。<br>
+    このとき，<b>高さ AC を求める式</b>はどれか。
+  </div>
+  <div class="fig-wrap"><canvas id="c-ex1" width="220" height="190"></canvas></div>
+  <div class="point-box">
+    <div class="label">【考え方】</div>
+    <p class="explain" style="font-size:13px;line-height:2.2;">
+      ❶ 直角三角形を確認：∠ACB＝90°（壁は地面に垂直）<br>
+      ❷ わかっている辺：<b>AB（斜辺）＝5 m</b><br>
+      ❸ 求めたい辺：<b>AC（高さ・対辺）</b><br>
+      ❹ 斜辺×sinθ＝対辺　だから<br>
+      <span style="color:#7c3aed;font-weight:700;font-size:15px;">　AC ＝ 5 × sin 50°</span>
+    </p>
+  </div>
+</div>
+
+<!-- 例題2：tan -->
+<div class="card">
+  <div class="card-title">💡 例題2：建物の高さを求める式</div>
+  <div class="q-scene">
+    下の図のように，建物の真下から 30 m 離れた地点から建物の頂上を見上げた。<br>
+    仰角 ∠ACB＝40° のとき，<b>建物の高さ AC を求める式</b>はどれか。
+  </div>
+  <div class="fig-wrap"><canvas id="c-ex2" width="220" height="190"></canvas></div>
+  <div class="point-box">
+    <div class="label">【考え方】</div>
+    <p class="explain" style="font-size:13px;line-height:2.2;">
+      ❶ 直角三角形を確認：∠ABC＝90°（建物は地面に垂直）<br>
+      ❷ わかっている辺：<b>BC（底辺・隣辺）＝30 m</b><br>
+      ❸ 求めたい辺：<b>AC（高さ・対辺）</b><br>
+      ❹ 隣辺×tanθ＝対辺　だから<br>
+      <span style="color:#7c3aed;font-weight:700;font-size:15px;">　AC ＝ 30 × tan 40°</span>
+    </p>
+  </div>
+</div>
+
+<!-- 例題3：cos -->
+<div class="card">
+  <div class="card-title">💡 例題3：水平距離を求める式</div>
+  <div class="q-scene">
+    下の図のように，斜面を登っている。斜面の長さ AB が 20 m，<br>
+    斜面の角度 ∠BAC＝25° のとき，<b>水平距離 BC を求める式</b>はどれか。
+  </div>
+  <div class="fig-wrap"><canvas id="c-ex3" width="220" height="190"></canvas></div>
+  <div class="point-box">
+    <div class="label">【考え方】</div>
+    <p class="explain" style="font-size:13px;line-height:2.2;">
+      ❶ 直角三角形を確認：∠ACB＝90°（地面は水平）<br>
+      ❷ わかっている辺：<b>AB（斜辺）＝20 m</b><br>
+      ❸ 求めたい辺：<b>BC（底辺・隣辺）</b><br>
+      ❹ 斜辺×cosθ＝隣辺　だから<br>
+      <span style="color:#7c3aed;font-weight:700;font-size:15px;">　BC ＝ 20 × cos 25°</span>
+    </p>
+  </div>
+</div>
+
+<div class="nav-row">
+  <button class="btn-nav" onclick="goStep('intro')">← 説明に戻る</button>
+  <button class="btn-nav primary" onclick="goStep('drill')">練習へ →</button>
+</div>
+<a href="../gamba_kounin.html" class="back-link">← 単元一覧に戻る</a>
+</div><!-- /example -->
+
+
+<!-- ===== DRILL ===== -->
+<div id="step-drill" style="display:none;">
+<div class="card">
+  <div class="card-title">✏️ 練習問題</div>
+  <p class="drill-intro">図をよく見て，どの式で求めるかを選びましょう。</p>
+  <div class="set-tabs">
+    <button class="set-tab active" onclick="loadDrill(0)">Aセット</button>
+    <button class="set-tab" onclick="loadDrill(1)">Bセット</button>
+    <button class="set-tab" onclick="loadDrill(2)">Cセット</button>
+    <button class="set-tab" onclick="loadDrill(3)">Dセット</button>
+  </div>
+  <div id="drill-questions"></div>
+  <div class="drill-action">
+    <button class="btn-check" id="drill-submit" onclick="submitDrill()">採点する</button>
+  </div>
+</div>
+<div id="drill-result" style="display:none;"></div>
+
+<div class="nav-row">
+  <button class="btn-nav" onclick="goStep('example')">← 例題に戻る</button>
+  <button class="btn-nav primary" onclick="goStep('check')">確認テストへ →</button>
+</div>
+<a href="../gamba_kounin.html" class="back-link">← 単元一覧に戻る</a>
+</div><!-- /drill -->
+
+
+<!-- ===== CHECK ===== -->
+<div id="step-check" style="display:none;">
+<div class="card">
+  <div class="card-title">✅ 確認テスト（6問）</div>
+  <p class="drill-intro">本番と同じ形式です。図を見てしっかり判断しましょう！</p>
+  <div id="check-questions"></div>
+  <div class="drill-action">
+    <button class="btn-check" id="check-submit" onclick="submitCheck()">採点する</button>
+  </div>
+</div>
+<div id="check-result" style="display:none;"></div>
+
+<div class="nav-row">
+  <button class="btn-nav" onclick="goStep('drill')">← 練習に戻る</button>
+</div>
+<a href="../gamba_kounin.html" class="back-link">← 単元一覧に戻る</a>
+</div><!-- /check -->
+
+</div><!-- /content -->
+
+<script src="../gamba_support.js"></script>
+<script>
+// ===== ステップ管理 =====
+const stepOrder=['intro','example','drill','check'];
+function goStep(s){
+  stepOrder.forEach(id=>{
+    document.getElementById('step-'+id).style.display=(id===s)?'':'none';
+    const nb=document.getElementById('nav-'+id);
+    nb.classList.remove('active','done');
+    if(id===s) nb.classList.add('active');
+    else if(stepOrder.indexOf(id)<stepOrder.indexOf(s)) nb.classList.add('done');
+  });
+  if(s==='example') drawExamples();
+  if(s==='drill') initDrill();
+  if(s==='check') initCheck();
+  window.scrollTo(0,0);
+}
+
+// ===== 縦型分数ヘルパー =====
+function F(num,den){return `<span class="frac"><span class="num">${num}</span><span class="den">${den}</span></span>`;}
+
+// ===== Canvas 共通描画 =====
+function drawScene(cv, scene){
+  const ctx=cv.getContext('2d');
+  const w=cv.width, h=cv.height;
+  ctx.clearRect(0,0,w,h);
+
+  const {type, angle, knownSide, knownVal, askSide, askLabel, color} = scene;
+  // color: 'sin'=赤, 'cos'=青, 'tan'=緑
+  const col = color==='sin'?'#dc2626': color==='cos'?'#2563eb':'#059669';
+
+  // 地面線
+  ctx.strokeStyle='#9ca3af';ctx.lineWidth=1.5;
+  ctx.beginPath();ctx.moveTo(10,h-30);ctx.lineTo(w-10,h-30);ctx.stroke();
+
+  // 三角形座標（B=左下角θ、C=右下直角、A=右上）
+  let B,C,A;
+  if(type==='ladder'||type==='slope_sin'||type==='slope_cos'){
+    // 斜辺から高さ or 底辺
+    B={x:25,y:h-30}; C={x:w-40,y:h-30}; A={x:w-40,y:45};
+  } else {
+    // 底辺から高さ（tan）
+    B={x:25,y:h-30}; C={x:w-60,y:h-30}; A={x:w-60,y:40};
+  }
+
+  // 三角形
+  ctx.beginPath();ctx.moveTo(B.x,B.y);ctx.lineTo(C.x,C.y);ctx.lineTo(A.x,A.y);ctx.closePath();
+  ctx.fillStyle='rgba(245,243,255,.8)';ctx.fill();
+  ctx.strokeStyle='#7c3aed';ctx.lineWidth=2;ctx.stroke();
+  // 直角マーク
+  const sq=9;
+  ctx.beginPath();ctx.moveTo(C.x-sq,C.y);ctx.lineTo(C.x-sq,C.y-sq);ctx.lineTo(C.x,C.y-sq);
+  ctx.strokeStyle='#7c3aed';ctx.lineWidth=1.5;ctx.stroke();
+  // θ弧
+  const ang=Math.atan2(A.y-B.y,C.x-B.x);
+  ctx.beginPath();ctx.arc(B.x,B.y,20,ang,0);ctx.strokeStyle='#7c3aed';ctx.lineWidth=1.5;ctx.stroke();
+  ctx.fillStyle='#7c3aed';ctx.font='bold 12px "BIZ UDPGothic",sans-serif';
+  ctx.fillText(angle,B.x+23,B.y-5);
+
+  // わかっている辺（黒太線＋ラベル）
+  ctx.lineWidth=3; ctx.strokeStyle='#374151';
+  if(knownSide==='hyp'){
+    ctx.beginPath();ctx.moveTo(B.x,B.y);ctx.lineTo(A.x,A.y);ctx.stroke();
+    ctx.fillStyle='#374151';ctx.font='bold 13px "BIZ UDPGothic",sans-serif';
+    ctx.save();ctx.translate((B.x+A.x)/2-18,(B.y+A.y)/2);ctx.fillText(knownVal,0,0);ctx.restore();
+  } else {
+    ctx.beginPath();ctx.moveTo(B.x,B.y);ctx.lineTo(C.x,C.y);ctx.stroke();
+    ctx.fillStyle='#374151';ctx.font='bold 13px "BIZ UDPGothic",sans-serif';
+    ctx.textAlign='center';ctx.fillText(knownVal,(B.x+C.x)/2,C.y+16);ctx.textAlign='left';
+  }
+
+  // 求める辺（色付き赤線＋？ラベル）
+  ctx.lineWidth=4; ctx.strokeStyle=col;
+  if(askSide==='opp'){
+    ctx.beginPath();ctx.moveTo(A.x,A.y);ctx.lineTo(C.x,C.y);ctx.stroke();
+    ctx.fillStyle=col;ctx.font='bold 13px "BIZ UDPGothic",sans-serif';
+    ctx.fillText(askLabel,C.x+6,(A.y+C.y)/2+4);
+  } else {
+    ctx.beginPath();ctx.moveTo(B.x,B.y);ctx.lineTo(C.x,C.y);ctx.stroke();
+    ctx.fillStyle=col;ctx.font='bold 13px "BIZ UDPGothic",sans-serif';
+    ctx.textAlign='center';ctx.fillText(askLabel,(B.x+C.x)/2,C.y+16);ctx.textAlign='left';
+  }
+
+  // 装飾（建物）
+  if(type==='building'){
+    ctx.strokeStyle='#9ca3af';ctx.lineWidth=3;
+    ctx.beginPath();ctx.moveTo(C.x,h-30);ctx.lineTo(C.x,20);ctx.stroke();
+    // 建物の窓っぽい
+    ctx.fillStyle='#e5e7eb';
+    for(let i=0;i<3;i++){
+      ctx.fillRect(C.x+4,A.y+10+i*22,16,14);
+    }
+  }
+
+  // 頂点ラベル
+  ctx.fillStyle='#374151';ctx.font='bold 13px "BIZ UDPGothic",sans-serif';
+  ctx.fillText('A',A.x+4,A.y-4);
+  ctx.fillText('B',B.x-16,B.y+4);
+  ctx.fillText('C',C.x+4,C.y+14);
+}
+
+// ===== 判断図（説明用） =====
+function drawJudge(){
+  const cv=document.getElementById('c-judge');if(!cv)return;
+  const ctx=cv.getContext('2d');ctx.clearRect(0,0,260,190);
+  // 三角形
+  const B={x:20,y:155},C={x:155,y:155},A={x:155,y:30};
+  ctx.beginPath();ctx.moveTo(B.x,B.y);ctx.lineTo(C.x,C.y);ctx.lineTo(A.x,A.y);ctx.closePath();
+  ctx.fillStyle='#f5f3ff';ctx.fill();ctx.strokeStyle='#7c3aed';ctx.lineWidth=2;ctx.stroke();
+  const sq=10;ctx.beginPath();ctx.moveTo(C.x-sq,C.y);ctx.lineTo(C.x-sq,C.y-sq);ctx.lineTo(C.x,C.y-sq);
+  ctx.strokeStyle='#7c3aed';ctx.lineWidth=1.5;ctx.stroke();
+  const ang=Math.atan2(A.y-B.y,C.x-B.x);
+  ctx.beginPath();ctx.arc(B.x,B.y,22,ang,0);ctx.strokeStyle='#7c3aed';ctx.lineWidth=1.5;ctx.stroke();
+  ctx.fillStyle='#7c3aed';ctx.font='bold 13px "BIZ UDPGothic",sans-serif';
+  ctx.fillText('θ',B.x+26,B.y-6);
+
+  // 斜辺ラベル（三角形の左斜め外側）
+  ctx.fillStyle='#374151';ctx.font='bold 13px "BIZ UDPGothic",sans-serif';
+  ctx.save();
+  const mx=(B.x+A.x)/2, my=(B.y+A.y)/2;
+  ctx.translate(mx-36, my-2);
+  ctx.rotate(Math.atan2(A.y-B.y, A.x-B.x));
+  ctx.fillText('斜辺',0,0);
+  ctx.restore();
+
+  // 対辺（赤・右辺）
+  ctx.strokeStyle='#dc2626';ctx.lineWidth=3;
+  ctx.beginPath();ctx.moveTo(A.x,A.y);ctx.lineTo(C.x,C.y);ctx.stroke();
+  // 対辺ラベルは右辺の右外
+  ctx.fillStyle='#dc2626';ctx.font='bold 13px "BIZ UDPGothic",sans-serif';
+  ctx.fillText('対辺',C.x+8,(A.y+C.y)/2+4);
+
+  // 隣辺（青・底辺）
+  ctx.strokeStyle='#2563eb';ctx.lineWidth=3;
+  ctx.beginPath();ctx.moveTo(B.x,B.y);ctx.lineTo(C.x,C.y);ctx.stroke();
+  // 隣辺ラベルは底辺の下
+  ctx.fillStyle='#2563eb';ctx.font='bold 13px "BIZ UDPGothic",sans-serif';
+  ctx.textAlign='center';ctx.fillText('隣辺',(B.x+C.x)/2,C.y+18);ctx.textAlign='left';
+
+  // ─── 右側の凡例エリア（x=190〜260）───
+  // sinバッジ（対辺の右）
+  ctx.fillStyle='#dc2626';ctx.beginPath();ctx.arc(210,60,14,0,2*Math.PI);ctx.fill();
+  ctx.fillStyle='#fff';ctx.font='bold 11px "BIZ UDPGothic",sans-serif';
+  ctx.textAlign='center';ctx.fillText('sin',210,64);ctx.textAlign='left';
+  ctx.fillStyle='#dc2626';ctx.font='11px "BIZ UDPGothic",sans-serif';
+  ctx.fillText('斜辺→対辺',190,86);
+
+  // cosバッジ（底辺の右）
+  ctx.fillStyle='#2563eb';ctx.beginPath();ctx.arc(210,130,14,0,2*Math.PI);ctx.fill();
+  ctx.fillStyle='#fff';ctx.font='bold 11px "BIZ UDPGothic",sans-serif';
+  ctx.textAlign='center';ctx.fillText('cos',210,134);ctx.textAlign='left';
+  ctx.fillStyle='#2563eb';ctx.font='11px "BIZ UDPGothic",sans-serif';
+  ctx.fillText('斜辺→隣辺',190,152);
+
+  // tanバッジ（中間）
+  ctx.fillStyle='#059669';ctx.beginPath();ctx.arc(210,95,14,0,2*Math.PI);ctx.fill();
+  ctx.fillStyle='#fff';ctx.font='bold 11px "BIZ UDPGothic",sans-serif';
+  ctx.textAlign='center';ctx.fillText('tan',210,99);ctx.textAlign='left';
+  ctx.fillStyle='#059669';ctx.font='11px "BIZ UDPGothic",sans-serif';
+  ctx.fillText('隣辺→対辺',190,117);
+}
+
+// ===== 例題図 =====
+function drawExamples(){
+  const cv1=document.getElementById('c-ex1');
+  if(cv1) drawScene(cv1,{type:'ladder',angle:'50°',knownSide:'hyp',knownVal:'5 m',askSide:'opp',askLabel:'AC=?',color:'sin'});
+  const cv2=document.getElementById('c-ex2');
+  if(cv2) drawScene(cv2,{type:'building',angle:'40°',knownSide:'adj',knownVal:'30 m',askSide:'opp',askLabel:'AC=?',color:'tan'});
+  const cv3=document.getElementById('c-ex3');
+  if(cv3) drawScene(cv3,{type:'slope_cos',angle:'25°',knownSide:'hyp',knownVal:'20 m',askSide:'adj',askLabel:'BC=?',color:'cos'});
+}
+
+// ===== 問題データ =====
+// 各問：scene（Canvas描画パラメータ）・choices（6択）・ans（0〜5）・exp（解説）
+function makeChoices(base, angle, ans_idx){
+  // 常に6択：①base×sinθ ②base×cosθ ③base×tanθ ④base×(1/sinθ) ⑤base×(1/cosθ) ⑥base×(1/tanθ)
+  // ただしTR04では①②③のみが正解候補
+  return [
+    `① ${base} × sin ${angle}`,
+    `② ${base} × cos ${angle}`,
+    `③ ${base} × tan ${angle}`,
+    `④ ${base} × `+F(1,`sin ${angle}`),
+    `⑤ ${base} × `+F(1,`cos ${angle}`),
+    `⑥ ${base} × `+F(1,`tan ${angle}`),
+  ];
+}
+
+const drillSets=[
+  // Aセット
+  [
+    {scene:{type:'ladder',angle:'53°',knownSide:'hyp',knownVal:'10 m',askSide:'opp',askLabel:'AC=?',color:'sin'},
+     q:'ロープの長さ AB＝10 m，地面との角度 ∠ABC＝53°のとき，高さ AC を求める式は？',
+     choices:makeChoices('10','53°',0),ans:0,
+     exp:'斜辺 AB×sinθ＝AC（高さ・対辺）だから　10×sin 53°'},
+    {scene:{type:'building',angle:'35°',knownSide:'adj',knownVal:'20 m',askSide:'opp',askLabel:'AC=?',color:'tan'},
+     q:'建物から 20 m 離れた地点から頂上を見上げた。仰角 35°のとき，高さ AC は？',
+     choices:makeChoices('20','35°',2),ans:2,
+     exp:'隣辺 BC×tanθ＝AC（高さ・対辺）だから　20×tan 35°'},
+    {scene:{type:'slope_cos',angle:'28°',knownSide:'hyp',knownVal:'15 m',askSide:'adj',askLabel:'BC=?',color:'cos'},
+     q:'斜面の長さ AB＝15 m，斜面の角度 28°のとき，水平距離 BC を求める式は？',
+     choices:makeChoices('15','28°',1),ans:1,
+     exp:'斜辺 AB×cosθ＝BC（底辺・隣辺）だから　15×cos 28°'},
+    {scene:{type:'ladder',angle:'62°',knownSide:'hyp',knownVal:'8 m',askSide:'opp',askLabel:'AC=?',color:'sin'},
+     q:'ロープの長さ AB＝8 m，地面との角度 62°のとき，高さ AC を求める式は？',
+     choices:makeChoices('8','62°',0),ans:0,
+     exp:'斜辺 AB×sinθ＝AC（高さ・対辺）だから　8×sin 62°'},
+  ],
+  // Bセット
+  [
+    {scene:{type:'building',angle:'57°',knownSide:'adj',knownVal:'5 m',askSide:'opp',askLabel:'AC=?',color:'tan'},
+     q:'地点 C から建物の頂上 A を見上げると仰角 57°。BC＝5 m のとき，高さ AC は？',
+     choices:makeChoices('5','57°',2),ans:2,
+     exp:'隣辺 BC×tanθ＝AC（高さ・対辺）だから　5×tan 57°'},
+    {scene:{type:'slope_cos',angle:'33°',knownSide:'hyp',knownVal:'12 m',askSide:'adj',askLabel:'BC=?',color:'cos'},
+     q:'ケーブルカーのレール AB＝12 m，傾斜角 33°のとき，水平距離 BC は？',
+     choices:makeChoices('12','33°',1),ans:1,
+     exp:'斜辺 AB×cosθ＝BC（底辺・隣辺）だから　12×cos 33°'},
+    {scene:{type:'ladder',angle:'41°',knownSide:'hyp',knownVal:'30 m',askSide:'opp',askLabel:'AC=?',color:'sin'},
+     q:'凧糸の長さ AB＝30 m，水平方向との角度 41°のとき，凧の高さ AC は？',
+     choices:makeChoices('30','41°',0),ans:0,
+     exp:'斜辺 AB×sinθ＝AC（高さ・対辺）だから　30×sin 41°'},
+    {scene:{type:'building',angle:'43°',knownSide:'adj',knownVal:'400 m',askSide:'opp',askLabel:'AC=?',color:'tan'},
+     q:'ドローンの真下から 400 m 離れた地点から見上げた角度が 43°。高さ AC は？',
+     choices:makeChoices('400','43°',2),ans:2,
+     exp:'隣辺 BC×tanθ＝AC（高さ・対辺）だから　400×tan 43°'},
+  ],
+  // Cセット（やや複雑な状況）
+  [
+    {scene:{type:'slope_cos',angle:'20°',knownSide:'hyp',knownVal:'50 m',askSide:'adj',askLabel:'BC=?',color:'cos'},
+     q:'ゴルフ場のフェアウェイ，斜面の長さ AB＝50 m，傾斜角 20°のとき，水平距離 BC は？',
+     choices:makeChoices('50','20°',1),ans:1,
+     exp:'斜辺 AB×cosθ＝BC（底辺・隣辺）だから　50×cos 20°'},
+    {scene:{type:'ladder',angle:'66°',knownSide:'hyp',knownVal:'10 m',askSide:'opp',askLabel:'AC=?',color:'sin'},
+     q:'クレーンのアーム AB＝10 m，地面との角度 66°のとき，先端の高さ AC は？',
+     choices:makeChoices('10','66°',0),ans:0,
+     exp:'斜辺 AB×sinθ＝AC（高さ・対辺）だから　10×sin 66°'},
+    {scene:{type:'building',angle:'28°',knownSide:'adj',knownVal:'46 m',askSide:'opp',askLabel:'AC=?',color:'tan'},
+     q:'寺院から 46 m 離れた地点から塔の頂上を見上げた。仰角 28°のとき，高さ AC は？',
+     choices:makeChoices('46','28°',2),ans:2,
+     exp:'隣辺 BC×tanθ＝AC（高さ・対辺）だから　46×tan 28°'},
+    {scene:{type:'slope_cos',angle:'36°',knownSide:'hyp',knownVal:'20 m',askSide:'opp',askLabel:'AC=?',color:'sin'},
+     q:'消防車のブームの長さ AB＝20 m，地面との角度 36°のとき，高さ AC は？',
+     choices:makeChoices('20','36°',0),ans:0,
+     exp:'斜辺 AB×sinθ＝AC（高さ・対辺）だから　20×sin 36°'},
+  ],
+  // Dセット（混合・判断力強化）
+  [
+    {scene:{type:'building',angle:'85°',knownSide:'adj',knownVal:'17 m',askSide:'opp',askLabel:'AC=?',color:'tan'},
+     q:'橋脚塔の根元から 17 m の地点から頂上を見上げた。仰角 85°のとき，高さ AC は？',
+     choices:makeChoices('17','85°',2),ans:2,
+     exp:'隣辺 BC×tanθ＝AC（高さ・対辺）だから　17×tan 85°'},
+    {scene:{type:'ladder',angle:'37°',knownSide:'hyp',knownVal:'5 m',askSide:'opp',askLabel:'AC=?',color:'sin'},
+     q:'ビルの屋上パネルの長さ AB＝5 m，角度 37°のとき，高さ AC を求める式は？',
+     choices:makeChoices('5','37°',0),ans:0,
+     exp:'斜辺 AB×sinθ＝AC（高さ・対辺）だから　5×sin 37°'},
+    {scene:{type:'slope_cos',angle:'40°',knownSide:'hyp',knownVal:'5 m',askSide:'adj',askLabel:'BC=?',color:'cos'},
+     q:'堤防の斜面の長さ AB＝5 m，傾斜角 40°のとき，水平方向の距離 BC を求める式は？',
+     choices:makeChoices('5','40°',1),ans:1,
+     exp:'斜辺 AB×cosθ＝BC（底辺・隣辺）だから　5×cos 40°'},
+    {scene:{type:'building',angle:'62°',knownSide:'adj',knownVal:'30 m',askSide:'opp',askLabel:'AC=?',color:'tan'},
+     q:'熱気球の真下から 30 m 離れた地点から見上げた。仰角 62°のとき，高さ AC は？',
+     choices:makeChoices('30','62°',2),ans:2,
+     exp:'隣辺 BC×tanθ＝AC（高さ・対辺）だから　30×tan 62°'},
+  ],
+];
+
+// ===== チェックデータ =====
+
+const checkData=[
+  // 類題1：R6-1型　スポーツクライミング（sin）
+  {scene:{type:'ladder',angle:'53°',knownSide:'hyp',knownVal:'20 m',askSide:'opp',askLabel:'AC=?',color:'sin'},
+   q:'下の図は，スポーツクライミングの壁を表したものである。壁の頂上を A，壁の真下の地点を B，B から 20 m 離れた地点を C とする。AB＝20 m，∠ACB＝53°，∠ABC＝90° のとき，壁の高さ AB を求める式はどれか。',
+   choices:makeChoices('20','53°',0),ans:0,
+   exp:'斜辺 AC×sinθ＝AB（高さ）だから　20×sin 53°'},
+  // 類題2：R7-1型　イルカショー（sin）
+  {scene:{type:'ladder',angle:'57°',knownSide:'hyp',knownVal:'5 m',askSide:'opp',askLabel:'AC=?',color:'sin'},
+   q:'下の図のように，∠ABC＝90°，∠ACB＝57°，BC＝5 m のとき，高さ AC を求める式はどれか。',
+   choices:makeChoices('5','57°',0),ans:0,
+   exp:'斜辺 AB×sinθ＝AC（高さ）だから　5×sin 57°'},
+  // 類題3：R4-1型　花火（tan）
+  {scene:{type:'building',angle:'37°',knownSide:'adj',knownVal:'550 m',askSide:'opp',askLabel:'AC=?',color:'tan'},
+   q:'下の図のように，花火の中心点を A，観客の地点を B，A の真下の地点を C とする。BC＝550 m，∠ABC＝90°，∠ACB＝37° のとき，花火の高さ AC を求める式はどれか。',
+   choices:makeChoices('550','37°',2),ans:2,
+   exp:'隣辺 BC×tanθ＝AC（高さ）だから　550×tan 37°'},
+  // 類題4：R5-2型　熱気球（tan）
+  {scene:{type:'building',angle:'62°',knownSide:'adj',knownVal:'30 m',askSide:'opp',askLabel:'AC=?',color:'tan'},
+   q:'下の図のように，熱気球の真下の地点を A，観測地点を B，∠ABC＝90°，BC＝30 m，∠ACB＝62° のとき，高さ AC を求める式はどれか。',
+   choices:makeChoices('30','62°',2),ans:2,
+   exp:'隣辺 BC×tanθ＝AC（高さ）だから　30×tan 62°'},
+  // 類題5：R5-1型　ソーラーパネル（cos）
+  {scene:{type:'slope_cos',angle:'28°',knownSide:'hyp',knownVal:'7 m',askSide:'adj',askLabel:'BC=?',color:'cos'},
+   q:'下の図のように，ソーラーパネルの長さ AB＝7 m，∠BAC＝28°，∠ACB＝90° のとき，水平距離 BC を求める式はどれか。',
+   choices:makeChoices('7','28°',1),ans:1,
+   exp:'斜辺 AB×cosθ＝BC（底辺）だから　7×cos 28°'},
+  // 類題6：R7-2型　はしご車（sin）
+  {scene:{type:'ladder',angle:'36°',knownSide:'hyp',knownVal:'20 m',askSide:'opp',askLabel:'AC=?',color:'sin'},
+   q:'下の図は，はしご車のはしごを表したものである。はしごの長さ AB＝20 m，∠ABC＝36°，∠ACB＝90° のとき，高さ AC を求める式はどれか。',
+   choices:makeChoices('20','36°',0),ans:0,
+   exp:'斜辺 AB×sinθ＝AC（高さ）だから　20×sin 36°'},
+];
+
+// ===== ドリル管理 =====
+let currentDrillSet=0, drillAnswers=[], drillSubmitted=false;
+
+function initDrill(){loadDrill(0);}
+
+function loadDrill(setIdx){
+  currentDrillSet=setIdx; drillAnswers=new Array(4).fill(-1); drillSubmitted=false;
+  document.querySelectorAll('.set-tab').forEach((t,i)=>t.classList.toggle('active',i===setIdx));
+  document.getElementById('drill-result').style.display='none';
+  document.getElementById('drill-submit').disabled=false;
+  const container=document.getElementById('drill-questions'); container.innerHTML='';
+  drillSets[setIdx].forEach((q,qi)=>{
+    const block=document.createElement('div');block.className='q-block';block.id='dq-'+qi;
+    block.innerHTML=`<div class="q-num">問${qi+1}</div>
+      <div class="q-text">${q.q}</div>
+      <div class="fig-wrap"><canvas id="dq-c${qi}" width="220" height="175"></canvas></div>
+      <div class="choices6" id="dc-${qi}">
+        ${q.choices.map((c,ci)=>`<button class="choice" onclick="selectDrill(${qi},${ci})">${c}</button>`).join('')}
+      </div>`;
+    container.appendChild(block);
+    setTimeout(()=>{
+      const cv=document.getElementById(`dq-c${qi}`);
+      if(cv) drawScene(cv, q.scene);
+    },50);
+  });
+}
+
+function selectDrill(qi,ci){
+  if(drillSubmitted)return;
+  drillAnswers[qi]=ci;
+  document.querySelectorAll(`#dc-${qi} .choice`).forEach((b,i)=>{
+    b.style.background=i===ci?'#ede9fe':''; b.style.borderColor=i===ci?'#7c3aed':'';
+  });
+}
+
+function submitDrill(){
+  if(drillSubmitted)return; drillSubmitted=true;
+  let correct=0;
+  drillSets[currentDrillSet].forEach((q,qi)=>{
+    const ua=drillAnswers[qi]; const block=document.getElementById('dq-'+qi);
+    document.querySelectorAll(`#dc-${qi} .choice`).forEach((b,i)=>{
+      if(i===q.ans) b.classList.add('show-correct');
+      if(i===ua&&ua===q.ans){b.classList.add('selected-correct');correct++;}
+      else if(i===ua) b.classList.add('selected-wrong');
+    });
+    block.classList.add(ua===q.ans?'correct':'wrong');
+    const fb=document.createElement('div'); fb.className='feedback '+(ua===q.ans?'ok':'ng');
+    fb.innerHTML=(ua===q.ans?'正解！ ':'不正解。')+q.exp;
+    block.appendChild(fb);
+  });
+  document.getElementById('drill-submit').disabled=true;
+  const res=document.getElementById('drill-result'); res.style.display='block';
+  res.innerHTML=`<div class="score-box"><div class="score-circle">${correct}<div class="score-label">/ 4</div></div>
+    <div style="font-size:14px;font-weight:700;color:#5b21b6;">${correct===4?'全問正解！🎉':'もう一度チャレンジしよう'}</div></div>`;
+  if(correct===4) fireConfetti();
+}
+
+// ===== チェック管理 =====
+let checkAnswers=[], checkSubmitted=false;
+
+function initCheck(){
+  checkAnswers=new Array(6).fill(-1); checkSubmitted=false;
+  document.getElementById('check-result').style.display='none';
+  document.getElementById('check-submit').disabled=false;
+  const container=document.getElementById('check-questions'); container.innerHTML='';
+  checkData.forEach((q,qi)=>{
+    const block=document.createElement('div');block.className='q-block';block.id='cq-'+qi;
+    block.innerHTML=`<div class="q-num">問${qi+1}</div>
+      <div class="q-text">${q.q}</div>
+      <div class="fig-wrap"><canvas id="ck-c${qi}" width="220" height="175"></canvas></div>
+      <div class="choices6" id="cc-${qi}">
+        ${q.choices.map((c,ci)=>`<button class="choice" onclick="selectCheck(${qi},${ci})">${c}</button>`).join('')}
+      </div>`;
+    container.appendChild(block);
+    setTimeout(()=>{
+      const cv=document.getElementById(`ck-c${qi}`);
+      if(cv) drawScene(cv, q.scene);
+    },50);
+  });
+}
+
+function selectCheck(qi,ci){
+  if(checkSubmitted)return;
+  checkAnswers[qi]=ci;
+  document.querySelectorAll(`#cc-${qi} .choice`).forEach((b,i)=>{
+    b.style.background=i===ci?'#ede9fe':''; b.style.borderColor=i===ci?'#7c3aed':'';
+  });
+}
+
+function submitCheck(){
+  if(checkSubmitted)return; checkSubmitted=true;
+  let correct=0;
+  checkData.forEach((q,qi)=>{
+    const ua=checkAnswers[qi]; const block=document.getElementById('cq-'+qi);
+    document.querySelectorAll(`#cc-${qi} .choice`).forEach((b,i)=>{
+      if(i===q.ans) b.classList.add('show-correct');
+      if(i===ua&&ua===q.ans){b.classList.add('selected-correct');correct++;}
+      else if(i===ua) b.classList.add('selected-wrong');
+    });
+    block.classList.add(ua===q.ans?'correct':'wrong');
+    const fb=document.createElement('div'); fb.className='feedback '+(ua===q.ans?'ok':'ng');
+    fb.innerHTML=(ua===q.ans?'正解！ ':'不正解。')+q.exp;
+    block.appendChild(fb);
+  });
+  document.getElementById('check-submit').disabled=true;
+  const res=document.getElementById('check-result'); res.style.display='block';
+  res.innerHTML=`<div class="score-box"><div class="score-circle">${correct}<div class="score-label">/ 6</div></div>
+    <div style="font-size:14px;font-weight:700;color:#5b21b6;">${correct===6?'全問正解！🎉':correct>=3?'あと少し！':'例題に戻って確認しよう'}</div></div>`;
+  if(correct===6){fireConfetti(); markPassed('TR04');}
+}
+
+// ===== 花吹雪 =====
+function fireConfetti(){
+  const wrap=document.createElement('div');wrap.className='confetti-wrap';document.body.appendChild(wrap);
+  const colors=['#7c3aed','#5b21b6','#a78bfa','#f59e0b','#10b981','#c4b5fd'];
+  for(let i=0;i<60;i++){
+    const p=document.createElement('div');
+    const c=colors[Math.floor(Math.random()*colors.length)];
+    const sz=8+Math.random()*8;
+    p.style.cssText=`position:absolute;width:${sz}px;height:${sz}px;left:${Math.random()*100}%;top:-10px;background:${c};border-radius:${Math.random()>.5?'50%':'2px'};animation:fall${i} ${1.5+Math.random()*2}s ${Math.random()*1.5}s forwards;`;
+    wrap.appendChild(p);
+    const st=document.createElement('style');
+    const tx=(Math.random()-.5)*200;
+    st.textContent=`@keyframes fall${i}{0%{top:-10px;opacity:1;}100%{top:110vh;opacity:0;transform:rotate(720deg) translateX(${tx}px);}}`;
+    document.head.appendChild(st);
+  }
+  setTimeout(()=>wrap.remove(),5000);
+}
+
+// ===== 初期化 =====
+window.addEventListener('load',()=>{
+  drawJudge();
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,954 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TR04_2 応用問題②</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=BIZ+UDPGothic:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'BIZ UDPGothic',sans-serif;background:#f5f3ff;color:#1e1b4b;min-height:100vh;}
+.header{background:linear-gradient(135deg,#7c3aed,#5b21b6);color:#fff;padding:16px 20px;display:flex;align-items:center;gap:12px;}
+.header-icon{font-size:28px;}
+.header-title{font-size:18px;font-weight:700;}
+.header-sub{font-size:12px;opacity:.8;margin-top:2px;}
+.step-nav{display:flex;background:#fff;border-bottom:2px solid #ede9fe;overflow:hidden;}
+.step-btn{flex:1;padding:10px 4px;border:none;background:transparent;font-family:'BIZ UDPGothic',sans-serif;font-size:12px;color:#6b7280;cursor:pointer;transition:.2s;display:flex;flex-direction:column;align-items:center;gap:3px;}
+.step-btn.active{background:#7c3aed;color:#fff;}
+.step-btn.done{background:#ede9fe;color:#5b21b6;}
+.step-icon{font-size:16px;}
+.content{padding:16px;max-width:640px;margin:0 auto;}
+.card{background:#fff;border-radius:12px;padding:18px;margin-bottom:14px;box-shadow:0 2px 8px rgba(124,58,237,.08);}
+.card-title{font-size:14px;font-weight:700;color:#5b21b6;margin-bottom:12px;}
+.explain{font-size:14px;line-height:1.8;color:#374151;}
+.point-box{background:#f5f3ff;border-left:4px solid #7c3aed;padding:12px 14px;border-radius:0 8px 8px 0;margin:12px 0;}
+.point-box .label{font-size:11px;font-weight:700;color:#7c3aed;margin-bottom:6px;}
+.hint-box{background:#fefce8;border-left:4px solid #f59e0b;padding:10px 14px;border-radius:0 8px 8px 0;margin:10px 0;font-size:13px;line-height:1.9;}
+.hint-box .label{font-size:11px;font-weight:700;color:#92400e;margin-bottom:3px;}
+.important{background:#7c3aed;color:#fff;border-radius:10px;padding:14px 16px;margin:12px 0;}
+.important .imp-title{font-size:12px;font-weight:700;opacity:.85;margin-bottom:10px;}
+.imp-row{display:flex;align-items:center;gap:10px;margin-bottom:8px;font-size:14px;font-weight:700;}
+.imp-row:last-child{margin-bottom:0;}
+.imp-label{background:rgba(255,255,255,.25);border-radius:6px;padding:3px 10px;font-size:13px;min-width:40px;text-align:center;}
+
+/* 三角比表 */
+.trig-table{width:100%;border-collapse:collapse;font-size:13px;margin:10px 0;}
+.trig-table th{background:#7c3aed;color:#fff;padding:7px 8px;text-align:center;}
+.trig-table td{padding:7px 8px;text-align:center;border:1px solid #ede9fe;}
+.trig-table tr:nth-child(even) td{background:#faf5ff;}
+.trig-table .hl{background:#fde68a !important;font-weight:700;}
+
+/* 問題 */
+.q-block{background:#fff;border-radius:10px;padding:14px;margin-bottom:10px;border:2px solid #ede9fe;}
+.q-block.correct{border-color:#10b981;}
+.q-block.wrong{border-color:#ef4444;}
+.q-num{font-size:11px;color:#9ca3af;margin-bottom:6px;}
+.q-text{font-size:14px;margin-bottom:8px;line-height:1.8;}
+.q-scene{font-size:13px;color:#374151;line-height:1.8;margin-bottom:10px;background:#f9fafb;border-radius:8px;padding:10px 12px;}
+.fig-wrap{display:flex;justify-content:center;margin:10px 0;}
+.choices{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px;}
+.choices6{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px;}
+.choice{padding:9px 10px;border-radius:8px;border:2px solid #e5e7eb;background:#fff;font-family:'BIZ UDPGothic',sans-serif;font-size:13px;cursor:pointer;text-align:left;transition:.15s;line-height:1.6;}
+.choice:hover{border-color:#7c3aed;background:#f5f3ff;}
+.choice.selected-correct{background:#d1fae5;border-color:#10b981;color:#065f46;}
+.choice.selected-wrong{background:#fee2e2;border-color:#ef4444;color:#991b1b;}
+.choice.show-correct{background:#d1fae5;border-color:#10b981;}
+.feedback{font-size:13px;margin-top:10px;padding:8px 12px;border-radius:6px;line-height:1.9;}
+.feedback.ok{background:#d1fae5;color:#065f46;}
+.feedback.ng{background:#fee2e2;color:#991b1b;}
+.set-tabs{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;}
+.set-tab{padding:6px 14px;border-radius:20px;border:2px solid #ede9fe;background:#fff;font-family:'BIZ UDPGothic',sans-serif;font-size:13px;cursor:pointer;color:#6b7280;transition:.2s;}
+.set-tab.active{background:#7c3aed;border-color:#7c3aed;color:#fff;font-weight:700;}
+.drill-intro{font-size:13px;color:#6b7280;margin-bottom:14px;}
+.drill-action{display:flex;justify-content:center;margin-top:14px;}
+.btn-check{background:#7c3aed;color:#fff;border:none;padding:12px 32px;border-radius:24px;font-family:'BIZ UDPGothic',sans-serif;font-size:15px;font-weight:700;cursor:pointer;}
+.btn-check:disabled{opacity:.5;cursor:default;}
+.score-box{background:#fff;border-radius:12px;padding:16px;text-align:center;margin-bottom:14px;border:2px solid #ede9fe;}
+.score-circle{width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,#7c3aed,#5b21b6);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;margin:0 auto 10px;font-size:24px;font-weight:700;}
+.score-label{font-size:11px;opacity:.8;}
+.nav-row{display:flex;gap:10px;justify-content:center;margin-top:16px;}
+.btn-nav{padding:10px 24px;border-radius:20px;border:2px solid #7c3aed;background:#fff;color:#7c3aed;font-family:'BIZ UDPGothic',sans-serif;font-size:14px;font-weight:700;cursor:pointer;}
+.btn-nav.primary{background:#7c3aed;color:#fff;}
+.back-link{display:block;text-align:center;margin-top:16px;color:#9ca3af;font-size:13px;text-decoration:none;}
+.back-link:hover{color:#7c3aed;}
+.confetti-wrap{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:999;}
+
+/* 縦型分数 */
+.frac{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;margin:0 2px;line-height:1.2;}
+.frac .num{border-bottom:1.5px solid currentColor;padding:0 3px 1px;text-align:center;font-size:.95em;}
+.frac .den{padding:1px 3px 0;text-align:center;font-size:.95em;}
+.choice .frac .num,.choice .frac .den{font-size:.82em;}
+.feedback .frac .num,.feedback .frac .den{font-size:.85em;}
+
+/* ステップ区切り */
+.step-divider{background:#ede9fe;border-radius:8px;padding:8px 14px;font-size:13px;font-weight:700;color:#5b21b6;margin:14px 0 8px;}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-icon">📊</div>
+  <div>
+    <div class="header-title">TR04_2　応用問題②</div>
+    <div class="header-sub">角度の範囲を求める・斜辺を求める式を選ぶ</div>
+  </div>
+</div>
+
+<nav class="step-nav">
+  <button class="step-btn active" id="nav-intro" onclick="goStep('intro')">
+    <span class="step-icon">📖</span>説明
+  </button>
+  <button class="step-btn" id="nav-example" onclick="goStep('example')">
+    <span class="step-icon">💡</span>例題
+  </button>
+  <button class="step-btn" id="nav-drill" onclick="goStep('drill')">
+    <span class="step-icon">✏️</span>練習
+  </button>
+  <button class="step-btn" id="nav-check" onclick="goStep('check')">
+    <span class="step-icon">✅</span>確認
+  </button>
+</nav>
+
+<div class="content">
+
+<!-- ===== INTRO ===== -->
+<div id="step-intro">
+
+<!-- パターンA -->
+<div class="card">
+  <div class="card-title">📊 パターンA：角度の範囲を求める問題</div>
+  <p class="explain" style="margin-bottom:10px;">
+    辺の長さがわかっているとき，<b>角度がだいたい何度か</b>を三角比の表で調べる問題です。
+  </p>
+  <div class="step-divider">手順</div>
+  <div style="font-size:13px;line-height:2.4;">
+    <b>① 三角比の値を計算する</b><br>
+    <span style="margin-left:12px;">例）AC＝10，BC＝30 なら　tan θ ＝ <span class="frac"><span class="num">AC</span><span class="den">BC</span></span> ＝ <span class="frac"><span class="num">10</span><span class="den">30</span></span> ＝ 0.333…</span><br>
+    <b>② 表でその値に近い行を探す</b><br>
+    <span style="margin-left:12px;">tan の列で 0.333… に近い値 → 18°と19°の間</span><br>
+    <b>③ 角度の範囲を選ぶ</b>
+  </div>
+  <div class="hint-box" style="margin-top:10px;">
+    <div class="label">💡 どの三角比を使うか？</div>
+    わかっている辺が <b>対辺と隣辺</b> → <b style="color:#059669;">tan θ ＝ 対辺 ÷ 隣辺</b><br>
+    わかっている辺が <b>対辺と斜辺</b> → <b style="color:#dc2626;">sin θ ＝ 対辺 ÷ 斜辺</b><br>
+    わかっている辺が <b>隣辺と斜辺</b> → <b style="color:#2563eb;">cos θ ＝ 隣辺 ÷ 斜辺</b>
+  </div>
+</div>
+
+<!-- パターンB -->
+<div class="card">
+  <div class="card-title">📏 パターンB：斜辺を求める式を選ぶ問題</div>
+  <p class="explain" style="margin-bottom:10px;">
+    TR04では「対辺・隣辺を求める式」を扱いましたが，<b>斜辺を求める</b>場合は式が変わります。
+  </p>
+  <div class="step-divider">公式の導き方</div>
+  <div style="font-size:13px;line-height:2.6;margin-bottom:8px;">
+    sin θ ＝ <span class="frac"><span class="num">対辺</span><span class="den">斜辺</span></span> の両辺に <b>斜辺</b> をかけると：<br>
+    <span style="margin-left:12px;">斜辺 × sin θ ＝ 対辺</span><br>
+    両辺を <b>sin θ</b> で割ると：<br>
+    <span style="margin-left:12px; color:#7c3aed;font-weight:700;">斜辺 ＝ 対辺 ÷ sin θ ＝ 対辺 × <span class="frac"><span class="num">1</span><span class="den">sin θ</span></span></span>
+  </div>
+  <div class="important">
+    <div class="imp-title">【重要】斜辺を求める公式</div>
+    <div class="imp-row">
+      <span class="imp-label">sin</span>
+      斜辺 ＝ 対辺 × <span class="frac" style="font-size:.9em;"><span class="num">1</span><span class="den">sin θ</span></span>
+    </div>
+    <div class="imp-row">
+      <span class="imp-label">cos</span>
+      斜辺 ＝ 隣辺 × <span class="frac" style="font-size:.9em;"><span class="num">1</span><span class="den">cos θ</span></span>
+    </div>
+  </div>
+  <div class="hint-box">
+    <div class="label">💡 TR04との比較</div>
+    対辺・隣辺を求めるとき → <b>斜辺 × sin θ，斜辺 × cos θ</b><br>
+    斜辺を求めるとき　　　 → <b>対辺 × <span class="frac"><span class="num">1</span><span class="den">sin θ</span></span>，隣辺 × <span class="frac"><span class="num">1</span><span class="den">cos θ</span></span></b>
+  </div>
+</div>
+
+<div class="nav-row">
+  <button class="btn-nav primary" onclick="goStep('example')">例題へ →</button>
+</div>
+<a href="../gamba_kounin.html" class="back-link">← 単元一覧に戻る</a>
+</div><!-- /intro -->
+
+
+<!-- ===== EXAMPLE ===== -->
+<div id="step-example" style="display:none;">
+
+<!-- 例題A -->
+<div class="card">
+  <div class="card-title">💡 例題A：角度の範囲を求める</div>
+  <div class="q-scene">
+    ウォータースライダーの滑り始めの点を A，滑り終わりの点を B とする。<br>
+    A から垂直に下ろした点を C とすると，AC＝10 m，BC＝30 m，∠ACB＝90° であった。<br>
+    このとき，∠ABC の大きさとして最も適切なものを選べ。<br>
+    <span style="font-size:12px;color:#6b7280;">（三角比の表を使うこと）</span>
+  </div>
+  <div class="fig-wrap"><canvas id="c-exA" width="220" height="170"></canvas></div>
+
+  <div style="margin:10px 0;">
+    <div style="font-size:12px;color:#5b21b6;font-weight:700;margin-bottom:4px;">📋 三角比の表</div>
+    <table class="trig-table">
+      <tr><th>角</th><th>sin</th><th>cos</th><th>tan</th></tr>
+      <tr><td>16°</td><td>0.2756</td><td>0.9613</td><td>0.2867</td></tr>
+      <tr><td>17°</td><td>0.2924</td><td>0.9563</td><td>0.3057</td></tr>
+      <tr><td>18°</td><td>0.3090</td><td>0.9511</td><td>0.3249</td></tr>
+      <tr><td>19°</td><td>0.3256</td><td>0.9455</td><td>0.3443</td></tr>
+      <tr><td>20°</td><td>0.3420</td><td>0.9397</td><td>0.3640</td></tr>
+    </table>
+  </div>
+
+  <div class="point-box">
+    <div class="label">【考え方】</div>
+    <p class="explain" style="font-size:13px;line-height:2.4;">
+      ❶ ∠ABCから見て，<b>対辺＝AC＝10 m，隣辺＝BC＝30 m</b> がわかっている<br>
+      ❷ tan ∠ABC ＝ <span class="frac"><span class="num">AC</span><span class="den">BC</span></span> ＝ <span class="frac"><span class="num">10</span><span class="den">30</span></span> ＝ 0.333…<br>
+      ❸ 表の tan の列で 0.333… を探す<br>
+      　→ tan 18°＝0.3249 ＜ <b>0.333…</b> ＜ tan 19°＝0.3443<br>
+      ❹ よって <b style="color:#7c3aed;">18°以上 19°未満</b>
+    </p>
+  </div>
+</div>
+
+<!-- 例題B -->
+<div class="card">
+  <div class="card-title">💡 例題B：斜辺を求める式を選ぶ</div>
+  <div class="q-scene">
+    下の図のように，イルカの位置を A，太郎さんの位置を B，花子さんの位置を C とする。<br>
+    BC＝5 m，∠ABC＝90°，∠ACB＝57° のとき，<br>
+    <b>イルカと花子さんの距離 AC を求める式</b>はどれか。
+  </div>
+  <div class="fig-wrap"><canvas id="c-exB" width="260" height="180"></canvas></div>
+  <div class="point-box">
+    <div class="label">【考え方】</div>
+    <p class="explain" style="font-size:13px;line-height:2.4;">
+      ❶ ∠ACB＝57°（花子さん側の角）を θ とする<br>
+      ❷ わかっている辺：<b>BC＝5 m（隣辺）</b><br>
+      ❸ 求めたい辺：<b>AC（斜辺）</b><br>
+      ❹ cos θ ＝ <span class="frac"><span class="num">隣辺</span><span class="den">斜辺</span></span> だから　斜辺 ＝ 隣辺 × <span class="frac"><span class="num">1</span><span class="den">cos θ</span></span><br>
+      <span style="color:#7c3aed;font-weight:700;font-size:15px;">　AC ＝ 5 × <span class="frac"><span class="num">1</span><span class="den">cos 57°</span></span></span>
+    </p>
+  </div>
+  <div class="hint-box">
+    <div class="label">💡 斜辺の判断</div>
+    「斜辺を求めたい」とき，わかっている辺が<b>隣辺</b>なら → <b>× 1/cos θ</b><br>
+    「斜辺を求めたい」とき，わかっている辺が<b>対辺</b>なら → <b>× 1/sin θ</b>
+  </div>
+</div>
+
+<!-- ミニテストB -->
+<div class="card" style="border:2px solid #7c3aed;">
+  <div class="card-title">🖊️ ミニテストB　やってみよう！</div>
+  <div class="q-scene">
+    下の図のように，∠ABC＝90°，∠ACB＝41°，BC＝30 m のとき，<br>
+    <b>斜辺 AC を求める式</b>はどれか。
+  </div>
+  <div class="fig-wrap"><canvas id="c-mtB" width="220" height="170"></canvas></div>
+  <div class="choices6" id="mtB-choices">
+    <button class="choice" onclick="selectMtB(0)">① 30 × sin 41°</button>
+    <button class="choice" onclick="selectMtB(1)">② 30 × cos 41°</button>
+    <button class="choice" onclick="selectMtB(2)">③ 30 × tan 41°</button>
+    <button class="choice" onclick="selectMtB(3)">④ 30 × <span class="frac"><span class="num">1</span><span class="den">sin 41°</span></span></button>
+    <button class="choice" onclick="selectMtB(4)">⑤ 30 × <span class="frac"><span class="num">1</span><span class="den">cos 41°</span></span></button>
+    <button class="choice" onclick="selectMtB(5)">⑥ 30 × <span class="frac"><span class="num">1</span><span class="den">tan 41°</span></span></button>
+  </div>
+  <div class="drill-action" style="margin-top:10px;">
+    <button class="btn-check" id="mtB-btn" onclick="submitMtB()">答え合わせ</button>
+  </div>
+  <div id="mtB-fb" style="display:none;"></div>
+</div>
+
+<div class="nav-row">
+  <button class="btn-nav" onclick="goStep('intro')">← 説明に戻る</button>
+  <button class="btn-nav primary" onclick="goStep('drill')">練習へ →</button>
+</div>
+<a href="../gamba_kounin.html" class="back-link">← 単元一覧に戻る</a>
+</div><!-- /example -->
+
+
+<!-- ===== DRILL ===== -->
+<div id="step-drill" style="display:none;">
+<div class="card">
+  <div class="card-title">✏️ 練習問題</div>
+  <p class="drill-intro">パターンA（角度の範囲）とパターンB（斜辺を求める式）を練習しましょう。</p>
+  <div class="set-tabs">
+    <button class="set-tab active" onclick="loadDrill(0)">Aセット</button>
+    <button class="set-tab" onclick="loadDrill(1)">Bセット</button>
+    <button class="set-tab" onclick="loadDrill(2)">Cセット</button>
+    <button class="set-tab" onclick="loadDrill(3)">Dセット</button>
+  </div>
+  <div id="drill-questions"></div>
+  <div class="drill-action">
+    <button class="btn-check" id="drill-submit" onclick="submitDrill()">採点する</button>
+  </div>
+</div>
+<div id="drill-result" style="display:none;"></div>
+<div class="nav-row">
+  <button class="btn-nav" onclick="goStep('example')">← 例題に戻る</button>
+  <button class="btn-nav primary" onclick="goStep('check')">確認テストへ →</button>
+</div>
+<a href="../gamba_kounin.html" class="back-link">← 単元一覧に戻る</a>
+</div><!-- /drill -->
+
+
+<!-- ===== CHECK ===== -->
+<div id="step-check" style="display:none;">
+<div class="card">
+  <div class="card-title">✅ 確認テスト（8問）</div>
+  <p class="drill-intro">パターンA・Bの両方が出ます。過去問と同じ形式です！</p>
+  <div id="check-questions"></div>
+  <div class="drill-action">
+    <button class="btn-check" id="check-submit" onclick="submitCheck()">採点する</button>
+  </div>
+</div>
+<div id="check-result" style="display:none;"></div>
+<div class="nav-row">
+  <button class="btn-nav" onclick="goStep('drill')">← 練習に戻る</button>
+</div>
+<a href="../gamba_kounin.html" class="back-link">← 単元一覧に戻る</a>
+</div><!-- /check -->
+
+</div><!-- /content -->
+
+<script src="../gamba_support.js"></script>
+<script>
+// ===== ステップ管理 =====
+const stepOrder=['intro','example','drill','check'];
+function goStep(s){
+  stepOrder.forEach(id=>{
+    document.getElementById('step-'+id).style.display=(id===s)?'':'none';
+    const nb=document.getElementById('nav-'+id);
+    nb.classList.remove('active','done');
+    if(id===s) nb.classList.add('active');
+    else if(stepOrder.indexOf(id)<stepOrder.indexOf(s)) nb.classList.add('done');
+  });
+  if(s==='example') drawExamples();
+  if(s==='drill') initDrill();
+  if(s==='check') initCheck();
+  window.scrollTo(0,0);
+}
+
+// ===== 縦型分数ヘルパー =====
+function F(num,den){return `<span class="frac"><span class="num">${num}</span><span class="den">${den}</span></span>`;}
+function F1(den){return `<span class="frac"><span class="num">1</span><span class="den">${den}</span></span>`;}
+
+// ===== Canvas 共通 =====
+function drawRightTri(ctx,B,C,A,theta,labels){
+  ctx.beginPath();ctx.moveTo(B.x,B.y);ctx.lineTo(C.x,C.y);ctx.lineTo(A.x,A.y);ctx.closePath();
+  ctx.fillStyle='#f5f3ff';ctx.fill();ctx.strokeStyle='#7c3aed';ctx.lineWidth=2;ctx.stroke();
+  const sq=9;
+  ctx.beginPath();ctx.moveTo(C.x-sq,C.y);ctx.lineTo(C.x-sq,C.y-sq);ctx.lineTo(C.x,C.y-sq);
+  ctx.strokeStyle='#7c3aed';ctx.lineWidth=1.5;ctx.stroke();
+  // θ弧（B左下）
+  if(theta){
+    const ang=Math.atan2(A.y-B.y,C.x-B.x);
+    ctx.beginPath();ctx.arc(B.x,B.y,20,ang,0);ctx.strokeStyle='#7c3aed';ctx.lineWidth=1.5;ctx.stroke();
+    ctx.fillStyle='#7c3aed';ctx.font='bold 12px "BIZ UDPGothic",sans-serif';
+    ctx.fillText(theta,B.x+23,B.y-5);
+  }
+  // 頂点ラベル
+  ctx.fillStyle='#374151';ctx.font='bold 13px "BIZ UDPGothic",sans-serif';
+  if(labels.A) ctx.fillText(labels.A,A.x+4,A.y-4);
+  if(labels.B) ctx.fillText(labels.B,B.x-16,B.y+4);
+  if(labels.C) ctx.fillText(labels.C,C.x+4,C.y+14);
+}
+
+function drawExamples(){
+  // 例題A：B左下(θ=∠ABC), C右下(直角), A右上
+  // tan∠ABC = AC/BC = 10/30 → ∠ABC≒18°
+  // 底辺BC=90px(30m), 高さAC=30px(10m)
+  const cvA=document.getElementById('c-exA');
+  if(cvA){
+    const ctx=cvA.getContext('2d');ctx.clearRect(0,0,220,170);
+    const B={x:18,y:140},C={x:108,y:140},A={x:108,y:110};
+    drawRightTri(ctx,B,C,A,'∠ABC',{A:'A',B:'B',C:'C'});
+    // 辺ラベル
+    ctx.fillStyle='#dc2626';ctx.font='bold 12px "BIZ UDPGothic",sans-serif';
+    ctx.fillText('10 m',A.x+5,(A.y+C.y)/2+4);
+    ctx.fillStyle='#2563eb';ctx.font='bold 12px "BIZ UDPGothic",sans-serif';
+    ctx.textAlign='center';ctx.fillText('30 m',(B.x+C.x)/2,C.y+16);ctx.textAlign='left';
+    // 求める角度マーク
+    ctx.fillStyle='#7c3aed';ctx.font='bold 11px "BIZ UDPGothic",sans-serif';
+    ctx.fillText('← ?°',B.x+26,B.y-5);
+  }
+
+  // 例題B：C左下(θ=57°), B右下(直角), A右上
+  const cvB=document.getElementById('c-exB');
+  if(cvB){
+    const ctx=cvB.getContext('2d');ctx.clearRect(0,0,260,180);
+    const C={x:20,y:155},B={x:130,y:155},A={x:130,y:40};
+    // 三角形
+    ctx.beginPath();ctx.moveTo(C.x,C.y);ctx.lineTo(B.x,B.y);ctx.lineTo(A.x,A.y);ctx.closePath();
+    ctx.fillStyle='#f5f3ff';ctx.fill();ctx.strokeStyle='#7c3aed';ctx.lineWidth=2;ctx.stroke();
+    // 直角マーク
+    const sq=9;ctx.beginPath();ctx.moveTo(B.x-sq,B.y);ctx.lineTo(B.x-sq,B.y-sq);ctx.lineTo(B.x,B.y-sq);
+    ctx.strokeStyle='#7c3aed';ctx.lineWidth=1.5;ctx.stroke();
+    // θ弧（C左下）
+    const ang=Math.atan2(A.y-C.y,B.x-C.x);
+    ctx.beginPath();ctx.arc(C.x,C.y,20,ang,0);ctx.strokeStyle='#7c3aed';ctx.lineWidth=1.5;ctx.stroke();
+    ctx.fillStyle='#7c3aed';ctx.font='bold 12px "BIZ UDPGothic",sans-serif';ctx.fillText('57°',C.x+23,C.y-5);
+    // 隣辺CBラベル（青・底辺）
+    ctx.fillStyle='#2563eb';ctx.font='bold 12px "BIZ UDPGothic",sans-serif';
+    ctx.textAlign='center';ctx.fillText('5 m',(C.x+B.x)/2,B.y+16);ctx.textAlign='left';
+    // 斜辺CA（赤・求める辺）
+    ctx.strokeStyle='#dc2626';ctx.lineWidth=3;
+    ctx.beginPath();ctx.moveTo(C.x,C.y);ctx.lineTo(A.x,A.y);ctx.stroke();
+    // AC=?ラベルを斜辺の外側左に配置
+    ctx.fillStyle='#dc2626';ctx.font='bold 12px "BIZ UDPGothic",sans-serif';
+    ctx.save();
+    const mx=(C.x+A.x)/2, my=(C.y+A.y)/2;
+    ctx.translate(mx-38, my);
+    ctx.fillText('AC=?',0,0);
+    ctx.restore();
+    // 頂点ラベル（図の外側に配置）
+    ctx.fillStyle='#374151';ctx.font='bold 12px "BIZ UDPGothic",sans-serif';
+    ctx.fillText('A',A.x+6,A.y-4);          // 右上の外
+    ctx.fillText('B(太郎)',B.x+6,B.y+14);    // 右下の外
+    ctx.fillText('C(花子)',C.x-70,C.y+4);   // 左下の外
+  }
+}
+
+// ===== 問題データ =====
+// タイプ: 'angle_range'（角度の範囲）or 'hyp'（斜辺を求める式）
+
+// 三角比の表データ
+const trigTables={
+  // R6-2型 tan表
+  tanTable16_20:[
+    {deg:16,sin:0.2756,cos:0.9613,tan:0.2867},
+    {deg:17,sin:0.2924,cos:0.9563,tan:0.3057},
+    {deg:18,sin:0.3090,cos:0.9511,tan:0.3249},
+    {deg:19,sin:0.3256,cos:0.9455,tan:0.3443},
+    {deg:20,sin:0.3420,cos:0.9397,tan:0.3640},
+  ],
+  // R3-2型 cos表
+  cosTable65_69:[
+    {deg:65,sin:0.9063,cos:0.4226,tan:2.1445},
+    {deg:66,sin:0.9135,cos:0.4067,tan:2.2460},
+    {deg:67,sin:0.9205,cos:0.3907,tan:2.3559},
+    {deg:68,sin:0.9272,cos:0.3746,tan:2.4751},
+    {deg:69,sin:0.9336,cos:0.3584,tan:2.6051},
+  ],
+  // R3-1型 sin表
+  sinTable1_5:[
+    {deg:1,sin:0.0175,cos:0.9998,tan:0.0175},
+    {deg:2,sin:0.0349,cos:0.9994,tan:0.0349},
+    {deg:3,sin:0.0523,cos:0.9986,tan:0.0524},
+    {deg:4,sin:0.0698,cos:0.9976,tan:0.0699},
+    {deg:5,sin:0.0872,cos:0.9962,tan:0.0875},
+  ],
+  // sin表 R4-1型
+  sinTable35_39:[
+    {deg:35,sin:0.5736,cos:0.8192,tan:0.7002},
+    {deg:36,sin:0.5878,cos:0.8090,tan:0.7265},
+    {deg:37,sin:0.6018,cos:0.7986,tan:0.7536},
+    {deg:38,sin:0.6157,cos:0.7880,tan:0.7813},
+    {deg:39,sin:0.6293,cos:0.7771,tan:0.8098},
+  ],
+};
+
+function makeTable(rows){
+  return `<table class="trig-table" style="font-size:12px;margin:8px 0;">
+    <tr><th>角</th><th>sin</th><th>cos</th><th>tan</th></tr>
+    ${rows.map(r=>`<tr>
+      <td>${r.deg}°</td>
+      <td>${r.sin.toFixed(4)}</td>
+      <td>${r.cos.toFixed(4)}</td>
+      <td>${r.tan.toFixed(4)}</td>
+    </tr>`).join('')}
+  </table>`;
+}
+
+// ドリルデータ
+const drillSets=[
+  // Aセット：パターンA（角度の範囲）
+  [
+    {type:'angle_range',
+     q:'ウォータースライダー：AC＝10 m，BC＝30 m，∠ACB＝90°のとき，∠ABCの大きさの範囲は？',
+     table:makeTable(trigTables.tanTable16_20),
+     scene:{opp:10,adj:30,trig:'tan',val:'10÷30≒0.333'},
+     choices:['① 16°以上17°未満','② 17°以上18°未満','③ 18°以上19°未満','④ 19°以上20°未満'],
+     ans:2,
+     exp:'tan∠ABC = <span class="frac"><span class="num">AC</span><span class="den">BC</span></span> = <span class="frac"><span class="num">10</span><span class="den">30</span></span> = 0.333… → tan18°=0.3249 ＜ 0.333 ＜ tan19°=0.3443 → 18°以上19°未満'},
+    {type:'angle_range',
+     q:'スロープ：BC＝0.4 m，AC＝8.0 m，∠ACB＝90°のとき，∠CABの大きさの範囲は？',
+     table:makeTable(trigTables.sinTable1_5),
+     scene:{opp:0.4,hyp:8.0,trig:'sin',val:'0.4÷8.0=0.05',from:'A'},
+     choices:['① 1°以上2°未満','② 2°以上3°未満','③ 3°以上4°未満','④ 4°以上5°未満'],
+     ans:1,
+     exp:'sin∠CAB = <span class="frac"><span class="num">BC</span><span class="den">AC</span></span> = <span class="frac"><span class="num">0.4</span><span class="den">8.0</span></span> = 0.05 → sin2°=0.0349 ＜ 0.05 ＜ sin3°=0.0523 → 2°以上3°未満'},
+    {type:'angle_range',
+     q:'クレーン：アームAB＝10 m，水平距離BC＝4 m，∠ACB＝90°のとき，∠ABCの大きさの範囲は？',
+     table:makeTable(trigTables.cosTable65_69),
+     scene:{adj:4,hyp:10,trig:'cos',val:'4÷10=0.4'},
+     choices:['① 65°以上66°未満','② 66°以上67°未満','③ 67°以上68°未満','④ 68°以上69°未満'],
+     ans:1,
+     exp:'cos∠ABC = <span class="frac"><span class="num">BC</span><span class="den">AB</span></span> = <span class="frac"><span class="num">4</span><span class="den">10</span></span> = 0.4 → cos66°=0.4067 ＞ 0.4 ＞ cos67°=0.3907 → 66°以上67°未満'},
+    {type:'angle_range',
+     q:'花火：高さAC＝330 m，水平距離BC＝550 m，∠ACB＝90°のとき，∠ABCの大きさの範囲は？',
+     table:makeTable([{deg:29,sin:0.4848,cos:0.8746,tan:0.5543},{deg:30,sin:0.5000,cos:0.8660,tan:0.5774},{deg:31,sin:0.5150,cos:0.8572,tan:0.6009},{deg:32,sin:0.5299,cos:0.8480,tan:0.6249}]),
+     scene:{opp:330,adj:550,trig:'tan',val:'330÷550=0.6'},
+     choices:['① 29°以上30°未満','② 30°以上31°未満','③ 31°以上32°未満','④ 28°以上29°未満'],
+     ans:1,
+     exp:'tan∠ABC = <span class="frac"><span class="num">AC</span><span class="den">BC</span></span> = <span class="frac"><span class="num">330</span><span class="den">550</span></span> = 0.6 → tan30°=0.5774 ＜ 0.6 ＜ tan31°=0.6009 → 30°以上31°未満'},
+  ],
+  // Bセット：パターンB（斜辺を求める式）
+  [
+    {type:'hyp_sin',
+     q:'∠ACB＝57°，BC＝5 m，∠ABC＝90°のとき，斜辺 AC を求める式は？',
+     scene:{type:'hyp',theta:'57°',knownSide:'adj',knownVal:'5 m',askLabel:'AC=?'},
+     choices:[
+       '① 5 × sin 57°',
+       '② 5 × cos 57°',
+       '③ 5 × tan 57°',
+       '④ 5 × '+F1('sin 57°'),
+       '⑤ 5 × '+F1('cos 57°'),
+       '⑥ 5 × '+F1('tan 57°'),
+     ],
+     ans:4,
+     exp:'cos57° = <span class="frac"><span class="num">隣辺BC</span><span class="den">斜辺AC</span></span> → AC = BC × <span class="frac"><span class="num">1</span><span class="den">cos57°</span></span> = 5 × <span class="frac"><span class="num">1</span><span class="den">cos57°</span></span>'},
+    {type:'hyp_sin',
+     q:'∠ACB＝53°，BC＝20 m，∠ABC＝90°のとき，斜辺 AC を求める式は？',
+     scene:{type:'hyp',theta:'53°',knownSide:'adj',knownVal:'20 m',askLabel:'AC=?'},
+     choices:[
+       '① 20 × sin 53°',
+       '② 20 × cos 53°',
+       '③ 20 × tan 53°',
+       '④ 20 × '+F1('sin 53°'),
+       '⑤ 20 × '+F1('cos 53°'),
+       '⑥ 20 × '+F1('tan 53°'),
+     ],
+     ans:4,
+     exp:'cos53° = <span class="frac"><span class="num">隣辺BC</span><span class="den">斜辺AC</span></span> → AC = BC × <span class="frac"><span class="num">1</span><span class="den">cos53°</span></span> = 20 × <span class="frac"><span class="num">1</span><span class="den">cos53°</span></span>'},
+    {type:'hyp_sin',
+     q:'∠ACB＝36°，BC＝2 m，∠ABC＝90°のとき，斜辺 AC を求める式は？',
+     scene:{type:'hyp',theta:'36°',knownSide:'adj',knownVal:'2 m',askLabel:'AC=?'},
+     choices:[
+       '① 2 × sin 36°',
+       '② 2 × cos 36°',
+       '③ 2 × tan 36°',
+       '④ 2 × '+F1('sin 36°'),
+       '⑤ 2 × '+F1('cos 36°'),
+       '⑥ 2 × '+F1('tan 36°'),
+     ],
+     ans:4,
+     exp:'cos36° = <span class="frac"><span class="num">隣辺BC</span><span class="den">斜辺AC</span></span> → AC = 2 × <span class="frac"><span class="num">1</span><span class="den">cos36°</span></span>'},
+    {type:'hyp_sin',
+     q:'∠ACB＝62°，BC＝20 m，∠ABC＝90°のとき，斜辺 AC を求める式は？',
+     scene:{type:'hyp',theta:'62°',knownSide:'adj',knownVal:'20 m',askLabel:'AC=?'},
+     choices:[
+       '① 20 × sin 62°',
+       '② 20 × cos 62°',
+       '③ 20 × tan 62°',
+       '④ 20 × '+F1('sin 62°'),
+       '⑤ 20 × '+F1('cos 62°'),
+       '⑥ 20 × '+F1('tan 62°'),
+     ],
+     ans:4,
+     exp:'cos62° = <span class="frac"><span class="num">隣辺BC</span><span class="den">斜辺AC</span></span> → AC = BC × <span class="frac"><span class="num">1</span><span class="den">cos62°</span></span> = 20 × <span class="frac"><span class="num">1</span><span class="den">cos62°</span></span>'},
+  ],
+  // Cセット：パターンA（角度の範囲）応用
+  [
+    {type:'angle_range',
+     q:'ソーラーパネル：AC＝7 m，BC＝30 m，∠ACB＝90°のとき，∠ABCの範囲は？',
+     table:makeTable(trigTables.tanTable16_20),
+     scene:{opp:7,adj:30,trig:'tan',val:'7÷30≒0.233'},
+     choices:['① 16°以上17°未満','② 17°以上18°未満','③ 13°以上14°未満','④ 15°以上16°未満'],
+     ans:0,
+     exp:'tan∠ABC = <span class="frac"><span class="num">AC</span><span class="den">BC</span></span> = <span class="frac"><span class="num">7</span><span class="den">30</span></span> = 0.233… → tan16°=0.2867より小さい → 16°未満。選択肢の中では16°以上17°未満が最も近い範囲'},
+    {type:'angle_range',
+     q:'熱気球：高さAC＝26.5 m，斜辺AB＝30 m，∠ACB＝90°のとき，∠ABCの大きさの範囲は？',
+     table:makeTable([{deg:60,sin:0.8660,cos:0.5000,tan:1.7321},{deg:61,sin:0.8746,cos:0.4848,tan:1.8040},{deg:62,sin:0.8829,cos:0.4695,tan:1.8807},{deg:63,sin:0.8910,cos:0.4540,tan:1.9626}]),
+     scene:{opp:26.5,hyp:30,trig:'sin',val:'26.5÷30≒0.883'},
+     choices:['① 61°以上62°未満','② 62°以上63°未満','③ 63°以上64°未満','④ 60°以上61°未満'],
+     ans:1,
+     exp:'sin∠ABC = <span class="frac"><span class="num">AC</span><span class="den">AB</span></span> = <span class="frac"><span class="num">26.5</span><span class="den">30</span></span> ≒ 0.883 → sin62°=0.8829 ＜ 0.883 ＜ sin63°=0.8910 → 62°以上63°未満'},
+    {type:'angle_range',
+     q:'橋脚塔：高さAC＝194 m，水平距離BC＝17 m，∠ACB＝90°のとき，∠ABCの大きさの範囲は？',
+     table:makeTable([{deg:84,sin:0.9945,cos:0.1045,tan:9.5144},{deg:85,sin:0.9962,cos:0.0872,tan:11.4301},{deg:86,sin:0.9976,cos:0.0698,tan:14.3007}]),
+     scene:{opp:194,adj:17,trig:'tan',val:'194÷17≒11.4'},
+     choices:['① 83°以上84°未満','② 84°以上85°未満','③ 85°以上86°未満','④ 82°以上83°未満'],
+     ans:1,
+     exp:'tan∠ABC = <span class="frac"><span class="num">AC</span><span class="den">BC</span></span> = <span class="frac"><span class="num">194</span><span class="den">17</span></span> = 11.41… → tan84°=9.5144 ＜ 11.41 ＜ tan85°=11.4301 → 84°以上85°未満'},
+    {type:'angle_range',
+     q:'熱気球：高さAC＝56.4 m，水平距離BC＝30 m，∠ACB＝90°のとき，∠ABCの大きさの範囲は？',
+     table:makeTable([{deg:60,sin:0.8660,cos:0.5000,tan:1.7321},{deg:61,sin:0.8746,cos:0.4848,tan:1.8040},{deg:62,sin:0.8829,cos:0.4695,tan:1.8807},{deg:63,sin:0.8910,cos:0.4540,tan:1.9626}]),
+     scene:{opp:56.4,adj:30,trig:'tan',val:'56.4÷30≒1.88'},
+     choices:['① 60°以上61°未満','② 61°以上62°未満','③ 62°以上63°未満','④ 63°以上64°未満'],
+     ans:1,
+     exp:'tan∠ABC = <span class="frac"><span class="num">AC</span><span class="den">BC</span></span> = <span class="frac"><span class="num">56.4</span><span class="den">30</span></span> ≒ 1.88 → tan61°=1.8040 ＜ 1.88 ＜ tan62°=1.8807 → 61°以上62°未満'},
+  ],
+  // Dセット：パターンA・B混合
+  [
+    {type:'hyp_sin',
+     q:'∠ABC＝90°，∠ACB＝40°，BC＝5 m のとき，斜辺 AC を求める式は？',
+     scene:{type:'hyp',theta:'40°',knownSide:'adj',knownVal:'5 m',askLabel:'AC=?'},
+     choices:[
+       '① 5 × sin 40°',
+       '② 5 × cos 40°',
+       '③ 5 × tan 40°',
+       '④ 5 × '+F1('sin 40°'),
+       '⑤ 5 × '+F1('cos 40°'),
+       '⑥ 5 × '+F1('tan 40°'),
+     ],
+     ans:4,
+     exp:'cos40° = <span class="frac"><span class="num">BC</span><span class="den">AC</span></span> → AC = 5 × <span class="frac"><span class="num">1</span><span class="den">cos40°</span></span>'},
+    {type:'angle_range',
+     q:'ウォータースライダー：AC＝10 m，BC＝30 m，∠ACB＝90°のとき，∠ABCの大きさの範囲は？',
+     table:makeTable(trigTables.tanTable16_20),
+     scene:{opp:10,adj:30,trig:'tan',val:'10÷30≒0.333'},
+     choices:['① 16°以上17°未満','② 17°以上18°未満','③ 18°以上19°未満','④ 19°以上20°未満'],
+     ans:2,
+     exp:'tan∠ABC = <span class="frac"><span class="num">AC</span><span class="den">BC</span></span> = <span class="frac"><span class="num">10</span><span class="den">30</span></span> = 0.333 → tan18°=0.3249 ＜ 0.333 ＜ tan19°=0.3443 → 18°以上19°未満'},
+    {type:'hyp_sin',
+     q:'∠ACB＝28°，AB＝8 m（高さ），∠ABC＝90°のとき，斜辺 AC を求める式は？',
+     scene:{type:'hyp_opp',theta:'28°',knownSide:'opp',knownVal:'8 m',askLabel:'AC=?'},
+     choices:[
+       '① 8 × sin 28°',
+       '② 8 × cos 28°',
+       '③ 8 × tan 28°',
+       '④ 8 × '+F1('sin 28°'),
+       '⑤ 8 × '+F1('cos 28°'),
+       '⑥ 8 × '+F1('tan 28°'),
+     ],
+     ans:3,
+     exp:'sin28° = <span class="frac"><span class="num">対辺AB</span><span class="den">斜辺AC</span></span> → AC = 8 × <span class="frac"><span class="num">1</span><span class="den">sin28°</span></span>'},
+    {type:'angle_range',
+     q:'クレーン：アームAB＝10 m，水平距離BC＝4 m，∠ACB＝90°のとき，∠ABCの大きさの範囲は？',
+     table:makeTable(trigTables.cosTable65_69),
+     scene:{adj:4,hyp:10,trig:'cos',val:'4÷10=0.4'},
+     choices:['① 65°以上66°未満','② 66°以上67°未満','③ 67°以上68°未満','④ 68°以上69°未満'],
+     ans:1,
+     exp:'cos∠ABC = <span class="frac"><span class="num">BC</span><span class="den">AB</span></span> = <span class="frac"><span class="num">4</span><span class="den">10</span></span> = 0.4 → cos66°=0.4067 ＞ 0.4 ＞ cos67°=0.3907 → 66°以上67°未満'},
+  ],
+];
+
+// 確認テスト（過去問類題）
+const checkData=[
+  // 類題1：R6-2(1) ウォータースライダー
+  {type:'angle_range',
+   q:'下の図のように，ウォータースライダーの滑り始め A，滑り終わり B，A から地面へ下ろした垂線の足を C とする。AC＝10 m，BC＝30 m，∠ACB＝90° のとき，∠ABCの大きさとして最も適切なものを選べ。',
+   scene:{opp:10,adj:30,trig:'tan'},
+   table:makeTable(trigTables.tanTable16_20),
+   choices:['① 16°以上17°未満','② 17°以上18°未満','③ 18°以上19°未満','④ 19°以上20°未満'],
+   ans:2,
+   exp:'tan∠ABC = <span class="frac"><span class="num">AC</span><span class="den">BC</span></span> = <span class="frac"><span class="num">10</span><span class="den">30</span></span> ≒ 0.333 → tan18°=0.3249 ＜ 0.333 ＜ tan19°=0.3443 → 18°以上19°未満'},
+  // 類題2：R3-2(1) クレーン
+  {type:'angle_range',
+   q:'下の図のように，クレーンのアームの長さ AB＝10 m，水平距離 BC＝4 m，∠ACB＝90° のとき，∠ABCの大きさとして最も適切なものを選べ。',
+   scene:{adj:4,hyp:10,trig:'cos'},
+   table:makeTable(trigTables.cosTable65_69),
+   choices:['① 65°以上66°未満','② 66°以上67°未満','③ 67°以上68°未満','④ 68°以上69°未満'],
+   ans:1,
+   exp:'cos∠ABC = <span class="frac"><span class="num">BC</span><span class="den">AB</span></span> = <span class="frac"><span class="num">4</span><span class="den">10</span></span> = 0.4 → cos66°=0.4067 ＞ 0.4 ＞ cos67°=0.3907 → 66°以上67°未満'},
+  // 類題3：R3-1(1) スロープ
+  {type:'angle_range',
+   q:'下の図のように，スロープの長さ AC＝8.0 m，段差 BC＝0.4 m，∠ACB＝90° のとき，∠CAB の大きさとして最も適切なものを選べ。',
+   scene:{opp:0.4,hyp:8.0,trig:'sin',from:'A'},
+   table:makeTable(trigTables.sinTable1_5),
+   choices:['① 1°以上2°未満','② 2°以上3°未満','③ 3°以上4°未満','④ 4°以上5°未満'],
+   ans:1,
+   exp:'sin∠CAB = <span class="frac"><span class="num">BC</span><span class="den">AC</span></span> = <span class="frac"><span class="num">0.4</span><span class="den">8.0</span></span> = 0.05 → sin2°=0.0349 ＜ 0.05 ＜ sin3°=0.0523 → 2°以上3°未満'},
+  // 類題4：R7-1(1) イルカショー（斜辺）
+  {type:'hyp_sin',
+   q:'下の図のように，イルカの位置 A，太郎さんの位置 B，花子さんの位置 C とする。BC＝5 m，∠ABC＝90°，∠ACB＝57° のとき，AC を求める式はどれか。',
+   scene:{type:'hyp',theta:'57°',knownSide:'adj',knownVal:'5 m',askLabel:'AC=?'},
+   choices:[
+     '① 5 × sin 57°','② 5 × cos 57°','③ 5 × tan 57°',
+     '④ 5 × '+F1('sin 57°'),'⑤ 5 × '+F1('cos 57°'),'⑥ 5 × '+F1('tan 57°'),
+   ],
+   ans:4,
+   exp:'cos57° = <span class="frac"><span class="num">BC</span><span class="den">AC</span></span> → AC = 5 × <span class="frac"><span class="num">1</span><span class="den">cos57°</span></span>'},
+  // 類題5：R6-1(1) スポーツクライミング（斜辺）
+  {type:'hyp_sin',
+   q:'下の図のように，壁の頂上 A，壁の真下 B，B から 20 m 離れた地点 C とする。BC＝20 m，∠ABC＝90°，∠ACB＝53° のとき，AC を求める式はどれか。',
+   scene:{type:'hyp',theta:'53°',knownSide:'adj',knownVal:'20 m',askLabel:'AC=?'},
+   choices:[
+     '① 20 × sin 53°','② 20 × cos 53°','③ 20 × tan 53°',
+     '④ 20 × '+F1('sin 53°'),'⑤ 20 × '+F1('cos 53°'),'⑥ 20 × '+F1('tan 53°'),
+   ],
+   ans:4,
+   exp:'cos53° = <span class="frac"><span class="num">隣辺BC</span><span class="den">斜辺AC</span></span> → AC = 20 × <span class="frac"><span class="num">1</span><span class="den">cos53°</span></span>'},
+  // 類題6：R4-2(1) 寺院（tan）
+  {type:'angle_range',
+   q:'下の図のように，寺院の頂上 A，参拝者の目の位置 B，頂上の真下 C とする。BC＝46 m，∠ABC＝28°，∠ACB＝90° のとき，高さ AC はおよそ何 m か。',
+   scene:{opp:null,adj:46,trig:'tan'},
+   table:makeTable([{deg:27,sin:0.4540,cos:0.8910,tan:0.5095},{deg:28,sin:0.4695,cos:0.8829,tan:0.5317},{deg:29,sin:0.4848,cos:0.8746,tan:0.5543}]),
+   choices:['① 21.6 m','② 24.5 m','③ 30.5 m','④ 40.6 m'],
+   ans:1,
+   exp:'AC = BC × tan28° = 46 × 0.5317 ≒ 24.5 m'},
+  // 類題7：斜辺を求める（sin）
+  {type:'hyp_sin',
+   q:'下の図のように，∠ABC＝90°，∠ACB＝41°，BC＝30 m のとき，斜辺 AC を求める式はどれか。',
+   scene:{type:'hyp',theta:'41°',knownSide:'adj',knownVal:'30 m',askLabel:'AC=?'},
+   choices:[
+     '① 30 × sin 41°','② 30 × cos 41°','③ 30 × tan 41°',
+     '④ 30 × '+F1('sin 41°'),'⑤ 30 × '+F1('cos 41°'),'⑥ 30 × '+F1('tan 41°'),
+   ],
+   ans:3,
+   exp:'cos41° = <span class="frac"><span class="num">隣辺BC</span><span class="den">斜辺AC</span></span> → AC = 30 × <span class="frac"><span class="num">1</span><span class="den">cos41°</span></span>'},
+  // 類題8：斜辺を求める（cos）
+  {type:'hyp_sin',
+   q:'下の図のように，∠ABC＝90°，∠ACB＝36°，BC＝20 m のとき，斜辺 AC を求める式はどれか。',
+   scene:{type:'hyp',theta:'36°',knownSide:'adj',knownVal:'20 m',askLabel:'AC=?'},
+   choices:[
+     '① 20 × sin 36°','② 20 × cos 36°','③ 20 × tan 36°',
+     '④ 20 × '+F1('sin 36°'),'⑤ 20 × '+F1('cos 36°'),'⑥ 20 × '+F1('tan 36°'),
+   ],
+   ans:4,
+   exp:'cos36° = <span class="frac"><span class="num">隣辺BC</span><span class="den">斜辺AC</span></span> → AC = 20 × <span class="frac"><span class="num">1</span><span class="den">cos36°</span></span>'},
+];
+
+// ===== Canvas描画（練習・確認用）=====
+function drawQ(canvasId, q){
+  const cv=document.getElementById(canvasId);if(!cv)return;
+  const ctx=cv.getContext('2d');ctx.clearRect(0,0,cv.width,cv.height);
+
+  if(q.type==='angle_range'){
+    const scene = q.scene || {};
+    if(scene.from==='A'){
+      // A左下θ・C右下直角・B右上
+      const A={x:18,y:cv.height-25},C={x:cv.width-50,y:cv.height-25},B={x:cv.width-50,y:30};
+      ctx.beginPath();ctx.moveTo(A.x,A.y);ctx.lineTo(C.x,C.y);ctx.lineTo(B.x,B.y);ctx.closePath();
+      ctx.fillStyle='#f5f3ff';ctx.fill();ctx.strokeStyle='#7c3aed';ctx.lineWidth=2;ctx.stroke();
+      const sqA=9;ctx.beginPath();ctx.moveTo(C.x-sqA,C.y);ctx.lineTo(C.x-sqA,C.y-sqA);ctx.lineTo(C.x,C.y-sqA);
+      ctx.strokeStyle='#7c3aed';ctx.lineWidth=1.5;ctx.stroke();
+      const angA=Math.atan2(B.y-A.y,C.x-A.x);
+      ctx.beginPath();ctx.arc(A.x,A.y,20,angA,0);ctx.strokeStyle='#7c3aed';ctx.lineWidth=1.5;ctx.stroke();
+      ctx.fillStyle='#7c3aed';ctx.font='bold 12px "BIZ UDPGothic",sans-serif';ctx.fillText('?°',A.x+23,A.y-5);
+      ctx.fillStyle='#374151';ctx.font='bold 13px "BIZ UDPGothic",sans-serif';
+      ctx.fillText('A',A.x-16,A.y+4);ctx.fillText('C',C.x+4,C.y+14);ctx.fillText('B',B.x+4,B.y-4);
+      if(scene.hyp!=null){ctx.fillStyle='#374151';ctx.font='bold 12px "BIZ UDPGothic",sans-serif';ctx.save();ctx.translate((A.x+B.x)/2-18,(A.y+B.y)/2);ctx.fillText(scene.hyp+' m',0,0);ctx.restore();}
+      if(scene.opp!=null){ctx.fillStyle='#dc2626';ctx.font='bold 12px "BIZ UDPGothic",sans-serif';ctx.fillText(scene.opp+' m',B.x+5,(B.y+C.y)/2+4);}
+      if(scene.adj!=null){ctx.fillStyle='#2563eb';ctx.font='bold 12px "BIZ UDPGothic",sans-serif';ctx.textAlign='center';ctx.fillText(scene.adj+' m',(A.x+C.x)/2,C.y+16);ctx.textAlign='left';}
+    } else {
+      // B左下θ・C右下直角・A右上（通常）
+      const B={x:18,y:cv.height-25},C={x:cv.width-50,y:cv.height-25},A={x:cv.width-50,y:30};
+      drawRightTri(ctx,B,C,A,'?°',{A:'A',B:'B',C:'C'});
+      if(scene.opp!=null){ctx.fillStyle='#dc2626';ctx.font='bold 12px "BIZ UDPGothic",sans-serif';ctx.fillText(scene.opp+' m',A.x+5,(A.y+C.y)/2+4);}
+      if(scene.adj!=null){ctx.fillStyle='#2563eb';ctx.font='bold 12px "BIZ UDPGothic",sans-serif';ctx.textAlign='center';ctx.fillText(scene.adj+' m',(B.x+C.x)/2,C.y+16);ctx.textAlign='left';}
+      if(scene.hyp!=null){ctx.fillStyle='#374151';ctx.font='bold 12px "BIZ UDPGothic",sans-serif';ctx.save();ctx.translate((B.x+A.x)/2-18,(B.y+A.y)/2);ctx.fillText(scene.hyp+' m',0,0);ctx.restore();}
+    }
+  } else {
+    // 斜辺を求める図（C左下θ・B右下直角・A右上）
+    if(!q.scene) return;
+    const s = q.scene;
+    const C2={x:18,y:cv.height-25},B2={x:cv.width-50,y:cv.height-25},A2={x:cv.width-50,y:30};
+    ctx.beginPath();ctx.moveTo(C2.x,C2.y);ctx.lineTo(B2.x,B2.y);ctx.lineTo(A2.x,A2.y);ctx.closePath();
+    ctx.fillStyle='#f5f3ff';ctx.fill();ctx.strokeStyle='#7c3aed';ctx.lineWidth=2;ctx.stroke();
+    const sq2=9;ctx.beginPath();ctx.moveTo(B2.x-sq2,B2.y);ctx.lineTo(B2.x-sq2,B2.y-sq2);ctx.lineTo(B2.x,B2.y-sq2);
+    ctx.strokeStyle='#7c3aed';ctx.lineWidth=1.5;ctx.stroke();
+    const ang2=Math.atan2(A2.y-C2.y,B2.x-C2.x);
+    ctx.beginPath();ctx.arc(C2.x,C2.y,20,ang2,0);ctx.strokeStyle='#7c3aed';ctx.lineWidth=1.5;ctx.stroke();
+    ctx.fillStyle='#7c3aed';ctx.font='bold 12px "BIZ UDPGothic",sans-serif';ctx.fillText(s.theta,C2.x+23,C2.y-5);
+    if(s.type==='hyp_opp'){
+      ctx.fillStyle='#2563eb';ctx.font='bold 12px "BIZ UDPGothic",sans-serif';
+      ctx.fillText(s.knownVal,B2.x+5,(B2.y+A2.y)/2+4);
+    } else {
+      ctx.fillStyle='#2563eb';ctx.font='bold 12px "BIZ UDPGothic",sans-serif';
+      ctx.textAlign='center';ctx.fillText(s.knownVal,(C2.x+B2.x)/2,B2.y+16);ctx.textAlign='left';
+    }
+    ctx.strokeStyle='#dc2626';ctx.lineWidth=3;
+    ctx.beginPath();ctx.moveTo(C2.x,C2.y);ctx.lineTo(A2.x,A2.y);ctx.stroke();
+    ctx.fillStyle='#dc2626';ctx.font='bold 12px "BIZ UDPGothic",sans-serif';
+    ctx.save();ctx.translate((C2.x+A2.x)/2-20,(C2.y+A2.y)/2);ctx.fillText(s.askLabel,0,0);ctx.restore();
+    ctx.fillStyle='#374151';ctx.font='bold 13px "BIZ UDPGothic",sans-serif';
+    ctx.fillText('A',A2.x+4,A2.y-4);ctx.fillText('B',B2.x+4,B2.y+14);ctx.fillText('C',C2.x-16,C2.y+4);
+  }
+}
+
+// ===== ミニテストB =====
+// ∠BAC=41°, BC=30m(対辺), AC=斜辺 → sin41°=対辺/斜辺 → AC=30×1/sin41°
+// ※ ∠BAC が頂角なので対辺BC → sin使用
+// 正解：④ 30 × 1/sin41°（インデックス3）
+let mtBSel=-1, mtBDone=false;
+
+function drawMtB(){
+  const cv=document.getElementById('c-mtB');if(!cv)return;
+  const ctx=cv.getContext('2d');ctx.clearRect(0,0,220,170);
+  // A左下(θ=41°), B右下(直角), C右上 → 斜辺AC
+  const A={x:18,y:145},B={x:130,y:145},C={x:130,y:50};
+  ctx.beginPath();ctx.moveTo(A.x,A.y);ctx.lineTo(B.x,B.y);ctx.lineTo(C.x,C.y);ctx.closePath();
+  ctx.fillStyle='#f5f3ff';ctx.fill();ctx.strokeStyle='#7c3aed';ctx.lineWidth=2;ctx.stroke();
+  const sq=9;ctx.beginPath();ctx.moveTo(B.x-sq,B.y);ctx.lineTo(B.x-sq,B.y-sq);ctx.lineTo(B.x,B.y-sq);
+  ctx.strokeStyle='#7c3aed';ctx.lineWidth=1.5;ctx.stroke();
+  // θ弧（A左下）
+  const ang=Math.atan2(C.y-A.y,B.x-A.x);
+  ctx.beginPath();ctx.arc(A.x,A.y,20,ang,0);ctx.strokeStyle='#7c3aed';ctx.lineWidth=1.5;ctx.stroke();
+  ctx.fillStyle='#7c3aed';ctx.font='bold 12px "BIZ UDPGothic",sans-serif';ctx.fillText('41°',A.x+23,A.y-5);
+  // 対辺BC（青・わかっている辺）
+  ctx.fillStyle='#2563eb';ctx.font='bold 13px "BIZ UDPGothic",sans-serif';
+  ctx.fillText('30 m',B.x+5,(B.y+C.y)/2+4);
+  // 斜辺AC（赤・求める辺）
+  ctx.strokeStyle='#dc2626';ctx.lineWidth=3;
+  ctx.beginPath();ctx.moveTo(A.x,A.y);ctx.lineTo(C.x,C.y);ctx.stroke();
+  ctx.fillStyle='#dc2626';ctx.font='bold 12px "BIZ UDPGothic",sans-serif';
+  ctx.save();ctx.translate((A.x+C.x)/2-20,(A.y+C.y)/2);ctx.fillText('AC=?',0,0);ctx.restore();
+  // 頂点
+  ctx.fillStyle='#374151';ctx.font='bold 13px "BIZ UDPGothic",sans-serif';
+  ctx.fillText('A',A.x-16,A.y+4);ctx.fillText('B',B.x+5,B.y+14);ctx.fillText('C',C.x+5,C.y-4);
+}
+
+function selectMtB(ci){
+  if(mtBDone)return;
+  mtBSel=ci;
+  document.querySelectorAll('#mtB-choices .choice').forEach((b,i)=>{
+    b.style.background=i===ci?'#ede9fe':'';b.style.borderColor=i===ci?'#7c3aed':'';
+  });
+}
+
+function submitMtB(){
+  if(mtBDone)return;
+  mtBDone=true;
+  const ca=4; // ⑤ 30×1/cos41°
+  document.querySelectorAll('#mtB-choices .choice').forEach((b,i)=>{
+    if(i===ca)b.classList.add('show-correct');
+    if(i===mtBSel&&mtBSel===ca)b.classList.add('selected-correct');
+    else if(i===mtBSel)b.classList.add('selected-wrong');
+  });
+  document.getElementById('mtB-btn').disabled=true;
+  const fb=document.getElementById('mtB-fb');
+  fb.style.display='block';
+  fb.innerHTML=`<div class="feedback ${mtBSel===ca?'ok':'ng'}" style="margin-top:8px;">
+    ${mtBSel===ca?'正解！ ':'不正解。'}
+    cos41° = <span class="frac"><span class="num">隣辺BC</span><span class="den">斜辺AC</span></span> → AC = BC × ${F1('cos 41°')} = 30 × ${F1('cos 41°')}
+  </div>`;
+  if(mtBSel===ca)fireConfetti();
+}
+let currentSet=0, drillAnswers=[], drillSubmitted=false;
+
+function initDrill(){loadDrill(0);}
+
+function loadDrill(idx){
+  currentSet=idx; drillAnswers=new Array(4).fill(-1); drillSubmitted=false;
+  document.querySelectorAll('.set-tab').forEach((t,i)=>t.classList.toggle('active',i===idx));
+  document.getElementById('drill-result').style.display='none';
+  document.getElementById('drill-submit').disabled=false;
+  const container=document.getElementById('drill-questions');container.innerHTML='';
+  drillSets[idx].forEach((q,qi)=>{
+    const block=document.createElement('div');block.className='q-block';block.id='dq-'+qi;
+    const choiceClass=q.choices.length===6?'choices6':'choices';
+    block.innerHTML=`<div class="q-num">問${qi+1}${q.type==='angle_range'?'　【角度の範囲】':'　【斜辺を求める式】'}</div>
+      <div class="q-text">${q.q}</div>
+      ${q.table?'<div style="overflow-x:auto;">'+q.table+'</div>':''}
+      <div class="fig-wrap"><canvas id="dq-c${qi}" width="200" height="140"></canvas></div>
+      <div class="${choiceClass}" id="dc-${qi}">
+        ${q.choices.map((c,ci)=>`<button class="choice" onclick="selectDrill(${qi},${ci})">${c}</button>`).join('')}
+      </div>`;
+    container.appendChild(block);
+    setTimeout(()=>drawQ(`dq-c${qi}`,q),50);
+  });
+}
+
+function selectDrill(qi,ci){
+  if(drillSubmitted)return;
+  drillAnswers[qi]=ci;
+  document.querySelectorAll(`#dc-${qi} .choice`).forEach((b,i)=>{
+    b.style.background=i===ci?'#ede9fe':'';b.style.borderColor=i===ci?'#7c3aed':'';
+  });
+}
+
+function submitDrill(){
+  if(drillSubmitted)return;drillSubmitted=true;
+  let correct=0;
+  drillSets[currentSet].forEach((q,qi)=>{
+    const ua=drillAnswers[qi];const block=document.getElementById('dq-'+qi);
+    document.querySelectorAll(`#dc-${qi} .choice`).forEach((b,i)=>{
+      if(i===q.ans)b.classList.add('show-correct');
+      if(i===ua&&ua===q.ans){b.classList.add('selected-correct');correct++;}
+      else if(i===ua)b.classList.add('selected-wrong');
+    });
+    block.classList.add(ua===q.ans?'correct':'wrong');
+    const fb=document.createElement('div');fb.className='feedback '+(ua===q.ans?'ok':'ng');
+    fb.innerHTML=(ua===q.ans?'正解！ ':'不正解。')+q.exp;
+    block.appendChild(fb);
+  });
+  document.getElementById('drill-submit').disabled=true;
+  const res=document.getElementById('drill-result');res.style.display='block';
+  res.innerHTML=`<div class="score-box"><div class="score-circle">${correct}<div class="score-label">/ 4</div></div>
+    <div style="font-size:14px;font-weight:700;color:#5b21b6;">${correct===4?'全問正解！🎉':'もう一度チャレンジしよう'}</div></div>`;
+  if(correct===4)fireConfetti();
+}
+
+// ===== チェック管理 =====
+let checkAnswers=[], checkSubmitted=false;
+
+function initCheck(){
+  checkAnswers=new Array(8).fill(-1);checkSubmitted=false;
+  document.getElementById('check-result').style.display='none';
+  document.getElementById('check-submit').disabled=false;
+  const container=document.getElementById('check-questions');container.innerHTML='';
+  checkData.forEach((q,qi)=>{
+    const block=document.createElement('div');block.className='q-block';block.id='cq-'+qi;
+    const choiceClass=q.choices.length===6?'choices6':'choices';
+    block.innerHTML=`<div class="q-num">問${qi+1}${q.type==='angle_range'?'　【角度の範囲】':'　【斜辺を求める式】'}</div>
+      <div class="q-text">${q.q}</div>
+      ${q.table?'<div style="overflow-x:auto;">'+q.table+'</div>':''}
+      <div class="fig-wrap"><canvas id="ck-c${qi}" width="200" height="140"></canvas></div>
+      <div class="${choiceClass}" id="cc-${qi}">
+        ${q.choices.map((c,ci)=>`<button class="choice" onclick="selectCheck(${qi},${ci})">${c}</button>`).join('')}
+      </div>`;
+    container.appendChild(block);
+    setTimeout(()=>drawQ(`ck-c${qi}`,q),50);
+  });
+}
+
+function selectCheck(qi,ci){
+  if(checkSubmitted)return;
+  checkAnswers[qi]=ci;
+  document.querySelectorAll(`#cc-${qi} .choice`).forEach((b,i)=>{
+    b.style.background=i===ci?'#ede9fe':'';b.style.borderColor=i===ci?'#7c3aed':'';
+  });
+}
+
+function submitCheck(){
+  if(checkSubmitted)return;checkSubmitted=true;
+  let correct=0;
+  checkData.forEach((q,qi)=>{
+    const ua=checkAnswers[qi];const block=document.getElementById('cq-'+qi);
+    document.querySelectorAll(`#cc-${qi} .choice`).forEach((b,i)=>{
+      if(i===q.ans)b.classList.add('show-correct');
+      if(i===ua&&ua===q.ans){b.classList.add('selected-correct');correct++;}
+      else if(i===ua)b.classList.add('selected-wrong');
+    });
+    block.classList.add(ua===q.ans?'correct':'wrong');
+    const fb=document.createElement('div');fb.className='feedback '+(ua===q.ans?'ok':'ng');
+    fb.innerHTML=(ua===q.ans?'正解！ ':'不正解。')+q.exp;
+    block.appendChild(fb);
+  });
+  document.getElementById('check-submit').disabled=true;
+  const res=document.getElementById('check-result');res.style.display='block';
+  res.innerHTML=`<div class="score-box"><div class="score-circle">${correct}<div class="score-label">/ 8</div></div>
+    <div style="font-size:14px;font-weight:700;color:#5b21b6;">${correct===8?'全問正解！🎉':correct>=6?'あと少し！':'例題に戻って確認しよう'}</div></div>`;
+  if(correct===8){fireConfetti();markPassed('TR04_2');}
+}
+
+// ===== 花吹雪 =====
+function fireConfetti(){
+  const wrap=document.createElement('div');wrap.className='confetti-wrap';document.body.appendChild(wrap);
+  const colors=['#7c3aed','#5b21b6','#a78bfa','#f59e0b','#10b981'];
+  for(let i=0;i<60;i++){
+    const p=document.createElement('div');
+    const c=colors[Math.floor(Math.random()*colors.length)];
+    const sz=8+Math.random()*8;
+    p.style.cssText=`position:absolute;width:${sz}px;height:${sz}px;left:${Math.random()*100}%;top:-10px;background:${c};border-radius:${Math.random()>.5?'50%':'2px'};animation:fall${i} ${1.5+Math.random()*2}s ${Math.random()*1.5}s forwards;`;
+    wrap.appendChild(p);
+    const st=document.createElement('style');
+    const tx=(Math.random()-.5)*200;
+    st.textContent=`@keyframes fall${i}{0%{top:-10px;opacity:1;}100%{top:110vh;opacity:0;transform:rotate(720deg) translateX(${tx}px);}}`;
+    document.head.appendChild(st);
+  }
+  setTimeout(()=>wrap.remove(),5000);
+}
+
+// ===== 初期化 =====
+window.addEventListener('load',()=>{
+  drawExamples();
+  drawMtB();
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,1107 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TR05 鈍角の三角比・単位円</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<style>
+:root{
+  --primary:#7c3aed;--pl:#ede9fe;--pm:#a78bfa;
+  --acc:#f59e0b;--al:#fef3c7;
+  --bg:#faf9ff;--card:#fff;--text:#1e1b2e;--tm:#4c4563;--tl:#7c6fa0;
+  --bd:#e0d9f7;--ok:#059669;--okb:#d1fae5;--ng:#dc2626;--ngb:#fee2e2;
+  --sh:0 2px 12px rgba(124,58,237,.10);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'BIZ UDPGothic','Meiryo',sans-serif;background:var(--bg);color:var(--text);font-size:16px;line-height:1.7;}
+.hd{background:linear-gradient(135deg,#7c3aed,#a855f7);color:#fff;padding:16px 18px 12px;position:sticky;top:0;z-index:100;box-shadow:0 2px 16px rgba(124,58,237,.25);}
+.hd .ser{font-size:11px;letter-spacing:2px;opacity:.85;text-transform:uppercase;margin-bottom:2px;}
+.hd h1{font-size:19px;font-weight:700;}
+.hd .sub{font-size:13px;opacity:.85;margin-top:2px;}
+.pbw{background:rgba(255,255,255,.2);border-radius:8px;height:6px;margin-top:8px;}
+.pbf{background:#fbbf24;height:6px;border-radius:8px;transition:width .4s;width:0%;}
+.wrap{max-width:760px;margin:0 auto;padding:16px 13px 60px;}
+.slb{display:inline-flex;align-items:center;gap:8px;background:var(--primary);color:#fff;font-size:12px;font-weight:700;letter-spacing:1px;padding:4px 14px;border-radius:20px;margin-bottom:12px;}
+.card{background:var(--card);border:1.5px solid var(--bd);border-radius:16px;padding:16px;margin-bottom:16px;box-shadow:var(--sh);}
+.card h2{font-size:16px;font-weight:700;color:var(--primary);margin-bottom:10px;padding-bottom:7px;border-bottom:2px solid var(--pl);}
+.ibox{background:var(--pl);border-left:4px solid var(--primary);border-radius:0 12px 12px 0;padding:11px 14px;margin:10px 0;}
+.ibox .lb{font-size:11px;font-weight:700;color:var(--primary);letter-spacing:1px;margin-bottom:4px;}
+.pbox{background:var(--al);border:1.5px solid var(--acc);border-radius:12px;padding:10px 13px;margin:9px 0;font-size:14px;}
+.pbox .plb{font-size:11px;font-weight:700;color:var(--acc);letter-spacing:1px;margin-bottom:3px;}
+.cwrap{display:flex;justify-content:center;align-items:flex-start;gap:12px;flex-wrap:wrap;margin:12px 0;}
+.ccon{display:flex;flex-direction:column;align-items:center;gap:5px;}
+.clb{font-size:13px;font-weight:700;color:var(--tm);text-align:center;}
+canvas{border-radius:8px;display:block;}
+.uci{display:flex;flex-direction:column;align-items:center;gap:10px;margin:12px 0;}
+.asw{display:flex;align-items:center;gap:10px;width:100%;max-width:380px;}
+.asw label{font-size:14px;font-weight:700;color:var(--primary);white-space:nowrap;}
+input[type=range]{flex:1;accent-color:var(--primary);cursor:pointer;}
+.adp{background:var(--primary);color:#fff;font-size:15px;font-weight:700;padding:4px 13px;border-radius:20px;white-space:nowrap;}
+.tvs{display:flex;gap:9px;flex-wrap:wrap;justify-content:center;}
+.tvb{background:var(--card);border:2px solid var(--bd);border-radius:12px;padding:7px 11px;text-align:center;min-width:92px;}
+.tvb.sb{border-color:#3b82f6;}.tvb.cb{border-color:#ef4444;}.tvb.tb{border-color:#10b981;}
+.tvb .vl{font-size:11px;font-weight:700;color:var(--tl);letter-spacing:1px;}
+.tvb .vn{font-size:18px;font-weight:700;margin-top:2px;}
+.tvb.sb .vn{color:#3b82f6;}.tvb.cb .vn{color:#ef4444;}.tvb.tb .vn{color:#10b981;}
+/* 縦型分数 */
+.fr{display:inline-flex;flex-direction:column;align-items:center;line-height:1.1;vertical-align:middle;margin:0 1px;}
+.fr .fn{border-bottom:1.5px solid currentColor;padding-bottom:1px;font-size:.87em;min-width:1em;text-align:center;}
+.fr .fd{padding-top:1px;font-size:.87em;min-width:1em;text-align:center;}
+/* 表 */
+.ttbl{width:100%;border-collapse:collapse;font-size:14px;margin:8px 0;}
+.ttbl th{background:var(--primary);color:#fff;padding:7px 4px;text-align:center;font-weight:700;}
+.ttbl td{border:1px solid var(--bd);padding:7px 4px;text-align:center;vertical-align:middle;}
+.ttbl tr:nth-child(even) td{background:var(--pl);}
+.ttbl .ob td{background:#f3e8ff;}
+.neg{color:var(--ng);font-weight:700;}.pos{color:var(--ok);font-weight:700;}.ud{color:var(--tl);font-style:italic;font-size:12px;}
+.exb{background:#f5f3ff;border:2px solid var(--pm);border-radius:14px;padding:13px 16px;margin:10px 0;}
+.exb .et{font-size:13px;font-weight:700;color:var(--primary);letter-spacing:1px;margin-bottom:7px;}
+.exb .eq{font-size:15px;font-weight:700;color:var(--text);}
+/* ボタン群 */
+.btn{background:var(--primary);color:#fff;border:none;border-radius:10px;padding:10px 18px;font-size:14px;font-family:inherit;font-weight:700;cursor:pointer;transition:all .18s;margin-top:6px;}
+.btn:hover{background:#6d28d9;transform:translateY(-1px);}
+.btn.sec{background:#e0d9f7;color:var(--primary);}.btn.sec:hover{background:var(--pm);color:#fff;}
+.btn.ok2{background:#059669;}.btn.ok2:hover{background:#047857;}
+.btn.acc{background:var(--acc);color:#1e1b2e;}.btn.acc:hover{background:#d97706;}
+.btn.back{background:#f3f4f6;color:var(--tm);border:1.5px solid #d1d5db;}.btn.back:hover{background:#e5e7eb;}
+.navrow{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-top:10px;}
+/* ドリル */
+.di{background:var(--card);border:1.5px solid var(--bd);border-radius:14px;padding:13px 15px;margin-bottom:11px;box-shadow:var(--sh);}
+.di.ac{border-color:var(--ok);background:var(--okb);}
+.di.aw{border-color:var(--ng);background:var(--ngb);}
+.dq{font-size:15px;font-weight:700;margin-bottom:11px;}
+.chs{display:flex;flex-direction:column;gap:7px;}
+.cb{background:#fff;border:2px solid var(--bd);border-radius:10px;padding:9px 13px;font-size:14px;font-family:inherit;cursor:pointer;text-align:left;transition:all .18s;display:flex;align-items:center;gap:9px;}
+.cb:hover:not(:disabled){border-color:var(--primary);background:var(--pl);}
+.cb.cor{border-color:var(--ok);background:var(--okb);font-weight:700;color:var(--ok);}
+.cb.wrg{border-color:var(--ng);background:var(--ngb);color:var(--ng);}
+.cb:disabled{cursor:default;}
+.ci{font-size:16px;}
+.fb{margin-top:9px;padding:9px 12px;border-radius:10px;font-size:14px;display:none;}
+.fb.cor{background:var(--okb);color:var(--ok);border:1px solid var(--ok);}
+.fb.wrg{background:var(--ngb);color:var(--ng);border:1px solid var(--ng);}
+.sca{background:linear-gradient(135deg,#7c3aed,#a855f7);color:#fff;border-radius:16px;padding:18px;text-align:center;margin-top:18px;display:none;}
+.sca .sn{font-size:48px;font-weight:700;}
+.sca .sm{font-size:14px;opacity:.85;}
+.nbtn{background:#fff;color:var(--primary);border:none;border-radius:12px;padding:11px 26px;font-size:15px;font-weight:700;font-family:inherit;cursor:pointer;margin-top:12px;transition:all .18s;}
+.nbtn:hover{background:var(--al);transform:translateY(-1px);}
+.ph{display:none;}.ph.ac{display:block;}
+/* ====== 表チャレンジ ====== */
+.wb{display:flex;flex-wrap:wrap;gap:8px;min-height:54px;padding:10px;background:#f5f3ff;border:2px dashed var(--pm);border-radius:12px;margin-bottom:12px;align-items:center;}
+/* チップ：通常・選択中・使用済み */
+.chip{background:#fff;border:2px solid var(--primary);border-radius:8px;padding:7px 12px;cursor:pointer;font-size:14px;font-weight:700;color:var(--primary);transition:all .18s;user-select:none;display:inline-flex;align-items:center;justify-content:center;}
+.chip:hover{background:var(--pl);transform:scale(1.04);}
+.chip.sel{outline:3px solid #ef4444;background:#fff3f3;}
+.chip.used{opacity:.25;pointer-events:none;}
+/* セル */
+.ctbl{width:100%;border-collapse:collapse;font-size:14px;margin:8px 0;}
+.ctbl th{background:var(--primary);color:#fff;padding:7px 4px;text-align:center;font-weight:700;}
+.ctbl td{border:1px solid var(--bd);padding:5px 3px;text-align:center;vertical-align:middle;}
+.ctbl tr:nth-child(even) td{background:var(--pl);}
+.ctbl .ob td{background:#f3e8ff;}
+.dcell{min-width:62px;min-height:40px;cursor:pointer;border-radius:6px;transition:background .15s;}
+.dcell.filled{background:#e9d5ff;border:1.5px solid var(--primary);}
+.dcell.filled:hover{background:#d8b4fe;}
+.dcell.ok2{background:var(--okb)!important;border:1.5px solid var(--ok)!important;cursor:default;}
+.dcell.ng2{background:var(--ngb)!important;border:1.5px solid var(--ng)!important;}
+/* 花吹雪 */
+.cp{position:fixed;border-radius:2px;opacity:0;pointer-events:none;animation:fall 2.8s ease-in forwards;}
+@keyframes fall{0%{opacity:1;transform:translateY(-30px) rotate(0deg);}100%{opacity:0;transform:translateY(105vh) rotate(800deg);}}
+/* モーダル */
+.mbg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.52);z-index:200;align-items:center;justify-content:center;}
+.mbg.show{display:flex;}
+.modal{background:#fff;border-radius:16px;padding:18px;max-width:400px;width:93%;max-height:90vh;overflow-y:auto;}
+.modal h3{font-size:16px;font-weight:700;color:var(--primary);margin-bottom:10px;}
+.mclose{background:var(--ng);color:#fff;border:none;border-radius:8px;padding:8px 18px;font-size:14px;font-weight:700;cursor:pointer;margin-top:12px;width:100%;}
+@media(max-width:520px){.cwrap{flex-direction:column;align-items:center;}.tvs{gap:7px;}.tvb{min-width:78px;padding:5px 7px;}}
+</style>
+</head>
+<body>
+
+<header class="hd">
+  <div class="ser">GAMBA 高認数学 ▶ 三角比シリーズ TR05</div>
+  <h1>鈍角の三角比・単位円</h1>
+  <div class="sub">単位円を使って0°〜180°の三角比を理解しよう</div>
+  <div class="pbw"><div class="pbf" id="pb"></div></div>
+</header>
+
+<div class="wrap">
+
+<!-- PH1: 単位円 -->
+<div class="ph ac" id="ph1">
+  <div class="slb">📐 単位円って何？</div>
+  <div class="card">
+    <h2>単位円と三角比のつながり</h2>
+    <p style="font-size:14px;color:var(--tm);margin-bottom:10px;">TR01〜TR04では直角三角形の辺の比として sin・cos・tan を定義しました。<br>
+    しかし直角三角形では<strong>90°以下の角</strong>しか扱えません。<br>
+    <strong>鈍角（90°〜180°）の三角比</strong>を定義するには「単位円」を使います。</p>
+    <div class="ibox"><div class="lb">【定義】単位円</div>
+      <p style="font-size:14px;">原点(0,0)を中心とした<strong>半径1の円</strong>を「単位円」といいます。</p></div>
+    <div class="ibox"><div class="lb">【重要】単位円上の点と三角比</div>
+      <p style="font-size:14px;">単位円の円周上の点 P の座標 (x, y) について：</p>
+      <p style="font-size:15px;font-weight:700;color:var(--primary);margin-top:5px;">(x,&thinsp;y) = (cosθ,&ensp;sinθ)</p></div>
+    <div class="pbox"><div class="plb">【ポイント】</div>
+      <p style="font-size:14px;">半径1なので斜辺が1。だから <strong>sinθ = y÷1 = y</strong>、<strong>cosθ = x÷1 = x</strong> です！</p></div>
+  </div>
+  <div class="card">
+    <h2>🎛️ 動かして確かめよう</h2>
+    <div class="uci">
+      <div class="asw"><label>θ =</label><input type="range" id="asl" min="0" max="180" value="60" step="1"><div class="adp" id="adp">60°</div></div>
+      <canvas id="ucv" width="280" height="280"></canvas>
+      <div class="tvs">
+        <div class="tvb sb"><div class="vl">SIN θ = y座標</div><div class="vn" id="sv">—</div></div>
+        <div class="tvb cb"><div class="vl">COS θ = x座標</div><div class="vn" id="cv">—</div></div>
+        <div class="tvb tb"><div class="vl">TAN θ</div><div class="vn" id="tv">—</div></div>
+      </div>
+      <div class="pbox" style="width:100%;max-width:380px;"><div class="plb">【符号のルール】</div><p id="snote" style="font-size:14px;"></p></div>
+    </div>
+  </div>
+  <div class="navrow">
+    <button class="btn back" onclick="history.back()">← 前のページへ</button>
+    <button class="btn" onclick="goPh(2)">次へ →</button>
+  </div>
+</div>
+
+<!-- PH2: 例題1 -->
+<div class="ph" id="ph2">
+  <div class="slb">📝 例題 1</div>
+  <div class="card">
+    <h2>0°・90°・180° の三角比</h2>
+    <div class="exb"><div class="et">【例題 1】</div>
+      <div class="eq">次の角 θ の sinθ・cosθ の値を求めよ。<br>(1) θ=0°　(2) θ=90°　(3) θ=180°</div></div>
+    <div class="cwrap">
+      <div class="ccon"><canvas id="c0" width="148" height="108"></canvas><div class="clb">(1) θ=0°</div></div>
+      <div class="ccon"><canvas id="c90" width="148" height="108"></canvas><div class="clb">(2) θ=90°</div></div>
+      <div class="ccon"><canvas id="c180" width="148" height="108"></canvas><div class="clb">(3) θ=180°</div></div>
+    </div>
+    <div class="ibox"><div class="lb">【答え】</div>
+      <div style="font-size:14px;line-height:2;">
+        (1) cos0°= 1,&ensp;sin0°= 0<br>
+        (2) cos90°= 0,&ensp;sin90°= 1<br>
+        (3) cos180°= &minus;1,&ensp;sin180°= 0
+      </div></div>
+  </div>
+  <div class="navrow">
+    <button class="btn back" onclick="goPh(1)">← 前へ</button>
+    <button class="btn" onclick="goPh(3)">次へ：鈍角の三角比 →</button>
+  </div>
+</div>
+
+<!-- PH3: 例題2 -->
+<div class="ph" id="ph3">
+  <div class="slb">📝 例題 2</div>
+  <div class="card">
+    <h2>鈍角の三角比（120°・135°・150°）</h2>
+    <div class="exb"><div class="et">【例題 2】</div>
+      <div class="eq">sinθ・cosθ・tanθの値を求めよ。<br>(1) θ=120°　(2) θ=135°　(3) θ=150°</div></div>
+    <div class="pbox"><div class="plb">【考え方】</div>
+      <p style="font-size:14px;">鈍角の三角比は対応する<strong>鋭角（180°−θ）</strong>の三角形を参照します。<br>
+      x座標（cosθ）は<span style="color:var(--ng);font-weight:700;">マイナス</span>、y座標（sinθ）は<span style="color:var(--ok);font-weight:700;">プラス</span>になります。</p></div>
+    <div class="cwrap">
+      <div class="ccon"><canvas id="ob120" width="182" height="162"></canvas><div class="clb">(1) θ=120°</div></div>
+      <div class="ccon"><canvas id="ob135" width="182" height="162"></canvas><div class="clb">(2) θ=135°</div></div>
+      <div class="ccon"><canvas id="ob150" width="182" height="162"></canvas><div class="clb">(3) θ=150°</div></div>
+    </div>
+    <div class="ibox"><div class="lb">【答え】</div>
+      <div id="a2" style="font-size:14px;line-height:2.2;"></div></div>
+    <div class="ibox" style="margin-top:10px;"><div class="lb">【符号まとめ】</div>
+      <table class="ttbl"><tr><th></th><th>sinθ</th><th>cosθ</th><th>tanθ</th></tr>
+        <tr><td><strong>鋭角 0°〜90°</strong></td><td class="pos">＋</td><td class="pos">＋</td><td class="pos">＋</td></tr>
+        <tr><td><strong>鈍角 90°〜180°</strong></td><td class="pos">＋</td><td class="neg">−</td><td class="neg">−</td></tr></table>
+      <p style="font-size:13px;color:var(--primary);font-weight:700;margin-top:6px;">「sinは変わらない（常に＋）。cosとtanは鈍角でマイナス」</p></div>
+  </div>
+  <div class="navrow">
+    <button class="btn back" onclick="goPh(2)">← 前へ</button>
+    <button class="btn" onclick="goPh(4)">次へ：全角度の値の表 →</button>
+  </div>
+</div>
+
+<!-- PH4: まとめ表 ＋ 2段階チャレンジ -->
+<div class="ph" id="ph4">
+  <div class="slb">📋 まとめ表</div>
+
+  <!-- 第1段階：答え入り表 -->
+  <div id="tbl-view">
+    <div class="card">
+      <h2>0°〜180°の三角比の値</h2>
+      <p style="font-size:13px;color:var(--tm);margin-bottom:8px;">※ tan90° は定義しません　<span style="color:var(--primary);font-weight:700;">★印の行</span>がチャレンジ対象です</p>
+      <table class="ttbl">
+        <tr><th>θ</th><th>sinθ</th><th>cosθ</th><th>tanθ</th></tr>
+        <tr><td>30°</td><td class="pos" id="m30s"></td><td class="pos" id="m30c"></td><td class="pos" id="m30t"></td></tr>
+        <tr><td>45°</td><td class="pos" id="m45s"></td><td class="pos" id="m45c"></td><td class="pos" id="m45t"></td></tr>
+        <tr><td>60°</td><td class="pos" id="m60s"></td><td class="pos" id="m60c"></td><td class="pos" id="m60t"></td></tr>
+        <tr style="background:#faf0ff;"><td><span style="color:var(--primary);font-weight:700;">★</span>&thinsp;0°</td><td class="pos" id="m0s"></td><td class="pos" id="m0c"></td><td class="pos" id="m0t"></td></tr>
+        <tr style="background:#faf0ff;"><td><span style="color:var(--primary);font-weight:700;">★</span>&thinsp;90°</td><td class="pos" id="m90s"></td><td id="m90c"></td><td class="ud" id="m90t"></td></tr>
+        <tr class="ob"><td><span style="color:var(--primary);font-weight:700;">★</span>&thinsp;120°</td><td class="pos" id="m120s"></td><td class="neg" id="m120c"></td><td class="neg" id="m120t"></td></tr>
+        <tr class="ob"><td><span style="color:var(--primary);font-weight:700;">★</span>&thinsp;135°</td><td class="pos" id="m135s"></td><td class="neg" id="m135c"></td><td class="neg" id="m135t"></td></tr>
+        <tr class="ob"><td><span style="color:var(--primary);font-weight:700;">★</span>&thinsp;150°</td><td class="pos" id="m150s"></td><td class="neg" id="m150c"></td><td class="neg" id="m150t"></td></tr>
+        <tr style="background:#faf0ff;"><td><span style="color:var(--primary);font-weight:700;">★</span>&thinsp;180°</td><td id="m180s"></td><td class="neg" id="m180c"></td><td id="m180t"></td></tr>
+      </table>
+      <div class="pbox" style="margin-top:10px;"><div class="plb">【暗記のコツ】</div>
+        <p style="font-size:14px;">鈍角の値は対応する鋭角と同じ大きさで<strong>cosとtanだけマイナス</strong>にすればOK！</p></div>
+    </div>
+    <div style="text-align:center;margin-bottom:14px;">
+      <button class="btn ok2" onclick="startTblChallenge()">🎯 チャレンジ開始！★の値を隠します</button>
+    </div>
+  </div>
+
+  <!-- 第2段階：チャレンジ表 -->
+  <div id="tbl-challenge" style="display:none;">
+    <div class="card">
+      <h2>🎯 表チャレンジ</h2>
+      <p style="font-size:14px;color:var(--tm);margin-bottom:8px;">
+        ① 語群から値をタップして選ぶ（赤枠になる）<br>
+        ② 表の空欄をタップして配置する<br>
+        ③ 入力済みの空欄をもう一度タップすると語群に戻る
+      </p>
+      <div class="wb" id="tbl-wb"></div>
+      <div style="overflow-x:auto;">
+        <table class="ttbl" id="tbl-ctbl">
+          <tr><th>θ</th><th>sinθ</th><th>cosθ</th><th>tanθ</th></tr>
+          <tr><td>30°</td><td class="pos" id="f30s"></td><td class="pos" id="f30c"></td><td class="pos" id="f30t"></td></tr>
+          <tr><td>45°</td><td class="pos" id="f45s"></td><td class="pos" id="f45c"></td><td class="pos" id="f45t"></td></tr>
+          <tr><td>60°</td><td class="pos" id="f60s"></td><td class="pos" id="f60c"></td><td class="pos" id="f60t"></td></tr>
+        </table>
+      </div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;">
+        <button class="btn ok2" onclick="judgeTbl()">✓ 判定する</button>
+        <button class="btn sec" onclick="showTblRef()">📋 はじめの表を見る</button>
+        <button class="btn acc" id="tbl-restartBtn" style="display:none;" onclick="restartTblChallenge()">🔄 もう一度語群</button>
+      </div>
+      <div class="ibox" id="tbl-judgeResult" style="display:none;margin-top:10px;"></div>
+      <div id="tbl-complete" style="display:none;text-align:center;margin-top:14px;">
+        <p style="font-size:20px;font-weight:700;color:var(--ok);margin-bottom:10px;">🎉 全問正解！よくできました！</p>
+        <button class="btn" onclick="goPh(5)">次へ：練習問題 →</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="navrow">
+    <button class="btn back" onclick="backFromTbl()">← 前へ</button>
+    <button class="btn" id="tbl-next-btn" onclick="goPh(5)">次へ：練習問題 →</button>
+  </div>
+</div>
+
+</div>
+
+<!-- PH5: 練習問題 -->
+<div class="ph" id="ph5">
+  <div class="slb">✏️ 練習問題</div>
+  <div class="card">
+    <h2>練習：三角比の値を選べ（10問）</h2>
+    <div id="drlArea"></div>
+    <div class="sca" id="drlScore">
+      <div class="sm">練習問題の結果</div>
+      <div class="sn" id="drlSN"></div>
+      <div class="sm" id="drlSM"></div>
+      <button class="nbtn" onclick="goPh(6)">表チャレンジへ →</button>
+    </div>
+  </div>
+  <div class="navrow">
+    <button class="btn back" onclick="goPh(4)">← 前へ</button>
+  </div>
+</div>
+
+<!-- PH6: 表チャレンジ -->
+<div class="ph" id="ph6">
+  <div class="slb">🎯 表チャレンジ</div>
+  <div class="card">
+    <h2>空欄に正しい値を入れよう</h2>
+    <p style="font-size:14px;color:var(--tm);margin-bottom:6px;">
+      ① 語群から値をタップして選ぶ（赤枠）<br>
+      ② 表の空欄をタップして配置する<br>
+      ③ 空欄をもう一度タップすると語群に戻る
+    </p>
+    <!-- 語群 -->
+    <div class="wb" id="wb"></div>
+    <!-- チャレンジ表 -->
+    <div style="overflow-x:auto;">
+      <table class="ctbl" id="ctbl">
+        <tr><th>θ</th><th>sinθ</th><th>cosθ</th><th>tanθ</th></tr>
+      </table>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;">
+      <button class="btn ok2" onclick="judge()">✓ 判定する</button>
+      <button class="btn sec" onclick="showRef()">📋 はじめの表を見る</button>
+      <button class="btn acc" id="restartBtn" style="display:none;" onclick="restartChallenge()">🔄 もう一度語群</button>
+    </div>
+    <div class="ibox" id="judgeResult" style="display:none;margin-top:10px;"></div>
+  </div>
+  <div class="card" id="challengeComplete" style="display:none;text-align:center;">
+    <p style="font-size:20px;font-weight:700;color:var(--ok);margin-bottom:10px;">🎉 全問正解！素晴らしい！</p>
+    <button class="btn" onclick="goPh(7)">チェック問題へ →</button>
+  </div>
+  <div class="navrow">
+    <button class="btn back" onclick="goPh(5)">← 前へ</button>
+  </div>
+</div>
+
+<!-- PH7: チェック問題 -->
+<div class="ph" id="ph7">
+  <div class="slb">✅ チェック問題</div>
+  <div class="card">
+    <h2>理解度チェック</h2>
+    <div id="chkArea"></div>
+    <div class="sca" id="chkScore">
+      <div class="sm">チェック結果</div>
+      <div class="sn" id="chkSN"></div>
+      <div class="sm" id="chkSM"></div>
+      <button class="nbtn" onclick="markPassed('TR05')">単元完了 ✓</button>
+    </div>
+  </div>
+  <div class="navrow">
+    <button class="btn back" onclick="goPh(6)">← 前へ</button>
+  </div>
+</div>
+
+</div><!-- /wrap -->
+
+<!-- 参照表モーダル -->
+<div class="mbg" id="refModal">
+  <div class="modal">
+    <h3>📋 三角比の値（参照用）</h3>
+    <table class="ttbl">
+      <tr><th>θ</th><th>sinθ</th><th>cosθ</th><th>tanθ</th></tr>
+      <tr><td>0°</td><td class="pos">0</td><td class="pos">1</td><td class="pos">0</td></tr>
+      <tr><td>90°</td><td class="pos">1</td><td>0</td><td class="ud">定義なし</td></tr>
+      <tr class="ob"><td>120°</td>
+        <td class="pos"><span class="fr"><span class="fn">√3</span><span class="fd">2</span></span></td>
+        <td class="neg">&minus;<span class="fr"><span class="fn">1</span><span class="fd">2</span></span></td>
+        <td class="neg">&minus;√3</td></tr>
+      <tr class="ob"><td>135°</td>
+        <td class="pos"><span class="fr"><span class="fn">1</span><span class="fd">√2</span></span></td>
+        <td class="neg">&minus;<span class="fr"><span class="fn">1</span><span class="fd">√2</span></span></td>
+        <td class="neg">&minus;1</td></tr>
+      <tr class="ob"><td>150°</td>
+        <td class="pos"><span class="fr"><span class="fn">1</span><span class="fd">2</span></span></td>
+        <td class="neg">&minus;<span class="fr"><span class="fn">√3</span><span class="fd">2</span></span></td>
+        <td class="neg">&minus;<span class="fr"><span class="fn">1</span><span class="fd">√3</span></span></td></tr>
+      <tr><td>180°</td><td>0</td><td class="neg">&minus;1</td><td>0</td></tr>
+    </table>
+    <p style="font-size:12px;color:var(--tl);margin-top:8px;">「もう一度語群」ボタンでテストを再開できます。</p>
+    <button class="mclose" onclick="closeRef()">閉じる</button>
+  </div>
+</div>
+
+<script>
+/* ======================================
+   分数HTML生成（縦型・CSS方式）
+====================================== */
+function fr(n,d){
+  return '<span class="fr"><span class="fn">'+n+'</span><span class="fd">'+d+'</span></span>';
+}
+
+/* ======================================
+   三角比の値データ
+   ※同じHTMLを語群とセルで使い回すため
+     キー単位でプレーンHTMLを定義する
+====================================== */
+// 各角度・各種の「表示HTML」と「正解キー（比較用）」を定義
+const TDATA = {
+  '0': {
+    s:{html:'0',             key:'0'},
+    c:{html:'1',             key:'1'},
+    t:{html:'0',             key:'0'}
+  },
+  '90': {
+    s:{html:'1',             key:'1'},
+    c:{html:'0',             key:'0'},
+    t:{html:'定義なし',      key:'def'}
+  },
+  '120': {
+    s:{html:fr('√3','2'),    key:'r3/2'},
+    c:{html:'&minus;'+fr('1','2'), key:'-1/2'},
+    t:{html:'&minus;√3',    key:'-r3'}
+  },
+  '135': {
+    s:{html:fr('1','√2'),    key:'1/r2'},
+    c:{html:'&minus;'+fr('1','√2'), key:'-1/r2'},
+    t:{html:'&minus;1',      key:'-1'}
+  },
+  '150': {
+    s:{html:fr('1','2'),     key:'1/2'},
+    c:{html:'&minus;'+fr('√3','2'), key:'-r3/2'},
+    t:{html:'&minus;'+fr('1','√3'), key:'-1/r3'}
+  },
+  '180': {
+    s:{html:'0',             key:'0'},
+    c:{html:'&minus;1',      key:'-1'},
+    t:{html:'0',             key:'0'}
+  }
+};
+
+/* ======================================
+   フェーズ管理
+====================================== */
+let curPh=1;
+function goPh(n){
+  document.getElementById('ph'+curPh).classList.remove('ac');
+  curPh=n;
+  document.getElementById('ph'+n).classList.add('ac');
+  document.getElementById('pb').style.width=((n-1)/6*100)+'%';
+  window.scrollTo({top:0,behavior:'smooth'});
+  if(n===2) drawEx1();
+  if(n===3) drawEx2();
+  if(n===4){fillTbl();document.getElementById('tbl-view').style.display='block';document.getElementById('tbl-challenge').style.display='none';document.getElementById('tbl-next-btn').style.display='inline-block';}
+  if(n===5) buildDrill();
+  if(n===6) buildChallenge();
+  if(n===7) buildCheck();
+}
+
+/* ======================================
+   インタラクティブ単位円
+====================================== */
+const ucv=document.getElementById('ucv'),uctx=ucv.getContext('2d');
+function drawUC(deg){
+  const W=ucv.width,H=ucv.height,cx=W/2,cy=H/2,r=W*.38;
+  const rad=deg*Math.PI/180,px=cx+r*Math.cos(rad),py=cy-r*Math.sin(rad);
+  uctx.clearRect(0,0,W,H);
+  uctx.strokeStyle='#e0d9f7';uctx.lineWidth=1;
+  uctx.beginPath();uctx.moveTo(0,cy);uctx.lineTo(W,cy);uctx.stroke();
+  uctx.beginPath();uctx.moveTo(cx,0);uctx.lineTo(cx,H);uctx.stroke();
+  uctx.strokeStyle='#a78bfa';uctx.lineWidth=2;
+  uctx.beginPath();uctx.arc(cx,cy,r,0,2*Math.PI);uctx.stroke();
+  uctx.strokeStyle='#7c3aed';uctx.lineWidth=2.5;
+  uctx.beginPath();uctx.moveTo(cx,cy);uctx.lineTo(px,py);uctx.stroke();
+  uctx.strokeStyle='#3b82f6';uctx.lineWidth=2;uctx.setLineDash([4,3]);
+  uctx.beginPath();uctx.moveTo(px,cy);uctx.lineTo(px,py);uctx.stroke();
+  uctx.strokeStyle='#ef4444';
+  uctx.beginPath();uctx.moveTo(cx,cy);uctx.lineTo(px,cy);uctx.stroke();
+  uctx.setLineDash([]);
+  uctx.fillStyle='#7c3aed';uctx.beginPath();uctx.arc(px,py,6,0,2*Math.PI);uctx.fill();
+  uctx.fillStyle='#4c4563';uctx.beginPath();uctx.arc(cx,cy,4,0,2*Math.PI);uctx.fill();
+  uctx.strokeStyle='#f59e0b';uctx.lineWidth=2;
+  uctx.beginPath();uctx.arc(cx,cy,22,0,-rad,true);uctx.stroke();
+  uctx.font='bold 12px sans-serif';
+  uctx.fillStyle='#7c3aed';uctx.fillText('P',px+7,py-5);
+  uctx.fillStyle='#3b82f6';uctx.fillText('sinθ',px+4,(cy+py)/2+4);
+  uctx.fillStyle='#ef4444';uctx.fillText('cosθ',(cx+px)/2-18,cy+15);
+  uctx.fillStyle='#1e1b2e';uctx.fillText('O',cx-15,cy+14);
+  uctx.fillStyle='#f59e0b';uctx.fillText('θ',cx+26,cy-5);
+}
+function updSl(){
+  const deg=parseInt(document.getElementById('asl').value);
+  document.getElementById('adp').textContent=deg+'°';
+  const rad=deg*Math.PI/180;
+  document.getElementById('sv').textContent=Math.sin(rad).toFixed(3);
+  document.getElementById('cv').textContent=Math.cos(rad).toFixed(3);
+  document.getElementById('tv').textContent=deg===90?'定義なし':Math.tan(rad).toFixed(3);
+  drawUC(deg);
+  const sn=document.getElementById('snote');
+  if(deg===0)      sn.innerHTML='P=(1,0)。sin=0, cos=1, tan=0';
+  else if(deg===90) sn.innerHTML='P=(0,1)。sin=1, cos=0、<strong>tan は定義なし</strong>';
+  else if(deg===180)sn.innerHTML='P=(−1,0)。sin=0, cos=−1, tan=0';
+  else if(deg<90)  sn.innerHTML='鋭角：x>0,y>0 → <strong>sin＋, cos＋, tan＋</strong>';
+  else             sn.innerHTML='鈍角：x&lt;0,y&gt;0 → <strong style="color:#059669">sin＋</strong>、<strong style="color:#dc2626">cos−, tan−</strong>';
+}
+document.getElementById('asl').addEventListener('input',updSl);
+updSl();
+
+/* ======================================
+   例題1の図
+====================================== */
+function drawHS(cv,deg){
+  const ctx=cv.getContext('2d'),W=cv.width,H=cv.height;
+  const cx=W*.5,cy=H*.87,r=W*.38;
+  const rad=deg*Math.PI/180,px=cx+r*Math.cos(rad),py=cy-r*Math.sin(rad);
+  ctx.clearRect(0,0,W,H);
+  ctx.strokeStyle='#c4b5fd';ctx.lineWidth=1;
+  ctx.beginPath();ctx.moveTo(4,cy);ctx.lineTo(W-4,cy);ctx.stroke();
+  ctx.beginPath();ctx.moveTo(cx,4);ctx.lineTo(cx,cy+4);ctx.stroke();
+  ctx.strokeStyle='#a78bfa';ctx.lineWidth=1.5;
+  ctx.beginPath();ctx.arc(cx,cy,r,Math.PI,0,false);ctx.stroke();
+  ctx.strokeStyle='#7c3aed';ctx.lineWidth=2;
+  ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(px,py);ctx.stroke();
+  ctx.fillStyle='#7c3aed';ctx.beginPath();ctx.arc(px,py,5,0,2*Math.PI);ctx.fill();
+  ctx.fillStyle='#4c4563';ctx.beginPath();ctx.arc(cx,cy,3,0,2*Math.PI);ctx.fill();
+  ctx.font='bold 11px sans-serif';
+  ctx.fillStyle='#7c3aed';ctx.fillText('P',px+(deg<=90?6:-14),py-4);
+  ctx.fillStyle='#1e1b2e';ctx.fillText('O',cx+3,cy+12);
+  const sx=Math.round(Math.cos(rad)),sy=Math.round(Math.sin(rad));
+  ctx.font='10px sans-serif';ctx.fillStyle='#4c4563';
+  ctx.fillText('('+sx+', '+sy+')',3,13);
+}
+function drawEx1(){
+  drawHS(document.getElementById('c0'),0);
+  drawHS(document.getElementById('c90'),90);
+  drawHS(document.getElementById('c180'),180);
+}
+
+/* ======================================
+   例題2の図（上半円・左三角形を緑塗り）
+====================================== */
+function drawOb(cv,deg){
+  const ctx=cv.getContext('2d'),W=cv.width,H=cv.height;
+  const cx=W*.52,cy=H*.80,r=W*.40;
+  const rad=deg*Math.PI/180;
+  const px=cx+r*Math.cos(rad),py=cy-r*Math.sin(rad);
+  const qx=px,qy=cy;
+  const rrad=(180-deg)*Math.PI/180,rx=cx+r*Math.cos(rrad),ry=cy-r*Math.sin(rrad);
+  ctx.clearRect(0,0,W,H);
+  ctx.strokeStyle='#c4b5fd';ctx.lineWidth=1;
+  ctx.beginPath();ctx.moveTo(4,cy);ctx.lineTo(W-4,cy);ctx.stroke();
+  ctx.beginPath();ctx.moveTo(cx,4);ctx.lineTo(cx,cy+4);ctx.stroke();
+  ctx.strokeStyle='#a78bfa';ctx.lineWidth=2;
+  ctx.beginPath();ctx.arc(cx,cy,r,Math.PI,0,false);ctx.stroke();
+  // 左の三角形（緑塗り）
+  ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(px,py);ctx.lineTo(qx,qy);ctx.closePath();
+  ctx.fillStyle='rgba(16,185,129,.40)';ctx.fill();
+  ctx.strokeStyle='#059669';ctx.lineWidth=1.5;ctx.stroke();
+  ctx.strokeStyle='#7c3aed';ctx.lineWidth=2.5;
+  ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(px,py);ctx.stroke();
+  ctx.strokeStyle='#a78bfa';ctx.lineWidth=1.5;ctx.setLineDash([5,3]);
+  ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(rx,ry);ctx.stroke();ctx.setLineDash([]);
+  const sq=5;ctx.strokeStyle='#059669';ctx.lineWidth=1;ctx.strokeRect(qx,qy-sq,sq,sq);
+  ctx.fillStyle='#7c3aed';ctx.beginPath();ctx.arc(px,py,5,0,2*Math.PI);ctx.fill();
+  ctx.fillStyle='#4c4563';ctx.beginPath();ctx.arc(cx,cy,3,0,2*Math.PI);ctx.fill();
+  ctx.font='bold 12px sans-serif';
+  ctx.fillStyle='#7c3aed';ctx.fillText('P',px-16,py-5);
+  ctx.fillStyle='#1e1b2e';ctx.fillText('O',cx+4,cy+13);
+  ctx.fillStyle='#059669';ctx.fillText('Q',qx-14,qy+13);
+  ctx.fillStyle='#f59e0b';ctx.font='bold 11px sans-serif';ctx.fillText((180-deg)+'°',cx-42,cy-10);
+  ctx.fillStyle='#ef4444';ctx.fillText(deg+'°',cx+20,cy-10);
+}
+function drawEx2(){
+  drawOb(document.getElementById('ob120'),120);
+  drawOb(document.getElementById('ob135'),135);
+  drawOb(document.getElementById('ob150'),150);
+  document.getElementById('a2').innerHTML=
+    '(1) sin120°= '+fr('√3','2')+',&ensp;cos120°= &minus;'+fr('1','2')+',&ensp;tan120°= &minus;√3<br>'+
+    '(2) sin135°= '+fr('1','√2')+',&ensp;cos135°= &minus;'+fr('1','√2')+',&ensp;tan135°= &minus;1<br>'+
+    '(3) sin150°= '+fr('1','2')+',&ensp;cos150°= &minus;'+fr('√3','2')+',&ensp;tan150°= &minus;'+fr('1','√3');
+}
+
+/* ======================================
+   Phase 4: まとめ表
+====================================== */
+function fillTbl(){
+  const mp={
+    m0s:'0',m0c:'1',m0t:'0',
+    m30s:fr('1','2'),m30c:fr('√3','2'),m30t:fr('1','√3'),
+    m45s:fr('1','√2'),m45c:fr('1','√2'),m45t:'1',
+    m60s:fr('√3','2'),m60c:fr('1','2'),m60t:'√3',
+    m90s:'1',m90c:'0',m90t:'定義なし',
+    m120s:fr('√3','2'),m120c:'&minus;'+fr('1','2'),m120t:'&minus;√3',
+    m135s:fr('1','√2'),m135c:'&minus;'+fr('1','√2'),m135t:'&minus;1',
+    m150s:fr('1','2'),m150c:'&minus;'+fr('√3','2'),m150t:'&minus;'+fr('1','√3'),
+    m180s:'0',m180c:'&minus;1',m180t:'0',
+    // チャレンジ表の固定行（30°・45°・60°）
+    f30s:fr('1','2'),f30c:fr('√3','2'),f30t:fr('1','√3'),
+    f45s:fr('1','√2'),f45c:fr('1','√2'),f45t:'1',
+    f60s:fr('√3','2'),f60c:fr('1','2'),f60t:'√3',
+  };
+  for(const[id,h] of Object.entries(mp)){
+    const el=document.getElementById(id);if(el)el.innerHTML=h;
+  }
+}
+
+/* ======================================
+   Phase 4: 2段階チャレンジ（まとめ表）
+====================================== */
+// チャレンジ対象の行と正解データ
+const TBL_ROWS = [
+  {deg:'0°',  k:'0',   ob:false},
+  {deg:'90°', k:'90',  ob:false},
+  {deg:'120°',k:'120', ob:true},
+  {deg:'135°',k:'135', ob:true},
+  {deg:'150°',k:'150', ob:true},
+  {deg:'180°',k:'180', ob:false},
+];
+
+let tblChipStore=[], tblCellAns={}, tblCellFilled={}, tblSelChip=null;
+
+function startTblChallenge(){
+  // 第1段階を隠し、第2段階を表示
+  document.getElementById('tbl-view').style.display='none';
+  document.getElementById('tbl-challenge').style.display='block';
+  document.getElementById('tbl-next-btn').style.display='none';
+  buildTblChallenge();
+}
+
+function backFromTbl(){
+  if(document.getElementById('tbl-challenge').style.display!=='none'){
+    // チャレンジ中 → 第1段階に戻る
+    document.getElementById('tbl-challenge').style.display='none';
+    document.getElementById('tbl-view').style.display='block';
+    document.getElementById('tbl-next-btn').style.display='inline-block';
+  } else {
+    goPh(3);
+  }
+}
+
+function buildTblChallenge(){
+  tblSelChip=null; tblChipStore=[]; tblCellAns={}; tblCellFilled={};
+
+  // テーブル：チャレンジ行を追加（固定行30/45/60°の後）
+  const tbl=document.getElementById('tbl-ctbl');
+  // 固定行以降を削除して再構築
+  while(tbl.rows.length > 4) tbl.deleteRow(4); // header+30+45+60=4行
+
+  TBL_ROWS.forEach(row=>{
+    const tr=document.createElement('tr');
+    if(row.ob) tr.className='ob';
+    const td0=document.createElement('td');
+    td0.innerHTML='<strong>'+row.deg+'</strong>';
+    tr.appendChild(td0);
+
+    const k=row.k;
+    ['s','c','t'].forEach(tp=>{
+      const cid='tc_'+k+'_'+tp;
+      const td=document.createElement('td');
+      const entry=TDATA[k][tp];
+      // tan90°は固定
+      if(k==='90'&&tp==='t'){
+        td.className='ud'; td.textContent='定義なし';
+        tr.appendChild(td); return;
+      }
+      tblCellAns[cid]=entry;
+      tblCellFilled[cid]=null;
+      td.className='dcell'; td.id=cid;
+      td.onclick=()=>tblCellClick(cid);
+      tr.appendChild(td);
+    });
+    tbl.appendChild(tr);
+  });
+
+  // 語群生成（全正解値をシャッフル）
+  const entries=Object.entries(tblCellAns);
+  for(let i=entries.length-1;i>0;i--){
+    const j=Math.floor(Math.random()*(i+1));[entries[i],entries[j]]=[entries[j],entries[i]];
+  }
+  tblChipStore=entries.map(([,entry])=>({html:entry.html,key:entry.key}));
+
+  const wb=document.getElementById('tbl-wb'); wb.innerHTML='';
+  tblChipStore.forEach((c,i)=>{
+    const el=document.createElement('div');
+    el.className='chip'; el.id='tchip_'+i;
+    el.innerHTML=c.html;
+    el.onclick=()=>tblChipClick(i);
+    wb.appendChild(el);
+  });
+
+  document.getElementById('tbl-judgeResult').style.display='none';
+  document.getElementById('tbl-complete').style.display='none';
+  document.getElementById('tbl-restartBtn').style.display='none';
+}
+
+function tblChipClick(idx){
+  const el=document.getElementById('tchip_'+idx);
+  if(!el||el.classList.contains('used'))return;
+  if(tblSelChip===idx){el.classList.remove('sel');tblSelChip=null;return;}
+  if(tblSelChip!==null){const p=document.getElementById('tchip_'+tblSelChip);if(p)p.classList.remove('sel');}
+  tblSelChip=idx; el.classList.add('sel');
+}
+
+function tblCellClick(cid){
+  const cell=document.getElementById(cid); if(!cell)return;
+  if(tblCellFilled[cid]!==null){
+    const idx=tblCellFilled[cid];
+    const chip=document.getElementById('tchip_'+idx);
+    if(chip)chip.classList.remove('used','sel');
+    tblCellFilled[cid]=null;
+    cell.innerHTML=''; cell.classList.remove('filled','ok2','ng2');
+    return;
+  }
+  if(tblSelChip===null)return;
+  const chip=document.getElementById('tchip_'+tblSelChip); if(!chip)return;
+  cell.innerHTML='<span style="font-size:13px;font-weight:700;color:var(--primary);pointer-events:none;">'+tblChipStore[tblSelChip].html+'</span>';
+  cell.classList.add('filled'); cell.classList.remove('ok2','ng2');
+  tblCellFilled[cid]=tblSelChip;
+  chip.classList.add('used'); chip.classList.remove('sel');
+  tblSelChip=null;
+}
+
+function judgeTbl(){
+  const ids=Object.keys(tblCellAns);
+  const empty=ids.filter(id=>tblCellFilled[id]===null);
+  const res=document.getElementById('tbl-judgeResult');
+  res.style.display='block';
+  document.getElementById('tbl-restartBtn').style.display='inline-block';
+
+  if(empty.length>0){
+    res.className='ibox';
+    res.innerHTML='<div class="lb">⚠️ 未入力あり</div><p style="font-size:14px;">まだ'+empty.length+'か所が空欄です。全部埋めてから判定してください。</p>';
+    return;
+  }
+
+  let allOk=true;
+  const toReturn=[];
+  ids.forEach(id=>{
+    const cell=document.getElementById(id); if(!cell)return;
+    const chipIdx=tblCellFilled[id];
+    const given=tblChipStore[chipIdx].key;
+    const correct=tblCellAns[id].key;
+    if(given===correct){
+      cell.classList.add('ok2'); cell.classList.remove('ng2','filled');
+    } else {
+      cell.classList.add('ng2'); allOk=false;
+      toReturn.push({id,chipIdx});
+    }
+  });
+
+  if(allOk){
+    res.className='ibox';
+    res.innerHTML='<div class="lb" style="color:var(--ok);">🎉 全問正解！</div>';
+    confetti();
+    setTimeout(()=>{
+      document.getElementById('tbl-complete').style.display='block';
+      document.getElementById('tbl-complete').scrollIntoView({behavior:'smooth'});
+    },1200);
+  } else {
+    setTimeout(()=>{
+      toReturn.forEach(({id,chipIdx})=>{
+        const cell=document.getElementById(id);
+        const chip=document.getElementById('tchip_'+chipIdx);
+        if(cell){cell.innerHTML='';cell.classList.remove('ng2','filled');}
+        if(chip){chip.classList.remove('used','sel');}
+        tblCellFilled[id]=null;
+      });
+      tblSelChip=null;
+    },900);
+    res.className='ibox'; res.style.borderLeftColor='var(--ng)'; res.style.background='var(--ngb)';
+    res.innerHTML='<div class="lb" style="color:var(--ng);">😅 おしい！</div><p style="font-size:14px;">赤くなったセルが語群に戻りました。もう一度入れ直しましょう。</p>';
+    setTimeout(()=>{res.style.borderLeftColor='';res.style.background='';},2500);
+  }
+}
+
+function restartTblChallenge(){
+  Object.keys(tblCellFilled).forEach(id=>{
+    const cell=document.getElementById(id);
+    if(cell){cell.innerHTML='';cell.classList.remove('filled','ok2','ng2');}
+    tblCellFilled[id]=null;
+  });
+  document.querySelectorAll('#tbl-wb .chip').forEach(c=>c.classList.remove('used','sel'));
+  tblSelChip=null;
+  document.getElementById('tbl-judgeResult').style.display='none';
+  document.getElementById('tbl-complete').style.display='none';
+}
+
+function showTblRef(){document.getElementById('refModal').classList.add('show');}
+
+/* ======================================
+   Phase 5: 練習問題（10問）
+====================================== */
+const DRL=[
+  {q:'sin 120° の値は？',ch:[fr('√3','2'),fr('1','2'),'&minus;'+fr('√3','2'),'&minus;'+fr('1','2')],a:0,h:'120°は鈍角。sinは常に＋。sin120°= sin60°= √3/2'},
+  {q:'cos 150° の値は？',ch:[fr('√3','2'),fr('1','2'),'&minus;'+fr('√3','2'),'&minus;'+fr('1','2')],a:2,h:'cosは鈍角でマイナス。cos150°= −cos30°= −√3/2'},
+  {q:'tan 135° の値は？',ch:['1','&minus;1','√3','&minus;√3'],a:1,h:'tanは鈍角でマイナス。tan135°= −tan45°= −1'},
+  {q:'sin 150° の値は？',ch:[fr('√3','2'),'&minus;'+fr('√3','2'),fr('1','2'),'&minus;'+fr('1','2')],a:2,h:'sinは常に＋。sin150°= sin30°= 1/2'},
+  {q:'cos 120° の値は？',ch:[fr('1','2'),'&minus;'+fr('1','2'),fr('√3','2'),'&minus;'+fr('√3','2')],a:1,h:'cosは鈍角でマイナス。cos120°= −cos60°= −1/2'},
+  {q:'tan 120° の値は？',ch:['√3','&minus;√3',fr('1','√3'),'&minus;'+fr('1','√3')],a:1,h:'tan=sin/cos=(√3/2)÷(−1/2)=−√3'},
+  {q:'sin 90° の値は？',ch:['0','1','&minus;1',fr('√3','2')],a:1,h:'90°の点Pは(0,1)。y座標=1なのでsin90°=1'},
+  {q:'cos 180° の値は？',ch:['1','0','&minus;1',fr('1','2')],a:2,h:'180°の点Pは(−1,0)。x座標=−1なのでcos180°=−1'},
+  {q:'鈍角（90°〜180°）のとき正しい符号の組み合わせは？',ch:['sin&lt;0, cos&gt;0','sin&gt;0, cos&lt;0','sin&gt;0, cos&gt;0','sin&lt;0, cos&lt;0'],a:1,h:'鈍角では単位円の左上。y>0なのでsin>0、x<0なのでcos<0'},
+  {q:'sin 135° の値は？',ch:[fr('1','√2'),'&minus;'+fr('1','√2'),fr('√3','2'),'&minus;'+fr('√3','2')],a:0,h:'sinは常に＋。sin135°= sin45°= 1/√2'},
+];
+let dScore=0,dAns=0;
+function buildDrill(){
+  dScore=0;dAns=0;
+  document.getElementById('drlScore').style.display='none';
+  const ar=document.getElementById('drlArea');ar.innerHTML='';
+  DRL.forEach((d,i)=>{
+    const dv=document.createElement('div');dv.className='di';dv.id='d'+i;
+    const qd=document.createElement('div');qd.className='dq';
+    qd.innerHTML='<span style="color:var(--primary);font-weight:700;">問'+(i+1)+'.</span> '+d.q;
+    dv.appendChild(qd);
+    const cs=document.createElement('div');cs.className='chs';
+    d.ch.forEach((c,j)=>{
+      const b=document.createElement('button');b.className='cb';b.id='d'+i+'c'+j;
+      b.innerHTML='<span class="ci">○</span><span>'+c+'</span>';
+      b.onclick=()=>ansD(i,j,d.a,d.h);cs.appendChild(b);
+    });
+    dv.appendChild(cs);
+    const fb=document.createElement('div');fb.className='fb';fb.id='d'+i+'f';
+    dv.appendChild(fb);ar.appendChild(dv);
+  });
+}
+function ansD(qi,ch,cor,hint){
+  const it=document.getElementById('d'+qi);
+  if(it.classList.contains('ac')||it.classList.contains('aw'))return;
+  dAns++;
+  DRL[qi].ch.forEach((_,j)=>{
+    const b=document.getElementById('d'+qi+'c'+j);b.disabled=true;
+    if(j===cor){b.classList.add('cor');b.querySelector('.ci').textContent='✓';}
+  });
+  const fb=document.getElementById('d'+qi+'f');
+  if(ch===cor){dScore++;it.classList.add('ac');fb.className='fb cor';fb.style.display='block';fb.textContent='✓ 正解！';}
+  else{
+    it.classList.add('aw');
+    document.getElementById('d'+qi+'c'+ch).classList.add('wrg');
+    document.getElementById('d'+qi+'c'+ch).querySelector('.ci').textContent='✗';
+    fb.className='fb wrg';fb.style.display='block';fb.innerHTML='✗ 不正解。【解説】'+hint;
+  }
+  if(dAns===DRL.length){
+    setTimeout(()=>{
+      const sa=document.getElementById('drlScore');sa.style.display='block';
+      document.getElementById('drlSN').textContent=dScore+'/'+DRL.length;
+      const p=dScore/DRL.length;
+      document.getElementById('drlSM').textContent=
+        p>=.8?'素晴らしい！次へ進もう！':p>=.5?'もう少し！表を確認してみよう。':'表をもう一度見直してから挑戦しよう。';
+      sa.scrollIntoView({behavior:'smooth'});
+    },600);
+  }
+}
+
+/* ======================================
+   Phase 6: 表チャレンジ
+   ポイント：chipのHTMLとkeyを chipStore[] で管理
+   属性値にHTMLを入れない
+====================================== */
+const CROW_KEYS = ['0','90','120','135','150','180'];
+const CROW_LABELS = {'0':'0°','90':'90°','120':'120°','135':'135°','150':'150°','180':'180°'};
+const SCTS = ['s','c','t']; // sin,cos,tan
+
+// chipStore: index → {html, key}
+let chipStore = [];
+// cellAns: cellId → {html, key} (正解)
+let cellAns = {};
+// cellFilled: cellId → chipIndex or null
+let cellFilled = {};
+// 選択中のchipIndex
+let selChip = null;
+
+function buildChallenge(){
+  selChip=null;
+  cellAns={};cellFilled={};chipStore=[];
+
+  // テーブル再構築
+  const tbl=document.getElementById('ctbl');
+  tbl.innerHTML='<tr><th>θ</th><th>sinθ</th><th>cosθ</th><th>tanθ</th></tr>';
+
+  CROW_KEYS.forEach(k=>{
+    const tr=document.createElement('tr');
+    if(['120','135','150'].includes(k))tr.className='ob';
+    const td0=document.createElement('td');
+    td0.innerHTML='<strong>'+CROW_LABELS[k]+'</strong>';tr.appendChild(td0);
+    SCTS.forEach(tp=>{
+      const cid='cc_'+k+'_'+tp;
+      const td=document.createElement('td');
+      const entry=TDATA[k][tp];
+      // tan90°は穴埋めなし
+      if(k==='90'&&tp==='t'){td.className='ud';td.textContent='定義なし';tr.appendChild(td);return;}
+      cellAns[cid]=entry;
+      cellFilled[cid]=null;
+      td.className='dcell';td.id=cid;
+      td.onclick=()=>cellClick(cid);
+      tr.appendChild(td);
+    });
+    tbl.appendChild(tr);
+  });
+
+  // 語群：全セルの正解値をシャッフルしてチップ生成
+  const entries=Object.entries(cellAns);
+  // Fisher-Yatesシャッフル
+  for(let i=entries.length-1;i>0;i--){
+    const j=Math.floor(Math.random()*(i+1));[entries[i],entries[j]]=[entries[j],entries[i]];
+  }
+  chipStore=entries.map(([cid,entry])=>({html:entry.html,key:entry.key}));
+
+  const wb=document.getElementById('wb');wb.innerHTML='';
+  chipStore.forEach((c,i)=>{
+    const el=document.createElement('div');
+    el.className='chip';el.id='chip_'+i;
+    el.innerHTML=c.html;
+    el.onclick=()=>chipClick(i);
+    wb.appendChild(el);
+  });
+
+  document.getElementById('judgeResult').style.display='none';
+  document.getElementById('challengeComplete').style.display='none';
+  document.getElementById('restartBtn').style.display='none';
+}
+
+function chipClick(idx){
+  const el=document.getElementById('chip_'+idx);
+  if(!el||el.classList.contains('used'))return;
+  if(selChip===idx){
+    // 選択解除
+    el.classList.remove('sel');selChip=null;return;
+  }
+  // 前の選択を解除
+  if(selChip!==null){
+    const prev=document.getElementById('chip_'+selChip);
+    if(prev)prev.classList.remove('sel');
+  }
+  selChip=idx;el.classList.add('sel');
+}
+
+function cellClick(cid){
+  const cell=document.getElementById(cid);if(!cell)return;
+  // 既に配置済み → 語群に戻す
+  if(cellFilled[cid]!==null){
+    const idx=cellFilled[cid];
+    const chip=document.getElementById('chip_'+idx);
+    if(chip){chip.classList.remove('used','sel');}
+    cellFilled[cid]=null;
+    cell.innerHTML='';cell.classList.remove('filled','ok2','ng2');
+    return;
+  }
+  // 語句が選ばれていれば配置
+  if(selChip===null)return;
+  const chip=document.getElementById('chip_'+selChip);
+  if(!chip)return;
+  cell.innerHTML='<span style="font-size:13px;font-weight:700;color:var(--primary);pointer-events:none;">'+chipStore[selChip].html+'</span>';
+  cell.classList.add('filled');cell.classList.remove('ok2','ng2');
+  cellFilled[cid]=selChip;
+  chip.classList.add('used');chip.classList.remove('sel');
+  selChip=null;
+}
+
+function judge(){
+  const ids=Object.keys(cellAns);
+  // 未入力チェック
+  const empty=ids.filter(id=>cellFilled[id]===null);
+  const res=document.getElementById('judgeResult');
+  res.style.display='block';
+  document.getElementById('restartBtn').style.display='inline-block';
+
+  if(empty.length>0){
+    res.className='ibox';
+    res.innerHTML='<div class="lb">⚠️ 未入力あり</div><p style="font-size:14px;">まだ'+empty.length+'か所が空欄です。全部埋めてから判定してください。</p>';
+    return;
+  }
+
+  let allOk=true;
+  const toReturn=[]; // 語群に戻すchipのindex
+  ids.forEach(id=>{
+    const cell=document.getElementById(id);if(!cell)return;
+    const chipIdx=cellFilled[id];
+    const given=chipStore[chipIdx].key;
+    const correct=cellAns[id].key;
+    if(given===correct){
+      cell.classList.add('ok2');cell.classList.remove('ng2','filled');
+    } else {
+      cell.classList.add('ng2');allOk=false;
+      toReturn.push({id,chipIdx});
+    }
+  });
+
+  if(allOk){
+    res.className='ibox';
+    res.innerHTML='<div class="lb" style="color:var(--ok);">🎉 全問正解！</div>';
+    confetti();
+    setTimeout(()=>{
+      document.getElementById('challengeComplete').style.display='block';
+      document.getElementById('challengeComplete').scrollIntoView({behavior:'smooth'});
+    },1200);
+  } else {
+    // 不正解セルを赤表示後リセット
+    setTimeout(()=>{
+      toReturn.forEach(({id,chipIdx})=>{
+        const cell=document.getElementById(id);
+        const chip=document.getElementById('chip_'+chipIdx);
+        if(cell){cell.innerHTML='';cell.classList.remove('ng2','filled');}
+        if(chip){chip.classList.remove('used','sel');}
+        cellFilled[id]=null;
+      });
+    },900);
+    res.className='ibox';res.style.borderLeftColor='var(--ng)';res.style.background='var(--ngb)';
+    res.innerHTML='<div class="lb" style="color:var(--ng);">😅 おしい！</div><p style="font-size:14px;">赤くなったセルが語群に戻りました。もう一度入れ直しましょう。</p>';
+    setTimeout(()=>{res.style.borderLeftColor='';res.style.background='';},2500);
+    selChip=null;
+  }
+}
+
+function restartChallenge(){
+  Object.keys(cellFilled).forEach(id=>{
+    const cell=document.getElementById(id);
+    if(cell){cell.innerHTML='';cell.classList.remove('filled','ok2','ng2');}
+    cellFilled[id]=null;
+  });
+  document.querySelectorAll('#wb .chip').forEach(c=>c.classList.remove('used','sel'));
+  selChip=null;
+  document.getElementById('judgeResult').style.display='none';
+  document.getElementById('challengeComplete').style.display='none';
+}
+
+function showRef(){document.getElementById('refModal').classList.add('show');}
+function closeRef(){document.getElementById('refModal').classList.remove('show');}
+
+function confetti(){
+  const cols=['#7c3aed','#f59e0b','#059669','#ef4444','#3b82f6','#ec4899'];
+  for(let i=0;i<90;i++){
+    const p=document.createElement('div');p.className='cp';
+    p.style.left=Math.random()*100+'vw';
+    p.style.top='-20px';
+    p.style.background=cols[Math.floor(Math.random()*cols.length)];
+    p.style.width=(7+Math.random()*9)+'px';
+    p.style.height=(7+Math.random()*9)+'px';
+    p.style.animationDuration=(1.6+Math.random()*2)+'s';
+    p.style.animationDelay=(Math.random()*.9)+'s';
+    document.body.appendChild(p);
+    setTimeout(()=>p.remove(),4500);
+  }
+}
+
+/* ======================================
+   Phase 7: チェック問題
+====================================== */
+const CHK=[
+  {q:'cos 180° の値は？',ch:['1','0','&minus;1','&minus;'+fr('1','2')],a:2,h:'180°の点Pは(−1,0)。x座標=−1なのでcos180°=−1'},
+  {q:'鈍角のとき正しい符号の組み合わせは？',ch:['sin&lt;0, cos&gt;0','sin&gt;0, cos&lt;0','sin&gt;0, cos&gt;0','sin&lt;0, cos&lt;0'],a:1,h:'鈍角：y>0なのでsin>0、x<0なのでcos<0'},
+  {q:'tan 120° の値は？',ch:['√3','&minus;√3',fr('1','√3'),'&minus;'+fr('1','√3')],a:1,h:'tan=sin/cos=(√3/2)÷(−1/2)=−√3'},
+  {q:'単位円上の点P(x,y)について正しい式は？',ch:['(x,y)=(sinθ,cosθ)','(x,y)=(cosθ,sinθ)','(x,y)=(tanθ,sinθ)','(x,y)=(cosθ,tanθ)'],a:1,h:'x座標=cosθ、y座標=sinθ。これが単位円の定義の核心。'},
+];
+let cScore=0,cAns=0;
+function buildCheck(){
+  cScore=0;cAns=0;
+  document.getElementById('chkScore').style.display='none';
+  const ar=document.getElementById('chkArea');ar.innerHTML='';
+  CHK.forEach((d,i)=>{
+    const dv=document.createElement('div');dv.className='di';dv.id='ck'+i;
+    const qd=document.createElement('div');qd.className='dq';
+    qd.innerHTML='<span style="color:var(--primary);font-weight:700;">問'+(i+1)+'.</span> '+d.q;
+    dv.appendChild(qd);
+    const cs=document.createElement('div');cs.className='chs';
+    d.ch.forEach((c,j)=>{
+      const b=document.createElement('button');b.className='cb';b.id='ck'+i+'c'+j;
+      b.innerHTML='<span class="ci">○</span><span>'+c+'</span>';
+      b.onclick=()=>ansC(i,j,d.a,d.h);cs.appendChild(b);
+    });
+    dv.appendChild(cs);
+    const fb=document.createElement('div');fb.className='fb';fb.id='ck'+i+'f';
+    dv.appendChild(fb);ar.appendChild(dv);
+  });
+}
+function ansC(qi,ch,cor,hint){
+  const it=document.getElementById('ck'+qi);
+  if(it.classList.contains('ac')||it.classList.contains('aw'))return;
+  cAns++;
+  CHK[qi].ch.forEach((_,j)=>{
+    const b=document.getElementById('ck'+qi+'c'+j);b.disabled=true;
+    if(j===cor){b.classList.add('cor');b.querySelector('.ci').textContent='✓';}
+  });
+  const fb=document.getElementById('ck'+qi+'f');
+  if(ch===cor){cScore++;it.classList.add('ac');fb.className='fb cor';fb.style.display='block';fb.textContent='✓ 正解！';}
+  else{
+    it.classList.add('aw');
+    document.getElementById('ck'+qi+'c'+ch).classList.add('wrg');
+    document.getElementById('ck'+qi+'c'+ch).querySelector('.ci').textContent='✗';
+    fb.className='fb wrg';fb.style.display='block';fb.innerHTML='✗ 不正解。【解説】'+hint;
+  }
+  if(cAns===CHK.length){
+    setTimeout(()=>{
+      const sa=document.getElementById('chkScore');sa.style.display='block';
+      document.getElementById('chkSN').textContent=cScore+'/'+CHK.length;
+      document.getElementById('chkSM').textContent=cScore>=3?'合格！よくできました！':'復習してから再チャレンジしよう。';
+      sa.scrollIntoView({behavior:'smooth'});
+    },600);
+  }
+}
+
+function markPassed(unit){
+  try{localStorage.setItem('passed_'+unit,'1');}catch(e){}
+  const msg=document.createElement('div');
+  msg.style.cssText='position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:#7c3aed;color:white;padding:24px 36px;border-radius:20px;font-size:20px;font-weight:700;z-index:9999;text-align:center;box-shadow:0 8px 32px rgba(124,58,237,.4);';
+  msg.innerHTML='✅ TR05 完了！<br><span style="font-size:14px;opacity:.85;">次のTR06へ進もう</span>';
+  document.body.appendChild(msg);
+  setTimeout(()=>{try{window.location.href='../gamba_kounin.html';}catch(e){}},2500);
+}
+
+// 初期進捗バー
+document.getElementById('pb').style.width='0%';
+</script>
+</body>
+</html>
