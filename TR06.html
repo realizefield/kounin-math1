@@ -1,0 +1,1454 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TR06 補角・余角の公式</title>
+<style>
+:root{
+  --primary:#7c3aed;--pl:#ede9fe;--pm:#a78bfa;
+  --acc:#f59e0b;--al:#fef3c7;
+  --bg:#faf9ff;--card:#fff;--text:#1e1b2e;--tm:#4c4563;--tl:#7c6fa0;
+  --bd:#e0d9f7;--ok:#059669;--okb:#d1fae5;--ng:#dc2626;--ngb:#fee2e2;
+  --sh:0 2px 12px rgba(124,58,237,.10);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'BIZ UDPGothic','Meiryo',sans-serif;background:var(--bg);color:var(--text);font-size:16px;line-height:1.7;}
+
+/* ヘッダー */
+.hd{background:linear-gradient(135deg,#7c3aed,#a855f7);color:#fff;padding:16px 18px 12px;position:sticky;top:0;z-index:100;box-shadow:0 2px 16px rgba(124,58,237,.25);}
+.hd .ser{font-size:11px;letter-spacing:2px;opacity:.85;text-transform:uppercase;margin-bottom:2px;}
+.hd h1{font-size:19px;font-weight:700;}
+.hd .sub{font-size:13px;opacity:.85;margin-top:2px;}
+.pbw{background:rgba(255,255,255,.2);border-radius:8px;height:6px;margin-top:8px;}
+.pbf{background:#fbbf24;height:6px;border-radius:8px;transition:width .4s;width:0%;}
+
+.wrap{max-width:760px;margin:0 auto;padding:16px 13px 60px;}
+.slb{display:inline-flex;align-items:center;gap:8px;background:var(--primary);color:#fff;font-size:12px;font-weight:700;letter-spacing:1px;padding:4px 14px;border-radius:20px;margin-bottom:12px;}
+.card{background:var(--card);border:1.5px solid var(--bd);border-radius:16px;padding:16px;margin-bottom:16px;box-shadow:var(--sh);}
+.card h2{font-size:16px;font-weight:700;color:var(--primary);margin-bottom:10px;padding-bottom:7px;border-bottom:2px solid var(--pl);}
+.ibox{background:var(--pl);border-left:4px solid var(--primary);border-radius:0 12px 12px 0;padding:11px 14px;margin:10px 0;}
+.ibox .lb{font-size:11px;font-weight:700;color:var(--primary);letter-spacing:1px;margin-bottom:4px;}
+.pbox{background:var(--al);border:1.5px solid var(--acc);border-radius:12px;padding:10px 13px;margin:9px 0;font-size:14px;}
+.pbox .plb{font-size:11px;font-weight:700;color:var(--acc);letter-spacing:1px;margin-bottom:3px;}
+
+/* 縦型分数 */
+.fr{display:inline-flex;flex-direction:column;align-items:center;line-height:1.1;vertical-align:middle;margin:0 2px;}
+.fr .fn{border-bottom:1.5px solid currentColor;padding-bottom:1px;font-size:.88em;min-width:1em;text-align:center;}
+.fr .fd{padding-top:1px;font-size:.88em;min-width:1em;text-align:center;}
+
+/* 重要公式ボックス */
+.formula-box{
+  background:linear-gradient(135deg,#f5f3ff,#faf5ff);
+  border:2px solid var(--primary);border-radius:14px;
+  padding:16px 18px;margin:12px 0;
+}
+.formula-box .ftitle{font-size:13px;font-weight:700;color:var(--primary);letter-spacing:1px;margin-bottom:10px;}
+.formula-row{display:flex;align-items:center;gap:10px;margin-bottom:8px;font-size:15px;flex-wrap:wrap;}
+.formula-row:last-child{margin-bottom:0;}
+.feq{font-weight:700;color:var(--text);font-size:15px;}
+.fmemo{font-size:12px;color:var(--tl);margin-left:6px;}
+.highlight{color:var(--primary);font-weight:700;}
+.highlight-ng{color:var(--ng);font-weight:700;}
+
+/* 例題 */
+.exb{background:#f5f3ff;border:2px solid var(--pm);border-radius:14px;padding:13px 16px;margin:10px 0;}
+.exb .et{font-size:13px;font-weight:700;color:var(--primary);letter-spacing:1px;margin-bottom:7px;}
+.exb .eq{font-size:15px;font-weight:700;color:var(--text);margin-bottom:8px;}
+
+/* 数値表 */
+.num-table{width:100%;border-collapse:collapse;font-size:13px;margin:8px 0;}
+.num-table th{background:var(--primary);color:#fff;padding:6px 4px;text-align:center;font-weight:700;}
+.num-table td{border:1px solid var(--bd);padding:6px 4px;text-align:center;}
+.num-table tr:nth-child(even) td{background:var(--pl);}
+
+/* 解説ステップ */
+.step-box{background:#fafafa;border:1px solid var(--bd);border-radius:10px;padding:12px 14px;margin:8px 0;font-size:14px;}
+.step-box .step-title{font-size:12px;font-weight:700;color:var(--primary);letter-spacing:1px;margin-bottom:6px;}
+.step-arrow{color:var(--primary);font-weight:700;margin:0 4px;}
+
+/* ドリル */
+.di{background:var(--card);border:1.5px solid var(--bd);border-radius:14px;padding:14px 16px;margin-bottom:12px;box-shadow:var(--sh);}
+.di.ac{border-color:var(--ok);background:var(--okb);}
+.di.aw{border-color:var(--ng);background:var(--ngb);}
+.dq{font-size:15px;font-weight:700;margin-bottom:4px;}
+.dq-given{font-size:13px;color:var(--tm);margin-bottom:10px;padding:6px 10px;background:#f8f7ff;border-radius:8px;}
+.chs{display:flex;flex-direction:column;gap:7px;}
+.cb{background:#fff;border:2px solid var(--bd);border-radius:10px;padding:9px 13px;font-size:14px;font-family:inherit;cursor:pointer;text-align:left;transition:all .18s;display:flex;align-items:center;gap:9px;}
+.cb:hover:not(:disabled){border-color:var(--primary);background:var(--pl);}
+.cb.cor{border-color:var(--ok);background:var(--okb);font-weight:700;color:var(--ok);}
+.cb.wrg{border-color:var(--ng);background:var(--ngb);color:var(--ng);}
+.cb:disabled{cursor:default;}
+.ci{font-size:16px;}
+.fb{margin-top:9px;padding:9px 12px;border-radius:10px;font-size:14px;display:none;}
+.fb.cor{background:var(--okb);color:var(--ok);border:1px solid var(--ok);}
+.fb.wrg{background:var(--ngb);color:var(--ng);border:1px solid var(--ng);}
+
+/* スコア */
+.sca{background:linear-gradient(135deg,#7c3aed,#a855f7);color:#fff;border-radius:16px;padding:18px;text-align:center;margin-top:18px;display:none;}
+.sca .sn{font-size:48px;font-weight:700;}
+.sca .sm{font-size:14px;opacity:.85;}
+.nbtn{background:#fff;color:var(--primary);border:none;border-radius:12px;padding:11px 26px;font-size:15px;font-weight:700;font-family:inherit;cursor:pointer;margin-top:12px;transition:all .18s;}
+.nbtn:hover{background:var(--al);}
+
+/* ボタン */
+.btn{background:var(--primary);color:#fff;border:none;border-radius:10px;padding:10px 18px;font-size:14px;font-family:inherit;font-weight:700;cursor:pointer;transition:all .18s;margin-top:6px;}
+.btn:hover{background:#6d28d9;transform:translateY(-1px);}
+.btn.back{background:#f3f4f6;color:var(--tm);border:1.5px solid #d1d5db;}
+.btn.back:hover{background:#e5e7eb;transform:none;}
+.navrow{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-top:10px;}
+
+/* フェーズ */
+.ph{display:none;}.ph.ac{display:block;}
+
+/* 花吹雪 */
+.cp{position:fixed;border-radius:2px;opacity:0;pointer-events:none;animation:fall 2.8s ease-in forwards;}
+@keyframes fall{0%{opacity:1;transform:translateY(-30px) rotate(0deg);}100%{opacity:0;transform:translateY(105vh) rotate(800deg);}}
+
+/* 図（Canvas） */
+canvas{border-radius:8px;display:block;}
+.cwrap{display:flex;justify-content:center;gap:16px;flex-wrap:wrap;margin:12px 0;}
+.ccon{display:flex;flex-direction:column;align-items:center;gap:5px;}
+.clb{font-size:13px;font-weight:700;color:var(--tm);text-align:center;}
+
+@media(max-width:520px){
+  .cwrap{flex-direction:column;align-items:center;}
+  .formula-row{font-size:14px;}
+}
+
+/* ===== ミニテスト（アコーディオン） ===== */
+.mini-toggle {
+  width:100%;background:linear-gradient(135deg,#7c3aed,#a855f7);
+  color:#fff;border:none;border-radius:10px;padding:11px 16px;
+  font-size:14px;font-family:inherit;font-weight:700;cursor:pointer;
+  display:flex;align-items:center;justify-content:space-between;
+  margin-top:12px;transition:all .2s;
+}
+.mini-toggle:hover{background:linear-gradient(135deg,#6d28d9,#9333ea);}
+.mini-toggle .arrow{font-size:18px;transition:transform .25s;}
+.mini-toggle.open .arrow{transform:rotate(180deg);}
+.mini-body{
+  max-height:0;overflow:hidden;
+  transition:max-height .35s ease, padding .25s;
+  background:#f8f6ff;border:1.5px solid var(--pm);
+  border-top:none;border-radius:0 0 12px 12px;
+}
+.mini-body.open{max-height:1200px;padding:14px;}
+.mini-q{font-size:14px;font-weight:700;color:var(--text);margin-bottom:6px;}
+.mini-given{font-size:13px;color:var(--tm);padding:6px 10px;background:#ede9fe;border-radius:8px;margin-bottom:10px;}
+.mini-chs{display:flex;flex-direction:column;gap:7px;}
+.mini-cb{background:#fff;border:2px solid var(--bd);border-radius:10px;
+  padding:9px 13px;font-size:14px;font-family:inherit;cursor:pointer;
+  text-align:left;transition:all .18s;display:flex;align-items:center;gap:9px;}
+.mini-cb:hover:not(:disabled){border-color:var(--primary);background:var(--pl);}
+.mini-cb.cor{border-color:var(--ok);background:var(--okb);font-weight:700;color:var(--ok);}
+.mini-cb.wrg{border-color:var(--ng);background:var(--ngb);color:var(--ng);}
+.mini-cb:disabled{cursor:default;}
+.mini-fb{margin-top:9px;padding:9px 12px;border-radius:10px;font-size:14px;display:none;}
+.mini-fb.cor{background:var(--okb);color:var(--ok);border:1px solid var(--ok);}
+.mini-fb.wrg{background:var(--ngb);color:var(--ng);border:1px solid var(--ng);}
+.mini-clear{
+  margin-top:10px;padding:8px 12px;border-radius:8px;
+  font-size:13px;display:none;
+  background:var(--okb);color:var(--ok);border:1px solid var(--ok);font-weight:700;text-align:center;
+}
+</style>
+</head>
+<body>
+
+<header class="hd">
+  <div class="ser">GAMBA 高認数学 ▶ 三角比シリーズ TR06</div>
+  <h1>補角・余角の公式</h1>
+  <div class="sub">sin(180°−θ)・cos(180°−θ)・sin(90°−θ) などの変換をマスターしよう</div>
+  <div class="pbw"><div class="pbf" id="pb"></div></div>
+</header>
+
+<div class="wrap">
+
+<!-- PH1: 補角公式の導入 -->
+<div class="ph ac" id="ph1">
+  <div class="slb">📐 補角公式とは？</div>
+  <div class="card">
+    <h2>sin(180°−θ) の公式</h2>
+    <p style="font-size:14px;color:var(--tm);margin-bottom:10px;">
+      TR05で学んだ単位円を使うと、鈍角の三角比と鋭角の三角比の間に<strong>簡単な関係</strong>があることがわかります。
+    </p>
+
+    <div class="pbox"><div class="plb">【観察】sin120° と sin60°</div>
+      <p style="font-size:14px;">
+        sin120° = <span class="fr"><span class="fn">√3</span><span class="fd">2</span></span>　　sin60° = <span class="fr"><span class="fn">√3</span><span class="fd">2</span></span><br>
+        → <strong>同じ値！</strong>　120° = 180° − 60° なので…
+      </p>
+    </div>
+
+    <!-- 図：補角の3パターン（sin/cos/tan） -->
+    <p style="font-size:13px;color:var(--tm);margin-bottom:6px;">下の図で、<span style="color:#7c3aed;font-weight:700;">紫の動径（鈍角）</span>と<span style="color:#ef4444;font-weight:700;">赤の動径（鋭角）</span>を比べましょう。</p>
+    <div class="cwrap">
+      <div class="ccon">
+        <canvas id="cvSin120" width="170" height="150"></canvas>
+        <div class="clb" style="color:#059669;">① sin は同じ</div>
+      </div>
+      <div class="ccon">
+        <canvas id="cvCos150" width="170" height="150"></canvas>
+        <div class="clb" style="color:#dc2626;">② cos は逆符号</div>
+      </div>
+      <div class="ccon">
+        <canvas id="cvTan135" width="170" height="150"></canvas>
+        <div class="clb" style="color:#dc2626;">③ tan も逆符号</div>
+      </div>
+    </div>
+
+    <div class="ibox"><div class="lb">【図の読み方】</div>
+      <p style="font-size:14px;">
+        ① <strong style="color:#059669;">sin</strong>：2点のy座標（高さ）が<strong>同じ</strong> → sin は変わらない<br>
+        ② <strong style="color:#dc2626;">cos</strong>：2点のx座標の<strong>符号が逆</strong> → cos はマイナスになる<br>
+        ③ <strong style="color:#dc2626;">tan</strong>：傾きの<strong>符号が逆</strong>（左上 vs 右上）→ tan もマイナスになる
+      </p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>3つの補角公式（180°−θ）</h2>
+    <div class="formula-box">
+      <div class="ftitle">【重要】補角の公式</div>
+      <div class="formula-row">
+        <span class="feq">sin(180°− θ) = <span class="highlight">sin θ</span></span>
+        <span class="fmemo">→ sinは変わらない（＋のまま）</span>
+      </div>
+      <div class="formula-row">
+        <span class="feq">cos(180°− θ) = <span class="highlight-ng">− cos θ</span></span>
+        <span class="fmemo">→ cosはマイナスになる</span>
+      </div>
+      <div class="formula-row">
+        <span class="feq">tan(180°− θ) = <span class="highlight-ng">− tan θ</span></span>
+        <span class="fmemo">→ tanはマイナスになる</span>
+      </div>
+    </div>
+    <div class="pbox"><div class="plb">【覚え方】</div>
+      <p style="font-size:14px;font-weight:700;">「<span style="color:var(--ok);">sin は変わらない</span>。<span style="color:var(--ng);">cos と tan はマイナスになる</span>」</p>
+    </div>
+  </div>
+
+  <div class="navrow">
+    <button class="btn back" onclick="history.back()">← 前のページへ</button>
+    <button class="btn" onclick="goPh(2)">次へ：例題で確認 →</button>
+  </div>
+</div>
+
+<!-- PH2: 補角公式の例題 -->
+<div class="ph" id="ph2">
+  <div class="slb">📝 補角公式の使い方</div>
+  <div class="card">
+    <h2>例題 1：数値表を使って求める</h2>
+
+    <div class="exb"><div class="et">【例題 1】次の三角比の表をもとに、各問の値を求めよ。</div>
+      <table class="num-table" style="max-width:320px;margin-bottom:10px;">
+        <tr><th>角</th><th>sin</th><th>cos</th><th>tan</th></tr>
+        <tr><td>28°</td><td>0.4695</td><td>0.8829</td><td>0.5317</td></tr>
+        <tr><td>62°</td><td>0.8829</td><td>0.4695</td><td>1.8807</td></tr>
+      </table>
+      <div style="font-size:15px;font-weight:700;">(1) sin118°　　(2) cos152°</div>
+    </div>
+
+    <div class="step-box">
+      <div class="step-title">【解き方のステップ】</div>
+      <p style="font-size:14px;margin-bottom:6px;">
+        <strong>ステップ①</strong>　180° から引いて鋭角にする<br>
+        <strong>ステップ②</strong>　公式を当てはめる（sinはそのまま、cosはマイナス）<br>
+        <strong>ステップ③</strong>　表から値を読む
+      </p>
+    </div>
+
+    <div class="ibox"><div class="lb">【解答】</div>
+      <p style="font-size:14px;line-height:2;">
+        (1) sin118° = sin(180°−62°) = <span class="highlight">sin62°</span> = <strong>0.8829</strong><br>
+        (2) cos152° = cos(180°−28°) = <span class="highlight-ng">−cos28°</span> = <strong>−0.8829</strong>
+      </p>
+    </div>
+
+
+    <!-- ミニテスト1 -->
+    <div>
+      <button class="mini-toggle" onclick="toggleMini('mini1',this)">
+        <span>✏️ ミニテスト：補角公式を使ってみよう</span>
+        <span class="arrow">▼</span>
+      </button>
+      <div class="mini-body" id="mini1">
+        <div id="mini1-area"></div>
+        <div class="mini-clear" id="mini1-clear">🎉 全問正解！すばらしい！</div>
+      </div>
+    </div>
+    <div class="card" style="margin-top:12px;border-color:var(--pm);">
+      <h2>例題 2：過去問形式（4択）</h2>
+      <div class="exb"><div class="et">【例題 2】sin143° の値を選べ。</div>
+        <p style="font-size:14px;">sin37°= 0.6018、cos37°= 0.7986、tan37°= 0.7536</p>
+        <p style="font-size:14px;margin-top:6px;">① −0.7986　② −0.6018　③ 0.6018　④ 0.7986</p>
+      </div>
+      <div class="step-box">
+        <div class="step-title">【考え方】</div>
+        <p style="font-size:14px;">
+          sin143° = sin(180°−37°) = <span class="highlight">sin37°</span> = 0.6018<br>
+          → sin は変わらないので <strong>答え ③</strong>
+        </p>
+      </div>
+      <!-- ミニテスト2b：例題2の直後 -->
+      <div>
+        <button class="mini-toggle" onclick="toggleMini('mini2b',this)">
+          <span>✏️ ミニテスト：同じ形の問題に挑戦！</span>
+          <span class="arrow">▼</span>
+        </button>
+        <div class="mini-body" id="mini2b">
+          <div id="mini2b-area"></div>
+          <div class="mini-clear" id="mini2b-clear">🎉 全問正解！すばらしい！</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="navrow">
+    <button class="btn back" onclick="goPh(1)">← 前へ</button>
+    <button class="btn" onclick="goPh(3)">次へ：余角公式 →</button>
+  </div>
+</div>
+
+<!-- PH3: 余角公式 -->
+<div class="ph" id="ph3">
+  <div class="slb">📐 余角公式</div>
+  <div class="card">
+    <h2>sin(90°−θ) の公式</h2>
+    <p style="font-size:14px;color:var(--tm);margin-bottom:10px;">
+      直角三角形の2つの鋭角の和は90°です。この関係から、もう1つの重要な公式が導けます。
+    </p>
+
+    <!-- SVG図解：余角の公式（手書き準拠） -->
+    <div style="width:100%;overflow-x:auto;background:#fff;border:1px solid var(--bd);border-radius:12px;padding:8px;margin:10px 0;">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 550" style="max-width:100%;height:auto;display:block;margin:0 auto;">
+        <rect width="850" height="550" fill="#ffffff"/>
+
+        <!-- タイトル -->
+        <text x="425" y="34" font-size="17" font-weight="bold" text-anchor="middle" fill="#7c3aed">直角三角形の向きを変えて比べよう</text>
+
+        <!-- 左の三角形：左下=90°−θ、右下=直角、上=θ（縦長） -->
+        <g transform="translate(70, 55)">
+          <path d="M 0,250 L 160,250 L 160,0 Z" fill="#f0fdf4" stroke="#059669" stroke-width="3" stroke-linejoin="round"/>
+          <!-- 直角マーク -->
+          <path d="M 145,250 L 145,235 L 160,235" fill="none" stroke="#059669" stroke-width="2"/>
+          <!-- 角度弧：左下(90°−θ) -->
+          <path d="M 32,250 A 32,32 0 0,0 24,220" fill="none" stroke="#f59e0b" stroke-width="2"/>
+          <!-- 角度弧：右上(θ) -->
+          <path d="M 160,32 A 28,28 0 0,1 138,22" fill="none" stroke="#f59e0b" stroke-width="2"/>
+          <!-- 辺ラベル -->
+          <text x="62" y="138" font-size="18" font-style="italic" font-family="Georgia,serif" fill="#059669" font-weight="bold">r</text>
+          <text x="80" y="270" font-size="18" font-style="italic" font-family="Georgia,serif" fill="#059669" font-weight="bold" text-anchor="middle">a</text>
+          <text x="170" y="132" font-size="18" font-style="italic" font-family="Georgia,serif" fill="#888">b</text>
+          <!-- 角度ラベル -->
+          <text x="36" y="238" font-size="13" font-weight="bold" fill="#f59e0b">90°−θ</text>
+          <text x="138" y="52" font-size="15" font-weight="bold" fill="#f59e0b">θ</text>
+        </g>
+
+        <!-- 右の三角形：左下=θ、右下=直角、上=90°−θ（横広） -->
+        <g transform="translate(430, 55)">
+          <path d="M 0,250 L 300,250 L 300,80 Z" fill="#fdf2f8" stroke="#7c3aed" stroke-width="3" stroke-linejoin="round"/>
+          <!-- 直角マーク -->
+          <path d="M 285,250 L 285,235 L 300,235" fill="none" stroke="#7c3aed" stroke-width="2"/>
+          <!-- 角度弧：左下(θ) -->
+          <path d="M 32,250 A 32,32 0 0,0 28.8,232" fill="none" stroke="#f59e0b" stroke-width="2"/>
+          <!-- 角度弧：右上(90°−θ) -->
+          <path d="M 300,112 A 28,28 0 0,1 278,100" fill="none" stroke="#f59e0b" stroke-width="2"/>
+          <!-- 辺ラベル -->
+          <text x="130" y="155" font-size="18" font-style="italic" font-family="Georgia,serif" fill="#7c3aed" font-weight="bold">r</text>
+          <text x="150" y="270" font-size="18" font-style="italic" font-family="Georgia,serif" fill="#888" text-anchor="middle">b</text>
+          <text x="310" y="170" font-size="18" font-style="italic" font-family="Georgia,serif" fill="#7c3aed" font-weight="bold">a</text>
+          <!-- 角度ラベル -->
+          <text x="38" y="238" font-size="15" font-weight="bold" fill="#f59e0b">θ</text>
+          <text x="248" y="128" font-size="13" font-weight="bold" fill="#f59e0b">90°−θ</text>
+        </g>
+
+        <!-- sin の等式 -->
+        <g transform="translate(60, 340)">
+          <text x="0" y="28" font-size="17" font-family="Georgia,serif" fill="#333">sin(90°−θ) =</text>
+          <!-- 分数 b/r -->
+          <rect x="140" y="4" width="30" height="36" rx="4" fill="none" stroke="#059669" stroke-width="2" stroke-dasharray="4"/>
+          <text x="155" y="20" font-size="16" font-style="italic" font-family="Georgia,serif" text-anchor="middle" fill="#333">b</text>
+          <line x1="144" y1="26" x2="166" y2="26" stroke="#333" stroke-width="1.5"/>
+          <text x="155" y="38" font-size="16" font-style="italic" font-family="Georgia,serif" text-anchor="middle" fill="#333">r</text>
+
+          <text x="310" y="28" font-size="17" font-family="Georgia,serif" fill="#333">cosθ =</text>
+          <!-- 分数 b/r -->
+          <rect x="375" y="4" width="30" height="36" rx="4" fill="none" stroke="#059669" stroke-width="2" stroke-dasharray="4"/>
+          <text x="390" y="20" font-size="16" font-style="italic" font-family="Georgia,serif" text-anchor="middle" fill="#333">b</text>
+          <line x1="379" y1="26" x2="401" y2="26" stroke="#333" stroke-width="1.5"/>
+          <text x="390" y="38" font-size="16" font-style="italic" font-family="Georgia,serif" text-anchor="middle" fill="#333">r</text>
+
+          <!-- 矢印「同じ」 -->
+          <path d="M 172,20 Q 278,55 373,20" fill="none" stroke="#059669" stroke-width="2"/>
+          <text x="272" y="56" font-size="14" font-weight="bold" fill="#059669" text-anchor="middle">同じ！</text>
+          <!-- 結論 -->
+          <text x="450" y="28" font-size="16" font-weight="bold" fill="#059669">∴ sin(90°−θ) = cosθ</text>
+        </g>
+
+        <!-- cos の等式 -->
+        <g transform="translate(60, 430)">
+          <text x="0" y="28" font-size="17" font-family="Georgia,serif" fill="#333">cos(90°−θ) =</text>
+          <!-- 分数 a/r -->
+          <rect x="145" y="4" width="30" height="36" rx="4" fill="none" stroke="#7c3aed" stroke-width="2"/>
+          <text x="160" y="20" font-size="16" font-style="italic" font-family="Georgia,serif" text-anchor="middle" fill="#333">a</text>
+          <line x1="149" y1="26" x2="171" y2="26" stroke="#333" stroke-width="1.5"/>
+          <text x="160" y="38" font-size="16" font-style="italic" font-family="Georgia,serif" text-anchor="middle" fill="#333">r</text>
+
+          <text x="310" y="28" font-size="17" font-family="Georgia,serif" fill="#333">sinθ =</text>
+          <!-- 分数 a/r -->
+          <rect x="370" y="4" width="30" height="36" rx="4" fill="none" stroke="#7c3aed" stroke-width="2"/>
+          <text x="385" y="20" font-size="16" font-style="italic" font-family="Georgia,serif" text-anchor="middle" fill="#333">a</text>
+          <line x1="374" y1="26" x2="396" y2="26" stroke="#333" stroke-width="1.5"/>
+          <text x="385" y="38" font-size="16" font-style="italic" font-family="Georgia,serif" text-anchor="middle" fill="#333">r</text>
+
+          <!-- 括弧「同じ」 -->
+          <path d="M 160,42 L 160,65 L 385,65 L 385,42" fill="none" stroke="#7c3aed" stroke-width="2"/>
+          <text x="272" y="82" font-size="14" font-weight="bold" fill="#7c3aed" text-anchor="middle">同じ！</text>
+          <!-- 結論 -->
+          <text x="450" y="28" font-size="16" font-weight="bold" fill="#7c3aed">∴ cos(90°−θ) = sinθ</text>
+        </g>
+
+      </svg>
+    </div>
+
+    <div class="formula-box">
+      <div class="ftitle">【重要】余角の公式</div>
+      <div class="formula-row">
+        <span class="feq">sin(90°− θ) = <span class="highlight">cos θ</span></span>
+        <span class="fmemo">→ sin → cos に変わる（符号そのまま）</span>
+      </div>
+      <div class="formula-row">
+        <span class="feq">cos(90°− θ) = <span class="highlight">sin θ</span></span>
+        <span class="fmemo">→ cos → sin に変わる（符号そのまま）</span>
+      </div>
+    </div>
+
+    <div class="pbox"><div class="plb">【覚え方】</div>
+      <p style="font-size:14px;font-weight:700;">「90° が来たら <span style="color:var(--primary);">sin と cos を入れ替える</span>」<br>
+      <span style="font-size:13px;font-weight:400;color:var(--tm);">（補角公式と違い、符号は変わらない。プラスのままで入れ替えるだけ）</span></p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>例題 3：余角公式の使い方</h2>
+    <div class="exb"><div class="et">【例題 3】次の値を求めよ。</div>
+      <table class="num-table" style="max-width:320px;margin-bottom:10px;">
+        <tr><th>角</th><th>sin</th><th>cos</th><th>tan</th></tr>
+        <tr><td>1°</td><td>0.0175</td><td>0.9998</td><td>0.0175</td></tr>
+        <tr><td>2°</td><td>0.0349</td><td>0.9994</td><td>0.0349</td></tr>
+        <tr><td>3°</td><td>0.0523</td><td>0.9986</td><td>0.0524</td></tr>
+        <tr><td>4°</td><td>0.0698</td><td>0.9976</td><td>0.0699</td></tr>
+        <tr><td>5°</td><td>0.0872</td><td>0.9962</td><td>0.0875</td></tr>
+      </table>
+      <div style="font-size:15px;font-weight:700;">(1) sin88°　　(2) cos87°　　(3) sin85°</div>
+    </div>
+    <div class="ibox"><div class="lb">【解答】</div>
+      <p style="font-size:14px;line-height:2.2;">
+        (1) sin88° = sin(90°−2°) = <span class="highlight">cos2°</span> = <strong>0.9994</strong><br>
+        (2) cos87° = cos(90°−3°) = <span class="highlight">sin3°</span> = <strong>0.0523</strong><br>
+        (3) sin85° = sin(90°−5°) = <span class="highlight">cos5°</span> = <strong>0.9962</strong>
+      </p>
+    </div>
+  </div>
+
+    <!-- ミニテスト3 -->
+    <div>
+      <button class="mini-toggle" onclick="toggleMini('mini3',this)">
+        <span>✏️ ミニテスト：余角公式を使ってみよう</span>
+        <span class="arrow">▼</span>
+      </button>
+      <div class="mini-body" id="mini3">
+        <div id="mini3-area"></div>
+        <div class="mini-clear" id="mini3-clear">🎉 全問正解！すばらしい！</div>
+      </div>
+    </div>
+
+  <div class="navrow">
+    <button class="btn back" onclick="goPh(2)">← 前へ</button>
+    <button class="btn" onclick="goPh(4)">次へ：2つの公式まとめ →</button>
+  </div>
+</div>
+
+<!-- PH4: 公式まとめ -->
+<div class="ph" id="ph4">
+  <div class="slb">📋 公式まとめ</div>
+  <div class="card">
+    <h2>補角・余角の公式 まとめ</h2>
+    <div class="formula-box">
+      <div class="ftitle">【重要】180°の公式（補角）</div>
+      <div class="formula-row"><span class="feq">sin(180°− θ) = <span class="highlight">sin θ</span></span></div>
+      <div class="formula-row"><span class="feq">cos(180°− θ) = <span class="highlight-ng">− cos θ</span></span></div>
+      <div class="formula-row"><span class="feq">tan(180°− θ) = <span class="highlight-ng">− tan θ</span></span></div>
+    </div>
+    <div class="formula-box" style="margin-top:10px;">
+      <div class="ftitle">【重要】90°の公式（余角）</div>
+      <div class="formula-row"><span class="feq">sin(90°− θ) = <span class="highlight">cos θ</span></span></div>
+      <div class="formula-row"><span class="feq">cos(90°− θ) = <span class="highlight">sin θ</span></span></div>
+    </div>
+
+    <div class="pbox" style="margin-top:14px;"><div class="plb">【使い方の判断】</div>
+      <p style="font-size:14px;">
+        <strong>90°以上の角度</strong>が出てきたら → <strong>180°の公式</strong>（補角）を使う<br>
+        &ensp;例：sin118°、cos152°、sin115°<br><br>
+        <strong>80°〜89°など90°に近い角度</strong>が出てきたら → <strong>90°の公式</strong>（余角）を使う<br>
+        &ensp;例：sin88°、cos87°、sin85°<br><br>
+        ※ 与えられた数値表の角度に合わせて変換するのがコツ！
+      </p>
+    </div>
+  </div>
+
+  <div class="navrow">
+    <button class="btn back" onclick="goPh(3)">← 前へ</button>
+    <button class="btn" onclick="goPh(5)">次へ：練習問題 →</button>
+  </div>
+</div>
+
+<!-- PH5: 練習問題 -->
+<div class="ph" id="ph5">
+  <div class="slb">✏️ 練習問題</div>
+
+  <!-- 数値表（常時表示） -->
+  <div class="card" style="border-color:var(--pm);">
+    <h2>📊 数値表（問題を解くときに使おう）</h2>
+    <div style="display:flex;gap:12px;flex-wrap:wrap;">
+      <div>
+        <p style="font-size:12px;color:var(--tl);margin-bottom:4px;">小さい角度</p>
+        <table class="num-table">
+          <tr><th>角</th><th>sin</th><th>cos</th><th>tan</th></tr>
+          <tr><td>1°</td><td>0.0175</td><td>0.9998</td><td>0.0175</td></tr>
+          <tr><td>2°</td><td>0.0349</td><td>0.9994</td><td>0.0349</td></tr>
+          <tr><td>3°</td><td>0.0523</td><td>0.9986</td><td>0.0524</td></tr>
+          <tr><td>4°</td><td>0.0698</td><td>0.9976</td><td>0.0699</td></tr>
+          <tr><td>5°</td><td>0.0872</td><td>0.9962</td><td>0.0875</td></tr>
+        </table>
+      </div>
+      <div>
+        <p style="font-size:12px;color:var(--tl);margin-bottom:4px;">大きい角度</p>
+        <table class="num-table">
+          <tr><th>角</th><th>sin</th><th>cos</th><th>tan</th></tr>
+          <tr><td>20°</td><td>0.3420</td><td>0.9397</td><td>0.3640</td></tr>
+          <tr><td>28°</td><td>0.4695</td><td>0.8829</td><td>0.5317</td></tr>
+          <tr><td>37°</td><td>0.6018</td><td>0.7986</td><td>0.7536</td></tr>
+          <tr><td>41°</td><td>0.6561</td><td>0.7547</td><td>0.8693</td></tr>
+          <tr><td>62°</td><td>0.8829</td><td>0.4695</td><td>1.8807</td></tr>
+          <tr><td>65°</td><td>0.9063</td><td>0.4226</td><td>2.1445</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>練習問題（12問）</h2>
+    <div id="drlArea"></div>
+    <div class="sca" id="drlScore">
+      <div class="sm">練習問題の結果</div>
+      <div class="sn" id="drlSN"></div>
+      <div class="sm" id="drlSM"></div>
+      <button class="nbtn" onclick="goPh(6)">チェック問題へ →</button>
+    </div>
+  </div>
+
+  <div class="navrow">
+    <button class="btn back" onclick="goPh(4)">← 前へ</button>
+  </div>
+</div>
+
+<!-- PH6: 確認問題（高認過去問形式） -->
+<div class="ph" id="ph6">
+  <div class="slb">✅ 確認問題</div>
+
+  <div class="card" style="border-color:var(--pm);">
+    <h2>📝 高認過去問形式で解いてみよう</h2>
+    <p style="font-size:13px;color:var(--tm);margin-bottom:6px;">
+      実際の高認試験と同じ形式です。与えられた数値表を使って答えを選んでください。
+    </p>
+  </div>
+
+  <div id="chkArea"></div>
+
+  <div class="sca" id="chkScore">
+    <div class="sm">確認問題の結果</div>
+    <div class="sn" id="chkSN"></div>
+    <div class="sm" id="chkSM"></div>
+    <button class="nbtn" onclick="markPassed('TR06')">単元完了 ✓</button>
+  </div>
+
+  <div class="navrow">
+    <button class="btn back" onclick="goPh(5)">← 前へ</button>
+  </div>
+</div>
+
+</div><!-- /wrap -->
+
+<script>
+/* ===== 縦型分数ヘルパー ===== */
+function fr(n,d){
+  return '<span class="fr"><span class="fn">'+n+'</span><span class="fd">'+d+'</span></span>';
+}
+
+/* ===== フェーズ管理 ===== */
+let curPh=1;
+function goPh(n){
+  document.getElementById('ph'+curPh).classList.remove('ac');
+  curPh=n;
+  document.getElementById('ph'+n).classList.add('ac');
+  document.getElementById('pb').style.width=((n-1)/5*100)+'%';
+  window.scrollTo({top:0,behavior:'smooth'});
+  if(n===1) drawSinCanvas();
+  if(n===3) initYokakuFigs();
+  if(n===5) buildDrill();
+  if(n===6) buildCheck();
+}
+
+
+/* ===== Phase3: 余角の図（手書き準拠・2つの異なる直角三角形）===== */
+
+// 図1：左下=90°−θ、右下=直角、上=θ → 縦長の三角形
+// sin(90°−θ) と cosθ が同じ b/r であることを示す
+function drawYokaku1(canvasId){
+  const cv=document.getElementById(canvasId);
+  if(!cv)return;
+  const ctx=cv.getContext('2d'),W=cv.width,H=cv.height;
+  ctx.clearRect(0,0,W,H);
+
+  // 頂点：左下A(90°−θ)、右下B(直角)、右上C(θ)
+  // 縦長の形にする
+  const Ax=38,  Ay=H-28;  // 左下：90°−θ
+  const Bx=W-38,By=H-28;  // 右下：直角
+  const Cx=W-38,Cy=32;    // 右上：θ（縦長）
+
+  const a=By-Cy;  // 縦辺BC = a
+  const b=Bx-Ax;  // 底辺AB = b
+  const r=Math.sqrt(a*a+b*b); // 斜辺AC = r
+
+  // 塗り
+  ctx.beginPath();ctx.moveTo(Ax,Ay);ctx.lineTo(Bx,By);ctx.lineTo(Cx,Cy);ctx.closePath();
+  ctx.fillStyle='rgba(220,252,231,0.5)';ctx.fill();
+
+  // 直角マーク（B：右下）
+  const sq=9;
+  ctx.strokeStyle='#666';ctx.lineWidth=1.5;
+  ctx.strokeRect(Bx-sq,By-sq,sq,sq);
+
+  // 辺
+  // 斜辺AC（r）緑で強調
+  ctx.strokeStyle='#059669';ctx.lineWidth=3;
+  ctx.beginPath();ctx.moveTo(Ax,Ay);ctx.lineTo(Cx,Cy);ctx.stroke();
+  // 底辺AB（b）緑で強調
+  ctx.strokeStyle='#059669';ctx.lineWidth=3;
+  ctx.beginPath();ctx.moveTo(Ax,Ay);ctx.lineTo(Bx,By);ctx.stroke();
+  // 縦辺BC（a）灰色
+  ctx.strokeStyle='#aaa';ctx.lineWidth=1.5;
+  ctx.beginPath();ctx.moveTo(Bx,By);ctx.lineTo(Cx,Cy);ctx.stroke();
+
+  // 角度弧：左下(90°−θ)
+  const angAC=Math.atan2(Cy-Ay,Cx-Ax); // AC方向（斜辺）
+  const angAB=0; // AB方向（底辺・右向き）
+  ctx.strokeStyle='#f59e0b';ctx.lineWidth=2;
+  ctx.beginPath();ctx.arc(Ax,Ay,24,angAC,angAB,false);ctx.stroke();
+
+  // 角度弧：右上(θ)
+  const angCA=Math.atan2(Ay-Cy,Ax-Cx); // CA方向（斜辺逆）
+  const angCB=Math.PI/2; // CB方向（下向き）
+  ctx.beginPath();ctx.arc(Cx,Cy,18,angCB,angCA,false);ctx.stroke();
+
+  // 頂点ラベル
+  ctx.font='bold 13px sans-serif';ctx.fillStyle='#1e1b2e';
+  ctx.fillText('A',Ax-18,Ay+4);
+  ctx.fillText('B',Bx+4,By+4);
+  ctx.fillText('C',Cx+4,Cy-2);
+
+  // 角度ラベル
+  ctx.font='bold 11px sans-serif';ctx.fillStyle='#f59e0b';
+  ctx.fillText('90°−θ',Ax+28,Ay-4);
+  ctx.fillText('θ',Cx-22,Cy+18);
+
+  // 辺ラベル
+  ctx.font='bold 14px sans-serif';
+  // r（斜辺AC）左側
+  ctx.fillStyle='#059669';
+  ctx.fillText('r',(Ax+Cx)/2-18,(Ay+Cy)/2);
+  // b（底辺AB）下
+  ctx.fillStyle='#059669';
+  ctx.fillText('b',(Ax+Bx)/2,Ay+16);
+  // a（縦辺BC）右
+  ctx.fillStyle='#888';
+  ctx.fillText('a',Bx+6,(By+Cy)/2);
+
+  // 計算式ボックス（上部）
+  ctx.fillStyle='rgba(240,253,244,0.95)';
+  ctx.fillRect(4,4,W-8,52);
+  ctx.strokeStyle='#059669';ctx.lineWidth=1.5;
+  ctx.strokeRect(4,4,W-8,52);
+
+  ctx.font='bold 11px sans-serif';ctx.fillStyle='#059669';
+  ctx.fillText('sin(90°−θ) = b/r',8,20);
+  ctx.fillStyle='#1e1b2e';
+  ctx.fillText('cosθ = b/r',8,36);
+  ctx.fillStyle='#059669';
+  ctx.fillText('→ 同じ！ ∴ sin(90°−θ)=cosθ',8,52);
+}
+
+// 図2：左下=θ、右下=直角、上=90°−θ → 横広の三角形
+// cos(90°−θ) と sinθ が同じ a/r であることを示す
+function drawYokaku2(canvasId){
+  const cv=document.getElementById(canvasId);
+  if(!cv)return;
+  const ctx=cv.getContext('2d'),W=cv.width,H=cv.height;
+  ctx.clearRect(0,0,W,H);
+
+  // 頂点：左下A(θ)、右下B(直角)、右上C(90°−θ)
+  // 横広の形にする（Cを左寄りに）
+  const Ax=28,  Ay=H-28;  // 左下：θ
+  const Bx=W-28,By=H-28;  // 右下：直角
+  const Cx=W-28,Cy=H-75;  // 右上：90°−θ（横広）
+
+  const a=By-Cy;  // 縦辺BC = a
+  const b=Bx-Ax;  // 底辺AB = b
+  const r=Math.sqrt(a*a+b*b); // 斜辺AC = r
+
+  // 塗り
+  ctx.beginPath();ctx.moveTo(Ax,Ay);ctx.lineTo(Bx,By);ctx.lineTo(Cx,Cy);ctx.closePath();
+  ctx.fillStyle='rgba(219,234,254,0.5)';ctx.fill();
+
+  // 直角マーク（B：右下）
+  const sq=9;
+  ctx.strokeStyle='#666';ctx.lineWidth=1.5;
+  ctx.strokeRect(Bx-sq,By-sq,sq,sq);
+
+  // 辺
+  // 斜辺AC（r）青で強調
+  ctx.strokeStyle='#3b82f6';ctx.lineWidth=3;
+  ctx.beginPath();ctx.moveTo(Ax,Ay);ctx.lineTo(Cx,Cy);ctx.stroke();
+  // 縦辺BC（a）青で強調
+  ctx.strokeStyle='#3b82f6';ctx.lineWidth=3;
+  ctx.beginPath();ctx.moveTo(Bx,By);ctx.lineTo(Cx,Cy);ctx.stroke();
+  // 底辺AB（b）灰色
+  ctx.strokeStyle='#aaa';ctx.lineWidth=1.5;
+  ctx.beginPath();ctx.moveTo(Ax,Ay);ctx.lineTo(Bx,By);ctx.stroke();
+
+  // 角度弧：左下(θ)
+  const angAC=Math.atan2(Cy-Ay,Cx-Ax); // AC方向（斜辺）
+  ctx.strokeStyle='#f59e0b';ctx.lineWidth=2;
+  ctx.beginPath();ctx.arc(Ax,Ay,24,angAC,0,false);ctx.stroke();
+
+  // 角度弧：右上(90°−θ)
+  const angCA=Math.atan2(Ay-Cy,Ax-Cx);
+  const angCB=Math.PI/2;
+  ctx.beginPath();ctx.arc(Cx,Cy,18,angCB,angCA,false);ctx.stroke();
+
+  // 頂点ラベル
+  ctx.font='bold 13px sans-serif';ctx.fillStyle='#1e1b2e';
+  ctx.fillText('A',Ax-18,Ay+4);
+  ctx.fillText('B',Bx+4,By+4);
+  ctx.fillText('C',Cx+4,Cy-2);
+
+  // 角度ラベル
+  ctx.font='bold 11px sans-serif';ctx.fillStyle='#f59e0b';
+  ctx.fillText('θ',Ax+28,Ay-4);
+  ctx.fillText('90°−θ',Cx-66,Cy+18);
+
+  // 辺ラベル
+  ctx.font='bold 14px sans-serif';
+  // r（斜辺AC）左側
+  ctx.fillStyle='#3b82f6';
+  ctx.fillText('r',(Ax+Cx)/2-18,(Ay+Cy)/2);
+  // a（縦辺BC）右
+  ctx.fillStyle='#3b82f6';
+  ctx.fillText('a',Bx+6,(By+Cy)/2);
+  // b（底辺AB）下
+  ctx.fillStyle='#888';
+  ctx.fillText('b',(Ax+Bx)/2,Ay+16);
+
+  // 計算式ボックス（上部）
+  ctx.fillStyle='rgba(239,246,255,0.95)';
+  ctx.fillRect(4,4,W-8,52);
+  ctx.strokeStyle='#3b82f6';ctx.lineWidth=1.5;
+  ctx.strokeRect(4,4,W-8,52);
+
+  ctx.font='bold 11px sans-serif';ctx.fillStyle='#3b82f6';
+  ctx.fillText('cos(90°−θ) = a/r',8,20);
+  ctx.fillStyle='#1e1b2e';
+  ctx.fillText('sinθ = a/r',8,36);
+  ctx.fillStyle='#3b82f6';
+  ctx.fillText('→ 同じ！ ∴ cos(90°−θ)=sinθ',8,52);
+}
+
+function initYokakuFigs(){
+  drawYokaku1('cvYokaku1');
+  drawYokaku2('cvYokaku2');
+}
+
+/* ===== Phase1: 補角公式の説明図（3枚並び）===== */
+function drawSinCanvas(){
+  // キャンバスは3枚に増やす：sin/cos/tan それぞれの図
+  drawBokakuFig('cvSin120', 120, 'sin');
+  drawBokakuFig('cvCos150', 150, 'cos');
+  drawBokakuFig('cvTan135', 135, 'tan');
+}
+
+function drawBokakuFig(canvasId, deg, type){
+  const cv=document.getElementById(canvasId);
+  if(!cv)return;
+  const ctx=cv.getContext('2d'),W=cv.width,H=cv.height;
+  const cx=W*0.5, cy=H*0.78, r=W*0.38;
+  const rad=deg*Math.PI/180;
+  const refDeg=180-deg;
+  const refRad=refDeg*Math.PI/180;
+
+  // 鈍角側の点
+  const px=cx+r*Math.cos(rad), py=cy-r*Math.sin(rad);
+  // 対応鋭角側の点
+  const rx=cx+r*Math.cos(refRad), ry=cy-r*Math.sin(refRad);
+
+  ctx.clearRect(0,0,W,H);
+
+  // 軸
+  ctx.strokeStyle='#c4b5fd';ctx.lineWidth=1;
+  ctx.beginPath();ctx.moveTo(4,cy);ctx.lineTo(W-4,cy);ctx.stroke();
+  ctx.beginPath();ctx.moveTo(cx,4);ctx.lineTo(cx,cy+4);ctx.stroke();
+
+  // 上半円
+  ctx.strokeStyle='#a78bfa';ctx.lineWidth=2;
+  ctx.beginPath();ctx.arc(cx,cy,r,Math.PI,0,false);ctx.stroke();
+
+  if(type==='sin'){
+    // 両点からx軸への垂線（破線）→ y座標が同じを示す
+    ctx.strokeStyle='#3b82f6';ctx.lineWidth=1.5;ctx.setLineDash([4,3]);
+    ctx.beginPath();ctx.moveTo(px,cy);ctx.lineTo(px,py);ctx.stroke();
+    ctx.beginPath();ctx.moveTo(rx,cy);ctx.lineTo(rx,ry);ctx.stroke();
+    // 水平線（同じ高さ）
+    ctx.strokeStyle='#059669';ctx.lineWidth=1.5;
+    ctx.beginPath();ctx.moveTo(px,py);ctx.lineTo(rx,ry);ctx.stroke();
+    ctx.setLineDash([]);
+
+    // sinの値ラベル（右側）
+    ctx.font='bold 10px sans-serif';ctx.fillStyle='#3b82f6';
+    ctx.fillText('sinθ',rx+4,(cy+ry)/2);
+    // 「=同じ」矢印
+    ctx.fillStyle='#059669';
+    ctx.fillText('←同じ→',cx-20,py-6);
+
+    // 動径
+    ctx.strokeStyle='#7c3aed';ctx.lineWidth=2;
+    ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(px,py);ctx.stroke();
+    ctx.strokeStyle='#ef4444';ctx.lineWidth=1.5;ctx.setLineDash([4,3]);
+    ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(rx,ry);ctx.stroke();
+    ctx.setLineDash([]);
+
+    // 点
+    ctx.fillStyle='#7c3aed';ctx.beginPath();ctx.arc(px,py,5,0,2*Math.PI);ctx.fill();
+    ctx.fillStyle='#ef4444';ctx.beginPath();ctx.arc(rx,ry,5,0,2*Math.PI);ctx.fill();
+    ctx.fillStyle='#4c4563';ctx.beginPath();ctx.arc(cx,cy,3,0,2*Math.PI);ctx.fill();
+
+    // ラベル
+    ctx.font='bold 11px sans-serif';
+    ctx.fillStyle='#7c3aed';ctx.fillText('P('+deg+'°)',px-46,py-5);
+    ctx.fillStyle='#ef4444';ctx.fillText('Q('+refDeg+'°)',rx+4,ry-5);
+    ctx.fillStyle='#1e1b2e';ctx.fillText('O',cx+3,cy+12);
+
+    // 結論テキスト
+    ctx.font='bold 11px sans-serif';ctx.fillStyle='#059669';
+    ctx.fillText('sin'+deg+'°= sin'+refDeg+'°',cx-38,14);
+
+  } else if(type==='cos'){
+    // x座標が逆になることを示す
+    // 両点からy軸への水平線（破線）
+    ctx.strokeStyle='#ef4444';ctx.lineWidth=1.5;ctx.setLineDash([4,3]);
+    ctx.beginPath();ctx.moveTo(cx,py);ctx.lineTo(px,py);ctx.stroke();// 左側（負）
+    ctx.beginPath();ctx.moveTo(cx,ry);ctx.lineTo(rx,ry);ctx.stroke();// 右側（正）
+    ctx.setLineDash([]);
+
+    // cosの値ラベル
+    ctx.font='bold 10px sans-serif';
+    ctx.fillStyle='#dc2626';ctx.fillText('cos'+deg+'°<0',px-2,py-6);
+    ctx.fillStyle='#ef4444';ctx.fillText('cos'+refDeg+'°>0',rx-10,ry-6);
+
+    // 動径
+    ctx.strokeStyle='#7c3aed';ctx.lineWidth=2;
+    ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(px,py);ctx.stroke();
+    ctx.strokeStyle='#ef4444';ctx.lineWidth=1.5;ctx.setLineDash([4,3]);
+    ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(rx,ry);ctx.stroke();
+    ctx.setLineDash([]);
+
+    // 点
+    ctx.fillStyle='#7c3aed';ctx.beginPath();ctx.arc(px,py,5,0,2*Math.PI);ctx.fill();
+    ctx.fillStyle='#ef4444';ctx.beginPath();ctx.arc(rx,ry,5,0,2*Math.PI);ctx.fill();
+    ctx.fillStyle='#4c4563';ctx.beginPath();ctx.arc(cx,cy,3,0,2*Math.PI);ctx.fill();
+
+    // ラベル
+    ctx.font='bold 11px sans-serif';
+    ctx.fillStyle='#7c3aed';ctx.fillText('P('+deg+'°)',px-44,py-6);
+    ctx.fillStyle='#ef4444';ctx.fillText('Q('+refDeg+'°)',rx+3,ry-6);
+    ctx.fillStyle='#1e1b2e';ctx.fillText('O',cx+3,cy+12);
+
+    // 結論テキスト
+    ctx.font='bold 11px sans-serif';ctx.fillStyle='#dc2626';
+    ctx.fillText('cos'+deg+'°=−cos'+refDeg+'°',cx-44,14);
+
+  } else { // tan
+    // tanは動径（傾き）で示す
+    ctx.strokeStyle='#7c3aed';ctx.lineWidth=2;
+    ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(px,py);ctx.stroke();
+    ctx.strokeStyle='#ef4444';ctx.lineWidth=1.5;ctx.setLineDash([4,3]);
+    ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(rx,ry);ctx.stroke();
+    ctx.setLineDash([]);
+
+    // 垂線（x軸への）
+    ctx.strokeStyle='#aaa';ctx.lineWidth=1;ctx.setLineDash([3,3]);
+    ctx.beginPath();ctx.moveTo(px,cy);ctx.lineTo(px,py);ctx.stroke();
+    ctx.beginPath();ctx.moveTo(rx,cy);ctx.lineTo(rx,ry);ctx.stroke();
+    ctx.setLineDash([]);
+
+    // Q足のx座標（負）
+    ctx.font='bold 10px sans-serif';
+    ctx.fillStyle='#dc2626';ctx.fillText('Qx<0',px-22,cy+14);
+    ctx.fillStyle='#059669';ctx.fillText('Rx>0',rx-2,cy+14);
+
+    // 点
+    ctx.fillStyle='#7c3aed';ctx.beginPath();ctx.arc(px,py,5,0,2*Math.PI);ctx.fill();
+    ctx.fillStyle='#ef4444';ctx.beginPath();ctx.arc(rx,ry,5,0,2*Math.PI);ctx.fill();
+    ctx.fillStyle='#4c4563';ctx.beginPath();ctx.arc(cx,cy,3,0,2*Math.PI);ctx.fill();
+
+    // ラベル
+    ctx.font='bold 11px sans-serif';
+    ctx.fillStyle='#7c3aed';ctx.fillText('P('+deg+'°)',px-44,py-5);
+    ctx.fillStyle='#ef4444';ctx.fillText('Q('+refDeg+'°)',rx+3,ry-5);
+    ctx.fillStyle='#1e1b2e';ctx.fillText('O',cx+3,cy+12);
+
+    // 結論テキスト
+    ctx.font='bold 11px sans-serif';ctx.fillStyle='#dc2626';
+    ctx.fillText('tan'+deg+'°=−tan'+refDeg+'°',cx-42,14);
+  }
+
+  // 角度弧
+  ctx.strokeStyle='#f59e0b';ctx.lineWidth=1.5;
+  ctx.beginPath();ctx.arc(cx,cy,20,0,-rad,true);ctx.stroke();
+  ctx.beginPath();ctx.arc(cx,cy,20,-refRad,Math.PI,false);ctx.stroke();
+  ctx.font='bold 10px sans-serif';ctx.fillStyle='#f59e0b';
+  ctx.fillText(refDeg+'°',cx+22,cy-4);
+  ctx.fillText(refDeg+'°',cx-38,cy-4);
+}
+drawSinCanvas();
+
+/* ===== 練習問題データ（12問） ===== */
+const DRL=[
+  // 補角（180°−θ）系
+  {
+    q:'sin118° の値は？',
+    given:'sin62°= 0.8829、cos62°= 0.4695、tan62°= 1.8807',
+    ch:['−0.8829','−0.4695','0.4695','0.8829'],
+    a:3,
+    h:'sin118° = sin(180°−62°) = sin62° = 0.8829。sinは変わらない！'
+  },
+  {
+    q:'cos152° の値は？',
+    given:'sin28°= 0.4695、cos28°= 0.8829、tan28°= 0.5317',
+    ch:['−0.8829','−0.4695','0.4695','0.8829'],
+    a:0,
+    h:'cos152° = cos(180°−28°) = −cos28° = −0.8829。cosはマイナスになる！'
+  },
+  {
+    q:'sin152° の値は？',
+    given:'sin28°= 0.4695、cos28°= 0.8829、tan28°= 0.5317',
+    ch:['−0.8829','−0.4695','0.4695','0.8829'],
+    a:2,
+    h:'sin152° = sin(180°−28°) = sin28° = 0.4695。sinは変わらない！'
+  },
+  {
+    q:'cos143° の値は？',
+    given:'sin37°= 0.6018、cos37°= 0.7986、tan37°= 0.7536',
+    ch:['−0.7986','−0.6018','0.6018','0.7986'],
+    a:0,
+    h:'cos143° = cos(180°−37°) = −cos37° = −0.7986。cosはマイナスになる！'
+  },
+  {
+    q:'sin115° の値は？',
+    given:'sin65°= 0.9063、cos65°= 0.4226、tan65°= 2.1445',
+    ch:['−0.9063','−0.4226','0.4226','0.9063'],
+    a:3,
+    h:'sin115° = sin(180°−65°) = sin65° = 0.9063。sinは変わらない！'
+  },
+  {
+    q:'tan(180°−θ) の値は？',
+    given:'tanθ = 0.7536',
+    ch:['0.7536','−0.7536','1÷0.7536','変わらない'],
+    a:1,
+    h:'tan(180°−θ) = −tanθ。tanは180°の公式でマイナスになる！'
+  },
+  // 余角（90°−θ）系
+  {
+    q:'sin88° の値は？',
+    given:'sin2°= 0.0349、cos2°= 0.9994、tan2°= 0.0349',
+    ch:['0.0349','−0.9994','0.9994','−0.0349'],
+    a:2,
+    h:'sin88° = sin(90°−2°) = cos2° = 0.9994。90°が来たらsin↔cos入れ替え！'
+  },
+  {
+    q:'cos87° の値は？',
+    given:'sin3°= 0.0523、cos3°= 0.9986、tan3°= 0.0524',
+    ch:['0.9986','0.0523','−0.0523','−0.9986'],
+    a:1,
+    h:'cos87° = cos(90°−3°) = sin3° = 0.0523。90°が来たらsin↔cos入れ替え！'
+  },
+  {
+    q:'sin70° の値は？',
+    given:'sin20°= 0.3420、cos20°= 0.9397、tan20°= 0.3640',
+    ch:['0.3420','−0.3420','0.9397','−0.9397'],
+    a:2,
+    h:'sin70° = sin(90°−20°) = cos20° = 0.9397。90°が来たらsin↔cos入れ替え！'
+  },
+  {
+    q:'cos70° の値は？',
+    given:'sin20°= 0.3420、cos20°= 0.9397、tan20°= 0.3640',
+    ch:['0.3420','−0.3420','0.9397','−0.9397'],
+    a:0,
+    h:'cos70° = cos(90°−20°) = sin20° = 0.3420。90°が来たらsin↔cos入れ替え！'
+  },
+  {
+    q:'sin49° の値は？',
+    given:'sin41°= 0.6561、cos41°= 0.7547、tan41°= 0.8693',
+    ch:['0.6561','−0.6561','0.7547','−0.7547'],
+    a:2,
+    h:'sin49° = sin(90°−41°) = cos41° = 0.7547。90°が来たらsin↔cos入れ替え！'
+  },
+  // 総合（どちらの公式かを判断）
+  {
+    q:'次のうち正しい変換はどれか？',
+    given:'',
+    ch:['sin160° = −sin20°','cos130° = cos50°','sin(90°−θ) = sinθ','sin(180°−θ) = sinθ'],
+    a:3,
+    h:'sin(180°−θ) = sinθ が正しい。①sinは変わらない（マイナスにならない）。②cosはマイナスになる。③90°の公式はsinとcosが入れ替わる。'
+  },
+];
+
+let dScore=0,dAns=0;
+function buildDrill(){
+  dScore=0;dAns=0;
+  document.getElementById('drlScore').style.display='none';
+  const ar=document.getElementById('drlArea');ar.innerHTML='';
+  DRL.forEach((d,i)=>{
+    const dv=document.createElement('div');dv.className='di';dv.id='d'+i;
+    const qd=document.createElement('div');qd.className='dq';
+    qd.innerHTML='<span style="color:var(--primary);font-weight:700;">問'+(i+1)+'.</span> '+d.q;
+    dv.appendChild(qd);
+    if(d.given){
+      const gd=document.createElement('div');gd.className='dq-given';
+      gd.textContent='【与えられた値】'+d.given;
+      dv.appendChild(gd);
+    }
+    const cs=document.createElement('div');cs.className='chs';
+    d.ch.forEach((c,j)=>{
+      const b=document.createElement('button');b.className='cb';b.id='d'+i+'c'+j;
+      b.innerHTML='<span class="ci">○</span><span>'+c+'</span>';
+      b.onclick=()=>ansD(i,j,d.a,d.h);cs.appendChild(b);
+    });
+    dv.appendChild(cs);
+    const fb=document.createElement('div');fb.className='fb';fb.id='d'+i+'f';
+    dv.appendChild(fb);ar.appendChild(dv);
+  });
+}
+function ansD(qi,ch,cor,hint){
+  const it=document.getElementById('d'+qi);
+  if(it.classList.contains('ac')||it.classList.contains('aw'))return;
+  dAns++;
+  DRL[qi].ch.forEach((_,j)=>{
+    const b=document.getElementById('d'+qi+'c'+j);b.disabled=true;
+    if(j===cor){b.classList.add('cor');b.querySelector('.ci').textContent='✓';}
+  });
+  const fb=document.getElementById('d'+qi+'f');
+  if(ch===cor){dScore++;it.classList.add('ac');fb.className='fb cor';fb.style.display='block';fb.textContent='✓ 正解！';}
+  else{
+    it.classList.add('aw');
+    document.getElementById('d'+qi+'c'+ch).classList.add('wrg');
+    document.getElementById('d'+qi+'c'+ch).querySelector('.ci').textContent='✗';
+    fb.className='fb wrg';fb.style.display='block';fb.innerHTML='✗ 不正解。【解説】'+hint;
+  }
+  if(dAns===DRL.length){
+    setTimeout(()=>{
+      const sa=document.getElementById('drlScore');sa.style.display='block';
+      document.getElementById('drlSN').textContent=dScore+'/'+DRL.length;
+      const p=dScore/DRL.length;
+      document.getElementById('drlSM').textContent=
+        p>=.83?'素晴らしい！チェックへ進もう！':
+        p>=.5?'もう少し！公式をもう一度確認しよう。':
+        '公式を見直してから再挑戦しよう。';
+      sa.scrollIntoView({behavior:'smooth'});
+    },600);
+  }
+}
+
+/* ===== 確認問題（高認過去問形式・7問）===== */
+// 問題ごとに「与えられた値の表」を個別に持つ本格過去問レイアウト
+const CHK=[
+  // 問1：sin118°（補角・sin）R3年度参考
+  {
+    num:1,
+    lead:'必要であれば、次の三角比の値を利用すること。',
+    table:[['62°','0.8829','0.4695','1.8807']],
+    thead:['角','正弦(sin)','余弦(cos)','正接(tan)'],
+    q:'sin118° の値は〔　イ　〕である。<br>次の <span style="font-weight:700;">①〜④</span> のうちから最も適切なものを一つ選べ。',
+    ch:['① &minus;0.8829','② &minus;0.4695','③ 0.4695','④ 0.8829'],
+    a:3,
+    sol:'sin118° = sin(180°<span style="color:#dc2626;">−62°</span>) = <span style="color:#059669;font-weight:700;">sin62°</span> = 0.8829<br>→ sinは変わらない　答え <strong>④</strong>'
+  },
+  // 問2：cos152°（補角・cos）R4年度参考
+  {
+    num:2,
+    lead:'必要であれば、次の三角比の値を利用すること。',
+    table:[['28°','0.4695','0.8829','0.5317']],
+    thead:['角','正弦(sin)','余弦(cos)','正接(tan)'],
+    q:'cos152° の値は〔　イ　〕である。<br>次の <span style="font-weight:700;">①〜④</span> のうちから最も適切なものを一つ選べ。',
+    ch:['① &minus;0.8829','② &minus;0.4695','③ 0.4695','④ 0.8829'],
+    a:0,
+    sol:'cos152° = cos(180°<span style="color:#dc2626;">−28°</span>) = <span style="color:#dc2626;font-weight:700;">−cos28°</span> = −0.8829<br>→ cosはマイナスになる　答え <strong>①</strong>'
+  },
+  // 問3：sin152°（補角・sin）
+  {
+    num:3,
+    lead:'必要であれば、次の三角比の値を利用すること。',
+    table:[['28°','0.4695','0.8829','0.5317']],
+    thead:['角','正弦(sin)','余弦(cos)','正接(tan)'],
+    q:'sin152° の値は〔　イ　〕である。<br>次の <span style="font-weight:700;">①〜④</span> のうちから最も適切なものを一つ選べ。',
+    ch:['① &minus;0.8829','② &minus;0.4695','③ 0.4695','④ 0.8829'],
+    a:2,
+    sol:'sin152° = sin(180°<span style="color:#dc2626;">−28°</span>) = <span style="color:#059669;font-weight:700;">sin28°</span> = 0.4695<br>→ sinは変わらない　答え <strong>③</strong>'
+  },
+  // 問4：cos143°（補角・cos）R5年度参考
+  {
+    num:4,
+    lead:'必要であれば、次の三角比の値を利用すること。',
+    table:[['37°','0.6018','0.7986','0.7536']],
+    thead:['角','正弦(sin)','余弦(cos)','正接(tan)'],
+    q:'cos143° の値は〔　イ　〕である。<br>次の <span style="font-weight:700;">①〜④</span> のうちから最も適切なものを一つ選べ。',
+    ch:['① &minus;0.7986','② &minus;0.6018','③ 0.6018','④ 0.7986'],
+    a:0,
+    sol:'cos143° = cos(180°<span style="color:#dc2626;">−37°</span>) = <span style="color:#dc2626;font-weight:700;">−cos37°</span> = −0.7986<br>→ cosはマイナスになる　答え <strong>①</strong>'
+  },
+  // 問5：sin70°（余角）R3年度参考
+  {
+    num:5,
+    lead:'必要であれば、次の三角比の値を利用すること。',
+    table:[['20°','0.3420','0.9397','0.3640']],
+    thead:['角','正弦(sin)','余弦(cos)','正接(tan)'],
+    q:'sin70° の値は〔　イ　〕である。<br>次の <span style="font-weight:700;">①〜④</span> のうちから最も適切なものを一つ選べ。',
+    ch:['① 0.3420','② &minus;0.3420','③ 0.9397','④ &minus;0.9397'],
+    a:2,
+    sol:'sin70° = sin(90°<span style="color:#dc2626;">−20°</span>) = <span style="color:#059669;font-weight:700;">cos20°</span> = 0.9397<br>→ 90°が来たらsin↔cos入れ替え　答え <strong>③</strong>'
+  },
+  // 問6：sin49°（余角）R4年度参考
+  {
+    num:6,
+    lead:'必要であれば、次の三角比の値を利用すること。',
+    table:[['41°','0.6561','0.7547','0.8693']],
+    thead:['角','正弦(sin)','余弦(cos)','正接(tan)'],
+    q:'sin49° の値は〔　イ　〕である。<br>次の <span style="font-weight:700;">①〜④</span> のうちから最も適切なものを一つ選べ。',
+    ch:['① 0.6561','② &minus;0.6561','③ 0.7547','④ &minus;0.7547'],
+    a:2,
+    sol:'sin49° = sin(90°<span style="color:#dc2626;">−41°</span>) = <span style="color:#059669;font-weight:700;">cos41°</span> = 0.7547<br>→ 90°が来たらsin↔cos入れ替え　答え <strong>③</strong>'
+  },
+  // 問7：sin88°（余角）R5年度参考
+  {
+    num:7,
+    lead:'必要であれば、次の三角比の値を利用すること。',
+    table:[
+      ['1°','0.0175','0.9998','0.0175'],
+      ['2°','0.0349','0.9994','0.0349'],
+      ['3°','0.0523','0.9986','0.0524'],
+      ['4°','0.0698','0.9976','0.0699'],
+      ['5°','0.0872','0.9962','0.0875'],
+    ],
+    thead:['角','正弦(sin)','余弦(cos)','正接(tan)'],
+    q:'sin88° の値は〔　イ　〕である。<br>次の <span style="font-weight:700;">①〜④</span> のうちから最も適切なものを一つ選べ。',
+    ch:['① &minus;0.9994','② &minus;0.0349','③ 0.0349','④ 0.9994'],
+    a:3,
+    sol:'sin88° = sin(90°<span style="color:#dc2626;">−2°</span>) = <span style="color:#059669;font-weight:700;">cos2°</span> = 0.9994<br>→ 90°が来たらsin↔cos入れ替え　答え <strong>④</strong>'
+  },
+  // 問8：cos80°（余角・類題）
+  {
+    num:8,
+    lead:'必要であれば、次の三角比の値を利用すること。',
+    table:[
+      ['10°','0.1736','0.9848','0.1763'],
+      ['20°','0.3420','0.9397','0.3640'],
+    ],
+    thead:['角','正弦(sin)','余弦(cos)','正接(tan)'],
+    q:'cos80° の値は〔　イ　〕である。<br>次の <span style="font-weight:700;">①〜④</span> のうちから最も適切なものを一つ選べ。',
+    ch:['① 0.1736','② &minus;0.1736','③ 0.9848','④ &minus;0.9848'],
+    a:0,
+    sol:'cos80° = cos(90°<span style="color:#dc2626;">−10°</span>) = <span style="color:#059669;font-weight:700;">sin10°</span> = 0.1736<br>→ 90°が来たらsin↔cos入れ替え　答え <strong>①</strong>'
+  },
+  // 問9：sin80°（余角・類題）
+  {
+    num:9,
+    lead:'必要であれば、次の三角比の値を利用すること。',
+    table:[
+      ['10°','0.1736','0.9848','0.1763'],
+      ['20°','0.3420','0.9397','0.3640'],
+    ],
+    thead:['角','正弦(sin)','余弦(cos)','正接(tan)'],
+    q:'sin80° の値は〔　イ　〕である。<br>次の <span style="font-weight:700;">①〜④</span> のうちから最も適切なものを一つ選べ。',
+    ch:['① 0.1736','② &minus;0.1736','③ 0.9848','④ &minus;0.9848'],
+    a:2,
+    sol:'sin80° = sin(90°<span style="color:#dc2626;">−10°</span>) = <span style="color:#059669;font-weight:700;">cos10°</span> = 0.9848<br>→ 90°が来たらsin↔cos入れ替え　答え <strong>③</strong>'
+  },
+];
+
+let cScore=0,cAns=0;
+function buildCheck(){
+  cScore=0; cAns=0;
+  document.getElementById('chkScore').style.display='none';
+  const ar=document.getElementById('chkArea'); ar.innerHTML='';
+
+  CHK.forEach((d,i)=>{
+    const dv=document.createElement('div');
+    dv.className='card'; dv.id='ck'+i;
+    dv.style.borderLeft='4px solid var(--primary)';
+    dv.style.marginBottom='16px';
+
+    // 問番号
+    const qnum=document.createElement('div');
+    qnum.style.cssText='font-size:13px;font-weight:700;color:var(--primary);letter-spacing:1px;margin-bottom:8px;';
+    qnum.textContent='問'+d.num;
+    dv.appendChild(qnum);
+
+    // リード文
+    if(d.lead){
+      const ld=document.createElement('p');
+      ld.style.cssText='font-size:13px;color:var(--tm);margin-bottom:6px;';
+      ld.textContent=d.lead;
+      dv.appendChild(ld);
+    }
+
+    // 数値表
+    if(d.table && d.table.length){
+      const tbl=document.createElement('table');
+      tbl.className='num-table';
+      tbl.style.maxWidth='380px';
+      tbl.style.marginBottom='10px';
+      // ヘッダー
+      const thead=document.createElement('tr');
+      d.thead.forEach(h=>{
+        const th=document.createElement('th');th.textContent=h;thead.appendChild(th);
+      });
+      tbl.appendChild(thead);
+      // データ行
+      d.table.forEach(row=>{
+        const tr=document.createElement('tr');
+        row.forEach(cell=>{
+          const td=document.createElement('td');td.textContent=cell;tr.appendChild(td);
+        });
+        tbl.appendChild(tr);
+      });
+      dv.appendChild(tbl);
+    }
+
+    // 問題文
+    const qd=document.createElement('div');
+    qd.style.cssText='font-size:15px;font-weight:700;margin-bottom:12px;line-height:1.6;';
+    qd.innerHTML=d.q;
+    dv.appendChild(qd);
+
+    // 選択肢
+    const cs=document.createElement('div');cs.className='chs';
+    d.ch.forEach((c,j)=>{
+      const b=document.createElement('button');b.className='cb';b.id='ck'+i+'c'+j;
+      b.innerHTML='<span class="ci">○</span><span>'+c+'</span>';
+      b.onclick=()=>ansC(i,j,d.a,d.sol);
+      cs.appendChild(b);
+    });
+    dv.appendChild(cs);
+
+    // フィードバック
+    const fb=document.createElement('div');fb.className='fb';fb.id='ck'+i+'f';
+    dv.appendChild(fb);
+
+    ar.appendChild(dv);
+  });
+}
+
+function ansC(qi,ch,cor,sol){
+  const it=document.getElementById('ck'+qi);
+  if(it.classList.contains('ac')||it.classList.contains('aw'))return;
+  cAns++;
+  CHK[qi].ch.forEach((_,j)=>{
+    const b=document.getElementById('ck'+qi+'c'+j);
+    b.disabled=true;
+    if(j===cor){b.classList.add('cor');b.querySelector('.ci').textContent='✓';}
+  });
+  const fb=document.getElementById('ck'+qi+'f');
+  if(ch===cor){
+    cScore++;
+    it.classList.add('ac');
+    fb.className='fb cor';fb.style.display='block';
+    fb.innerHTML='✓ 正解！<br><span style="font-size:13px;">【解説】'+sol+'</span>';
+    confetti();
+  } else {
+    it.classList.add('aw');
+    document.getElementById('ck'+qi+'c'+ch).classList.add('wrg');
+    document.getElementById('ck'+qi+'c'+ch).querySelector('.ci').textContent='✗';
+    fb.className='fb wrg';fb.style.display='block';
+    fb.innerHTML='✗ 不正解。<br><span style="font-size:13px;">【解説】'+sol+'</span>';
+  }
+  if(cAns===CHK.length){
+    setTimeout(()=>{
+      const sa=document.getElementById('chkScore');sa.style.display='block';
+      document.getElementById('chkSN').textContent=cScore+'/'+CHK.length;
+      const p=cScore/CHK.length;
+      document.getElementById('chkSM').textContent=
+        p>=0.78?'🎉 合格！よくできました！':
+        p>=0.56?'もう少し！苦手な問題を復習しよう。':
+        '公式まとめページに戻って復習してから再挑戦しよう。';
+      sa.scrollIntoView({behavior:'smooth'});
+    },600);
+  }
+}
+
+function confetti(){
+  const cols=['#7c3aed','#f59e0b','#059669','#ef4444','#3b82f6','#ec4899'];
+  for(let i=0;i<80;i++){
+    const p=document.createElement('div');p.className='cp';
+    p.style.left=Math.random()*100+'vw';p.style.top='-20px';
+    p.style.background=cols[Math.floor(Math.random()*cols.length)];
+    p.style.width=(7+Math.random()*9)+'px';p.style.height=(7+Math.random()*9)+'px';
+    p.style.animationDuration=(1.6+Math.random()*2)+'s';
+    p.style.animationDelay=(Math.random()*.9)+'s';
+    document.body.appendChild(p);setTimeout(()=>p.remove(),4500);
+  }
+}
+
+
+/* ===== ミニテスト ===== */
+const MINI1 = [
+  {q:'sin(180°−θ) = ?', given:'',
+   ch:['sinθ','−sinθ','cosθ','−cosθ'], a:0, h:'sinは変わらない！ sin(180°−θ) = sinθ'},
+  {q:'cos(180°−θ) = ?', given:'',
+   ch:['cosθ','−cosθ','sinθ','−sinθ'], a:1, h:'cosはマイナスになる！ cos(180°−θ) = −cosθ'},
+  {q:'tan(180°−θ) = ?', given:'',
+   ch:['tanθ','−tanθ','sinθ','cosθ'], a:1, h:'tanもマイナスになる！ tan(180°−θ) = −tanθ'},
+];
+const MINI2 = [
+  {q:'sin152° の値は？', given:'sin28°= 0.4695、cos28°= 0.8829',
+   ch:['−0.8829','−0.4695','0.4695','0.8829'], a:2,
+   h:'sin152° = sin(180°−28°) = sin28° = 0.4695。sinは変わらない！'},
+  {q:'cos143° の値は？', given:'sin37°= 0.6018、cos37°= 0.7986',
+   ch:['−0.7986','−0.6018','0.6018','0.7986'], a:0,
+   h:'cos143° = cos(180°−37°) = −cos37° = −0.7986。cosはマイナス！'},
+  {q:'sin115° の値は？', given:'sin65°= 0.9063、cos65°= 0.4226',
+   ch:['−0.9063','−0.4226','0.4226','0.9063'], a:3,
+   h:'sin115° = sin(180°−65°) = sin65° = 0.9063。sinは変わらない！'},
+];
+const MINI3 = [
+  {q:'sin(90°−θ) = ?', given:'',
+   ch:['sinθ','−sinθ','cosθ','−cosθ'], a:2, h:'90°が来たらsin↔cos入れ替え！ sin(90°−θ) = cosθ'},
+  {q:'cos(90°−θ) = ?', given:'',
+   ch:['cosθ','−cosθ','sinθ','−sinθ'], a:2, h:'90°が来たらsin↔cos入れ替え！ cos(90°−θ) = sinθ'},
+  {q:'sin89° の値は？', given:'sin1°= 0.0175、cos1°= 0.9998',
+   ch:['0.0175','−0.0175','0.9998','−0.9998'], a:2,
+   h:'sin89° = sin(90°−1°) = cos1° = 0.9998'},
+  {q:'cos86° の値は？', given:'sin4°= 0.0698、cos4°= 0.9976',
+   ch:['0.9976','0.0698','−0.0698','−0.9976'], a:1,
+   h:'cos86° = cos(90°−4°) = sin4° = 0.0698'},
+];
+
+const MINI2b = [
+  {q:'cos152° の値は？', given:'sin28°= 0.4695、cos28°= 0.8829、tan28°= 0.5317',
+   ch:['① −0.8829','② −0.4695','③ 0.4695','④ 0.8829'], a:0,
+   h:'cos152° = cos(180°−28°) = −cos28° = −0.8829。cosはマイナス → ①'},
+  {q:'sin115° の値は？', given:'sin65°= 0.9063、cos65°= 0.4226、tan65°= 2.1445',
+   ch:['① −0.9063','② −0.4226','③ 0.4226','④ 0.9063'], a:3,
+   h:'sin115° = sin(180°−65°) = sin65° = 0.9063。sinは変わらない → ④'},
+  {q:'cos143° の値は？', given:'sin37°= 0.6018、cos37°= 0.7986、tan37°= 0.7536',
+   ch:['① −0.7986','② −0.6018','③ 0.6018','④ 0.7986'], a:0,
+   h:'cos143° = cos(180°−37°) = −cos37° = −0.7986。cosはマイナス → ①'},
+];
+const miniData = {mini1: MINI1, mini2: MINI2, mini2b: MINI2b, mini3: MINI3};
+const miniState = {mini1:{score:0,ans:0}, mini2:{score:0,ans:0}, mini2b:{score:0,ans:0}, mini3:{score:0,ans:0}};
+const miniBuilt = {mini1:false, mini2:false, mini2b:false, mini3:false};
+
+function toggleMini(id, btn) {
+  const body = document.getElementById(id);
+  const isOpen = body.classList.contains('open');
+  body.classList.toggle('open');
+  btn.classList.toggle('open');
+  if (!isOpen && !miniBuilt[id]) {
+    buildMini(id);
+    miniBuilt[id] = true;
+  }
+}
+
+function buildMini(id) {
+  const ar = document.getElementById(id+'-area');
+  ar.innerHTML = '';
+  miniState[id] = {score:0, ans:0};
+  miniData[id].forEach((d, i) => {
+    const dv = document.createElement('div');
+    dv.className = 'di'; dv.id = id+'q'+i;
+    dv.style.marginBottom = '10px';
+    const qd = document.createElement('div'); qd.className = 'mini-q';
+    qd.innerHTML = '<span style="color:var(--primary);font-weight:700;">問'+(i+1)+'.</span> '+d.q;
+    dv.appendChild(qd);
+    if(d.given){
+      const gd = document.createElement('div'); gd.className = 'mini-given';
+      gd.textContent = d.given; dv.appendChild(gd);
+    }
+    const cs = document.createElement('div'); cs.className = 'mini-chs';
+    d.ch.forEach((c, j) => {
+      const b = document.createElement('button'); b.className = 'mini-cb';
+      b.id = id+'q'+i+'c'+j;
+      b.innerHTML = '<span class="ci">○</span><span>'+c+'</span>';
+      b.onclick = () => ansMini(id, i, j, d.a, d.h);
+      cs.appendChild(b);
+    });
+    dv.appendChild(cs);
+    const fb = document.createElement('div'); fb.className = 'mini-fb'; fb.id = id+'q'+i+'f';
+    dv.appendChild(fb);
+    ar.appendChild(dv);
+  });
+}
+
+function ansMini(id, qi, ch, cor, hint) {
+  const it = document.getElementById(id+'q'+qi);
+  if(it.classList.contains('ac') || it.classList.contains('aw')) return;
+  miniState[id].ans++;
+  miniData[id][qi].ch.forEach((_, j) => {
+    const b = document.getElementById(id+'q'+qi+'c'+j);
+    b.disabled = true;
+    if(j === cor){ b.classList.add('cor'); b.querySelector('.ci').textContent = '✓'; }
+  });
+  const fb = document.getElementById(id+'q'+qi+'f');
+  if(ch === cor){
+    miniState[id].score++;
+    it.classList.add('ac');
+    fb.className = 'mini-fb cor'; fb.style.display = 'block'; fb.textContent = '✓ 正解！';
+    // ★1問正解ごとに花吹雪
+    confetti();
+    if(miniState[id].score === miniData[id].length) {
+      // 全問正解メッセージ
+      document.getElementById(id+'-clear').style.display = 'block';
+    }
+  } else {
+    it.classList.add('aw');
+    document.getElementById(id+'q'+qi+'c'+ch).classList.add('wrg');
+    document.getElementById(id+'q'+qi+'c'+ch).querySelector('.ci').textContent = '✗';
+    fb.className = 'mini-fb wrg'; fb.style.display = 'block';
+    fb.innerHTML = '✗ 不正解。' + hint;
+  }
+}
+
+function markPassed(unit){
+  try{localStorage.setItem('passed_'+unit,'1');}catch(e){}
+  confetti();
+  const msg=document.createElement('div');
+  msg.style.cssText='position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:#7c3aed;color:white;padding:24px 36px;border-radius:20px;font-size:20px;font-weight:700;z-index:9999;text-align:center;box-shadow:0 8px 32px rgba(124,58,237,.4);';
+  msg.innerHTML='✅ TR06 完了！<br><span style="font-size:14px;opacity:.85;">次のTR07へ進もう</span>';
+  document.body.appendChild(msg);
+  setTimeout(()=>{try{window.location.href='../gamba_kounin.html';}catch(e){}},2500);
+}
+
+document.getElementById('pb').style.width='0%';
+</script>
+</body>
+</html>

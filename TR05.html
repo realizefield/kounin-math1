@@ -116,6 +116,27 @@ input[type=range]{flex:1;accent-color:var(--primary);cursor:pointer;}
 .modal h3{font-size:16px;font-weight:700;color:var(--primary);margin-bottom:10px;}
 .mclose{background:var(--ng);color:#fff;border:none;border-radius:8px;padding:8px 18px;font-size:14px;font-weight:700;cursor:pointer;margin-top:12px;width:100%;}
 @media(max-width:520px){.cwrap{flex-direction:column;align-items:center;}.tvs{gap:7px;}.tvb{min-width:78px;padding:5px 7px;}}
+
+/* ===== ミニテスト（アコーディオン） ===== */
+.mini-toggle{width:100%;background:linear-gradient(135deg,#7c3aed,#a855f7);color:#fff;border:none;border-radius:10px;padding:11px 16px;font-size:14px;font-family:inherit;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:space-between;margin-top:12px;transition:all .2s;}
+.mini-toggle:hover{background:linear-gradient(135deg,#6d28d9,#9333ea);}
+.mini-toggle .arrow{font-size:18px;transition:transform .25s;}
+.mini-toggle.open .arrow{transform:rotate(180deg);}
+.mini-body{max-height:0;overflow:hidden;transition:max-height .35s ease,padding .25s;background:#f8f6ff;border:1.5px solid var(--pm);border-top:none;border-radius:0 0 12px 12px;}
+.mini-body.open{max-height:1200px;padding:14px;}
+.mini-q{font-size:15px;font-weight:700;color:var(--text);margin-bottom:10px;}
+.mini-chs{display:flex;flex-direction:column;gap:7px;}
+.mini-cb{background:#fff;border:2px solid var(--bd);border-radius:10px;padding:9px 13px;font-size:14px;font-family:inherit;cursor:pointer;text-align:left;transition:all .18s;display:flex;align-items:center;gap:9px;}
+.mini-cb:hover:not(:disabled){border-color:var(--primary);background:var(--pl);}
+.mini-cb.cor{border-color:var(--ok);background:var(--okb);font-weight:700;color:var(--ok);}
+.mini-cb.wrg{border-color:var(--ng);background:var(--ngb);color:var(--ng);}
+.mini-cb:disabled{cursor:default;}
+.mini-fb{margin-top:9px;padding:9px 12px;border-radius:10px;font-size:14px;display:none;}
+.mini-fb.cor{background:var(--okb);color:var(--ok);border:1px solid var(--ok);}
+.mini-fb.wrg{background:var(--ngb);color:var(--ng);border:1px solid var(--ng);}
+.mini-clear{margin-top:10px;padding:8px 12px;border-radius:8px;font-size:13px;display:none;background:var(--okb);color:var(--ok);border:1px solid var(--ok);font-weight:700;text-align:center;}
+
+@keyframes fall05{0%{opacity:1;transform:translateY(-30px) rotate(0deg);}100%{opacity:0;transform:translateY(105vh) rotate(800deg);}}
 </style>
 </head>
 <body>
@@ -182,6 +203,15 @@ input[type=range]{flex:1;accent-color:var(--primary);cursor:pointer;}
         (2) cos90°= 0,&ensp;sin90°= 1<br>
         (3) cos180°= &minus;1,&ensp;sin180°= 0
       </div></div>
+    <!-- ミニテスト：例題1 -->
+    <button class="mini-toggle" onclick="toggleMini05('mt_ex1',this)">
+      <span>✏️ ミニテスト：0°・90°・180° の値を確認しよう</span>
+      <span class="arrow">▼</span>
+    </button>
+    <div class="mini-body" id="mt_ex1">
+      <div id="mt_ex1_area"></div>
+      <div class="mini-clear" id="mt_ex1_clear">🎉 全問正解！すばらしい！</div>
+    </div>
   </div>
   <div class="navrow">
     <button class="btn back" onclick="goPh(1)">← 前へ</button>
@@ -211,6 +241,15 @@ input[type=range]{flex:1;accent-color:var(--primary);cursor:pointer;}
         <tr><td><strong>鋭角 0°〜90°</strong></td><td class="pos">＋</td><td class="pos">＋</td><td class="pos">＋</td></tr>
         <tr><td><strong>鈍角 90°〜180°</strong></td><td class="pos">＋</td><td class="neg">−</td><td class="neg">−</td></tr></table>
       <p style="font-size:13px;color:var(--primary);font-weight:700;margin-top:6px;">「sinは変わらない（常に＋）。cosとtanは鈍角でマイナス」</p></div>
+    <!-- ミニテスト：例題2 -->
+    <button class="mini-toggle" onclick="toggleMini05('mt_ex2',this)">
+      <span>✏️ ミニテスト：120°・135°・150° の値を確認しよう</span>
+      <span class="arrow">▼</span>
+    </button>
+    <div class="mini-body" id="mt_ex2">
+      <div id="mt_ex2_area"></div>
+      <div class="mini-clear" id="mt_ex2_clear">🎉 全問正解！すばらしい！</div>
+    </div>
   </div>
   <div class="navrow">
     <button class="btn back" onclick="goPh(2)">← 前へ</button>
@@ -338,18 +377,19 @@ input[type=range]{flex:1;accent-color:var(--primary);cursor:pointer;}
   </div>
 </div>
 
-<!-- PH7: チェック問題 -->
+<!-- PH7: 確認問題（高認過去問形式） -->
 <div class="ph" id="ph7">
-  <div class="slb">✅ チェック問題</div>
-  <div class="card">
-    <h2>理解度チェック</h2>
-    <div id="chkArea"></div>
-    <div class="sca" id="chkScore">
-      <div class="sm">チェック結果</div>
-      <div class="sn" id="chkSN"></div>
-      <div class="sm" id="chkSM"></div>
-      <button class="nbtn" onclick="markPassed('TR05')">単元完了 ✓</button>
-    </div>
+  <div class="slb">✅ 確認問題</div>
+  <div class="card" style="border-color:var(--pm);">
+    <h2>📝 高認過去問形式で解いてみよう</h2>
+    <p style="font-size:13px;color:var(--tm);">実際の高認試験と同じ形式です。単位円の図を思い浮かべながら解いてみよう。</p>
+  </div>
+  <div id="chkArea"></div>
+  <div class="sca" id="chkScore">
+    <div class="sm">確認問題の結果</div>
+    <div class="sn" id="chkSN"></div>
+    <div class="sm" id="chkSM"></div>
+    <button class="nbtn" onclick="markPassed('TR05')">単元完了 ✓</button>
   </div>
   <div class="navrow">
     <button class="btn back" onclick="goPh(6)">← 前へ</button>
@@ -785,11 +825,11 @@ function showTblRef(){document.getElementById('refModal').classList.add('show');
 ====================================== */
 const DRL=[
   {q:'sin 120° の値は？',ch:[fr('√3','2'),fr('1','2'),'&minus;'+fr('√3','2'),'&minus;'+fr('1','2')],a:0,h:'120°は鈍角。sinは常に＋。sin120°= sin60°= √3/2'},
-  {q:'cos 150° の値は？',ch:[fr('√3','2'),fr('1','2'),'&minus;'+fr('√3','2'),'&minus;'+fr('1','2')],a:2,h:'cosは鈍角でマイナス。cos150°= −cos30°= −√3/2'},
+  {q:'cos 150° の値は？',ch:[fr('√3','2'),fr('1','2'),'&minus;'+fr('√3','2'),'&minus;'+fr('1','2')],a:2,h:'cosは鈍角でマイナス。cos150° = −cos30° = −<span class="fr"><span class="fn">√3</span><span class="fd">2</span></span>'},
   {q:'tan 135° の値は？',ch:['1','&minus;1','√3','&minus;√3'],a:1,h:'tanは鈍角でマイナス。tan135°= −tan45°= −1'},
-  {q:'sin 150° の値は？',ch:[fr('√3','2'),'&minus;'+fr('√3','2'),fr('1','2'),'&minus;'+fr('1','2')],a:2,h:'sinは常に＋。sin150°= sin30°= 1/2'},
-  {q:'cos 120° の値は？',ch:[fr('1','2'),'&minus;'+fr('1','2'),fr('√3','2'),'&minus;'+fr('√3','2')],a:1,h:'cosは鈍角でマイナス。cos120°= −cos60°= −1/2'},
-  {q:'tan 120° の値は？',ch:['√3','&minus;√3',fr('1','√3'),'&minus;'+fr('1','√3')],a:1,h:'tan=sin/cos=(√3/2)÷(−1/2)=−√3'},
+  {q:'sin 150° の値は？',ch:[fr('√3','2'),'&minus;'+fr('√3','2'),fr('1','2'),'&minus;'+fr('1','2')],a:2,h:'sinは常に＋。sin150° = sin30° = <span class="fr"><span class="fn">1</span><span class="fd">2</span></span>'},
+  {q:'cos 120° の値は？',ch:[fr('1','2'),'&minus;'+fr('1','2'),fr('√3','2'),'&minus;'+fr('√3','2')],a:1,h:'cosは鈍角でマイナス。cos120° = −cos60° = −<span class="fr"><span class="fn">1</span><span class="fd">2</span></span>'},
+  {q:'tan 120° の値は？',ch:['√3','&minus;√3',fr('1','√3'),'&minus;'+fr('1','√3')],a:1,h:'tan = sin÷cos = (<span class="fr"><span class="fn">√3</span><span class="fd">2</span></span>)÷(−<span class="fr"><span class="fn">1</span><span class="fd">2</span></span>) = −√3'},
   {q:'sin 90° の値は？',ch:['0','1','&minus;1',fr('√3','2')],a:1,h:'90°の点Pは(0,1)。y座標=1なのでsin90°=1'},
   {q:'cos 180° の値は？',ch:['1','0','&minus;1',fr('1','2')],a:2,h:'180°の点Pは(−1,0)。x座標=−1なのでcos180°=−1'},
   {q:'鈍角（90°〜180°）のとき正しい符号の組み合わせは？',ch:['sin&lt;0, cos&gt;0','sin&gt;0, cos&lt;0','sin&gt;0, cos&gt;0','sin&lt;0, cos&lt;0'],a:1,h:'鈍角では単位円の左上。y>0なのでsin>0、x<0なのでcos<0'},
@@ -1038,34 +1078,141 @@ function confetti(){
 /* ======================================
    Phase 7: チェック問題
 ====================================== */
+/* ===== 確認問題（高認過去問形式・7問）===== */
 const CHK=[
-  {q:'cos 180° の値は？',ch:['1','0','&minus;1','&minus;'+fr('1','2')],a:2,h:'180°の点Pは(−1,0)。x座標=−1なのでcos180°=−1'},
-  {q:'鈍角のとき正しい符号の組み合わせは？',ch:['sin&lt;0, cos&gt;0','sin&gt;0, cos&lt;0','sin&gt;0, cos&gt;0','sin&lt;0, cos&lt;0'],a:1,h:'鈍角：y>0なのでsin>0、x<0なのでcos<0'},
-  {q:'tan 120° の値は？',ch:['√3','&minus;√3',fr('1','√3'),'&minus;'+fr('1','√3')],a:1,h:'tan=sin/cos=(√3/2)÷(−1/2)=−√3'},
-  {q:'単位円上の点P(x,y)について正しい式は？',ch:['(x,y)=(sinθ,cosθ)','(x,y)=(cosθ,sinθ)','(x,y)=(tanθ,sinθ)','(x,y)=(cosθ,tanθ)'],a:1,h:'x座標=cosθ、y座標=sinθ。これが単位円の定義の核心。'},
+  // 問1：sin120°（過去問頻出）
+  {
+    num:1,
+    lead:'必要であれば、次の三角比の値を利用すること。',
+    table:[['60°',fr('√3','2'),fr('1','2'),'√3']],
+    thead:['角','正弦(sin)','余弦(cos)','正接(tan)'],
+    q:'sin120° の値は〔　イ　〕である。<br>次の <strong>①〜④</strong> のうちから最も適切なものを一つ選べ。',
+    ch:['① &minus;'+fr('√3','2'),'② &minus;'+fr('1','2'),'③ '+fr('1','2'),'④ '+fr('√3','2')],
+    a:3,
+    sol:'sin120° = sin(180°−60°) = <strong style="color:#059669;">sin60°</strong> = '+fr('√3','2')+'<br>→ sinは鈍角でも変わらない（＋）　答え <strong>④</strong>'
+  },
+  // 問2：cos120°
+  {
+    num:2,
+    lead:'必要であれば、次の三角比の値を利用すること。',
+    table:[['60°',fr('√3','2'),fr('1','2'),'√3']],
+    thead:['角','正弦(sin)','余弦(cos)','正接(tan)'],
+    q:'cos120° の値は〔　イ　〕である。<br>次の <strong>①〜④</strong> のうちから最も適切なものを一つ選べ。',
+    ch:['① &minus;'+fr('√3','2'),'② &minus;'+fr('1','2'),'③ '+fr('1','2'),'④ '+fr('√3','2')],
+    a:1,
+    sol:'cos120° = −cos(180°−120°) = <strong style="color:#dc2626;">−cos60°</strong> = −'+fr('1','2')+'<br>→ cosは鈍角でマイナスになる　答え <strong>②</strong>'
+  },
+  // 問3：tan135°
+  {
+    num:3,
+    lead:'必要であれば、次の三角比の値を利用すること。',
+    table:[['45°',fr('1','√2'),fr('1','√2'),'1']],
+    thead:['角','正弦(sin)','余弦(cos)','正接(tan)'],
+    q:'tan135° の値は〔　イ　〕である。<br>次の <strong>①〜④</strong> のうちから最も適切なものを一つ選べ。',
+    ch:['① &minus;√3','② &minus;1','③ 1','④ √3'],
+    a:1,
+    sol:'tan135° = −tan(180°−135°) = <strong style="color:#dc2626;">−tan45°</strong> = −1<br>→ tanは鈍角でマイナスになる　答え <strong>②</strong>'
+  },
+  // 問4：sin150°（過去問頻出）
+  {
+    num:4,
+    lead:'必要であれば、次の三角比の値を利用すること。',
+    table:[['30°',fr('1','2'),fr('√3','2'),fr('1','√3')]],
+    thead:['角','正弦(sin)','余弦(cos)','正接(tan)'],
+    q:'sin150° の値は〔　イ　〕である。<br>次の <strong>①〜④</strong> のうちから最も適切なものを一つ選べ。',
+    ch:['① &minus;'+fr('√3','2'),'② &minus;'+fr('1','2'),'③ '+fr('1','2'),'④ '+fr('√3','2')],
+    a:2,
+    sol:'sin150° = sin(180°−30°) = <strong style="color:#059669;">sin30°</strong> = '+fr('1','2')+'<br>→ sinは鈍角でも変わらない（＋）　答え <strong>③</strong>'
+  },
+  // 問5：cos150°
+  {
+    num:5,
+    lead:'必要であれば、次の三角比の値を利用すること。',
+    table:[['30°',fr('1','2'),fr('√3','2'),fr('1','√3')]],
+    thead:['角','正弦(sin)','余弦(cos)','正接(tan)'],
+    q:'cos150° の値は〔　イ　〕である。<br>次の <strong>①〜④</strong> のうちから最も適切なものを一つ選べ。',
+    ch:['① &minus;'+fr('√3','2'),'② &minus;'+fr('1','2'),'③ '+fr('1','2'),'④ '+fr('√3','2')],
+    a:0,
+    sol:'cos150° = −cos(180°−150°) = <strong style="color:#dc2626;">−cos30°</strong> = −'+fr('√3','2')+'<br>→ cosは鈍角でマイナスになる　答え <strong>①</strong>'
+  },
+  // 問6：tan120°（類題）
+  {
+    num:6,
+    lead:'必要であれば、次の三角比の値を利用すること。',
+    table:[['60°',fr('√3','2'),fr('1','2'),'√3']],
+    thead:['角','正弦(sin)','余弦(cos)','正接(tan)'],
+    q:'tan120° の値は〔　イ　〕である。<br>次の <strong>①〜④</strong> のうちから最も適切なものを一つ選べ。',
+    ch:['① &minus;√3','② &minus;'+fr('1','√3'),'③ '+fr('1','√3'),'④ √3'],
+    a:0,
+    sol:'tan120° = −tan(180°−120°) = <strong style="color:#dc2626;">−tan60°</strong> = −√3<br>→ tanは鈍角でマイナスになる　答え <strong>①</strong>'
+  },
+  // 問7：cos135°（類題）
+  {
+    num:7,
+    lead:'必要であれば、次の三角比の値を利用すること。',
+    table:[['45°',fr('1','√2'),fr('1','√2'),'1']],
+    thead:['角','正弦(sin)','余弦(cos)','正接(tan)'],
+    q:'cos135° の値は〔　イ　〕である。<br>次の <strong>①〜④</strong> のうちから最も適切なものを一つ選べ。',
+    ch:['① &minus;'+fr('√3','2'),'② &minus;'+fr('1','√2'),'③ '+fr('1','√2'),'④ '+fr('√3','2')],
+    a:1,
+    sol:'cos135° = −cos(180°−135°) = <strong style="color:#dc2626;">−cos45°</strong> = −'+fr('1','√2')+'<br>→ cosは鈍角でマイナスになる　答え <strong>②</strong>'
+  },
 ];
+
 let cScore=0,cAns=0;
 function buildCheck(){
-  cScore=0;cAns=0;
+  cScore=0; cAns=0;
   document.getElementById('chkScore').style.display='none';
-  const ar=document.getElementById('chkArea');ar.innerHTML='';
+  const ar=document.getElementById('chkArea'); ar.innerHTML='';
   CHK.forEach((d,i)=>{
-    const dv=document.createElement('div');dv.className='di';dv.id='ck'+i;
-    const qd=document.createElement('div');qd.className='dq';
-    qd.innerHTML='<span style="color:var(--primary);font-weight:700;">問'+(i+1)+'.</span> '+d.q;
-    dv.appendChild(qd);
+    const dv=document.createElement('div');
+    dv.className='card'; dv.id='ck'+i;
+    dv.style.borderLeft='4px solid var(--primary)';
+    dv.style.marginBottom='16px';
+    // 問番号
+    const qnum=document.createElement('div');
+    qnum.style.cssText='font-size:13px;font-weight:700;color:var(--primary);letter-spacing:1px;margin-bottom:8px;';
+    qnum.textContent='問'+d.num;
+    dv.appendChild(qnum);
+    // リード文
+    if(d.lead){
+      const ld=document.createElement('p');
+      ld.style.cssText='font-size:13px;color:var(--tm);margin-bottom:6px;';
+      ld.textContent=d.lead;
+      dv.appendChild(ld);
+    }
+    // 数値表
+    if(d.table && d.table.length){
+      const tbl=document.createElement('table');
+      tbl.className='ttbl'; tbl.style.maxWidth='360px'; tbl.style.marginBottom='10px';
+      const hrow=document.createElement('tr');
+      d.thead.forEach(h=>{const th=document.createElement('th');th.textContent=h;hrow.appendChild(th);});
+      tbl.appendChild(hrow);
+      d.table.forEach(row=>{
+        const tr=document.createElement('tr');
+        row.forEach(cell=>{const td=document.createElement('td');td.innerHTML=cell;tr.appendChild(td);});
+        tbl.appendChild(tr);
+      });
+      dv.appendChild(tbl);
+    }
+    // 問題文
+    const qd=document.createElement('div');
+    qd.style.cssText='font-size:15px;font-weight:700;margin-bottom:12px;line-height:1.6;';
+    qd.innerHTML=d.q; dv.appendChild(qd);
+    // 選択肢
     const cs=document.createElement('div');cs.className='chs';
     d.ch.forEach((c,j)=>{
       const b=document.createElement('button');b.className='cb';b.id='ck'+i+'c'+j;
       b.innerHTML='<span class="ci">○</span><span>'+c+'</span>';
-      b.onclick=()=>ansC(i,j,d.a,d.h);cs.appendChild(b);
+      b.onclick=()=>ansC(i,j,d.a,d.sol); cs.appendChild(b);
     });
     dv.appendChild(cs);
     const fb=document.createElement('div');fb.className='fb';fb.id='ck'+i+'f';
-    dv.appendChild(fb);ar.appendChild(dv);
+    dv.appendChild(fb);
+    ar.appendChild(dv);
   });
 }
-function ansC(qi,ch,cor,hint){
+function ansC(qi,ch,cor,sol){
   const it=document.getElementById('ck'+qi);
   if(it.classList.contains('ac')||it.classList.contains('aw'))return;
   cAns++;
@@ -1074,20 +1221,152 @@ function ansC(qi,ch,cor,hint){
     if(j===cor){b.classList.add('cor');b.querySelector('.ci').textContent='✓';}
   });
   const fb=document.getElementById('ck'+qi+'f');
-  if(ch===cor){cScore++;it.classList.add('ac');fb.className='fb cor';fb.style.display='block';fb.textContent='✓ 正解！';}
-  else{
+  if(ch===cor){
+    cScore++; it.classList.add('ac');
+    fb.className='fb cor'; fb.style.display='block';
+    fb.innerHTML='✓ 正解！<br><span style="font-size:13px;">【解説】'+sol+'</span>';
+    confetti05();
+  } else {
     it.classList.add('aw');
     document.getElementById('ck'+qi+'c'+ch).classList.add('wrg');
     document.getElementById('ck'+qi+'c'+ch).querySelector('.ci').textContent='✗';
-    fb.className='fb wrg';fb.style.display='block';fb.innerHTML='✗ 不正解。【解説】'+hint;
+    fb.className='fb wrg'; fb.style.display='block';
+    fb.innerHTML='✗ 不正解。<br><span style="font-size:13px;">【解説】'+sol+'</span>';
   }
   if(cAns===CHK.length){
     setTimeout(()=>{
       const sa=document.getElementById('chkScore');sa.style.display='block';
       document.getElementById('chkSN').textContent=cScore+'/'+CHK.length;
-      document.getElementById('chkSM').textContent=cScore>=3?'合格！よくできました！':'復習してから再チャレンジしよう。';
+      const p=cScore/CHK.length;
+      document.getElementById('chkSM').textContent=
+        p>=0.86?'🎉 合格！全問解けました！':
+        p>=0.57?'もう少し！苦手な問題を復習しよう。':
+        'まとめ表に戻って復習してから再挑戦しよう。';
       sa.scrollIntoView({behavior:'smooth'});
     },600);
+  }
+}
+
+
+/* ===== TR05 ミニテスト ===== */
+function fr05(n,d){
+  return '<span class="fr"><span class="fn">'+n+'</span><span class="fd">'+d+'</span></span>';
+}
+
+const MINI05 = {
+  mt_ex1: [
+    {q:'sin 0° の値は？',
+     ch:['0','1','&minus;1',fr05('1','2')], a:0,
+     h:'θ=0°の点Pは(1,0)。y座標=0 なので sin0°=0'},
+    {q:'cos 90° の値は？',
+     ch:['1','0','&minus;1',fr05('1','2')], a:1,
+     h:'θ=90°の点Pは(0,1)。x座標=0 なので cos90°=0'},
+    {q:'cos 180° の値は？',
+     ch:['1','0','&minus;1',fr05('1','2')], a:2,
+     h:'θ=180°の点Pは(−1,0)。x座標=−1 なので cos180°=−1'},
+    {q:'sin 90° の値は？',
+     ch:['0','&minus;1',fr05('√3','2'),'1'], a:3,
+     h:'θ=90°の点Pは(0,1)。y座標=1 なので sin90°=1'},
+  ],
+  mt_ex2: [
+    {q:'sin 120° の値は？',
+     ch:[fr05('1','2'),fr05('√3','2'),'&minus;'+fr05('1','2'),'&minus;'+fr05('√3','2')], a:1,
+     h:'sin120°= sin60°= <span class=\'fr\'><span class=\'fn\'>√3</span><span class=\'fd\'>2</span></span>。sinは鈍角でも変わらない（＋）'},
+    {q:'cos 120° の値は？',
+     ch:[fr05('1','2'),fr05('√3','2'),'&minus;'+fr05('1','2'),'&minus;'+fr05('√3','2')], a:2,
+     h:'cos120°= −cos60°= −<span class=\'fr\'><span class=\'fn\'>1</span><span class=\'fd\'>2</span></span>。cosは鈍角でマイナスになる'},
+    {q:'tan 135° の値は？',
+     ch:['1','&minus;1','√3','&minus;√3'], a:1,
+     h:'tan135°= −tan45°= −1。tanは鈍角でマイナスになる'},
+    {q:'sin 150° の値は？',
+     ch:[fr05('1','2'),fr05('√3','2'),'&minus;'+fr05('1','2'),'&minus;'+fr05('√3','2')], a:0,
+     h:'sin150°= sin30°= <span class=\'fr\'><span class=\'fn\'>1</span><span class=\'fd\'>2</span></span>。sinは鈍角でも変わらない（＋）'},
+    {q:'cos 150° の値は？',
+     ch:[fr05('1','2'),fr05('√3','2'),'&minus;'+fr05('1','2'),'&minus;'+fr05('√3','2')], a:3,
+     h:'cos150°= −cos30°= −<span class=\'fr\'><span class=\'fn\'>√3</span><span class=\'fd\'>2</span></span>。cosは鈍角でマイナスになる'},
+    {q:'tan 120° の値は？',
+     ch:['√3','&minus;√3',fr05('1','√3'),'&minus;'+fr05('1','√3')], a:1,
+     h:'tan120°= −tan60°= −√3。tanは鈍角でマイナスになる'},
+  ],
+};
+
+const mini05State = {};
+const mini05Built = {};
+
+function toggleMini05(id, btn){
+  const body=document.getElementById(id);
+  const isOpen=body.classList.contains('open');
+  body.classList.toggle('open');
+  btn.classList.toggle('open');
+  if(!isOpen && !mini05Built[id]){
+    buildMini05(id);
+    mini05Built[id]=true;
+  }
+}
+
+function buildMini05(id){
+  mini05State[id]={score:0,ans:0};
+  const ar=document.getElementById(id+'_area');
+  ar.innerHTML='';
+  MINI05[id].forEach((d,i)=>{
+    const dv=document.createElement('div');
+    dv.className='di'; dv.id=id+'q'+i; dv.style.marginBottom='10px';
+    const qd=document.createElement('div'); qd.className='mini-q';
+    qd.innerHTML='<span style="color:var(--primary);font-weight:700;">問'+(i+1)+'.</span> '+d.q;
+    dv.appendChild(qd);
+    const cs=document.createElement('div'); cs.className='mini-chs';
+    d.ch.forEach((c,j)=>{
+      const b=document.createElement('button'); b.className='mini-cb';
+      b.id=id+'q'+i+'c'+j;
+      b.innerHTML='<span class="ci">○</span><span>'+c+'</span>';
+      b.onclick=()=>ansMini05(id,i,j,d.a,d.h);
+      cs.appendChild(b);
+    });
+    dv.appendChild(cs);
+    const fb=document.createElement('div'); fb.className='mini-fb'; fb.id=id+'q'+i+'f';
+    dv.appendChild(fb);
+    ar.appendChild(dv);
+  });
+}
+
+function ansMini05(id,qi,ch,cor,hint){
+  const it=document.getElementById(id+'q'+qi);
+  if(it.classList.contains('ac')||it.classList.contains('aw'))return;
+  mini05State[id].ans++;
+  MINI05[id][qi].ch.forEach((_,j)=>{
+    const b=document.getElementById(id+'q'+qi+'c'+j);
+    b.disabled=true;
+    if(j===cor){b.classList.add('cor');b.querySelector('.ci').textContent='✓';}
+  });
+  const fb=document.getElementById(id+'q'+qi+'f');
+  if(ch===cor){
+    mini05State[id].score++;
+    it.classList.add('ac');
+    fb.className='mini-fb cor'; fb.style.display='block'; fb.textContent='✓ 正解！';
+    confetti05();
+    if(mini05State[id].score===MINI05[id].length){
+      document.getElementById(id+'_clear').style.display='block';
+    }
+  } else {
+    it.classList.add('aw');
+    document.getElementById(id+'q'+qi+'c'+ch).classList.add('wrg');
+    document.getElementById(id+'q'+qi+'c'+ch).querySelector('.ci').textContent='✗';
+    fb.className='mini-fb wrg'; fb.style.display='block';
+    fb.innerHTML='✗ 不正解。【解説】'+hint;
+  }
+}
+
+function confetti05(){
+  const cols=['#7c3aed','#f59e0b','#059669','#ef4444','#3b82f6','#ec4899'];
+  for(let i=0;i<70;i++){
+    const p=document.createElement('div');
+    p.style.cssText='position:fixed;border-radius:2px;opacity:0;pointer-events:none;animation:fall05 2.6s ease-in forwards;';
+    p.style.left=Math.random()*100+'vw';p.style.top='-20px';
+    p.style.background=cols[Math.floor(Math.random()*cols.length)];
+    p.style.width=(7+Math.random()*9)+'px';p.style.height=(7+Math.random()*9)+'px';
+    p.style.animationDuration=(1.5+Math.random()*2)+'s';
+    p.style.animationDelay=(Math.random()*.8)+'s';
+    document.body.appendChild(p);setTimeout(()=>p.remove(),4200);
   }
 }
 
