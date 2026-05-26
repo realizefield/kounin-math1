@@ -110,6 +110,7 @@ body{
 .unit-card.qu{border-left:4px solid var(--qu)}
 .unit-card.tr{border-left:4px solid var(--tr)}
 .unit-card.kakomon{border-left:4px solid var(--purple)}
+.unit-card.da{border-left:4px solid #ea580c}
 
 .unit-card:hover.ef{border-color:var(--ef);background:var(--ef-l)}
 .unit-card:hover.in{border-color:var(--in);background:var(--in-l)}
@@ -117,6 +118,7 @@ body{
 .unit-card:hover.qu{border-color:var(--qu);background:var(--qu-l)}
 .unit-card:hover.tr{border-color:var(--tr);background:var(--tr-l)}
 .unit-card:hover.kakomon{border-color:var(--purple);background:var(--purple-l)}
+.unit-card:hover.da{border-color:#ea580c;background:#fff7ed}
 
 /* コードバッジ */
 .unit-code{
@@ -133,6 +135,7 @@ body{
 .code-qu{background:var(--qu-l);color:var(--qu);border:1px solid var(--qu-b)}
 .code-tr{background:var(--tr-l);color:var(--tr);border:1px solid var(--tr-b)}
 .code-kakomon{background:var(--purple-l);color:var(--purple);border:1px solid #e9d5ff}
+.code-da{background:#fff7ed;color:#ea580c;border:1px solid #fed7aa}
 
 /* テキスト部分 */
 .unit-info{flex:1;min-width:0}
@@ -857,52 +860,179 @@ body{
       </div>
     </a>
 
-    <a href="TR07.html" class="unit-card tr" data-unit="TR07" style="opacity:.5;pointer-events:none;">
+    <a href="TR07/intro.html" class="unit-card tr" data-unit="TR07">
       <span class="unit-code code-tr">TR07</span>
       <div class="unit-info">
         <div class="unit-name">三角比の相互関係</div>
         <div class="unit-sub">$\sin^2\theta+\cos^2\theta=1$ などの重要公式</div>
       </div>
       <div class="unit-pages">
-        <span class="page-tag">準備中</span>
+        <span class="page-tag">説明</span>
+        <span class="page-tag">過去問</span>
+        <span class="page-tag">練習</span>
+        <span class="page-tag">確認</span>
       </div>
       <span class="unit-arrow">›</span>
+      <div class="status-btns" onclick="event.preventDefault()">
+        <button class="chk btn-a" data-unit="TR07" onclick="setStatus(this,'TR07','A')">A</button>
+        <button class="chk btn-b" data-unit="TR07" onclick="setStatus(this,'TR07','B')">B</button>
+        <button class="chk btn-c" data-unit="TR07" onclick="setStatus(this,'TR07','C')">C</button>
+      </div>
     </a>
 
-    <a href="TR08.html" class="unit-card tr" data-unit="TR08" style="opacity:.5;pointer-events:none;">
+    <a href="TR08/intro.html" class="unit-card tr" data-unit="TR08">
       <span class="unit-code code-tr">TR08</span>
       <div class="unit-info">
         <div class="unit-name">正弦定理</div>
         <div class="unit-sub">$\dfrac{a}{\sin A}=2R$ ── 辺と角の関係</div>
       </div>
       <div class="unit-pages">
-        <span class="page-tag">準備中</span>
+        <span class="page-tag">説明</span>
+        <span class="page-tag">過去問</span>
+        <span class="page-tag">練習</span>
+        <span class="page-tag">確認</span>
       </div>
       <span class="unit-arrow">›</span>
+      <div class="status-btns" onclick="event.preventDefault()">
+        <button class="chk btn-a" data-unit="TR08" onclick="setStatus(this,'TR08','A')">A</button>
+        <button class="chk btn-b" data-unit="TR08" onclick="setStatus(this,'TR08','B')">B</button>
+        <button class="chk btn-c" data-unit="TR08" onclick="setStatus(this,'TR08','C')">C</button>
+      </div>
     </a>
 
-    <a href="TR09.html" class="unit-card tr" data-unit="TR09" style="opacity:.5;pointer-events:none;">
+    <a href="TR09/intro.html" class="unit-card tr" data-unit="TR09">
       <span class="unit-code code-tr">TR09</span>
       <div class="unit-info">
         <div class="unit-name">余弦定理</div>
         <div class="unit-sub">$a^2=b^2+c^2-2bc\cos A$ ── 3辺と角の関係</div>
       </div>
       <div class="unit-pages">
-        <span class="page-tag">準備中</span>
+        <span class="page-tag">説明</span>
+        <span class="page-tag">過去問</span>
+        <span class="page-tag">練習</span>
+        <span class="page-tag">確認</span>
       </div>
       <span class="unit-arrow">›</span>
+      <div class="status-btns" onclick="event.preventDefault()">
+        <button class="chk btn-a" data-unit="TR09" onclick="setStatus(this,'TR09','A')">A</button>
+        <button class="chk btn-b" data-unit="TR09" onclick="setStatus(this,'TR09','B')">B</button>
+        <button class="chk btn-c" data-unit="TR09" onclick="setStatus(this,'TR09','C')">C</button>
+      </div>
     </a>
 
-    <a href="TR10.html" class="unit-card tr" data-unit="TR10" style="opacity:.5;pointer-events:none;">
+    <a href="TR10/intro.html" class="unit-card tr" data-unit="TR10">
       <span class="unit-code code-tr">TR10</span>
       <div class="unit-info">
         <div class="unit-name">三角形の面積</div>
         <div class="unit-sub">$S=\dfrac{1}{2}bc\sin A$ ── sin を使った面積公式</div>
       </div>
       <div class="unit-pages">
-        <span class="page-tag">準備中</span>
+        <span class="page-tag">説明</span>
+        <span class="page-tag">過去問</span>
+        <span class="page-tag">練習</span>
+        <span class="page-tag">確認</span>
       </div>
       <span class="unit-arrow">›</span>
+      <div class="status-btns" onclick="event.preventDefault()">
+        <button class="chk btn-a" data-unit="TR10" onclick="setStatus(this,'TR10','A')">A</button>
+        <button class="chk btn-b" data-unit="TR10" onclick="setStatus(this,'TR10','B')">B</button>
+        <button class="chk btn-c" data-unit="TR10" onclick="setStatus(this,'TR10','C')">C</button>
+      </div>
+    </a>
+
+  </div>
+</div>
+
+
+<!--  第6章 データの分析               -->
+<div class="chapter-block">
+  <div class="chapter-header">
+    <div class="chapter-title" style="color:#ea580c;">
+      <span style="background:#ea580c;color:#fff;border-radius:6px;padding:2px 10px;font-size:.85em;margin-right:8px;">第6章</span>
+      データの分析
+    </div>
+    <div class="chapter-sub">DAシリーズ ── 代表値・箱ひげ図・分散・標準偏差・散布図・相関係数</div>
+  </div>
+  <div class="unit-list">
+
+    <a href="DA01/intro.html" class="unit-card da" data-unit="DA01">
+      <span class="unit-code code-da">DA01</span>
+      <div class="unit-info">
+        <div class="unit-name">代表値</div>
+        <div class="unit-sub">平均値・中央値（メジアン）・最頻値（モード）</div>
+      </div>
+      <div class="unit-pages">
+        <span class="page-tag">説明</span>
+        <span class="page-tag">過去問</span>
+        <span class="page-tag">練習</span>
+        <span class="page-tag">確認</span>
+      </div>
+      <span class="unit-arrow">›</span>
+      <div class="status-btns" onclick="event.preventDefault()">
+        <button class="chk btn-a" data-unit="DA01" onclick="setStatus(this,'DA01','A')">A</button>
+        <button class="chk btn-b" data-unit="DA01" onclick="setStatus(this,'DA01','B')">B</button>
+        <button class="chk btn-c" data-unit="DA01" onclick="setStatus(this,'DA01','C')">C</button>
+      </div>
+    </a>
+
+    <a href="DA02/intro.html" class="unit-card da" data-unit="DA02">
+      <span class="unit-code code-da">DA02</span>
+      <div class="unit-info">
+        <div class="unit-name">四分位数・箱ひげ図</div>
+        <div class="unit-sub">$Q_1$・$Q_2$・$Q_3$ ── 四分位範囲・箱ひげ図の読み取り</div>
+      </div>
+      <div class="unit-pages">
+        <span class="page-tag">説明</span>
+        <span class="page-tag">過去問</span>
+        <span class="page-tag">練習</span>
+        <span class="page-tag">確認</span>
+      </div>
+      <span class="unit-arrow">›</span>
+      <div class="status-btns" onclick="event.preventDefault()">
+        <button class="chk btn-a" data-unit="DA02" onclick="setStatus(this,'DA02','A')">A</button>
+        <button class="chk btn-b" data-unit="DA02" onclick="setStatus(this,'DA02','B')">B</button>
+        <button class="chk btn-c" data-unit="DA02" onclick="setStatus(this,'DA02','C')">C</button>
+      </div>
+    </a>
+
+    <a href="DA03/intro.html" class="unit-card da" data-unit="DA03">
+      <span class="unit-code code-da">DA03</span>
+      <div class="unit-info">
+        <div class="unit-name">分散・標準偏差</div>
+        <div class="unit-sub">偏差・分散 $s^2$・標準偏差 $s = \sqrt{s^2}$</div>
+      </div>
+      <div class="unit-pages">
+        <span class="page-tag">説明</span>
+        <span class="page-tag">過去問</span>
+        <span class="page-tag">練習</span>
+        <span class="page-tag">確認</span>
+      </div>
+      <span class="unit-arrow">›</span>
+      <div class="status-btns" onclick="event.preventDefault()">
+        <button class="chk btn-a" data-unit="DA03" onclick="setStatus(this,'DA03','A')">A</button>
+        <button class="chk btn-b" data-unit="DA03" onclick="setStatus(this,'DA03','B')">B</button>
+        <button class="chk btn-c" data-unit="DA03" onclick="setStatus(this,'DA03','C')">C</button>
+      </div>
+    </a>
+
+    <a href="DA04/intro.html" class="unit-card da" data-unit="DA04">
+      <span class="unit-code code-da">DA04</span>
+      <div class="unit-info">
+        <div class="unit-name">散布図・相関係数</div>
+        <div class="unit-sub">正・負の相関 ── $-1 \leqq r \leqq 1$</div>
+      </div>
+      <div class="unit-pages">
+        <span class="page-tag">説明</span>
+        <span class="page-tag">過去問</span>
+        <span class="page-tag">練習</span>
+        <span class="page-tag">確認</span>
+      </div>
+      <span class="unit-arrow">›</span>
+      <div class="status-btns" onclick="event.preventDefault()">
+        <button class="chk btn-a" data-unit="DA04" onclick="setStatus(this,'DA04','A')">A</button>
+        <button class="chk btn-b" data-unit="DA04" onclick="setStatus(this,'DA04','B')">B</button>
+        <button class="chk btn-c" data-unit="DA04" onclick="setStatus(this,'DA04','C')">C</button>
+      </div>
     </a>
 
   </div>

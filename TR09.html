@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TR09 余弦定理 | GAMBA高認数学</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'BIZ UDPGothic',sans-serif;background:#f5f3ff;color:#1e1b4b;min-height:100vh}
+.site-header{background:#7c3aed;color:#fff;padding:10px 16px;display:flex;align-items:center;gap:10px}
+.back-btn{background:rgba(255,255,255,.2);border:none;color:#fff;padding:5px 12px;border-radius:6px;cursor:pointer;font-size:13px}
+.site-header h1{font-size:16px;font-weight:700}
+.unit-badge{margin-left:auto;background:rgba(255,255,255,.25);padding:3px 10px;border-radius:12px;font-size:12px}
+.tab-bar{display:flex;background:#ede9fe;border-bottom:2px solid #7c3aed}
+.tab-btn{flex:1;padding:10px 4px;border:none;background:transparent;font-size:13px;font-weight:600;color:#5b21b6;cursor:pointer;border-bottom:3px solid transparent;transition:all .2s}
+.tab-btn.active{background:#fff;color:#7c3aed;border-bottom-color:#7c3aed}
+.tab-content{display:none;padding:16px;max-width:720px;margin:0 auto}
+.tab-content.active{display:block}
+.card{background:#fff;border-radius:12px;padding:16px;margin-bottom:16px;box-shadow:0 1px 4px rgba(124,58,237,.1)}
+.card-title{font-size:14px;font-weight:700;color:#7c3aed;border-bottom:2px solid #ede9fe;padding-bottom:6px;margin-bottom:12px}
+.sec-label{font-size:12px;font-weight:700;color:#6d28d9;background:#f5f3ff;border-left:3px solid #7c3aed;padding:4px 10px;margin:12px 0 8px;border-radius:0 6px 6px 0}
+.formula-box{background:#f5f3ff;border:2px solid #7c3aed;border-radius:10px;padding:14px 16px;margin:12px 0;text-align:center}
+.formula-box .ftitle{font-size:12px;font-weight:700;color:#6d28d9;margin-bottom:8px}
+.proof-toggle{background:#ede9fe;border:none;width:100%;text-align:left;padding:8px 12px;border-radius:8px;cursor:pointer;font-size:13px;color:#5b21b6;font-weight:600;display:flex;justify-content:space-between;align-items:center;margin-top:8px}
+.proof-toggle:hover{background:#ddd6fe}
+.proof-arrow{transition:transform .3s;display:inline-block}
+.proof-toggle.open .proof-arrow{transform:rotate(180deg)}
+.proof-body{display:none;background:#faf9ff;border:1px solid #ddd6fe;border-radius:0 0 8px 8px;padding:12px 14px;font-size:13px;line-height:1.9}
+.proof-body.open{display:block}
+.prob-box{background:#faf5ff;border:1px solid #c4b5fd;border-radius:8px;padding:12px 14px;margin:10px 0;font-size:13px;line-height:1.9}
+.prob-label{font-size:11px;font-weight:700;color:#7c3aed;margin-bottom:6px}
+.step-box{background:#fff;border-left:3px solid #7c3aed;padding:8px 12px;margin:8px 0;border-radius:0 6px 6px 0;font-size:13px;line-height:1.9}
+.ans-btn{background:#7c3aed;color:#fff;border:none;padding:6px 14px;border-radius:16px;cursor:pointer;font-size:12px;font-weight:600;margin-top:8px}
+.ans-btn:hover{background:#6d28d9}
+.ans-body{display:none;margin-top:8px}
+.ans-body.open{display:block}
+.hint-box{background:#fef9c3;border-left:4px solid #f59e0b;padding:10px 12px;border-radius:0 8px 8px 0;margin:10px 0;font-size:13px;line-height:1.8}
+.note-box{background:#f0fdf4;border-left:4px solid #10b981;padding:10px 12px;border-radius:0 8px 8px 0;margin:10px 0;font-size:13px;line-height:1.8}
+.calc-note{background:#fffbeb;border-left:3px solid #f59e0b;border-radius:0 6px 6px 0;padding:5px 10px;margin:4px 0;font-size:12px;color:#92400e;line-height:1.8}
+.fig-wrap{text-align:center;margin:12px 0}
+.fig-caption{font-size:12px;color:#6b7280;margin-top:4px}
+.dnum{display:inline-block;background:#7c3aed;color:#fff;border-radius:50%;width:22px;height:22px;text-align:center;line-height:22px;font-size:12px;font-weight:700;margin-right:6px;vertical-align:middle}
+.choice-list{list-style:none;margin:8px 0}
+.choice-list li{padding:8px 12px;margin:5px 0;background:#f5f3ff;border-radius:8px;cursor:pointer;font-size:14px;line-height:1.6;transition:background .15s}
+.choice-list li:hover{background:#ede9fe}
+.choice-list li.correct{background:#d1fae5;color:#065f46}
+.choice-list li.wrong{background:#fee2e2;color:#991b1b}
+.result-msg{font-size:13px;margin-top:8px;min-height:20px;line-height:1.8}
+.progress-bar{height:5px;background:#ddd6fe;border-radius:3px;overflow:hidden;margin:8px 0 2px}
+.progress-fill{height:100%;background:#7c3aed;transition:width .3s}
+.progress-label{font-size:11px;color:#7c3aed;text-align:right;margin-bottom:10px}
+.pass-btn{display:block;width:100%;background:#7c3aed;color:#fff;border:none;padding:12px;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;margin-top:16px}
+.pass-btn:hover{background:#6d28d9}
+/* ミニテスト選択肢ボタン */
+.mt-btn{padding:7px 14px;border:2px solid #c4b5fd;background:#f5f3ff;border-radius:8px;font-size:13px;cursor:pointer;transition:all .15s;color:#1e1b4b}
+.mt-btn:hover{background:#ede9fe}
+.mt-btn.correct{background:#d1fae5;border-color:#059669;color:#065f46;font-weight:700}
+.mt-btn.wrong{background:#fee2e2;border-color:#dc2626;color:#991b1b}
+.cl-sel-btn{flex:1;padding:8px 4px;border:2px solid #c4b5fd;background:#fff;border-radius:8px;font-size:13px;font-weight:700;color:#5b21b6;cursor:pointer;transition:all .2s}
+.cl-sel-btn:hover{background:#ede9fe}
+.cl-sel-btn.active{background:#7c3aed;color:#fff;border-color:#7c3aed}
+.coslaw-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:12px 0}
+.coslaw-cell{background:#f5f3ff;border:1px solid #c4b5fd;border-radius:8px;padding:10px 8px;text-align:center;font-size:12px}
+.coslaw-cell .want{color:#b91c1c;font-weight:700;font-size:11px;margin-bottom:4px}
+</style>
+</head>
+<body>
+
+<div class="site-header">
+  <button class="back-btn" onclick="history.back()">← 戻る</button>
+  <h1>TR09 余弦定理</h1>
+  <span class="unit-badge">三角比</span>
+</div>
+
+<div class="tab-bar">
+  <button class="tab-btn active" onclick="switchTab('explain',this)">📖 説明</button>
+  <button class="tab-btn" onclick="switchTab('example',this)">📝 例題</button>
+  <button class="tab-btn" onclick="switchTab('drill',this)">🔁 練習</button>
+  <button class="tab-btn" onclick="switchTab('check',this)">✅ 確認</button>
+</div>
+
+<!-- ======== 説明 ======== -->
+<div id="tab-explain" class="tab-content active">
+
+  <div class="card">
+    <div class="card-title">📐 余弦定理とは</div>
+    <p style="font-size:14px;line-height:1.9;margin-bottom:12px">
+      <strong>正弦定理</strong>は「辺と向かいの角のペア」が必要でした。<br>
+      <strong>余弦定理</strong>は「2辺とその間の角」がわかれば、対辺の長さが求められます。
+    </p>
+    <div class="fig-wrap">
+      <canvas id="cvTri09" width="300" height="210"></canvas>
+      <div class="fig-caption">三角形ABCと高さH（余弦定理の導出に使う）</div>
+    </div>
+    <div class="formula-box">
+      <div class="ftitle">🔷 余弦定理（最重要）</div>
+      <div id="f-main" style="line-height:2.2"></div>
+      <div id="f-main-annot" style="margin-top:10px;text-align:left;font-size:12px;line-height:2;color:#4c1d95;border-top:1px dashed #c4b5fd;padding-top:8px"></div>
+    </div>
+    <div class="hint-box">
+      💡 <strong>【暗記】反対² ＝ 隣² ＋ 隣² － 2 × 隣 × 隣 × cos θ</strong><br>
+      <span style="font-size:12px">「角θの向かいの辺の2乗」＝「角θの隣の辺の2乗ふたつ」－「2倍の隣×隣×cosθ」</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🧭 3つのパターン（タップして確認）</div>
+    <p style="font-size:13px;line-height:1.8;margin-bottom:10px">
+      求めたい辺のボタンを押してみましょう。
+    </p>
+
+    <!-- ボタン -->
+    <div style="display:flex;gap:8px;margin-bottom:12px">
+      <button class="cl-sel-btn" id="clbtn-a" onclick="selectCosLaw('a')">辺 a を求める</button>
+      <button class="cl-sel-btn" id="clbtn-b" onclick="selectCosLaw('b')">辺 b を求める</button>
+      <button class="cl-sel-btn" id="clbtn-c" onclick="selectCosLaw('c')">辺 c を求める</button>
+    </div>
+
+    <!-- インタラクティブ図 + 情報エリア -->
+    <div style="display:flex;align-items:flex-start;gap:12px;flex-wrap:wrap">
+      <div>
+        <canvas id="cv-interact" width="200" height="170"></canvas>
+        <div style="font-size:11px;color:#6b7280;text-align:center;margin-top:2px">タップすると辺が光ります</div>
+      </div>
+      <div id="cl-info" style="flex:1;min-width:160px;font-size:13px;line-height:1.9;padding-top:4px">
+        <div style="color:#9ca3af">← ボタンを押してください</div>
+      </div>
+    </div>
+
+    <div class="note-box" style="margin-top:10px">
+      どれも「<strong>求めたい辺の向かいの角</strong>」を cos に使います。<br>
+      向かいの角＝求めたい辺と対応する大文字の角（a → A, b → B, c → C）
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🧭 使い方① 辺の長さを求める</div>
+    <p style="font-size:13px;line-height:1.8;margin-bottom:10px">
+      2辺とその間の角がわかっているとき → <strong>対辺（もう1つの辺）</strong>を求める
+    </p>
+    <div class="prob-box"><div id="use1-q" style="line-height:1.9"></div></div>
+    <div class="fig-wrap"><canvas id="cv-use1" width="220" height="160"></canvas></div>
+    <div class="step-box" id="use1-sol" style="line-height:2"></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🎯 ミニテスト　公式を確認しよう</div>
+    <p style="font-size:13px;color:#5b21b6;margin-bottom:10px">空欄に入る式を選んでください。</p>
+
+    <!-- ミニテスト問1 -->
+    <div style="margin-bottom:14px">
+      <div style="font-size:13px;font-weight:700;margin-bottom:6px">
+        Q1.&ensp; <span id="mt1-q"></span>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:6px" id="mt1-choices"></div>
+      <div class="result-msg" id="mt1-result"></div>
+    </div>
+
+    <!-- ミニテスト問2 -->
+    <div style="margin-bottom:14px">
+      <div style="font-size:13px;font-weight:700;margin-bottom:6px">
+        Q2.&ensp; <span id="mt2-q"></span>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:6px" id="mt2-choices"></div>
+      <div class="result-msg" id="mt2-result"></div>
+    </div>
+
+    <!-- ミニテスト問3 -->
+    <div>
+      <div style="font-size:13px;font-weight:700;margin-bottom:6px">
+        Q3.&ensp; <span id="mt3-q"></span>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:6px" id="mt3-choices"></div>
+      <div class="result-msg" id="mt3-result"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔍 証明（気になる人だけ）</div>
+    <button class="proof-toggle" id="pf1-btn" onclick="toggleProof('pf1')">
+      余弦定理の証明を見る <span class="proof-arrow">▼</span>
+    </button>
+    <div class="proof-body" id="pf1">
+      <p style="margin-bottom:6px">頂点Aから辺BCに垂線AHを下ろします。</p>
+      <div id="pf-steps" style="line-height:2"></div>
+      <div class="note-box" style="margin-top:8px">証明は参考程度でOKです。高認では証明問題は出ません。</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ======== 例題 ======== -->
+<div id="tab-example" class="tab-content">
+
+  <div class="card">
+    <div class="card-title">📝 例題1　辺の長さを求める（テキスト例題5）</div>
+    <div class="prob-box">
+      <div class="prob-label">問題</div>
+      <div id="ex1-q"></div>
+    </div>
+    <div class="fig-wrap"><canvas id="cv-ex1" width="220" height="160"></canvas></div>
+    <button class="ans-btn" onclick="toggleAns('ex1-ans')">解答を見る</button>
+    <div class="ans-body" id="ex1-ans">
+      <div class="step-box" id="ex1-s1"></div>
+      <div class="step-box" id="ex1-s2"></div>
+      <div class="step-box" id="ex1-s3"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📝 例題2　辺の長さを求める（鈍角バージョン）</div>
+    <div class="prob-box">
+      <div class="prob-label">問題</div>
+      <div id="ex2-q"></div>
+    </div>
+    <div class="fig-wrap"><canvas id="cv-ex2" width="220" height="160"></canvas></div>
+    <button class="ans-btn" onclick="toggleAns('ex2-ans')">解答を見る</button>
+    <div class="ans-body" id="ex2-ans">
+      <div class="step-box" id="ex2-s1"></div>
+      <div class="step-box" id="ex2-s2"></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ======== 練習 ======== -->
+<div id="tab-drill" class="tab-content">
+  <div class="card">
+    <div class="card-title">🔁 練習問題</div>
+    <div class="progress-bar"><div class="progress-fill" id="dp-fill" style="width:0%"></div></div>
+    <div class="progress-label" id="dp-label">0 / 4 完了</div>
+  </div>
+  <div id="drill-area"></div>
+</div>
+
+<!-- ======== 確認 ======== -->
+<div id="tab-check" class="tab-content">
+  <div class="card">
+    <div class="card-title">✅ 確認テスト</div>
+    <div class="progress-bar"><div class="progress-fill" id="cp-fill" style="width:0%"></div></div>
+    <div class="progress-label" id="cp-label">0 / 4 完了</div>
+  </div>
+  <div id="check-area"></div>
+  <button class="pass-btn" id="pass-btn" style="display:none" onclick="markPassed()">
+    🎉 TR09 合格！次へ進む
+  </button>
+</div>
+
+<script>
+const k  = tex => katex.renderToString(tex, {throwOnError:false, displayMode:false});
+const kd = tex => katex.renderToString(tex, {throwOnError:false, displayMode:true});
+
+function switchTab(name, btn){
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-'+name).classList.add('active');
+  btn.classList.add('active');
+}
+function toggleProof(id){
+  document.getElementById(id).classList.toggle('open');
+  document.getElementById(id+'-btn').classList.toggle('open');
+}
+function toggleAns(id){
+  document.getElementById(id).classList.toggle('open');
+}
+
+// ===== Canvas =====
+function drawTriangle09(){
+  const cvs = document.getElementById('cvTri09');
+  const ctx = cvs.getContext('2d');
+  const W=300, H=210;
+  // 頂点: A上・B左下・C右下
+  const A={x:150,y:28}, B={x:50,y:185}, C={x:250,y:185};
+  // 三角形
+  ctx.beginPath(); ctx.moveTo(A.x,A.y); ctx.lineTo(B.x,B.y); ctx.lineTo(C.x,C.y); ctx.closePath();
+  ctx.fillStyle='rgba(124,58,237,0.06)'; ctx.fill();
+  ctx.strokeStyle='#1e1b4b'; ctx.lineWidth=2; ctx.stroke();
+  // 垂線H（AからBCへ）
+  const Hpt={x:A.x, y:B.y};  // BC水平なのでHxはAx
+  ctx.beginPath(); ctx.moveTo(A.x,A.y); ctx.lineTo(Hpt.x,Hpt.y);
+  ctx.strokeStyle='#7c3aed'; ctx.lineWidth=1.2; ctx.setLineDash([3,2]); ctx.stroke();
+  ctx.setLineDash([]);
+  // 直角マーク
+  const s=8;
+  ctx.beginPath(); ctx.moveTo(Hpt.x+s,Hpt.y); ctx.lineTo(Hpt.x+s,Hpt.y-s); ctx.lineTo(Hpt.x,Hpt.y-s);
+  ctx.strokeStyle='#7c3aed'; ctx.lineWidth=1; ctx.stroke();
+  // 頂点ラベル
+  ctx.font='bold 14px sans-serif'; ctx.fillStyle='#1e1b4b';
+  ctx.fillText('A', A.x-7, A.y-10);
+  ctx.fillText('B', B.x-22, B.y+6);
+  ctx.fillText('C', C.x+8, C.y+6);
+  ctx.fillText('H', Hpt.x+4, Hpt.y+16);
+  // 辺ラベル（赤）
+  ctx.font='bold 13px sans-serif'; ctx.fillStyle='#b91c1c';
+  ctx.fillText('a', (B.x+C.x)/2-5, B.y+18);  // BC
+  ctx.fillText('b', (C.x+A.x)/2+10, (C.y+A.y)/2+2);  // CA
+  ctx.fillText('c', (A.x+B.x)/2-18, (A.y+B.y)/2+2);  // AB
+}
+
+// ===== 説明レンダリング =====
+function renderExplain(){
+  // メイン公式
+  document.getElementById('f-main').innerHTML =
+    kd('a^2 = b^2 + c^2 - 2bc\\cos A') + '<br>'
+  + kd('b^2 = a^2 + c^2 - 2ac\\cos B') + '<br>'
+  + kd('c^2 = a^2 + b^2 - 2ab\\cos C');
+
+  // 公式の日本語注釈
+  document.getElementById('f-main-annot').innerHTML =
+    '<div style="display:grid;grid-template-columns:auto 1fr;gap:2px 10px;align-items:center">'
+  // a² の行
+  + '<div style="text-align:right;white-space:nowrap">' + k('a^2') + ' &nbsp;＝</div>'
+  + '<div style="color:#555"><span style="color:#b91c1c;font-weight:700">角A の向かいの辺</span>の2乗</div>'
+
+  + '<div style="text-align:right;white-space:nowrap">' + k('b^2+c^2') + ' &nbsp;＝</div>'
+  + '<div style="color:#555"><span style="color:#1d4ed8;font-weight:700">角A の隣の辺</span>の2乗ふたつ</div>'
+
+  + '<div style="text-align:right;white-space:nowrap">' + k('-\\,2bc\\cos A') + ' &nbsp;＝</div>'
+  + '<div style="color:#555">－ 2 × <span style="color:#1d4ed8;font-weight:700">隣×隣</span> × <span style="color:#059669;font-weight:700">cos（間の角）</span></div>'
+  + '</div>'
+
+  + '<div style="margin-top:10px;background:#f0f9ff;border:2px solid #7c3aed;border-radius:8px;padding:8px 12px;text-align:center;font-weight:700;font-size:13px;color:#1e1b4b">'
+  + '【暗記】&emsp;'
+  + '<span style="color:#b91c1c">反対²</span>'
+  + ' ＝ <span style="color:#1d4ed8">隣²</span> ＋ <span style="color:#1d4ed8">隣²</span>'
+  + ' － 2 × <span style="color:#1d4ed8">隣</span> × <span style="color:#1d4ed8">隣</span> × <span style="color:#059669">cos θ</span>'
+  + '</div>';
+
+  // 使い方①
+  document.getElementById('use1-q').innerHTML =
+    '三角形ABCで ' + k('A=60°,\\;b=1,\\;c=2') + ' のとき、辺 ' + k('a') + ' を求める。';
+  document.getElementById('use1-sol').innerHTML =
+    '余弦定理：' + k('a^2=b^2+c^2-2bc\\cos A') + '<br>'
+  + k('a^2=1^2+2^2-2\\times 1\\times 2\\times\\cos 60°') + '<br>'
+  + k('a^2=1+4-4\\times\\dfrac{1}{2}=5-2=3') + '<br>'
+  + k('a=\\sqrt{3}')
+  + '&emsp;<strong>答え：' + k('a=\\sqrt{3}') + '</strong>';
+
+  // 証明
+  document.getElementById('pf-steps').innerHTML =
+    '① 頂点 A から辺 BC に垂線 AH を下ろすと：' + k('BH=c\\cos B,\\quad AH=c\\sin B') + '<br>'
+  + '② したがって：' + k('CH=a-BH=a-c\\cos B') + '<br>'
+  + '③ △AHC で三平方の定理：' + k('b^2=AH^2+CH^2') + '<br>'
+  + k('b^2=(c\\sin B)^2+(a-c\\cos B)^2') + '<br>'
+  + k('=c^2\\sin^2 B+a^2-2ac\\cos B+c^2\\cos^2 B') + '<br>'
+  + k('=c^2(\\sin^2 B+\\cos^2 B)+a^2-2ac\\cos B') + '<br>'
+  + '④ ' + k('\\sin^2 B+\\cos^2 B=1') + ' より：' + k('b^2=a^2+c^2-2ac\\cos B') + '　（証明完）';
+}
+
+// ===== 例題レンダリング =====
+function renderExamples(){
+  // 例題1: B=60°, c=AB=6, a=BC=4 → b=AC=2√7 （テキスト例題5）
+  document.getElementById('ex1-q').innerHTML =
+    '下図の△ABCで、' + k('\\angle B=60°,\\;AB=6\\text{cm},\\;BC=4\\text{cm}') + ' のとき、ACの長さを求めよ。';
+  document.getElementById('ex1-s1').innerHTML =
+    '【STEP1】求めたい辺と、使う公式を確認<br>'
+  + '求めたい辺はAC＝' + k('b') + '、はさむ辺は ' + k('a=BC=4,\\;c=AB=6') + '、間の角は ' + k('B=60°') + '<br>'
+  + '公式：' + k('b^2=a^2+c^2-2ac\\cos B');
+  document.getElementById('ex1-s2').innerHTML =
+    '【STEP2】代入する<br>'
+  + k('b^2=4^2+6^2-2\\times 4\\times 6\\times\\cos 60°') + '<br>'
+  + k('=16+36-48\\times\\dfrac{1}{2}=52-24=28');
+  document.getElementById('ex1-s3').innerHTML =
+    '【STEP3】計算する<br>'
+  + k('b=\\sqrt{28}=\\sqrt{4\\times 7}=2\\sqrt{7}') + '<br>'
+  + '<strong>答え：AC = ' + k('2\\sqrt{7}') + ' cm</strong>';
+
+  // 例題2: A=120°, b=1, c=1 → a=√3
+  document.getElementById('ex2-q').innerHTML =
+    '三角形ABCにおいて、' + k('\\angle A=120°,\\;b=1,\\;c=1') + ' のとき、辺 ' + k('a') + ' を求めよ。';
+  document.getElementById('ex2-s1').innerHTML =
+    '余弦定理：' + k('a^2=b^2+c^2-2bc\\cos A') + '<br>'
+  + k('a^2=1^2+1^2-2\\times 1\\times 1\\times\\cos 120°') + '<br>'
+  + k('=1+1-2\\times\\left(-\\dfrac{1}{2}\\right)=2+1=3')
+  + '<div class="calc-note">💡 計算メモ：' + k('\\cos 120°=-\\dfrac{1}{2}') + ' なので、マイナス×マイナス＝プラス になります。</div>';
+  document.getElementById('ex2-s2').innerHTML =
+    k('a=\\sqrt{3}') + '<br><strong>答え：' + k('a=\\sqrt{3}') + '</strong>';
+}
+
+// ===== Quiz =====
+let drillDone = 0, checkDone = 0;
+
+const DRILL = [
+  // D1: A=60°,b=1,c=2 → a=√3
+  {
+    qFn: () => '三角形ABCで ' + k('A=60°,\\;b=1,\\;c=2') + ' のとき、辺 ' + k('a') + ' は？',
+    ch: [k('a=\\sqrt{3}'), k('a=\\sqrt{5}'), k('a=\\sqrt{7}'), k('a=2')],
+    ans: 0,
+    expFn: () => k('a^2=1+4-2\\cdot 1\\cdot 2\\cdot\\dfrac{1}{2}=5-2=3')+'&ensp;→&ensp;'+k('a=\\sqrt{3}')
+  },
+  // D2（差し替え）: A=60°,b=2,c=4 → a=2√3
+  {
+    qFn: () => '三角形ABCで ' + k('A=60°,\\;b=2,\\;c=4') + ' のとき、辺 ' + k('a') + ' は？',
+    ch: [k('a=2\\sqrt{3}'), k('a=\\sqrt{12}+1'), k('a=4'), k('a=2\\sqrt{5}')],
+    ans: 0,
+    expFn: () => k('a^2=4+16-2\\cdot 2\\cdot 4\\cdot\\dfrac{1}{2}=20-8=12')+'&ensp;→&ensp;'+k('a=2\\sqrt{3}')
+  },
+  // D3: A=120°,b=1,c=1 → a=√3
+  {
+    qFn: () => '三角形ABCで ' + k('A=120°,\\;b=1,\\;c=1') + ' のとき、辺 ' + k('a') + ' は？',
+    ch: [k('a=1'), k('a=\\sqrt{2}'), k('a=\\sqrt{3}'), k('a=2')],
+    ans: 2,
+    expFn: () => k('a^2=1+1-2\\cdot 1\\cdot 1\\cdot\\bigl(-\\tfrac{1}{2}\\bigr)=2+1=3')+'&ensp;→&ensp;'+k('a=\\sqrt{3}')
+  },
+  // D4（差し替え）: A=120°,b=2,c=2 → a=2√3
+  {
+    qFn: () => '三角形ABCで ' + k('A=120°,\\;b=2,\\;c=2') + ' のとき、辺 ' + k('a') + ' は？',
+    ch: [k('a=2'), k('a=2\\sqrt{2}'), k('a=2\\sqrt{3}'), k('a=4')],
+    ans: 2,
+    expFn: () => k('a^2=4+4-2\\cdot 2\\cdot 2\\cdot\\bigl(-\\tfrac{1}{2}\\bigr)=8+4=12')+'&ensp;→&ensp;'+k('a=2\\sqrt{3}')
+  }
+];
+
+const CHECK = [
+  // C1: A=60°,b=1,c=3 → a=√7
+  {
+    qFn: () => '三角形ABCで ' + k('A=60°,\\;b=1,\\;c=3') + ' のとき、辺 ' + k('a') + ' は？',
+    ch: [k('a=\\sqrt{7}'), k('a=\\sqrt{5}'), k('a=2\\sqrt{3}'), k('a=3')],
+    ans: 0,
+    expFn: () => k('a^2=1+9-2\\cdot 1\\cdot 3\\cdot\\dfrac{1}{2}=10-3=7')+'&ensp;→&ensp;'+k('a=\\sqrt{7}')
+  },
+  // C2（差し替え）: A=60°,b=2,c=2 → a=2
+  {
+    qFn: () => '三角形ABCで ' + k('A=60°,\\;b=2,\\;c=2') + ' のとき、辺 ' + k('a') + ' は？',
+    ch: [k('a=\\sqrt{2}'), k('a=\\sqrt{3}'), k('a=2'), k('a=2\\sqrt{2}')],
+    ans: 2,
+    expFn: () => k('a^2=4+4-2\\cdot 2\\cdot 2\\cdot\\dfrac{1}{2}=8-4=4')+'&ensp;→&ensp;'+k('a=2')
+  },
+  // C3: A=120°,b=2,c=2 → a=2√3（ドリルD4と角度違い）  ※同数値のためC3は差し替え
+  // C3（差し替え）: A=60°,b=3,c=3 → a=3
+  {
+    qFn: () => '三角形ABCで ' + k('A=60°,\\;b=3,\\;c=3') + ' のとき、辺 ' + k('a') + ' は？',
+    ch: [k('a=\\sqrt{3}'), k('a=2\\sqrt{3}'), k('a=3'), k('a=3\\sqrt{2}')],
+    ans: 2,
+    expFn: () => k('a^2=9+9-2\\cdot 3\\cdot 3\\cdot\\dfrac{1}{2}=18-9=9')+'&ensp;→&ensp;'+k('a=3')
+  },
+  // C4（差し替え）: A=120°,b=3,c=3 → a=3√3
+  {
+    qFn: () => '三角形ABCで ' + k('A=120°,\\;b=3,\\;c=3') + ' のとき、辺 ' + k('a') + ' は？',
+    ch: [k('a=3'), k('a=3\\sqrt{2}'), k('a=3\\sqrt{3}'), k('a=6')],
+    ans: 2,
+    expFn: () => k('a^2=9+9-2\\cdot 3\\cdot 3\\cdot\\bigl(-\\tfrac{1}{2}\\bigr)=18+9=27')+'&ensp;→&ensp;'+k('a=3\\sqrt{3}')
+  }
+];
+
+function buildQuiz(data, areaId, fillId, labelId, getDone, setDone, onAllDone){
+  const area = document.getElementById(areaId);
+  data.forEach((item, i) => {
+    const card = document.createElement('div');
+    card.className = 'card';
+    const qDiv = document.createElement('div');
+    qDiv.style.cssText = 'font-size:13px;margin-bottom:8px;line-height:1.8';
+    qDiv.innerHTML = '<span class="dnum">'+(i+1)+'</span>' + item.qFn();
+    card.appendChild(qDiv);
+    const ul = document.createElement('ul');
+    ul.className = 'choice-list';
+    item.ch.forEach((ch, ci) => {
+      const li = document.createElement('li');
+      li.innerHTML = ch;
+      li.onclick = () => {
+        if(ul.dataset.done) return;
+        ul.dataset.done = '1';
+        const msg = card.querySelector('.result-msg');
+        if(ci === item.ans){
+          li.classList.add('correct');
+          msg.innerHTML = '<span style="color:#059669">✅ 正解！</span>&emsp;' + item.expFn();
+          setDone(getDone() + 1);
+          const done = getDone();
+          document.getElementById(labelId).textContent = done + ' / ' + data.length + ' 完了';
+          document.getElementById(fillId).style.width = (done/data.length*100)+'%';
+          if(done === data.length && onAllDone) onAllDone();
+        } else {
+          li.classList.add('wrong');
+          Array.from(ul.children)[item.ans].classList.add('correct');
+          msg.innerHTML = '<span style="color:#dc2626">❌ 不正解</span>　正解：'
+                        + item.ch[item.ans] + '<br>' + item.expFn();
+        }
+      };
+      ul.appendChild(li);
+    });
+    card.appendChild(ul);
+    const msg = document.createElement('div');
+    msg.className = 'result-msg';
+    card.appendChild(msg);
+    area.appendChild(card);
+  });
+}
+
+function markPassed(){
+  try{ localStorage.setItem('gamba_passed_TR09','1'); }catch(e){}
+  alert('TR09「余弦定理」を合格しました！🎉');
+  history.back();
+}
+
+
+// ===== ミニテスト =====
+const MINI_TESTS = [
+  {
+    qFn: () => k('a^2') + ' を求める公式の空欄は？&emsp;' + k('a^2 = \\square + c^2 - 2bc\\cos A'),
+    choices: [k('b^2'), k('a^2'), k('c^2'), k('2b')],
+    ans: 0,
+    exp: () => k('a^2 = b^2 + c^2 - 2bc\\cos A') + '&ensp;→&ensp;空欄は ' + k('b^2')
+  },
+  {
+    qFn: () => k('b^2') + ' の公式の最後の項は？&emsp;' + k('b^2 = a^2 + c^2 - \\square'),
+    choices: [k('2ab\\cos C'), k('2ac\\cos B'), k('2bc\\cos A'), k('2ac\\cos A')],
+    ans: 1,
+    exp: () => k('b^2 = a^2 + c^2 - 2ac\\cos B') + '&ensp;→&ensp;空欄は ' + k('2ac\\cos B')
+  },
+  {
+    qFn: () => '暗記フレーズを完成させよ。&emsp;反対² ＝ 隣² ＋ 隣² － □ × 隣 × 隣 × cos θ',
+    choices: ['1', '2', '3', '½'],
+    ans: 1,
+    exp: () => '正解は <strong>2</strong>！&ensp;反対² ＝ 隣² ＋ 隣² <strong>－ 2</strong> × 隣 × 隣 × cos θ'
+  }
+];
+
+function buildMiniTest(){
+  MINI_TESTS.forEach((item, i) => {
+    const idx = i + 1;
+    document.getElementById('mt'+idx+'-q').innerHTML = item.qFn();
+    const wrap = document.getElementById('mt'+idx+'-choices');
+    item.choices.forEach((ch, ci) => {
+      const btn = document.createElement('button');
+      btn.className = 'mt-btn';
+      btn.innerHTML = ch;
+      btn.onclick = () => {
+        if(wrap.dataset.done) return;
+        wrap.dataset.done = '1';
+        const msg = document.getElementById('mt'+idx+'-result');
+        if(ci === item.ans){
+          btn.classList.add('correct');
+          msg.innerHTML = '<span style="color:#059669">✅ 正解！</span>&emsp;' + item.exp();
+        } else {
+          btn.classList.add('wrong');
+          Array.from(wrap.children)[item.ans].classList.add('correct');
+          msg.innerHTML = '<span style="color:#dc2626">❌ 不正解</span>&emsp;正解：' + item.choices[item.ans] + '&emsp;' + item.exp();
+        }
+      };
+      wrap.appendChild(btn);
+    });
+  });
+}
+
+
+const CL_VERTS = {
+  A:{x:100,y:18}, B:{x:18,y:155}, C:{x:182,y:155}
+};
+// 辺ごとの定義: p1,p2=端点, midラベル位置, 対角ラベル
+const CL_SIDES = {
+  a:{p1:'B',p2:'C', lx:92, ly:168, angleV:'A', needInfo:'b と c と ∠A', formula:'a^2=b^2+c^2-2bc\\cos A'},
+  b:{p1:'C',p2:'A', lx:148,ly:84,  angleV:'B', needInfo:'a と c と ∠B', formula:'b^2=a^2+c^2-2ac\\cos B'},
+  c:{p1:'A',p2:'B', lx:36, ly:84,  angleV:'C', needInfo:'a と b と ∠C', formula:'c^2=a^2+b^2-2ab\\cos C'},
+};
+
+function drawInteract(highlight){
+  const cvs=document.getElementById('cv-interact');
+  if(!cvs) return;
+  const ctx=cvs.getContext('2d');
+  ctx.clearRect(0,0,200,170);
+  const V=CL_VERTS;
+
+  // ① 先に塗りだけ（辺なし）
+  ctx.beginPath(); ctx.moveTo(V.A.x,V.A.y); ctx.lineTo(V.B.x,V.B.y); ctx.lineTo(V.C.x,V.C.y); ctx.closePath();
+  ctx.fillStyle='rgba(124,58,237,0.06)'; ctx.fill();
+
+  // ② 三辺を描画（ハイライト辺は最後に重ね描き）
+  ['a','b','c'].forEach(side=>{
+    if(side===highlight) return; // ハイライト辺は後で描く
+    const s=CL_SIDES[side];
+    const p1=V[s.p1], p2=V[s.p2];
+    ctx.beginPath(); ctx.moveTo(p1.x,p1.y); ctx.lineTo(p2.x,p2.y);
+    ctx.strokeStyle='#1e1b4b'; ctx.lineWidth=1.8; ctx.stroke();
+  });
+
+  // ③ ハイライト辺を最前面に描く
+  if(highlight){
+    const s=CL_SIDES[highlight];
+    const p1=V[s.p1], p2=V[s.p2];
+    ctx.beginPath(); ctx.moveTo(p1.x,p1.y); ctx.lineTo(p2.x,p2.y);
+    ctx.strokeStyle='#b91c1c'; ctx.lineWidth=4.5; ctx.stroke();
+  }
+
+  // ④ 辺ラベル（a,b,c）
+  ['a','b','c'].forEach(side=>{
+    const s=CL_SIDES[side];
+    const isHL=side===highlight;
+    ctx.font=isHL?'bold 15px sans-serif':'13px sans-serif';
+    ctx.fillStyle=isHL?'#b91c1c':'#374151';
+    ctx.fillText(side, s.lx, s.ly);
+  });
+
+  // ⑤ 頂点ラベル
+  ctx.font='bold 14px sans-serif'; ctx.fillStyle='#1e1b4b';
+  ctx.fillText('A', V.A.x-6, V.A.y-8);
+  ctx.fillText('B', V.B.x-20, V.B.y+5);
+  ctx.fillText('C', V.C.x+6,  V.C.y+5);
+
+  // ⑥ 向かいの角に弧マーク
+  if(highlight){
+    const s=CL_SIDES[highlight];
+    const av=s.angleV;            // 'A' | 'B' | 'C'
+    const vc=V[av];               // 角の頂点座標
+    const pairs={A:['B','C'], B:['A','C'], C:['A','B']};
+    const [k1,k2]=pairs[av];
+    const v1=V[k1], v2=V[k2];
+    const ang1=Math.atan2(v1.y-vc.y, v1.x-vc.x);
+    const ang2=Math.atan2(v2.y-vc.y, v2.x-vc.x);
+    // 常に小さい方から大きい方向で弧を描く（interior側）
+    let startA=ang1, endA=ang2;
+    // 反時計回りの内角になるよう調整
+    let diff = endA - startA;
+    if(diff < -Math.PI) diff += 2*Math.PI;
+    if(diff > Math.PI)  diff -= 2*Math.PI;
+    if(diff < 0){ [startA,endA]=[endA,startA]; diff=-diff; }
+    ctx.beginPath();
+    ctx.arc(vc.x, vc.y, 20, startA, startA+diff);
+    ctx.strokeStyle='#7c3aed'; ctx.lineWidth=2.2; ctx.stroke();
+    // 角ラベル位置：弧の中間方向
+    const amid = startA + diff/2;
+    ctx.font='bold 11px sans-serif'; ctx.fillStyle='#7c3aed';
+    ctx.fillText('∠'+av, vc.x+32*Math.cos(amid)-6, vc.y+32*Math.sin(amid)+4);
+  }
+}
+
+function selectCosLaw(side){
+  // ボタン状態更新
+  ['a','b','c'].forEach(s=>{
+    document.getElementById('clbtn-'+s).classList.toggle('active', s===side);
+  });
+  drawInteract(side);
+  // 情報表示
+  const s=CL_SIDES[side];
+  const infoEl=document.getElementById('cl-info');
+  infoEl.innerHTML=
+    '<div style="background:#fef3c7;border-left:3px solid #f59e0b;padding:6px 10px;border-radius:0 6px 6px 0;margin-bottom:8px;font-weight:700;color:#92400e">'
+   +'辺 <span style="color:#b91c1c;font-size:15px">'+side+'</span> を求めるには…<br>'
+   +'<span style="font-size:12px;font-weight:400">'+s.needInfo+'が必要です</span>'
+   +'</div>'
+   +katex.renderToString(s.formula,{throwOnError:false,displayMode:true});
+}
+
+// 初期表示（aを選択した状態で開始）
+function initInteract(){
+  drawInteract(null);
+}
+
+
+function drawProbTri(id, cfg){
+  const cvs=document.getElementById(id);
+  if(!cvs) return;
+  const ctx=cvs.getContext('2d');
+  ctx.clearRect(0,0,cvs.width,cvs.height);
+  const {vA,vB,vC}=cfg;
+  // 三角形
+  ctx.beginPath(); ctx.moveTo(vA.x,vA.y); ctx.lineTo(vB.x,vB.y); ctx.lineTo(vC.x,vC.y); ctx.closePath();
+  ctx.fillStyle='rgba(124,58,237,0.06)'; ctx.fill();
+  ctx.strokeStyle='#1e1b4b'; ctx.lineWidth=2; ctx.stroke();
+  // 求める辺を赤破線で強調
+  if(cfg.unknown){
+    const u=cfg.unknown;
+    ctx.save();
+    ctx.beginPath(); ctx.moveTo(u.x1,u.y1); ctx.lineTo(u.x2,u.y2);
+    ctx.strokeStyle='#b91c1c'; ctx.lineWidth=2.5; ctx.setLineDash([5,3]); ctx.stroke();
+    ctx.restore();
+  }
+  // 辺ラベル（赤）
+  ctx.font='bold 13px sans-serif'; ctx.fillStyle='#b91c1c';
+  if(cfg.sides) cfg.sides.forEach(s=>ctx.fillText(s.label,s.lx,s.ly));
+  // 頂点ラベル（黒）
+  ctx.font='bold 14px sans-serif'; ctx.fillStyle='#1e1b4b';
+  if(cfg.vLabels) cfg.vLabels.forEach(v=>ctx.fillText(v.text,v.x,v.y));
+  // 角度ラベル（紫）
+  if(cfg.aLabel){
+    ctx.font='bold 12px sans-serif'; ctx.fillStyle='#7c3aed';
+    ctx.fillText(cfg.aLabel.text, cfg.aLabel.x, cfg.aLabel.y);
+  }
+}
+
+function drawAllFigures(){
+  // 使い方① A=60°, b=1, c=2 → a=√3
+  drawProbTri('cv-use1',{
+    vA:{x:110,y:22}, vB:{x:32,y:148}, vC:{x:188,y:148},
+    vLabels:[{text:'A',x:104,y:16},{text:'B',x:13,y:153},{text:'C',x:191,y:153}],
+    sides:[{label:'b=1',lx:153,ly:88},{label:'c=2',lx:44,ly:88},{label:'a=?',lx:96,ly:158}],
+    aLabel:{text:'60°',x:92,y:44},
+    unknown:{x1:32,y1:148,x2:188,y2:148}
+  });
+
+  // 例題1: B=60°, AB=6, BC=4 → AC=2√7
+  drawProbTri('cv-ex1',{
+    vA:{x:110,y:22}, vB:{x:32,y:148}, vC:{x:188,y:148},
+    vLabels:[{text:'A',x:104,y:16},{text:'B',x:13,y:153},{text:'C',x:191,y:153}],
+    sides:[{label:'AC=?',lx:148,ly:82},{label:'AB=6',lx:36,ly:82},{label:'BC=4',lx:96,ly:158}],
+    aLabel:{text:'60°',x:50,y:140},
+    unknown:{x1:110,y1:22,x2:188,y2:148}
+  });
+
+  // 例題2: A=120°, b=1, c=1 → a=√3
+  drawProbTri('cv-ex2',{
+    vA:{x:110,y:38}, vB:{x:25,y:148}, vC:{x:195,y:148},
+    vLabels:[{text:'A',x:104,y:32},{text:'B',x:7,y:153},{text:'C',x:197,y:153}],
+    sides:[{label:'b=1',lx:155,ly:97},{label:'c=1',lx:45,ly:97},{label:'a=?',lx:96,ly:158}],
+    aLabel:{text:'120°',x:84,y:58},
+    unknown:{x1:25,y1:148,x2:195,y2:148}
+  });
+
+}
+
+window.addEventListener('load', () => {
+  renderExplain();
+  buildMiniTest();
+  renderExamples();
+  drawTriangle09();
+  initInteract();
+  drawAllFigures();
+  buildQuiz(DRILL, 'drill-area', 'dp-fill', 'dp-label', ()=>drillDone, v=>{drillDone=v;}, null);
+  buildQuiz(CHECK, 'check-area', 'cp-fill', 'cp-label', ()=>checkDone, v=>{checkDone=v;},
+    () => { document.getElementById('pass-btn').style.display = 'block'; });
+});
+</script>
+</body>
+</html>

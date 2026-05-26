@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TR10 三角形の面積 | GAMBA高認数学</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'BIZ UDPGothic',sans-serif;background:#f5f3ff;color:#1e1b4b;min-height:100vh}
+.site-header{background:#7c3aed;color:#fff;padding:10px 16px;display:flex;align-items:center;gap:10px}
+.back-btn{background:rgba(255,255,255,.2);border:none;color:#fff;padding:5px 12px;border-radius:6px;cursor:pointer;font-size:13px}
+.site-header h1{font-size:16px;font-weight:700}
+.unit-badge{margin-left:auto;background:rgba(255,255,255,.25);padding:3px 10px;border-radius:12px;font-size:12px}
+.tab-bar{display:flex;background:#ede9fe;border-bottom:2px solid #7c3aed}
+.tab-btn{flex:1;padding:10px 4px;border:none;background:transparent;font-size:13px;font-weight:600;color:#5b21b6;cursor:pointer;border-bottom:3px solid transparent;transition:all .2s}
+.tab-btn.active{background:#fff;color:#7c3aed;border-bottom-color:#7c3aed}
+.tab-content{display:none;padding:16px;max-width:720px;margin:0 auto}
+.tab-content.active{display:block}
+.card{background:#fff;border-radius:12px;padding:16px;margin-bottom:16px;box-shadow:0 1px 4px rgba(124,58,237,.1)}
+.card-title{font-size:14px;font-weight:700;color:#7c3aed;border-bottom:2px solid #ede9fe;padding-bottom:6px;margin-bottom:12px}
+.formula-box{background:#f5f3ff;border:2px solid #7c3aed;border-radius:10px;padding:14px 16px;margin:12px 0;text-align:center}
+.formula-box .ftitle{font-size:12px;font-weight:700;color:#6d28d9;margin-bottom:8px}
+.prob-box{background:#faf5ff;border:1px solid #c4b5fd;border-radius:8px;padding:12px 14px;margin:10px 0;font-size:13px;line-height:1.9}
+.prob-label{font-size:11px;font-weight:700;color:#7c3aed;margin-bottom:6px}
+.step-box{background:#fff;border-left:3px solid #7c3aed;padding:8px 12px;margin:8px 0;border-radius:0 6px 6px 0;font-size:13px;line-height:1.9}
+.ans-btn{background:#7c3aed;color:#fff;border:none;padding:6px 14px;border-radius:16px;cursor:pointer;font-size:12px;font-weight:600;margin-top:8px}
+.ans-btn:hover{background:#6d28d9}
+.ans-body{display:none;margin-top:8px}
+.ans-body.open{display:block}
+.hint-box{background:#fef9c3;border-left:4px solid #f59e0b;padding:10px 12px;border-radius:0 8px 8px 0;margin:10px 0;font-size:13px;line-height:1.8}
+.note-box{background:#f0fdf4;border-left:4px solid #10b981;padding:10px 12px;border-radius:0 8px 8px 0;margin:10px 0;font-size:13px;line-height:1.8}
+.calc-note{background:#fffbeb;border-left:3px solid #f59e0b;border-radius:0 6px 6px 0;padding:5px 10px;margin:4px 0;font-size:12px;color:#92400e;line-height:1.8}
+/* ミニテストボタン */
+.mt-btn{padding:8px 16px;border:2px solid #c4b5fd;background:#f5f3ff;border-radius:8px;font-size:14px;cursor:pointer;transition:all .15s;color:#1e1b4b}
+.mt-btn:hover{background:#ede9fe}
+.mt-btn.correct{background:#d1fae5;border-color:#059669;color:#065f46;font-weight:700}
+.mt-btn.wrong{background:#fee2e2;border-color:#dc2626;color:#991b1b}
+.fig-wrap{text-align:center;margin:12px 0}
+.fig-caption{font-size:12px;color:#6b7280;margin-top:4px}
+.dnum{display:inline-block;background:#7c3aed;color:#fff;border-radius:50%;width:22px;height:22px;text-align:center;line-height:22px;font-size:12px;font-weight:700;margin-right:6px;vertical-align:middle}
+.choice-list{list-style:none;margin:8px 0}
+.choice-list li{padding:8px 12px;margin:5px 0;background:#f5f3ff;border-radius:8px;cursor:pointer;font-size:14px;line-height:1.6;transition:background .15s}
+.choice-list li:hover{background:#ede9fe}
+.choice-list li.correct{background:#d1fae5;color:#065f46}
+.choice-list li.wrong{background:#fee2e2;color:#991b1b}
+.result-msg{font-size:13px;margin-top:8px;min-height:20px;line-height:1.8}
+.progress-bar{height:5px;background:#ddd6fe;border-radius:3px;overflow:hidden;margin:8px 0 2px}
+.progress-fill{height:100%;background:#7c3aed;transition:width .3s}
+.progress-label{font-size:11px;color:#7c3aed;text-align:right;margin-bottom:10px}
+.pass-btn{display:block;width:100%;background:#7c3aed;color:#fff;border:none;padding:12px;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;margin-top:16px}
+.pass-btn:hover{background:#6d28d9}
+/* 証明アコーディオン */
+.proof-toggle{background:#ede9fe;border:none;width:100%;text-align:left;padding:9px 12px;border-radius:8px;cursor:pointer;font-size:13px;color:#5b21b6;font-weight:600;display:flex;justify-content:space-between;align-items:center;margin-top:10px;gap:8px;line-height:1.5}
+.proof-toggle:hover{background:#ddd6fe}
+.proof-arrow{transition:transform .3s;display:inline-block;flex-shrink:0}
+.proof-body{display:none;background:#faf9ff;border:1px solid #ddd6fe;border-radius:0 0 8px 8px;padding:12px 14px;font-size:13px;line-height:1.9}
+.proof-body.open{display:block}
+.area-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:12px 0}
+.area-cell{background:#f5f3ff;border:1px solid #c4b5fd;border-radius:8px;padding:10px 8px;text-align:center;font-size:12px}
+.area-cell .ac-label{color:#b91c1c;font-weight:700;font-size:11px;margin-bottom:4px}
+</style>
+</head>
+<body>
+
+<div class="site-header">
+  <button class="back-btn" onclick="history.back()">← 戻る</button>
+  <h1>TR10 三角形の面積</h1>
+  <span class="unit-badge">三角比</span>
+</div>
+
+<div class="tab-bar">
+  <button class="tab-btn active" onclick="switchTab('explain',this)">📖 説明</button>
+  <button class="tab-btn" onclick="switchTab('example',this)">📝 例題</button>
+  <button class="tab-btn" onclick="switchTab('drill',this)">🔁 練習</button>
+  <button class="tab-btn" onclick="switchTab('check',this)">✅ 確認</button>
+</div>
+
+<!-- ======== 説明 ======== -->
+<div id="tab-explain" class="tab-content active">
+
+  <div class="card">
+    <div class="card-title">📐 三角形の面積公式</div>
+    <p style="font-size:14px;line-height:1.9;margin-bottom:12px">
+      「底辺 × 高さ ÷ 2」は知っていますよね。<br>
+      でも高さがわからないときでも、<strong>2辺とその間の角</strong>がわかれば面積が求められます。
+    </p>
+    <div class="fig-wrap">
+      <canvas id="cvTri10" width="300" height="190"></canvas>
+      <div class="fig-caption">高さ h = c sinB &nbsp;→&nbsp; 面積 S = ½ × a × h = ½ac sinB</div>
+    </div>
+    <div class="formula-box">
+      <div class="ftitle">🔷 三角形の面積公式</div>
+      <div id="f-main" style="line-height:2.4"></div>
+    </div>
+    <div class="hint-box">
+      💡 <strong>「½ × となり × となり × sin（間の角）」</strong><br>
+      <span id="hint-sub" style="font-size:12px"></span>
+    </div>
+
+    <!-- 証明アコーディオン -->
+    <button class="proof-toggle" id="proof-area-btn" onclick="toggleProofArea()">
+      どうしてこの式になるのか？　式の証明は出題されませんが、知りたい方はご覧ください。
+      <span class="proof-arrow" id="proof-area-arrow">▼</span>
+    </button>
+    <div class="proof-body" id="proof-area-body">
+      <p style="margin-bottom:8px">
+        「底辺 × 高さ ÷ 2」から出発します。
+      </p>
+
+      <!-- Step図 -->
+      <div class="fig-wrap">
+        <canvas id="cv-proof" width="280" height="170"></canvas>
+      </div>
+
+      <div id="proof-steps" style="line-height:2;font-size:13px"></div>
+
+      <div class="note-box" style="margin-top:8px">
+        証明は読むだけでOKです。高認では証明問題は出題されません。
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🧭 3つの書き方（どれも同じ）</div>
+    <p style="font-size:13px;line-height:1.8;margin-bottom:10px">
+      辺と角の名前の組み合わせで3通り書けます。<strong>abc がそろう</strong>のが覚え方のコツ。
+    </p>
+    <div class="area-grid" id="area-grid"></div>
+    <div class="note-box">
+      どれも「<strong>2辺とその間の角</strong>」を使います。<br>
+      間の角のサインをかけて、2で割る。それだけです。
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🧭 使い方の例</div>
+    <div class="prob-box"><div id="use1-q" style="line-height:1.9"></div></div>
+    <div class="fig-wrap"><canvas id="cv-use1" width="220" height="160"></canvas></div>
+    <div class="step-box" id="use1-sol" style="line-height:2"></div>
+  </div>
+
+  <!-- ミニテスト① -->
+  <div class="card">
+    <div class="card-title">🎯 ミニテスト①　やってみよう</div>
+    <div style="font-size:13px;margin-bottom:8px;line-height:1.8">
+      <span id="mt1-q"></span>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:6px" id="mt1-choices"></div>
+    <div class="result-msg" id="mt1-result"></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">⚠️ 鈍角のときも同じ公式！</div>
+    <p style="font-size:13px;line-height:1.8;margin-bottom:10px">
+      間の角が鈍角（90°より大きい）でも、公式はそのまま使えます。<br>
+      sin120° = sin60° = √3/2 のように、sin の値を正しく代入するだけです。
+    </p>
+    <div class="prob-box"><div id="use2-q" style="line-height:1.9"></div></div>
+    <div class="fig-wrap"><canvas id="cv-use2" width="220" height="160"></canvas></div>
+    <div class="step-box" id="use2-sol" style="line-height:2"></div>
+    <div class="hint-box" id="use2-note"></div>
+  </div>
+
+  <!-- ミニテスト② -->
+  <div class="card">
+    <div class="card-title">🎯 ミニテスト②　鈍角バージョン</div>
+    <div style="font-size:13px;margin-bottom:8px;line-height:1.8">
+      <span id="mt2-q"></span>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:6px" id="mt2-choices"></div>
+    <div class="result-msg" id="mt2-result"></div>
+  </div>
+
+</div>
+
+<!-- ======== 例題 ======== -->
+<div id="tab-example" class="tab-content">
+
+  <div class="card">
+    <div class="card-title">📝 例題1　面積を求める（テキスト例題6）</div>
+    <div class="prob-box">
+      <div class="prob-label">問題</div>
+      <div id="ex1-q"></div>
+    </div>
+    <div class="fig-wrap"><canvas id="cv-ex1" width="220" height="160"></canvas></div>
+    <button class="ans-btn" onclick="toggleAns('ex1-ans')">解答を見る</button>
+    <div class="ans-body" id="ex1-ans">
+      <div class="step-box" id="ex1-s1"></div>
+      <div class="step-box" id="ex1-s2"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📝 例題2　面積を求める（鈍角）</div>
+    <div class="prob-box">
+      <div class="prob-label">問題</div>
+      <div id="ex2-q"></div>
+    </div>
+    <div class="fig-wrap"><canvas id="cv-ex2" width="220" height="160"></canvas></div>
+    <button class="ans-btn" onclick="toggleAns('ex2-ans')">解答を見る</button>
+    <div class="ans-body" id="ex2-ans">
+      <div class="step-box" id="ex2-s1"></div>
+      <div class="step-box" id="ex2-s2"></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ======== 練習 ======== -->
+<div id="tab-drill" class="tab-content">
+  <div class="card">
+    <div class="card-title">🔁 練習問題</div>
+    <div class="progress-bar"><div class="progress-fill" id="dp-fill" style="width:0%"></div></div>
+    <div class="progress-label" id="dp-label">0 / 4 完了</div>
+  </div>
+  <div id="drill-area"></div>
+</div>
+
+<!-- ======== 確認 ======== -->
+<div id="tab-check" class="tab-content">
+  <div class="card">
+    <div class="card-title">✅ 確認テスト</div>
+    <div class="progress-bar"><div class="progress-fill" id="cp-fill" style="width:0%"></div></div>
+    <div class="progress-label" id="cp-label">0 / 4 完了</div>
+  </div>
+  <div id="check-area"></div>
+  <button class="pass-btn" id="pass-btn" style="display:none" onclick="markPassed()">
+    🎉 TR10 合格！次へ進む
+  </button>
+</div>
+
+<script>
+const k  = tex => katex.renderToString(tex, {throwOnError:false, displayMode:false});
+const kd = tex => katex.renderToString(tex, {throwOnError:false, displayMode:true});
+
+function switchTab(name, btn){
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-'+name).classList.add('active');
+  btn.classList.add('active');
+}
+function toggleAns(id){
+  document.getElementById(id).classList.toggle('open');
+}
+
+// ===== Canvas: メイン図（高さhの説明） =====
+function drawMain(){
+  const cvs=document.getElementById('cvTri10');
+  const ctx=cvs.getContext('2d');
+  const A={x:90,y:20}, B={x:25,y:175}, C={x:270,y:175};
+  // 三角形
+  ctx.beginPath(); ctx.moveTo(A.x,A.y); ctx.lineTo(B.x,B.y); ctx.lineTo(C.x,C.y); ctx.closePath();
+  ctx.fillStyle='rgba(124,58,237,0.06)'; ctx.fill();
+  ctx.strokeStyle='#1e1b4b'; ctx.lineWidth=2; ctx.stroke();
+  // 高さh（AからBCへ垂線）
+  const Hpt={x:A.x, y:B.y};
+  ctx.beginPath(); ctx.moveTo(A.x,A.y); ctx.lineTo(Hpt.x,Hpt.y);
+  ctx.strokeStyle='#7c3aed'; ctx.lineWidth=1.5; ctx.setLineDash([3,2]); ctx.stroke();
+  ctx.setLineDash([]);
+  // 直角マーク
+  ctx.beginPath(); ctx.moveTo(Hpt.x+8,Hpt.y); ctx.lineTo(Hpt.x+8,Hpt.y-8); ctx.lineTo(Hpt.x,Hpt.y-8);
+  ctx.strokeStyle='#7c3aed'; ctx.lineWidth=1; ctx.stroke();
+  // 辺ラベル（赤）
+  ctx.font='bold 13px sans-serif'; ctx.fillStyle='#b91c1c';
+  ctx.fillText('a', (B.x+C.x)/2-4, B.y+16);
+  ctx.fillText('b', (C.x+A.x)/2+8, (C.y+A.y)/2+2);
+  ctx.fillText('c', (A.x+B.x)/2-18, (A.y+B.y)/2+2);
+  // 高さラベル
+  ctx.font='bold 12px sans-serif'; ctx.fillStyle='#7c3aed';
+  ctx.fillText('h', Hpt.x+4, (A.y+Hpt.y)/2);
+  // 頂点ラベル
+  ctx.font='bold 14px sans-serif'; ctx.fillStyle='#1e1b4b';
+  ctx.fillText('A', A.x-6, A.y-8);
+  ctx.fillText('B', B.x-20, B.y+5);
+  ctx.fillText('C', C.x+6, C.y+5);
+  // 角Bマーク
+  ctx.font='bold 11px sans-serif'; ctx.fillStyle='#7c3aed';
+  ctx.fillText('B', B.x+18, B.y-8);
+}
+
+// ===== 問題図共通描画 =====
+function drawProbTri(id, cfg){
+  const cvs=document.getElementById(id);
+  if(!cvs) return;
+  const ctx=cvs.getContext('2d');
+  ctx.clearRect(0,0,cvs.width,cvs.height);
+  const {vA,vB,vC}=cfg;
+  ctx.beginPath(); ctx.moveTo(vA.x,vA.y); ctx.lineTo(vB.x,vB.y); ctx.lineTo(vC.x,vC.y); ctx.closePath();
+  ctx.fillStyle='rgba(124,58,237,0.06)'; ctx.fill();
+  ctx.strokeStyle='#1e1b4b'; ctx.lineWidth=2; ctx.stroke();
+  // 辺ラベル（赤）
+  ctx.font='bold 13px sans-serif'; ctx.fillStyle='#b91c1c';
+  if(cfg.sides) cfg.sides.forEach(s=>ctx.fillText(s.label,s.lx,s.ly));
+  // 頂点ラベル（黒）
+  ctx.font='bold 14px sans-serif'; ctx.fillStyle='#1e1b4b';
+  if(cfg.vLabels) cfg.vLabels.forEach(v=>ctx.fillText(v.text,v.x,v.y));
+  // 角度ラベル（紫）
+  if(cfg.aLabel){
+    ctx.font='bold 12px sans-serif'; ctx.fillStyle='#7c3aed';
+    ctx.fillText(cfg.aLabel.text, cfg.aLabel.x, cfg.aLabel.y);
+  }
+  // S=?ラベル（中央・緑）
+  if(cfg.sLabel){
+    ctx.font='bold 13px sans-serif'; ctx.fillStyle='#059669';
+    ctx.fillText('S = ?', cfg.sLabel.x, cfg.sLabel.y);
+  }
+}
+
+function drawAllFigures(){
+  // 使い方①: A=60°, b=3, c=4
+  drawProbTri('cv-use1',{
+    vA:{x:110,y:22}, vB:{x:32,y:148}, vC:{x:188,y:148},
+    vLabels:[{text:'A',x:104,y:16},{text:'B',x:13,y:153},{text:'C',x:191,y:153}],
+    sides:[{label:'b=3',lx:153,ly:88},{label:'c=4',lx:38,ly:88}],
+    aLabel:{text:'60°',x:92,y:44},
+    sLabel:{x:96,y:108}
+  });
+  // 使い方②: A=120°, b=2, c=4
+  drawProbTri('cv-use2',{
+    vA:{x:110,y:38}, vB:{x:25,y:148}, vC:{x:195,y:148},
+    vLabels:[{text:'A',x:104,y:32},{text:'B',x:7,y:153},{text:'C',x:197,y:153}],
+    sides:[{label:'b=2',lx:155,ly:97},{label:'c=4',lx:45,ly:97}],
+    aLabel:{text:'120°',x:84,y:58},
+    sLabel:{x:92,y:115}
+  });
+  // 例題1: A=60°, b=5, c=8
+  drawProbTri('cv-ex1',{
+    vA:{x:110,y:22}, vB:{x:32,y:148}, vC:{x:188,y:148},
+    vLabels:[{text:'A',x:104,y:16},{text:'B',x:13,y:153},{text:'C',x:191,y:153}],
+    sides:[{label:'b=5',lx:153,ly:82},{label:'c=8',lx:38,ly:82}],
+    aLabel:{text:'60°',x:92,y:44},
+    sLabel:{x:96,y:108}
+  });
+  // 例題2: A=120°, b=4, c=5
+  drawProbTri('cv-ex2',{
+    vA:{x:110,y:38}, vB:{x:25,y:148}, vC:{x:195,y:148},
+    vLabels:[{text:'A',x:104,y:32},{text:'B',x:7,y:153},{text:'C',x:197,y:153}],
+    sides:[{label:'b=4',lx:155,ly:92},{label:'c=5',lx:45,ly:92}],
+    aLabel:{text:'120°',x:84,y:58},
+    sLabel:{x:92,y:115}
+  });
+}
+
+// ===== 説明レンダリング =====
+function renderExplain(){
+  // メイン公式
+  document.getElementById('f-main').innerHTML =
+    kd('S=\\dfrac{1}{2}ab\\sin C=\\dfrac{1}{2}ac\\sin B=\\dfrac{1}{2}bc\\sin A');
+
+  document.getElementById('hint-sub').innerHTML =
+    '2辺と間の角がわかれば面積が求まります。'
+  + k('a,b,c') + ' が全部そろう組み合わせを選ぶのがコツ。';
+
+  // 3パターングリッド
+  const grid = document.getElementById('area-grid');
+  const pats = [
+    {label:'角Aを使うとき', f:'S=\\dfrac{1}{2}bc\\sin A', note:'辺b, c と角A'},
+    {label:'角Bを使うとき', f:'S=\\dfrac{1}{2}ac\\sin B', note:'辺a, c と角B'},
+    {label:'角Cを使うとき', f:'S=\\dfrac{1}{2}ab\\sin C', note:'辺a, b と角C'},
+  ];
+  grid.innerHTML = pats.map(p =>
+    `<div class="area-cell">
+      <div class="ac-label">${p.label}</div>
+      <div>${kd(p.f)}</div>
+      <div style="font-size:11px;color:#6d28d9;margin-top:4px">${p.note}</div>
+    </div>`
+  ).join('');
+
+  // 使い方①: A=60°, b=3, c=4
+  document.getElementById('use1-q').innerHTML =
+    '三角形ABCで ' + k('A=60°,\\;b=3,\\;c=4') + ' のとき、面積 S を求める。';
+  document.getElementById('use1-sol').innerHTML =
+    k('S=\\dfrac{1}{2}bc\\sin A=\\dfrac{1}{2}\\times 3\\times 4\\times\\sin 60°') + '<br>'
+  + k('=\\dfrac{1}{2}\\times 3\\times 4\\times\\dfrac{\\sqrt{3}}{2}=6\\times\\dfrac{\\sqrt{3}}{2}=3\\sqrt{3}') + '<br>'
+  + '<strong>答え：' + k('S=3\\sqrt{3}') + '</strong>';
+
+  // 使い方②: A=120°, b=2, c=4
+  document.getElementById('use2-q').innerHTML =
+    '三角形ABCで ' + k('A=120°,\\;b=2,\\;c=4') + ' のとき、面積 S を求める。';
+  document.getElementById('use2-sol').innerHTML =
+    k('S=\\dfrac{1}{2}bc\\sin A=\\dfrac{1}{2}\\times 2\\times 4\\times\\sin 120°') + '<br>'
+  + k('=\\dfrac{1}{2}\\times 2\\times 4\\times\\dfrac{\\sqrt{3}}{2}=4\\times\\dfrac{\\sqrt{3}}{2}=2\\sqrt{3}') + '<br>'
+  + '<strong>答え：' + k('S=2\\sqrt{3}') + '</strong>';
+
+  document.getElementById('use2-note').innerHTML =
+    '💡 <strong>sin120° = sin60° = √3/2</strong><br>'
+  + k('\\sin 120°=\\sin(180°-60°)=\\sin 60°=\\dfrac{\\sqrt{3}}{2}') + '<br>'
+  + '鈍角でも sin の値は<strong>正（プラス）</strong>なので、そのまま代入してOK！';
+}
+
+// ===== 例題レンダリング =====
+function renderExamples(){
+  // 例題1: A=60°, b=5, c=8 → S=10√3 （テキスト例題6）
+  document.getElementById('ex1-q').innerHTML =
+    '右の△ABCの面積を求めよ。&emsp;'
+  + k('A=60°,\\;b=5\\text{cm},\\;c=8\\text{cm}');
+  document.getElementById('ex1-s1').innerHTML =
+    '【STEP1】公式を立てる<br>'
+  + k('S=\\dfrac{1}{2}bc\\sin A')
+  + '&emsp;→&emsp;'
+  + k('S=\\dfrac{1}{2}\\times 5\\times 8\\times\\sin 60°');
+  document.getElementById('ex1-s2').innerHTML =
+    '【STEP2】計算する<br>'
+  + k('S=\\dfrac{1}{2}\\times 5\\times 8\\times\\dfrac{\\sqrt{3}}{2}=20\\times\\dfrac{\\sqrt{3}}{2}=10\\sqrt{3}') + '<br>'
+  + '<strong>答え：' + k('S=10\\sqrt{3}') + ' cm²</strong>';
+
+  // 例題2: A=120°, b=4, c=5 → S=5√3
+  document.getElementById('ex2-q').innerHTML =
+    '三角形ABCにおいて、' + k('A=120°,\\;b=4\\text{cm},\\;c=5\\text{cm}') + ' のとき、面積を求めよ。';
+  document.getElementById('ex2-s1').innerHTML =
+    '【STEP1】公式を立てる<br>'
+  + k('S=\\dfrac{1}{2}bc\\sin A')
+  + '&emsp;→&emsp;'
+  + k('S=\\dfrac{1}{2}\\times 4\\times 5\\times\\sin 120°')
+  + '<div class="calc-note">💡 計算メモ：'
+  + k('\\sin 120°=\\sin 60°=\\dfrac{\\sqrt{3}}{2}')
+  + '</div>';
+  document.getElementById('ex2-s2').innerHTML =
+    '【STEP2】計算する<br>'
+  + k('S=\\dfrac{1}{2}\\times 4\\times 5\\times\\dfrac{\\sqrt{3}}{2}=10\\times\\dfrac{\\sqrt{3}}{2}=5\\sqrt{3}') + '<br>'
+  + '<strong>答え：' + k('S=5\\sqrt{3}') + ' cm²</strong>';
+}
+
+// ===== Quiz =====
+let drillDone = 0, checkDone = 0;
+
+const DRILL = [
+  // D1: A=30°,b=4,c=3 → S=3
+  {
+    qFn: () => '三角形ABCで ' + k('A=30°,\\;b=4,\\;c=3') + ' のとき、面積 S は？',
+    ch: [k('S=2'), k('S=3'), k('S=4'), k('S=6')],
+    ans: 1,
+    expFn: () => k('S=\\dfrac{1}{2}\\times b\\times c\\times\\sin A') + '<br>' + '① 数字を入れる：&emsp;' + k('=\\dfrac{1}{2}\\times 4\\times 3\\times\\sin 30°') + '<br>' + '② sin 30° の値：&emsp;' + k('\\sin 30°=\\dfrac{1}{2}') + '<br>' + '③ 計算する：&emsp;' + k('=\\dfrac{1}{2}\\times 4\\times 3\\times\\dfrac{1}{2}=6\\times\\dfrac{1}{2}=3') + '<br>' + '<strong style="color:#059669">答え：S = 3</strong>'
+  },
+  // D2: A=60°,b=2,c=2 → S=√3
+  {
+    qFn: () => '三角形ABCで ' + k('A=60°,\\;b=2,\\;c=2') + ' のとき、面積 S は？',
+    ch: [k('S=\\sqrt{2}'), k('S=\\sqrt{3}'), k('S=2\\sqrt{3}'), k('S=2')],
+    ans: 1,
+    expFn: () => k('S=\\dfrac{1}{2}\\times b\\times c\\times\\sin A') + '<br>' + '① 数字を入れる：&emsp;' + k('=\\dfrac{1}{2}\\times 2\\times 2\\times\\sin 60°') + '<br>' + '② sin 60° の値：&emsp;' + k('\\sin 60°=\\dfrac{\\sqrt{3}}{2}') + '<br>' + '③ 計算する：&emsp;' + k('=\\dfrac{1}{2}\\times 2\\times 2\\times\\dfrac{\\sqrt{3}}{2}=2\\times\\dfrac{\\sqrt{3}}{2}=\\sqrt{3}') + '<br>' + '<strong style="color:#059669">答え：S = √3</strong>'
+  },
+  // D3: A=45°,b=4,c=6 → S=6√2
+  {
+    qFn: () => '三角形ABCで ' + k('A=45°,\\;b=4,\\;c=6') + ' のとき、面積 S は？',
+    ch: [k('S=4\\sqrt{2}'), k('S=6\\sqrt{2}'), k('S=8\\sqrt{2}'), k('S=12')],
+    ans: 1,
+    expFn: () => k('S=\\dfrac{1}{2}\\times b\\times c\\times\\sin A') + '<br>' + '① 数字を入れる：&emsp;' + k('=\\dfrac{1}{2}\\times 4\\times 6\\times\\sin 45°') + '<br>' + '② sin 45° の値：&emsp;' + k('\\sin 45°=\\dfrac{\\sqrt{2}}{2}') + '<br>' + '③ 計算する：&emsp;' + k('=\\dfrac{1}{2}\\times 4\\times 6\\times\\dfrac{\\sqrt{2}}{2}=12\\times\\dfrac{\\sqrt{2}}{2}=6\\sqrt{2}') + '<br>' + '<strong style="color:#059669">答え：S = 6√2</strong>'
+  },
+  // D4: A=120°,b=2,c=4 → S=2√3
+  {
+    qFn: () => '三角形ABCで ' + k('A=120°,\\;b=2,\\;c=4') + ' のとき、面積 S は？',
+    ch: [k('S=\\sqrt{3}'), k('S=2\\sqrt{3}'), k('S=4\\sqrt{3}'), k('S=4')],
+    ans: 1,
+    expFn: () => '<span style="color:#7c3aed;font-size:12px">💡 sin120°＝sin(180°−60°)＝sin60°＝√3/2</span><br>' + k('S=\\dfrac{1}{2}\\times b\\times c\\times\\sin A') + '<br>' + '① 数字を入れる：&emsp;' + k('=\\dfrac{1}{2}\\times 2\\times 4\\times\\sin 120°') + '<br>' + '② sin 120° の値：&emsp;' + k('\\sin 120°=\\dfrac{\\sqrt{3}}{2}') + '<br>' + '③ 計算する：&emsp;' + k('=\\dfrac{1}{2}\\times 2\\times 4\\times\\dfrac{\\sqrt{3}}{2}=4\\times\\dfrac{\\sqrt{3}}{2}=2\\sqrt{3}') + '<br>' + '<strong style="color:#059669">答え：S = 2√3</strong>'
+  }
+];
+
+const CHECK = [
+  // C1: A=30°,b=6,c=4 → S=6
+  {
+    qFn: () => '三角形ABCで ' + k('A=30°,\\;b=6,\\;c=4') + ' のとき、面積 S は？',
+    ch: [k('S=4'), k('S=6'), k('S=8'), k('S=12')],
+    ans: 1,
+    expFn: () => k('S=\\dfrac{1}{2}\\times b\\times c\\times\\sin A') + '<br>' + '① 数字を入れる：&emsp;' + k('=\\dfrac{1}{2}\\times 6\\times 4\\times\\sin 30°') + '<br>' + '② sin 30° の値：&emsp;' + k('\\sin 30°=\\dfrac{1}{2}') + '<br>' + '③ 計算する：&emsp;' + k('=\\dfrac{1}{2}\\times 6\\times 4\\times\\dfrac{1}{2}=12\\times\\dfrac{1}{2}=6') + '<br>' + '<strong style="color:#059669">答え：S = 6</strong>'
+  },
+  // C2: A=60°,b=2,c=6 → S=3√3
+  {
+    qFn: () => '三角形ABCで ' + k('A=60°,\\;b=2,\\;c=6') + ' のとき、面積 S は？',
+    ch: [k('S=\\sqrt{3}'), k('S=2\\sqrt{3}'), k('S=3\\sqrt{3}'), k('S=6\\sqrt{3}')],
+    ans: 2,
+    expFn: () => k('S=\\dfrac{1}{2}\\times b\\times c\\times\\sin A') + '<br>' + '① 数字を入れる：&emsp;' + k('=\\dfrac{1}{2}\\times 2\\times 6\\times\\sin 60°') + '<br>' + '② sin 60° の値：&emsp;' + k('\\sin 60°=\\dfrac{\\sqrt{3}}{2}') + '<br>' + '③ 計算する：&emsp;' + k('=\\dfrac{1}{2}\\times 2\\times 6\\times\\dfrac{\\sqrt{3}}{2}=6\\times\\dfrac{\\sqrt{3}}{2}=3\\sqrt{3}') + '<br>' + '<strong style="color:#059669">答え：S = 3√3</strong>'
+  },
+  // C3: A=45°,b=4,c=4 → S=4√2
+  {
+    qFn: () => '三角形ABCで ' + k('A=45°,\\;b=4,\\;c=4') + ' のとき、面積 S は？',
+    ch: [k('S=2\\sqrt{2}'), k('S=4\\sqrt{2}'), k('S=8\\sqrt{2}'), k('S=8')],
+    ans: 1,
+    expFn: () => k('S=\\dfrac{1}{2}\\times b\\times c\\times\\sin A') + '<br>' + '① 数字を入れる：&emsp;' + k('=\\dfrac{1}{2}\\times 4\\times 4\\times\\sin 45°') + '<br>' + '② sin 45° の値：&emsp;' + k('\\sin 45°=\\dfrac{\\sqrt{2}}{2}') + '<br>' + '③ 計算する：&emsp;' + k('=\\dfrac{1}{2}\\times 4\\times 4\\times\\dfrac{\\sqrt{2}}{2}=8\\times\\dfrac{\\sqrt{2}}{2}=4\\sqrt{2}') + '<br>' + '<strong style="color:#059669">答え：S = 4√2</strong>'
+  },
+  // C4: A=120°,b=3,c=4 → S=3√3
+  {
+    qFn: () => '三角形ABCで ' + k('A=120°,\\;b=3,\\;c=4') + ' のとき、面積 S は？',
+    ch: [k('S=2\\sqrt{3}'), k('S=3\\sqrt{3}'), k('S=4\\sqrt{3}'), k('S=6\\sqrt{3}')],
+    ans: 1,
+    expFn: () => '<span style="color:#7c3aed;font-size:12px">💡 sin120°＝sin(180°−60°)＝sin60°＝√3/2</span><br>' + k('S=\\dfrac{1}{2}\\times b\\times c\\times\\sin A') + '<br>' + '① 数字を入れる：&emsp;' + k('=\\dfrac{1}{2}\\times 3\\times 4\\times\\sin 120°') + '<br>' + '② sin 120° の値：&emsp;' + k('\\sin 120°=\\dfrac{\\sqrt{3}}{2}') + '<br>' + '③ 計算する：&emsp;' + k('=\\dfrac{1}{2}\\times 3\\times 4\\times\\dfrac{\\sqrt{3}}{2}=6\\times\\dfrac{\\sqrt{3}}{2}=3\\sqrt{3}') + '<br>' + '<strong style="color:#059669">答え：S = 3√3</strong>'
+  }
+];
+
+function buildQuiz(data, areaId, fillId, labelId, getDone, setDone, onAllDone){
+  const area = document.getElementById(areaId);
+  data.forEach((item, i) => {
+    const card = document.createElement('div');
+    card.className = 'card';
+    const qDiv = document.createElement('div');
+    qDiv.style.cssText = 'font-size:13px;margin-bottom:8px;line-height:1.8';
+    qDiv.innerHTML = '<span class="dnum">'+(i+1)+'</span>' + item.qFn();
+    card.appendChild(qDiv);
+    const ul = document.createElement('ul');
+    ul.className = 'choice-list';
+    item.ch.forEach((ch, ci) => {
+      const li = document.createElement('li');
+      li.innerHTML = ch;
+      li.onclick = () => {
+        if(ul.dataset.done) return;
+        ul.dataset.done = '1';
+        const msg = card.querySelector('.result-msg');
+        if(ci === item.ans){
+          li.classList.add('correct');
+          msg.innerHTML = '<span style="color:#059669">✅ 正解！</span>&emsp;' + item.expFn();
+          setDone(getDone() + 1);
+          const done = getDone();
+          document.getElementById(labelId).textContent = done + ' / ' + data.length + ' 完了';
+          document.getElementById(fillId).style.width = (done/data.length*100)+'%';
+          if(done === data.length && onAllDone) onAllDone();
+        } else {
+          li.classList.add('wrong');
+          Array.from(ul.children)[item.ans].classList.add('correct');
+          msg.innerHTML = '<span style="color:#dc2626">❌ 不正解</span>　正解：'
+                        + item.ch[item.ans] + '<br>' + item.expFn();
+        }
+      };
+      ul.appendChild(li);
+    });
+    card.appendChild(ul);
+    const msg = document.createElement('div');
+    msg.className = 'result-msg';
+    card.appendChild(msg);
+    area.appendChild(card);
+  });
+}
+
+function toggleProofArea(){
+  const body  = document.getElementById('proof-area-body');
+  const arrow = document.getElementById('proof-area-arrow');
+  body.classList.toggle('open');
+  arrow.style.transform = body.classList.contains('open') ? 'rotate(180deg)' : '';
+}
+
+// 証明用Canvas（高さhを強調した三角形）
+function drawProofCanvas(){
+  const cvs = document.getElementById('cv-proof');
+  if(!cvs) return;
+  const ctx = cvs.getContext('2d');
+  const A={x:90,y:15}, B={x:20,y:160}, C={x:255,y:160};
+  const Hpt={x:A.x, y:B.y};
+
+  // 三角形塗り
+  ctx.beginPath(); ctx.moveTo(A.x,A.y); ctx.lineTo(B.x,B.y); ctx.lineTo(C.x,C.y); ctx.closePath();
+  ctx.fillStyle='rgba(124,58,237,0.06)'; ctx.fill();
+
+  // 底辺 BC
+  ctx.beginPath(); ctx.moveTo(B.x,B.y); ctx.lineTo(C.x,C.y);
+  ctx.strokeStyle='#1e1b4b'; ctx.lineWidth=2; ctx.stroke();
+  // 斜辺 AB（= c）
+  ctx.beginPath(); ctx.moveTo(A.x,A.y); ctx.lineTo(B.x,B.y);
+  ctx.strokeStyle='#1e1b4b'; ctx.lineWidth=2; ctx.stroke();
+  // 斜辺 AC（= b）
+  ctx.beginPath(); ctx.moveTo(A.x,A.y); ctx.lineTo(C.x,C.y);
+  ctx.strokeStyle='#1e1b4b'; ctx.lineWidth=2; ctx.stroke();
+
+  // 高さ h（赤い破線）
+  ctx.beginPath(); ctx.moveTo(A.x,A.y); ctx.lineTo(Hpt.x,Hpt.y);
+  ctx.strokeStyle='#b91c1c'; ctx.lineWidth=2; ctx.setLineDash([4,3]); ctx.stroke();
+  ctx.setLineDash([]);
+
+  // 直角マーク
+  const s=8;
+  ctx.beginPath();
+  ctx.moveTo(Hpt.x+s,Hpt.y); ctx.lineTo(Hpt.x+s,Hpt.y-s); ctx.lineTo(Hpt.x,Hpt.y-s);
+  ctx.strokeStyle='#b91c1c'; ctx.lineWidth=1.2; ctx.stroke();
+
+  // 辺ラベル（赤）
+  ctx.font='bold 13px sans-serif'; ctx.fillStyle='#b91c1c';
+  ctx.fillText('a',  (B.x+C.x)/2-4,  B.y+16);   // BC = a
+  ctx.fillText('b',  (C.x+A.x)/2+8,  (C.y+A.y)/2+2); // CA = b
+  ctx.fillText('c',  (A.x+B.x)/2-18, (A.y+B.y)/2+2); // AB = c
+  ctx.fillText('h',  Hpt.x+5,  (A.y+Hpt.y)/2);  // 高さ h（赤）
+
+  // 頂点ラベル
+  ctx.font='bold 14px sans-serif'; ctx.fillStyle='#1e1b4b';
+  ctx.fillText('A', A.x-6,  A.y-8);
+  ctx.fillText('B', B.x-20, B.y+5);
+  ctx.fillText('C', C.x+6,  C.y+5);
+
+  // 角Bマーク（紫）
+  ctx.font='bold 11px sans-serif'; ctx.fillStyle='#7c3aed';
+  ctx.fillText('B', B.x+20, B.y-6);
+}
+
+// 証明ステップのレンダリング
+function renderProofSteps(){
+  document.getElementById('proof-steps').innerHTML =
+    '①　まず、頂点 A から底辺 BC に垂線を下ろし、その高さを ' + k('h') + ' とします。<br><br>'
+  + '②　直角三角形 ABH を見ると：<br>'
+  + '&emsp;' + k('\\sin B = \\dfrac{h}{c}') + '&emsp;→&emsp;' + k('h = c\\sin B') + '<br><br>'
+  + '③　三角形の面積の基本公式「底辺 × 高さ ÷ 2」に当てはめます：<br>'
+  + '&emsp;' + k('S = \\dfrac{1}{2}\\times a\\times h') + '<br><br>'
+  + '④　② で求めた ' + k('h = c\\sin B') + ' を代入：<br>'
+  + '&emsp;' + k('S = \\dfrac{1}{2}\\times a\\times c\\sin B = \\dfrac{1}{2}ac\\sin B') + '<br><br>'
+  + '<div style="background:#f5f3ff;border:2px solid #7c3aed;border-radius:8px;padding:10px 14px;text-align:center;margin-top:6px">'
+  + '「高さがわからなくても、隣の辺 c と角 B から ' + k('h = c\\sin B') + ' で高さが求まる」<br>'
+  + 'これが公式 ' + k('S=\\dfrac{1}{2}ac\\sin B') + ' の正体です。'
+  + '</div>';
+}
+
+
+const MINI = [
+  // MT1: A=60°, b=2, c=6 → S=3√3
+  {
+    qId: 'mt1',
+    qFn: () => '三角形ABCで ' + k('A=60°,\\;b=2,\\;c=6') + ' のとき、面積 S は？',
+    ch: [k('S=\\sqrt{3}'), k('S=2\\sqrt{3}'), k('S=3\\sqrt{3}'), k('S=6\\sqrt{3}')],
+    ans: 2,
+    expFn: () => k('S=\\dfrac{1}{2}\\times b\\times c\\times\\sin A') + '<br>' + '① 数字を入れる：&emsp;' + k('=\\dfrac{1}{2}\\times 2\\times 6\\times\\sin 60°') + '<br>' + '② sin 60° の値：&emsp;' + k('\\sin 60°=\\dfrac{\\sqrt{3}}{2}') + '<br>' + '③ 計算する：&emsp;' + k('=\\dfrac{1}{2}\\times 2\\times 6\\times\\dfrac{\\sqrt{3}}{2}=6\\times\\dfrac{\\sqrt{3}}{2}=3\\sqrt{3}') + '<br>' + '<strong style="color:#059669">答え：S = 3√3</strong>'
+  },
+  // MT2: A=120°, b=2, c=2 → S=√3
+  {
+    qId: 'mt2',
+    qFn: () => '三角形ABCで ' + k('A=120°,\\;b=2,\\;c=2') + ' のとき、面積 S は？',
+    ch: [k('S=\\sqrt{3}'), k('S=2\\sqrt{3}'), k('S=3\\sqrt{3}'), k('S=2')],
+    ans: 0,
+    expFn: () => '<span style="color:#7c3aed;font-size:12px">💡 sin120°＝sin(180°−60°)＝sin60°＝√3/2</span><br>' + k('S=\\dfrac{1}{2}\\times b\\times c\\times\\sin A') + '<br>' + '① 数字を入れる：&emsp;' + k('=\\dfrac{1}{2}\\times 2\\times 2\\times\\sin 120°') + '<br>' + '② sin 120° の値：&emsp;' + k('\\sin 120°=\\dfrac{\\sqrt{3}}{2}') + '<br>' + '③ 計算する：&emsp;' + k('=\\dfrac{1}{2}\\times 2\\times 2\\times\\dfrac{\\sqrt{3}}{2}=2\\times\\dfrac{\\sqrt{3}}{2}=\\sqrt{3}') + '<br>' + '<strong style="color:#059669">答え：S = √3</strong>'
+  }
+];
+
+function buildMiniTests(){
+  MINI.forEach(item => {
+    document.getElementById(item.qId+'-q').innerHTML = item.qFn();
+    const wrap = document.getElementById(item.qId+'-choices');
+    item.ch.forEach((ch, ci) => {
+      const btn = document.createElement('button');
+      btn.className = 'mt-btn';
+      btn.innerHTML = ch;
+      btn.onclick = () => {
+        if(wrap.dataset.done) return;
+        wrap.dataset.done = '1';
+        const msg = document.getElementById(item.qId+'-result');
+        if(ci === item.ans){
+          btn.classList.add('correct');
+          msg.innerHTML = '<span style="color:#059669">✅ 正解！</span>&emsp;' + item.expFn();
+        } else {
+          btn.classList.add('wrong');
+          Array.from(wrap.children)[item.ans].classList.add('correct');
+          msg.innerHTML = '<span style="color:#dc2626">❌ 不正解</span>&emsp;正解：'
+                        + item.ch[item.ans] + '<br>' + item.expFn();
+        }
+      };
+      wrap.appendChild(btn);
+    });
+  });
+}
+
+function markPassed(){
+  try{ localStorage.setItem('gamba_passed_TR10','1'); }catch(e){}
+  alert('TR10「三角形の面積」を合格しました！🎉');
+  history.back();
+}
+
+window.addEventListener('load', () => {
+  renderExplain();
+  buildMiniTests();
+  renderProofSteps();
+  renderExamples();
+  drawMain();
+  drawProofCanvas();
+  drawAllFigures();
+  buildQuiz(DRILL, 'drill-area', 'dp-fill', 'dp-label', ()=>drillDone, v=>{drillDone=v;}, null);
+  buildQuiz(CHECK, 'check-area', 'cp-fill', 'cp-label', ()=>checkDone, v=>{checkDone=v;},
+    () => { document.getElementById('pass-btn').style.display = 'block'; });
+});
+</script>
+</body>
+</html>

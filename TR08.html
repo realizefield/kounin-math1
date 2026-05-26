@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TR08 正弦定理 | GAMBA高認数学</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'BIZ UDPGothic',sans-serif;background:#f5f3ff;color:#1e1b4b;min-height:100vh}
+.site-header{background:#7c3aed;color:#fff;padding:10px 16px;display:flex;align-items:center;gap:10px}
+.back-btn{background:rgba(255,255,255,.2);border:none;color:#fff;padding:5px 12px;border-radius:6px;cursor:pointer;font-size:13px}
+.site-header h1{font-size:16px;font-weight:700}
+.unit-badge{margin-left:auto;background:rgba(255,255,255,.25);padding:3px 10px;border-radius:12px;font-size:12px}
+.tab-bar{display:flex;background:#ede9fe;border-bottom:2px solid #7c3aed}
+.tab-btn{flex:1;padding:10px 4px;border:none;background:transparent;font-size:13px;font-weight:600;color:#5b21b6;cursor:pointer;border-bottom:3px solid transparent;transition:all .2s}
+.tab-btn.active{background:#fff;color:#7c3aed;border-bottom-color:#7c3aed}
+.tab-content{display:none;padding:16px;max-width:720px;margin:0 auto}
+.tab-content.active{display:block}
+.card{background:#fff;border-radius:12px;padding:16px;margin-bottom:16px;box-shadow:0 1px 4px rgba(124,58,237,.1)}
+.card-title{font-size:14px;font-weight:700;color:#7c3aed;border-bottom:2px solid #ede9fe;padding-bottom:6px;margin-bottom:12px}
+.sec-label{font-size:12px;font-weight:700;color:#6d28d9;background:#f5f3ff;border-left:3px solid #7c3aed;padding:4px 10px;margin:12px 0 8px;border-radius:0 6px 6px 0}
+.formula-box{background:#f5f3ff;border:2px solid #7c3aed;border-radius:10px;padding:14px 16px;margin:12px 0;text-align:center}
+.formula-box .ftitle{font-size:12px;font-weight:700;color:#6d28d9;margin-bottom:8px}
+.proof-toggle{background:#ede9fe;border:none;width:100%;text-align:left;padding:8px 12px;border-radius:8px;cursor:pointer;font-size:13px;color:#5b21b6;font-weight:600;display:flex;justify-content:space-between;align-items:center;margin-top:8px}
+.proof-toggle:hover{background:#ddd6fe}
+.proof-arrow{transition:transform .3s;display:inline-block}
+.proof-toggle.open .proof-arrow{transform:rotate(180deg)}
+.proof-body{display:none;background:#faf9ff;border:1px solid #ddd6fe;border-radius:0 0 8px 8px;padding:12px 14px;font-size:13px;line-height:1.9}
+.proof-body.open{display:block}
+.prob-box{background:#faf5ff;border:1px solid #c4b5fd;border-radius:8px;padding:12px 14px;margin:10px 0;font-size:13px;line-height:1.9}
+.prob-label{font-size:11px;font-weight:700;color:#7c3aed;margin-bottom:6px;text-transform:uppercase}
+.step-box{background:#fff;border-left:3px solid #7c3aed;padding:8px 12px;margin:8px 0;border-radius:0 6px 6px 0;font-size:13px;line-height:1.9}
+.ans-btn{background:#7c3aed;color:#fff;border:none;padding:6px 14px;border-radius:16px;cursor:pointer;font-size:12px;font-weight:600;margin-top:8px}
+.ans-btn:hover{background:#6d28d9}
+.ans-body{display:none;margin-top:8px}
+.ans-body.open{display:block}
+.hint-box{background:#fef9c3;border-left:4px solid #f59e0b;padding:10px 12px;border-radius:0 8px 8px 0;margin:10px 0;font-size:13px;line-height:1.8}
+.note-box{background:#f0fdf4;border-left:4px solid #10b981;padding:10px 12px;border-radius:0 8px 8px 0;margin:10px 0;font-size:13px;line-height:1.8}
+.fig-wrap{text-align:center;margin:12px 0}
+.fig-caption{font-size:12px;color:#6b7280;margin-top:4px}
+.dnum{display:inline-block;background:#7c3aed;color:#fff;border-radius:50%;width:22px;height:22px;text-align:center;line-height:22px;font-size:12px;font-weight:700;margin-right:6px;vertical-align:middle}
+.choice-list{list-style:none;margin:8px 0}
+.choice-list li{padding:8px 12px;margin:5px 0;background:#f5f3ff;border-radius:8px;cursor:pointer;font-size:14px;line-height:1.6;transition:background .15s}
+.choice-list li:hover{background:#ede9fe}
+.choice-list li.correct{background:#d1fae5;color:#065f46}
+.choice-list li.wrong{background:#fee2e2;color:#991b1b}
+.result-msg{font-size:13px;margin-top:8px;min-height:20px;line-height:1.8}
+.progress-bar{height:5px;background:#ddd6fe;border-radius:3px;overflow:hidden;margin:8px 0 2px}
+.progress-fill{height:100%;background:#7c3aed;transition:width .3s}
+.progress-label{font-size:11px;color:#7c3aed;text-align:right;margin-bottom:10px}
+.pass-btn{display:block;width:100%;background:#7c3aed;color:#fff;border:none;padding:12px;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;margin-top:16px}
+.pass-btn:hover{background:#6d28d9}
+</style>
+</head>
+<body>
+
+<div class="site-header">
+  <button class="back-btn" onclick="history.back()">← 戻る</button>
+  <h1>TR08 正弦定理</h1>
+  <span class="unit-badge">三角比</span>
+</div>
+
+<div class="tab-bar">
+  <button class="tab-btn active" onclick="switchTab('explain',this)">📖 説明</button>
+  <button class="tab-btn" onclick="switchTab('example',this)">📝 例題</button>
+  <button class="tab-btn" onclick="switchTab('drill',this)">🔁 練習</button>
+  <button class="tab-btn" onclick="switchTab('check',this)">✅ 確認</button>
+</div>
+
+<!-- ======== 説明 ======== -->
+<div id="tab-explain" class="tab-content active">
+
+  <div class="card">
+    <div class="card-title">📐 正弦定理とは</div>
+    <p style="font-size:14px;line-height:1.9;margin-bottom:12px">
+      三角形の辺の長さとその向かいにある角には、美しい関係があります。<br>
+      それが <strong>正弦定理</strong> です。
+    </p>
+    <div class="fig-wrap">
+      <canvas id="cvTri" width="300" height="260"></canvas>
+      <div class="fig-caption">三角形ABCと外接円（半径 R）</div>
+    </div>
+    <div class="formula-box">
+      <div class="ftitle">🔷 正弦定理</div>
+      <div id="f-main"></div>
+      <div style="font-size:12px;color:#5b21b6;margin-top:8px">R ＝ この三角形の外接円の半径</div>
+    </div>
+    <div class="hint-box">
+      💡 <strong>「辺」と「向かいの角」のペアを意識しよう</strong><br>
+      辺 a の向かい → 角 A　／　辺 b の向かい → 角 B　／　辺 c の向かい → 角 C<br>
+      このペアを正しく使うことが、正弦定理を解くコツです。
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔍 証明（気になる人だけ）</div>
+    <button class="proof-toggle" id="pf1-btn" onclick="toggleProof('pf1')">
+      外接円を使った証明を見る <span class="proof-arrow">▼</span>
+    </button>
+    <div class="proof-body" id="pf1">
+      <p style="margin-bottom:8px">外接円の中心を O、半径を R とします。</p>
+      <p style="margin-bottom:6px">
+        「直径に対する円周角は 90°」の性質を使って直角三角形を作ると：
+      </p>
+      <div id="pf-formula" style="text-align:center;margin:8px 0"></div>
+      <p>これをすべての辺・角ペアに適用すると、正弦定理が成立します。</p>
+      <div class="note-box" style="margin-top:8px">
+        証明の詳細よりも<strong>公式の使い方を覚えること</strong>が大切です。高認では証明問題は出題されません。
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🧭 使い方① 辺の長さを求める</div>
+    <p style="font-size:13px;line-height:1.8;margin-bottom:10px">
+      「辺と向かいの角のペア」が1組わかっていて、もう1つの角がわかっているとき
+      → <strong>もう1つの辺</strong>が求められます。
+    </p>
+    <div class="prob-box"><div id="use1-q" style="line-height:1.9"></div></div>
+    <div class="step-box" id="use1-sol" style="line-height:2"></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🧭 使い方② 角の大きさを求める</div>
+    <p style="font-size:13px;line-height:1.8;margin-bottom:10px">
+      「辺と向かいの角のペア」が1組わかっていて、もう1つの辺がわかっているとき
+      → <strong>その向かいの角</strong>が求められます。
+    </p>
+    <div class="prob-box"><div id="use2-q" style="line-height:1.9"></div></div>
+    <div class="step-box" id="use2-sol" style="line-height:2"></div>
+    <div class="hint-box" id="use2-warn"></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📏 外接円の半径 R を求める</div>
+    <p style="font-size:13px;line-height:1.8;margin-bottom:8px">
+      正弦定理の式を変形すると、外接円の半径 R が直接求められます。
+    </p>
+    <div class="formula-box" id="f-radius"></div>
+    <div class="note-box">
+      「辺 ÷（2 × 向かいの角の sin）」と覚えましょう。<br>
+      高認過去問で「外接円の半径を求めよ」という問題が出題されています。
+    </div>
+  </div>
+
+</div>
+
+<!-- ======== 例題 ======== -->
+<div id="tab-example" class="tab-content">
+
+  <div class="card">
+    <div class="card-title">📝 例題1　辺の長さを求める</div>
+    <div class="prob-box">
+      <div class="prob-label">問題</div>
+      <div id="ex1-q"></div>
+    </div>
+    <button class="ans-btn" onclick="toggleAns('ex1-ans')">解答を見る</button>
+    <div class="ans-body" id="ex1-ans">
+      <div class="step-box" id="ex1-s1"></div>
+      <div class="step-box" id="ex1-s2"></div>
+      <div class="step-box" id="ex1-s3"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📝 例題2　角の大きさを求める</div>
+    <div class="prob-box">
+      <div class="prob-label">問題</div>
+      <div id="ex2-q"></div>
+    </div>
+    <button class="ans-btn" onclick="toggleAns('ex2-ans')">解答を見る</button>
+    <div class="ans-body" id="ex2-ans">
+      <div class="step-box" id="ex2-s1"></div>
+      <div class="step-box" id="ex2-s2"></div>
+      <div class="step-box" id="ex2-s3"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📝 例題3　外接円の半径を求める</div>
+    <div class="prob-box">
+      <div class="prob-label">問題</div>
+      <div id="ex3-q"></div>
+    </div>
+    <button class="ans-btn" onclick="toggleAns('ex3-ans')">解答を見る</button>
+    <div class="ans-body" id="ex3-ans">
+      <div class="step-box" id="ex3-s1"></div>
+      <div class="step-box" id="ex3-s2"></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ======== 練習 ======== -->
+<div id="tab-drill" class="tab-content">
+  <div class="card">
+    <div class="card-title">🔁 練習問題</div>
+    <div class="progress-bar"><div class="progress-fill" id="dp-fill" style="width:0%"></div></div>
+    <div class="progress-label" id="dp-label">0 / 4 完了</div>
+  </div>
+  <div id="drill-area"></div>
+</div>
+
+<!-- ======== 確認 ======== -->
+<div id="tab-check" class="tab-content">
+  <div class="card">
+    <div class="card-title">✅ 確認テスト</div>
+    <div class="progress-bar"><div class="progress-fill" id="cp-fill" style="width:0%"></div></div>
+    <div class="progress-label" id="cp-label">0 / 4 完了</div>
+  </div>
+  <div id="check-area"></div>
+  <button class="pass-btn" id="pass-btn" style="display:none" onclick="markPassed()">
+    🎉 TR08 合格！次へ進む
+  </button>
+</div>
+
+<script>
+const k  = tex => katex.renderToString(tex, {throwOnError:false, displayMode:false});
+const kd = tex => katex.renderToString(tex, {throwOnError:false, displayMode:true});
+
+function switchTab(name, btn){
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-'+name).classList.add('active');
+  btn.classList.add('active');
+}
+function toggleProof(id){
+  document.getElementById(id).classList.toggle('open');
+  document.getElementById(id+'-btn').classList.toggle('open');
+}
+function toggleAns(id){
+  document.getElementById(id).classList.toggle('open');
+}
+
+// ===== Canvas =====
+function drawTriangle(){
+  const cvs = document.getElementById('cvTri');
+  const ctx = cvs.getContext('2d');
+
+  // 外接円の中心・半径を先に決め、そこから頂点を配置
+  // → 円が必ずcanvasに収まる設計
+  const R  = 92;
+  const ox = 150, oy = 130;   // 外接円の中心
+
+  // 正三角形配置: A=真上(270°)、B=左下(210°)、C=右下(330°)
+  const deg = d => d * Math.PI / 180;
+  const A = {x: ox + R*Math.cos(deg(270)), y: oy + R*Math.sin(deg(270))};  // (150, 38)
+  const B = {x: ox + R*Math.cos(deg(210)), y: oy + R*Math.sin(deg(210))};  // (70, 176)
+  const C = {x: ox + R*Math.cos(deg(330)), y: oy + R*Math.sin(deg(330))};  // (230, 176)
+
+  // 外接円（実線・黒）
+  ctx.beginPath(); ctx.arc(ox,oy,R,0,2*Math.PI);
+  ctx.strokeStyle='#1e1b4b'; ctx.lineWidth=1.8; ctx.stroke();
+
+  // 三角形（薄い塗り＋黒枠）
+  ctx.beginPath(); ctx.moveTo(A.x,A.y); ctx.lineTo(B.x,B.y); ctx.lineTo(C.x,C.y); ctx.closePath();
+  ctx.fillStyle='rgba(124,58,237,0.07)'; ctx.fill();
+  ctx.strokeStyle='#1e1b4b'; ctx.lineWidth=2; ctx.stroke();
+
+  // 頂点ラベル（黒・太字）
+  ctx.font='bold 15px sans-serif'; ctx.fillStyle='#1e1b4b';
+  ctx.fillText('A', A.x-7,  A.y-12);   // 上
+  ctx.fillText('B', B.x-22, B.y+6);    // 左下
+  ctx.fillText('C', C.x+8,  C.y+6);    // 右下
+
+  // 辺ラベル（赤・太字）
+  ctx.font='bold 14px sans-serif'; ctx.fillStyle='#b91c1c';
+  // a = BC（下辺）
+  ctx.fillText('a', (B.x+C.x)/2-5, (B.y+C.y)/2+18);
+  // b = CA（右辺）
+  ctx.fillText('b', (C.x+A.x)/2+10, (C.y+A.y)/2+2);
+  // c = AB（左辺）
+  ctx.fillText('c', (A.x+B.x)/2-20, (A.y+B.y)/2+2);
+
+  // 中心点（黒丸のみ）
+  ctx.beginPath(); ctx.arc(ox,oy,4,0,2*Math.PI);
+  ctx.fillStyle='#1e1b4b'; ctx.fill();
+
+  // R ライン：中心 → C
+  ctx.beginPath(); ctx.moveTo(ox,oy); ctx.lineTo(C.x,C.y);
+  ctx.strokeStyle='#1e1b4b'; ctx.lineWidth=1.2; ctx.stroke();
+
+  // R ラベル
+  ctx.font='bold 13px sans-serif'; ctx.fillStyle='#b91c1c';
+  ctx.fillText('R', (ox+C.x)/2+4, (oy+C.y)/2-5);
+}
+
+// ===== Explain render =====
+function renderExplain(){
+  document.getElementById('f-main').innerHTML =
+    kd('\\dfrac{a}{\\sin A}=\\dfrac{b}{\\sin B}=\\dfrac{c}{\\sin C}=2R');
+
+  document.getElementById('pf-formula').innerHTML =
+    k('\\sin A=\\dfrac{a}{2R}') + '　→　' + k('a=2R\\sin A');
+
+  // 使い方①
+  document.getElementById('use1-q').innerHTML =
+    '三角形ABCで ' + k('A=30°,\\;B=45°,\\;a=1') + ' のとき、辺 ' + k('b') + ' を求める。';
+
+  // たすき掛け図：SVGで斜線×を描画、計算も枠内に含める
+  // 分数÷分数の注釈ヘルパー
+  const divNote = (num, den, numVal, denVal, result) =>
+    `<div style="background:#fffbeb;border-left:3px solid #f59e0b;border-radius:0 6px 6px 0;padding:5px 10px;margin:4px 0;font-size:12px;color:#92400e;line-height:1.8">`
+    + `💡 <strong>計算メモ：</strong>${k(num+'\\div'+den)}`
+    + `&ensp;＝&ensp;${k(num+'\\times\\dfrac{'+denVal.replace('/','}{')+'}')} `
+    + `&ensp;＝&ensp;${k(result)}`
+    + `</div>`;
+
+  const tasukiSVG = `
+<div style="background:#faf5ff;border:1px solid #c4b5fd;border-radius:8px;padding:10px 16px;margin:8px 0;display:inline-block;min-width:240px">
+  <div style="font-size:12px;color:#5b21b6;text-align:center;margin-bottom:6px">たすき掛け</div>
+  <div style="position:relative;display:flex;align-items:center;justify-content:center;gap:0">
+    <div style="text-align:center;z-index:2;position:relative;background:#faf5ff;padding:0 4px">
+      ${k('\\dfrac{1}{\\sin 30°}')}
+    </div>
+    <svg width="60" height="56" style="flex-shrink:0;overflow:visible" viewBox="0 0 60 56">
+      <text x="30" y="31" text-anchor="middle" font-size="20" font-weight="700" fill="#1e1b4b">=</text>
+      <line x1="0" y1="8" x2="60" y2="48" stroke="#b91c1c" stroke-width="1.5"/>
+      <line x1="0" y1="48" x2="60" y2="8" stroke="#b91c1c" stroke-width="1.5"/>
+    </svg>
+    <div style="text-align:center;z-index:2;position:relative;background:#faf5ff;padding:0 4px">
+      ${k('\\dfrac{b}{\\sin 45°}')}
+    </div>
+  </div>
+  <div style="font-size:13px;color:#1e1b4b;margin-top:6px;line-height:2">
+    ${k('b\\times\\sin 30°=1\\times\\sin 45°')}<br>
+    ${k('b\\times\\dfrac{1}{2}=1\\times\\dfrac{\\sqrt{2}}{2}')}<br>
+    ${k('b=\\dfrac{\\sqrt{2}}{2}\\div\\dfrac{1}{2}=\\sqrt{2}')}
+    <div style="background:#fffbeb;border-left:3px solid #f59e0b;border-radius:0 6px 6px 0;padding:5px 10px;margin:4px 0;font-size:12px;color:#92400e;line-height:1.8">
+      💡 <strong>計算メモ：</strong>${k('\\dfrac{\\sqrt{2}}{2}\\div\\dfrac{1}{2}')}
+      &ensp;＝&ensp;${k('\\dfrac{\\sqrt{2}}{2}\\times\\dfrac{2}{1}')}
+      &ensp;＝&ensp;${k('\\sqrt{2}')}
+    </div>
+  </div>
+</div>`;
+
+  document.getElementById('use1-sol').innerHTML =
+    '正弦定理： ' + k('\\dfrac{a}{\\sin A}=\\dfrac{b}{\\sin B}') + '<br>'
+  + k('\\dfrac{1}{\\sin 30°}=\\dfrac{b}{\\sin 45°}') + '<br>'
+  + tasukiSVG
+  + '<strong>答え：' + k('b=\\sqrt{2}') + '</strong>';
+
+  // 使い方②
+  document.getElementById('use2-q').innerHTML =
+    '三角形ABCで ' + k('a=\\sqrt{2},\\;b=1,\\;A=45°') + ' のとき、角 ' + k('B') + ' を求める。';
+
+  const tasukiSVG2 = `
+<div style="background:#faf5ff;border:1px solid #c4b5fd;border-radius:8px;padding:10px 16px;margin:8px 0;display:inline-block;min-width:240px">
+  <div style="font-size:12px;color:#5b21b6;text-align:center;margin-bottom:6px">たすき掛け</div>
+  <div style="position:relative;display:flex;align-items:center;justify-content:center;gap:0">
+    <div style="text-align:center;z-index:2;position:relative;background:#faf5ff;padding:0 4px">
+      ${k('\\dfrac{\\sqrt{2}}{\\sin 45°}')}
+    </div>
+    <svg width="60" height="56" style="flex-shrink:0;overflow:visible" viewBox="0 0 60 56">
+      <text x="30" y="31" text-anchor="middle" font-size="20" font-weight="700" fill="#1e1b4b">=</text>
+      <line x1="0" y1="8" x2="60" y2="48" stroke="#b91c1c" stroke-width="1.5"/>
+      <line x1="0" y1="48" x2="60" y2="8" stroke="#b91c1c" stroke-width="1.5"/>
+    </svg>
+    <div style="text-align:center;z-index:2;position:relative;background:#faf5ff;padding:0 4px">
+      ${k('\\dfrac{1}{\\sin B}')}
+    </div>
+  </div>
+  <div style="font-size:13px;color:#1e1b4b;margin-top:6px;line-height:2">
+    ${k('\\sin B\\times\\sqrt{2}=1\\times\\sin 45°')}<br>
+    ${k('\\sin B=\\dfrac{\\sin 45°}{\\sqrt{2}}=\\dfrac{\\dfrac{\\sqrt{2}}{2}}{\\sqrt{2}}=\\dfrac{1}{2}')}
+    <div style="background:#fffbeb;border-left:3px solid #f59e0b;border-radius:0 6px 6px 0;padding:5px 10px;margin:4px 0;font-size:12px;color:#92400e;line-height:1.8">
+      💡 <strong>計算メモ：</strong>${k('\\dfrac{\\sqrt{2}}{2}\\div\\sqrt{2}')}
+      &ensp;＝&ensp;${k('\\dfrac{\\sqrt{2}}{2}\\times\\dfrac{1}{\\sqrt{2}}')}
+      &ensp;＝&ensp;${k('\\dfrac{1}{2}')}
+    </div>
+  </div>
+</div>`;
+
+  document.getElementById('use2-sol').innerHTML =
+    '正弦定理： ' + k('\\dfrac{a}{\\sin A}=\\dfrac{b}{\\sin B}') + '<br>'
+  + k('\\dfrac{\\sqrt{2}}{\\sin 45°}=\\dfrac{1}{\\sin B}') + '<br>'
+  + tasukiSVG2
+  + k('B=30°') + '　（または ' + k('150°') + ' の可能性 → 下記チェック）';
+
+  document.getElementById('use2-warn').innerHTML =
+    '⚠️ <strong>鈍角チェックを忘れずに！</strong><br>'
+  + k('\\sin B=\\dfrac{1}{2}') + ' のとき、' + k('B=30°') + ' と ' + k('B=150°') + ' の2通りが考えられます。<br>'
+  + '三角形の内角の和は 180° なので、<br>'
+  + k('A=45°,\\;B=150°') + ' → 合計 ' + k('195°>180°') + '　→　不可<br>'
+  + 'よって ' + k('B=30°') + ' が答え。';
+
+  // 外接円
+  document.getElementById('f-radius').innerHTML =
+    '<div class="ftitle">外接円の半径 R を求める</div>'
+  + kd('R=\\dfrac{a}{2\\sin A}=\\dfrac{b}{2\\sin B}=\\dfrac{c}{2\\sin C}');
+}
+
+// ===== Examples =====
+function renderExamples(){
+  // 例題1: A=60°, B=45°, a=√6 → b=2
+  document.getElementById('ex1-q').innerHTML =
+    '三角形ABCにおいて、' + k('A=60°,\\;B=45°,\\;a=\\sqrt{6}') + ' のとき、辺 ' + k('b') + ' を求めよ。';
+  document.getElementById('ex1-s1').innerHTML =
+    '【STEP1】辺と向かいの角のペアを確認<br>'
+  + '辺 ' + k('a=\\sqrt{6}') + ' の向かいは角 ' + k('A=60°')
+  + '　／　辺 ' + k('b') + ' の向かいは角 ' + k('B=45°');
+  document.getElementById('ex1-s2').innerHTML =
+    '【STEP2】正弦定理で式を立てる<br>'
+  + k('\\dfrac{a}{\\sin A}=\\dfrac{b}{\\sin B}')
+  + '&emsp;→&emsp;'
+  + k('\\dfrac{\\sqrt{6}}{\\sin 60°}=\\dfrac{b}{\\sin 45°}');
+  document.getElementById('ex1-s3').innerHTML =
+    '【STEP3】計算する<br>'
+  + k('b=\\sqrt{6}\\times\\dfrac{\\sin 45°}{\\sin 60°}=\\sqrt{6}\\times\\dfrac{\\;\\dfrac{\\sqrt{2}}{2}\\;}{\\;\\dfrac{\\sqrt{3}}{2}\\;}=\\sqrt{6}\\times\\dfrac{\\sqrt{2}}{\\sqrt{3}}=\\sqrt{4}=2') + '<br>'
+  + '<div style="background:#fffbeb;border-left:3px solid #f59e0b;border-radius:0 6px 6px 0;padding:5px 10px;margin:4px 0;font-size:12px;color:#92400e;line-height:1.8">'
+  + '💡 <strong>計算メモ：</strong>'
+  + k('\\dfrac{\\sqrt{2}}{2}\\div\\dfrac{\\sqrt{3}}{2}')
+  + '&ensp;＝&ensp;' + k('\\dfrac{\\sqrt{2}}{2}\\times\\dfrac{2}{\\sqrt{3}}')
+  + '&ensp;＝&ensp;' + k('\\dfrac{\\sqrt{2}}{\\sqrt{3}}')
+  + '&ensp;＝&ensp;' + k('\\sqrt{\\dfrac{2}{3}}')
+  + '&ensp;なので&ensp;' + k('\\sqrt{6}\\times\\sqrt{\\dfrac{2}{3}}=\\sqrt{6\\times\\dfrac{2}{3}}=\\sqrt{4}=2')
+  + '</div>'
+  + '<strong>答え：' + k('b=2') + '</strong>';
+
+  // 例題2: a=√3, b=1, A=60° → B=30°
+  document.getElementById('ex2-q').innerHTML =
+    '三角形ABCにおいて、' + k('a=\\sqrt{3},\\;b=1,\\;A=60°') + ' のとき、角 ' + k('B') + ' を求めよ。';
+  document.getElementById('ex2-s1').innerHTML =
+    '【STEP1】正弦定理で式を立て、たすき掛けで ' + k('\\sin B') + ' を求める<br>'
+  + k('\\dfrac{a}{\\sin A}=\\dfrac{b}{\\sin B}')
+  + '&emsp;→&emsp;'
+  + k('\\dfrac{\\sqrt{3}}{\\sin 60°}=\\dfrac{1}{\\sin B}') + '<br>'
+  + k('\\sin B\\times\\sqrt{3}=1\\times\\sin 60°') + '<br>'
+  + k('\\sin B=\\dfrac{\\sin 60°}{\\sqrt{3}}=\\dfrac{\\;\\dfrac{\\sqrt{3}}{2}\\;}{\\sqrt{3}}=\\dfrac{1}{2}')
+  + '<div style="background:#fffbeb;border-left:3px solid #f59e0b;border-radius:0 6px 6px 0;padding:5px 10px;margin:4px 0;font-size:12px;color:#92400e;line-height:1.8">'
+  + '💡 <strong>計算メモ：</strong>'
+  + k('\\dfrac{\\sqrt{3}}{2}\\div\\sqrt{3}')
+  + '&ensp;＝&ensp;' + k('\\dfrac{\\sqrt{3}}{2}\\times\\dfrac{1}{\\sqrt{3}}')
+  + '&ensp;＝&ensp;' + k('\\dfrac{1}{2}')
+  + '</div>';
+  document.getElementById('ex2-s2').innerHTML =
+    '【STEP2】' + k('\\sin B=\\dfrac{1}{2}') + ' を解く<br>'
+  + k('B=30°') + '　または　' + k('B=150°');
+  document.getElementById('ex2-s3').innerHTML =
+    '【STEP3】鈍角チェック<br>'
+  + k('A=60°,\\;B=150°') + ' → ' + k('A+B=210°>180°') + '　→　不可<br>'
+  + '<strong>答え：' + k('B=30°') + '</strong>';
+
+  // 例題3: a=√3, A=60° → R=1
+  document.getElementById('ex3-q').innerHTML =
+    '三角形ABCにおいて、' + k('a=\\sqrt{3},\\;A=60°') + ' のとき、外接円の半径 ' + k('R') + ' を求めよ。';
+  document.getElementById('ex3-s1').innerHTML =
+    '正弦定理より&emsp;' + k('2R=\\dfrac{a}{\\sin A}')
+  + '&emsp;→&emsp;'
+  + k('2R=\\dfrac{\\sqrt{3}}{\\sin 60°}=\\dfrac{\\sqrt{3}}{\\;\\dfrac{\\sqrt{3}}{2}\\;}=2')
+  + '<div style="background:#fffbeb;border-left:3px solid #f59e0b;border-radius:0 6px 6px 0;padding:5px 10px;margin:4px 0;font-size:12px;color:#92400e;line-height:1.8">'
+  + '💡 <strong>計算メモ：</strong>'
+  + k('\\sqrt{3}\\div\\dfrac{\\sqrt{3}}{2}')
+  + '&ensp;＝&ensp;' + k('\\sqrt{3}\\times\\dfrac{2}{\\sqrt{3}}')
+  + '&ensp;＝&ensp;' + k('2')
+  + '</div>';
+  document.getElementById('ex3-s2').innerHTML =
+    k('R=1') + '<br><strong>答え：' + k('R=1') + '</strong>';
+}
+
+// ===== Quiz =====
+let drillDone = 0, checkDone = 0;
+
+const DRILL = [
+  // D1: B=30°,C=45°,b=1 → c=√2
+  {
+    qFn:   () => '三角形ABCで ' + k('B=30°,\\;C=45°,\\;b=1') + ' のとき、辺 ' + k('c') + ' は？',
+    ch:    [k('c=\\sqrt{2}'), k('c=\\dfrac{\\sqrt{2}}{2}'), k('c=2'), k('c=\\sqrt{3}')],
+    ans:   0,
+    expFn: () => k('c=1\\times\\dfrac{\\sin 45°}{\\sin 30°}=\\dfrac{\\dfrac{\\sqrt{2}}{2}}{\\dfrac{1}{2}}=\\sqrt{2}')
+  },
+  // D2: a=2, A=30° → R=2
+  {
+    qFn:   () => '三角形ABCで ' + k('a=2,\\;A=30°') + ' のとき、外接円の半径 ' + k('R') + ' は？',
+    ch:    [k('R=1'), k('R=2'), k('R=4'), k('R=\\sqrt{3}')],
+    ans:   1,
+    expFn: () => k('2R=\\dfrac{2}{\\sin 30°}=\\dfrac{2}{\\dfrac{1}{2}}=4')+'&ensp;→&ensp;'+k('R=2')
+  },
+  // D3: a=√2, A=45° → R=1
+  {
+    qFn:   () => '三角形ABCで ' + k('a=\\sqrt{2},\\;A=45°') + ' のとき、外接円の半径 ' + k('R') + ' は？',
+    ch:    [k('R=1'), k('R=\\sqrt{2}'), k('R=2'), k('R=\\dfrac{1}{2}')],
+    ans:   0,
+    expFn: () => k('2R=\\dfrac{\\sqrt{2}}{\\sin 45°}=\\dfrac{\\sqrt{2}}{\\dfrac{\\sqrt{2}}{2}}=2')+'&ensp;→&ensp;'+k('R=1')
+  },
+  // D4: a=2, b=√3, A=60° → sinB=3/4
+  {
+    qFn:   () => '三角形ABCで ' + k('a=2,\\;b=\\sqrt{3},\\;A=60°') + ' のとき、' + k('\\sin B') + ' の値は？',
+    ch:    [k('\\dfrac{3}{4}'), k('\\dfrac{\\sqrt{3}}{4}'), k('\\dfrac{\\sqrt{3}}{2}'), k('\\dfrac{1}{2}')],
+    ans:   0,
+    expFn: () => k('\\sin B=\\dfrac{b\\sin A}{a}=\\dfrac{\\sqrt{3}\\cdot\\dfrac{\\sqrt{3}}{2}}{2}=\\dfrac{\\dfrac{3}{2}}{2}=\\dfrac{3}{4}')
+  }
+];
+
+const CHECK = [
+  // C1: A=45°,C=60°,a=√2 → c=√3
+  {
+    qFn:   () => '三角形ABCで ' + k('A=45°,\\;C=60°,\\;a=\\sqrt{2}') + ' のとき、辺 ' + k('c') + ' は？',
+    ch:    [k('c=\\sqrt{3}'), k('c=2'), k('c=\\sqrt{6}'), k('c=1')],
+    ans:   0,
+    expFn: () => k('c=\\sqrt{2}\\times\\dfrac{\\sin 60°}{\\sin 45°}=\\sqrt{2}\\times\\dfrac{\\dfrac{\\sqrt{3}}{2}}{\\dfrac{\\sqrt{2}}{2}}=\\sqrt{2}\\times\\dfrac{\\sqrt{3}}{\\sqrt{2}}=\\sqrt{3}')
+  },
+  // C2: b=2, B=30° → R=2
+  {
+    qFn:   () => '三角形ABCで ' + k('b=2,\\;B=30°') + ' のとき、外接円の半径 ' + k('R') + ' は？',
+    ch:    [k('R=1'), k('R=2'), k('R=4'), k('R=\\sqrt{3}')],
+    ans:   1,
+    expFn: () => k('2R=\\dfrac{2}{\\sin 30°}=4')+'&ensp;→&ensp;'+k('R=2')
+  },
+  // C3: c=1, C=30° → R=1
+  {
+    qFn:   () => '三角形ABCで ' + k('c=1,\\;C=30°') + ' のとき、外接円の半径 ' + k('R') + ' は？',
+    ch:    [k('R=\\dfrac{1}{2}'), k('R=1'), k('R=2'), k('R=\\sqrt{3}')],
+    ans:   1,
+    expFn: () => k('2R=\\dfrac{1}{\\sin 30°}=\\dfrac{1}{\\dfrac{1}{2}}=2')+'&ensp;→&ensp;'+k('R=1')
+  },
+  // C4: a=1, b=1, A=45° → sinB=√2/2 → B=45°（B=135°は不可）
+  {
+    qFn:   () => '三角形ABCで ' + k('a=1,\\;b=1,\\;A=45°') + ' のとき、角 ' + k('B') + ' は？',
+    ch:    [k('B=30°'), k('B=45°'), k('B=60°'), k('B=90°')],
+    ans:   1,
+    expFn: () => k('\\sin B=\\dfrac{1\\cdot\\sin 45°}{1}=\\dfrac{\\sqrt{2}}{2}')
+             + '&ensp;→&ensp;' + k('B=45°') + ' または ' + k('135°')
+             + '<br>' + k('A+B=45°+135°=180°') + ' → 三角形不成立（辺 c が 0 になる）<br>'
+             + 'よって <strong>' + k('B=45°') + '</strong>'
+  }
+];
+
+function buildQuiz(data, areaId, fillId, labelId, getDone, setDone, onAllDone){
+  const area = document.getElementById(areaId);
+  data.forEach((item, i) => {
+    const card = document.createElement('div');
+    card.className = 'card';
+    // question
+    const qDiv = document.createElement('div');
+    qDiv.style.cssText = 'font-size:13px;margin-bottom:8px;line-height:1.8';
+    qDiv.innerHTML = '<span class="dnum">'+(i+1)+'</span>' + item.qFn();
+    card.appendChild(qDiv);
+    // choices
+    const ul = document.createElement('ul');
+    ul.className = 'choice-list';
+    item.ch.forEach((ch, ci) => {
+      const li = document.createElement('li');
+      li.innerHTML = ch;
+      li.onclick = () => {
+        if(ul.dataset.done) return;
+        ul.dataset.done = '1';
+        const msg = card.querySelector('.result-msg');
+        if(ci === item.ans){
+          li.classList.add('correct');
+          msg.innerHTML = '<span style="color:#059669">✅ 正解！</span>&emsp;' + item.expFn();
+          setDone(getDone() + 1);
+          const done = getDone();
+          document.getElementById(labelId).textContent = done + ' / ' + data.length + ' 完了';
+          document.getElementById(fillId).style.width = (done/data.length*100)+'%';
+          if(done === data.length && onAllDone) onAllDone();
+        } else {
+          li.classList.add('wrong');
+          Array.from(ul.children)[item.ans].classList.add('correct');
+          msg.innerHTML = '<span style="color:#dc2626">❌ 不正解</span>　正解：'
+                        + item.ch[item.ans] + '<br>' + item.expFn();
+        }
+      };
+      ul.appendChild(li);
+    });
+    card.appendChild(ul);
+    const msg = document.createElement('div');
+    msg.className = 'result-msg';
+    card.appendChild(msg);
+    area.appendChild(card);
+  });
+}
+
+function markPassed(){
+  try{ localStorage.setItem('gamba_passed_TR08','1'); }catch(e){}
+  alert('TR08「正弦定理」を合格しました！🎉');
+  history.back();
+}
+
+window.addEventListener('load', () => {
+  renderExplain();
+  renderExamples();
+  drawTriangle();
+  buildQuiz(
+    DRILL, 'drill-area', 'dp-fill', 'dp-label',
+    () => drillDone, v => { drillDone = v; }, null
+  );
+  buildQuiz(
+    CHECK, 'check-area', 'cp-fill', 'cp-label',
+    () => checkDone, v => { checkDone = v; },
+    () => { document.getElementById('pass-btn').style.display = 'block'; }
+  );
+});
+</script>
+</body>
+</html>

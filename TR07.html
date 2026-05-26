@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TR07 三角比の相互関係</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=BIZ+UDPGothic:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'BIZ UDPGothic',sans-serif;background:#f5f3ff;color:#1e1b4b;min-height:100vh;}
+.header{background:linear-gradient(135deg,#7c3aed,#5b21b6);color:#fff;padding:16px 20px;display:flex;align-items:center;gap:12px;}
+.header-icon{font-size:28px;}
+.header-title{font-size:18px;font-weight:700;}
+.header-sub{font-size:12px;opacity:.8;margin-top:2px;}
+.step-nav{display:flex;background:#fff;border-bottom:2px solid #ede9fe;overflow:hidden;}
+.step-btn{flex:1;padding:10px 4px;border:none;background:transparent;font-family:'BIZ UDPGothic',sans-serif;font-size:12px;color:#6b7280;cursor:pointer;transition:.2s;display:flex;flex-direction:column;align-items:center;gap:3px;}
+.step-btn.active{background:#7c3aed;color:#fff;}
+.step-btn.done{background:#ede9fe;color:#5b21b6;}
+.step-icon{font-size:16px;}
+.content{padding:16px;max-width:640px;margin:0 auto;}
+.card{background:#fff;border-radius:12px;padding:18px;margin-bottom:14px;box-shadow:0 2px 8px rgba(124,58,237,.08);}
+.card-title{font-size:14px;font-weight:700;color:#5b21b6;margin-bottom:12px;}
+.explain{font-size:14px;line-height:1.8;color:#374151;}
+.point-box{background:#f5f3ff;border-left:4px solid #7c3aed;padding:12px 14px;border-radius:0 8px 8px 0;margin:12px 0;}
+.point-box .label{font-size:11px;font-weight:700;color:#7c3aed;margin-bottom:6px;}
+.important{background:#7c3aed;color:#fff;border-radius:10px;padding:14px 16px;margin:12px 0;}
+.important .imp-title{font-size:12px;font-weight:700;opacity:.85;margin-bottom:10px;}
+.imp-row{display:flex;align-items:center;gap:10px;margin-bottom:8px;font-size:14px;font-weight:700;}
+.imp-row:last-child{margin-bottom:0;}
+.imp-label{background:rgba(255,255,255,.25);border-radius:6px;padding:3px 10px;font-size:13px;min-width:32px;text-align:center;}
+.hint-box{background:#fefce8;border-left:4px solid #f59e0b;padding:10px 14px;border-radius:0 8px 8px 0;margin:10px 0;font-size:13px;line-height:1.9;}
+.hint-box .label{font-size:11px;font-weight:700;color:#92400e;margin-bottom:3px;}
+/* 縦型分数 */
+.frac{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;margin:0 2px;line-height:1.2;}
+.frac .num{border-bottom:1.5px solid currentColor;padding:0 3px 1px;text-align:center;font-size:.95em;}
+.frac .den{padding:1px 3px 0;text-align:center;font-size:.95em;}
+/* ドリル */
+.drill-intro{font-size:13px;color:#6b7280;margin-bottom:14px;}
+.set-tabs{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;}
+.set-tab{padding:6px 14px;border-radius:20px;border:2px solid #ede9fe;background:#fff;font-family:'BIZ UDPGothic',sans-serif;font-size:13px;cursor:pointer;color:#6b7280;transition:.2s;}
+.set-tab.active{background:#7c3aed;border-color:#7c3aed;color:#fff;font-weight:700;}
+.q-block{background:#fff;border-radius:10px;padding:14px;margin-bottom:10px;border:2px solid #ede9fe;}
+.q-block.correct{border-color:#10b981;}
+.q-block.wrong{border-color:#ef4444;}
+.q-num{font-size:11px;color:#9ca3af;margin-bottom:6px;}
+.q-text{font-size:14px;margin-bottom:10px;line-height:1.8;font-weight:700;}
+.q-given{font-size:13px;color:#6b7280;background:#f9fafb;border-radius:6px;padding:7px 10px;margin-bottom:10px;line-height:1.9;}
+.choices{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.choice{padding:8px 10px;border-radius:8px;border:2px solid #e5e7eb;background:#fff;font-family:'BIZ UDPGothic',sans-serif;font-size:13px;cursor:pointer;text-align:left;transition:.15s;line-height:1.6;}
+.choice:hover{border-color:#7c3aed;background:#f5f3ff;}
+.choice.selected-correct{background:#d1fae5;border-color:#10b981;color:#065f46;}
+.choice.selected-wrong{background:#fee2e2;border-color:#ef4444;color:#991b1b;}
+.choice.show-correct{background:#d1fae5;border-color:#10b981;}
+.choice .frac .num,.choice .frac .den{font-size:.82em;}
+.feedback{font-size:13px;margin-top:8px;padding:8px 10px;border-radius:6px;line-height:1.8;}
+.feedback.ok{background:#d1fae5;color:#065f46;}
+.feedback.ng{background:#fee2e2;color:#991b1b;}
+.feedback .frac .num,.feedback .frac .den{font-size:.85em;}
+.drill-action{display:flex;justify-content:center;margin-top:14px;}
+.btn-check{background:#7c3aed;color:#fff;border:none;padding:12px 32px;border-radius:24px;font-family:'BIZ UDPGothic',sans-serif;font-size:15px;font-weight:700;cursor:pointer;}
+.btn-check:disabled{opacity:.5;cursor:default;}
+.score-box{background:#fff;border-radius:12px;padding:16px;text-align:center;margin-bottom:14px;border:2px solid #ede9fe;}
+.score-circle{width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,#7c3aed,#5b21b6);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;margin:0 auto 10px;font-size:24px;font-weight:700;}
+.score-label{font-size:11px;opacity:.8;}
+.nav-row{display:flex;gap:10px;justify-content:center;margin-top:16px;flex-wrap:wrap;}
+.btn-nav{padding:10px 24px;border-radius:20px;border:2px solid #7c3aed;background:#fff;color:#7c3aed;font-family:'BIZ UDPGothic',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:.2s;}
+.btn-nav.primary{background:#7c3aed;color:#fff;}
+.btn-nav:hover{opacity:.85;}
+.back-link{display:block;text-align:center;margin-top:16px;color:#9ca3af;font-size:13px;text-decoration:none;}
+.back-link:hover{color:#7c3aed;}
+.confetti-wrap{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:999;}
+/* ミニテスト */
+.mini-card{background:#fff;border:2px solid #7c3aed;border-radius:12px;padding:16px;margin-bottom:14px;}
+/* プルダウン証明 */
+details{margin:10px 0;}
+summary{font-size:13px;color:#7c3aed;cursor:pointer;font-weight:700;padding:8px 12px;background:#f5f3ff;border-radius:8px;list-style:none;display:flex;align-items:center;gap:6px;}
+summary::before{content:'▶';font-size:11px;transition:transform .2s;}
+details[open] summary::before{transform:rotate(90deg);}
+details .proof-body{background:#fafafa;border:1px solid #ede9fe;border-radius:0 0 8px 8px;padding:14px;font-size:14px;line-height:2.2;}
+details .proof-body .step{margin-bottom:8px;padding-left:12px;border-left:3px solid #a78bfa;}
+/* 使い分けボックス */
+.use-box{border:2px solid #ede9fe;border-radius:10px;padding:12px 14px;margin:10px 0;background:#faf5ff;}
+.use-row{display:flex;align-items:flex-start;gap:8px;margin-bottom:8px;font-size:13px;}
+.use-row:last-child{margin-bottom:0;}
+.use-key{background:#7c3aed;color:#fff;border-radius:6px;padding:2px 10px;font-weight:700;font-size:12px;white-space:nowrap;}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-icon">📐</div>
+  <div>
+    <div class="header-title">TR07　三角比の相互関係</div>
+    <div class="header-sub">tanθ＝sinθ÷cosθ　sin²θ＋cos²θ＝1</div>
+  </div>
+</div>
+
+<nav class="step-nav">
+  <button class="step-btn active" id="nav-intro" onclick="goStep('intro')">
+    <span class="step-icon">📖</span>説明
+  </button>
+  <button class="step-btn" id="nav-example" onclick="goStep('example')">
+    <span class="step-icon">💡</span>例題
+  </button>
+  <button class="step-btn" id="nav-drill" onclick="goStep('drill')">
+    <span class="step-icon">✏️</span>練習
+  </button>
+  <button class="step-btn" id="nav-check" onclick="goStep('check')">
+    <span class="step-icon">✅</span>確認
+  </button>
+</nav>
+
+<div class="content">
+
+<!-- ===== INTRO ===== -->
+<div id="step-intro">
+
+<div class="card">
+  <div class="card-title">📖 三角比の相互関係とは？</div>
+  <p class="explain">
+    sinθ・cosθ・tanθの3つは、バラバラなようで<strong>互いに深く結びついています</strong>。<br>
+    この関係を「相互関係」といい、3つの重要な公式があります。
+  </p>
+  <div class="important">
+    <div class="imp-title">【重要】三角比の相互関係　3つの公式</div>
+    <div class="imp-row">
+      <span class="imp-label">①</span>
+      <span id="f1"></span>
+    </div>
+    <div class="imp-row">
+      <span class="imp-label">②</span>
+      <span id="f2"></span>
+    </div>
+
+  </div>
+  <div class="hint-box">
+    <div class="label">【覚え方のヒント】</div>
+    ① sin÷cos＝tan（これは定義から直接わかる）<br>
+    ② sin²＋cos²＝1（三平方の定理から導ける）<br>
+    ③ ②の両辺をcos²で割ると③になる
+  </div>
+</div>
+
+<!-- 公式①の説明とプルダウン証明 -->
+<div class="card">
+  <div class="card-title">① tanθ ＝ sinθ ÷ cosθ　の公式</div>
+  <p class="explain">直角三角形で a＝隣辺、b＝対辺、r＝斜辺とすると：</p>
+  <div class="point-box">
+    <div class="label">【公式①の意味】</div>
+    <p class="explain" style="font-size:14px;line-height:2.4;" id="f1-meaning"></p>
+  </div>
+  <details>
+    <summary>▼ どうしてこの式になるの？（証明を見る）</summary>
+    <div class="proof-body">
+      <div class="step">sinθ＝<span id="p1a"></span>、cosθ＝<span id="p1b"></span> なので</div>
+      <div class="step">
+        sinθ÷cosθ ＝ <span id="p1c"></span> ÷ <span id="p1d"></span>
+        ＝ <span id="p1e"></span> × <span id="p1f"></span> ＝ <span id="p1g"></span>
+      </div>
+      <div class="step">一方、tanθの定義は <span id="p1h"></span> なので</div>
+      <div class="step" style="color:#7c3aed;font-weight:700;">
+        ∴ tanθ ＝ sinθ ÷ cosθ　が成り立ちます ✓
+      </div>
+    </div>
+  </details>
+</div>
+
+<!-- 公式②の説明とプルダウン証明 -->
+<div class="card">
+  <div class="card-title">② sin²θ ＋ cos²θ ＝ 1　の公式</div>
+  <p class="explain">直角三角形の<strong>三平方の定理</strong>（a²＋b²＝r²）から導かれます。</p>
+  <div class="point-box">
+    <div class="label">【公式②の意味】</div>
+    <p class="explain" style="font-size:14px;line-height:1.9;">
+      sinθとcosθは「斜辺を1としたときの辺の長さ」です。<br>
+      sinθ（縦）とcosθ（横）の<strong>2乗の和は必ず1</strong>になります。<br>
+      → これは三平方の定理そのものです。
+    </p>
+  </div>
+  <details>
+    <summary>▼ どうしてこの式になるの？（証明を見る）</summary>
+    <div class="proof-body">
+      <div class="step">sinθ＝<span id="p2a"></span>、cosθ＝<span id="p2b"></span> なので</div>
+      <div class="step" id="p2c"></div>
+      <div class="step">三平方の定理より <strong>a²＋b²＝r²</strong> なので</div>
+      <div class="step" id="p2d"></div>
+      <div class="step" style="color:#7c3aed;font-weight:700;">
+        ∴ sin²θ＋cos²θ＝1　が成り立ちます ✓
+      </div>
+    </div>
+  </details>
+  <div class="hint-box">
+    <div class="label">【使い方】</div>
+    sin²θ＋cos²θ＝1 を変形すると：<br>
+    ・cos²θ ＝ 1－sin²θ　（cosθを求めるとき）<br>
+    ・sin²θ ＝ 1－cos²θ　（sinθを求めるとき）
+  </div>
+</div>
+
+
+
+<!-- 使い分け -->
+<div class="card">
+  <div class="card-title">📌 3つの公式の使い分け</div>
+  <div class="use-box">
+    <div class="use-row">
+      <span class="use-key">①を使う</span>
+      <span>sin・cos・<strong>tan</strong> の3つが出てきたとき</span>
+    </div>
+    <div class="use-row">
+      <span class="use-key">②を使う</span>
+      <span><strong>sin と cos</strong> の2つの関係が問われたとき</span>
+    </div>
+
+  </div>
+</div>
+
+<div class="nav-row">
+  <button class="btn-nav primary" onclick="goStep('example')">例題へ →</button>
+</div>
+<a href="../gamba_kounin.html" class="back-link">← 単元一覧に戻る</a>
+</div><!-- /intro -->
+
+
+<!-- ===== EXAMPLE ===== -->
+<div id="step-example" style="display:none;">
+
+<!-- 例題1：①を使う（tan求め） -->
+<div class="card">
+  <div class="card-title">💡 例題1：tanθを求める（公式①を使う）</div>
+  <p class="explain" style="margin-bottom:8px;">
+    cosθ＝<span id="ex1-given-a"></span>、sinθ＝<span id="ex1-given-b"></span> のとき、tanθを求めよ。
+  </p>
+  <div class="point-box">
+    <div class="label">【考え方】sin・cos・tanが揃っている → 公式①</div>
+    <p class="explain" style="font-size:14px;line-height:2.4;" id="ex1-sol"></p>
+  </div>
+</div>
+
+<!-- ミニテスト1 -->
+<div class="mini-card">
+  <div class="card-title">🖊️ ミニテスト①　tanθを求めよう！</div>
+  <div id="mt1-qs"></div>
+  <div class="drill-action"><button class="btn-check" id="mt1-btn" onclick="submitMini(1)">答え合わせ</button></div>
+  <div id="mt1-fb" style="display:none;"></div>
+</div>
+
+<!-- 例題2：②を使う（cosθ求め） -->
+<div class="card">
+  <div class="card-title">💡 例題2：cosθを求める（公式②を使う）</div>
+  <p class="explain" style="margin-bottom:8px;">
+    sinθ＝<span id="ex2-given"></span> のとき、cosθを求めよ。（θは鋭角）
+  </p>
+  <div class="point-box">
+    <div class="label">【考え方】sinとcosの関係 → 公式②</div>
+    <p class="explain" style="font-size:14px;line-height:2.4;" id="ex2-sol"></p>
+  </div>
+</div>
+
+<!-- ミニテスト2 -->
+<div class="mini-card">
+  <div class="card-title">🖊️ ミニテスト②　cosθを求めよう！</div>
+  <div id="mt2-qs"></div>
+  <div class="drill-action"><button class="btn-check" id="mt2-btn" onclick="submitMini(2)">答え合わせ</button></div>
+  <div id="mt2-fb" style="display:none;"></div>
+</div>
+
+
+
+<!-- 例題4：鈍角の場合 -->
+<div class="card">
+  <div class="card-title">💡 例題4：鈍角のとき（符号に注意！）</div>
+  <p class="explain" style="margin-bottom:8px;">
+    A が<strong>鈍角</strong>で、sinA＝<span id="ex4-given"></span> のとき、cosA を求めよ。
+  </p>
+  <div class="point-box">
+    <div class="label">【考え方】鈍角では cosA＜0 に注意！</div>
+    <p class="explain" style="font-size:14px;line-height:2.4;" id="ex4-sol"></p>
+  </div>
+  <div class="hint-box">
+    <div class="label">【ポイント：鋭角 vs 鈍角の符号】</div>
+    鋭角（0°＜θ＜90°）→ cosθ＞0 なので <strong>＋を選ぶ</strong><br>
+    鈍角（90°＜θ＜180°）→ cosθ＜0 なので <strong>−を選ぶ</strong>
+  </div>
+</div>
+
+<!-- ミニテスト4 -->
+<div class="mini-card">
+  <div class="card-title">🖊️ ミニテスト④　鈍角・鋭角の判断をしよう！</div>
+  <div id="mt4-qs"></div>
+  <div class="drill-action"><button class="btn-check" id="mt4-btn" onclick="submitMini(4)">答え合わせ</button></div>
+  <div id="mt4-fb" style="display:none;"></div>
+</div>
+
+<div class="nav-row">
+  <button class="btn-nav" onclick="goStep('intro')">← 説明に戻る</button>
+  <button class="btn-nav primary" onclick="goStep('drill')">練習へ →</button>
+</div>
+<a href="../gamba_kounin.html" class="back-link">← 単元一覧に戻る</a>
+</div><!-- /example -->
+
+
+<!-- ===== DRILL ===== -->
+<div id="step-drill" style="display:none;">
+
+<div class="card">
+  <div class="card-title">✏️ 練習問題</div>
+  <p class="drill-intro">セットを選んで4問解きましょう。どの公式を使うか判断しよう。</p>
+  <div class="set-tabs">
+    <button class="set-tab active" onclick="loadDrill(0)">Aセット</button>
+    <button class="set-tab" onclick="loadDrill(1)">Bセット</button>
+    <button class="set-tab" onclick="loadDrill(2)">Cセット</button>
+  </div>
+  <div id="drill-questions"></div>
+  <div class="drill-action">
+    <button class="btn-check" id="drill-submit" onclick="submitDrill()">採点する</button>
+  </div>
+</div>
+<div id="drill-result" style="display:none;"></div>
+
+<div class="nav-row">
+  <button class="btn-nav" onclick="goStep('example')">← 例題に戻る</button>
+  <button class="btn-nav primary" onclick="goStep('check')">確認テストへ →</button>
+</div>
+<a href="../gamba_kounin.html" class="back-link">← 単元一覧に戻る</a>
+</div><!-- /drill -->
+
+
+<!-- ===== CHECK ===== -->
+<div id="step-check" style="display:none;">
+
+<div class="card">
+  <div class="card-title">✅ 確認テスト（6問）</div>
+  <p class="drill-intro">高認過去問形式。どの公式を使うか判断して解こう！</p>
+  <div id="check-questions"></div>
+  <div class="drill-action">
+    <button class="btn-check" id="check-submit" onclick="submitCheck()">採点する</button>
+  </div>
+</div>
+<div id="check-result" style="display:none;"></div>
+
+<div class="nav-row">
+  <button class="btn-nav" onclick="goStep('drill')">← 練習に戻る</button>
+</div>
+<a href="../gamba_kounin.html" class="back-link">← 単元一覧に戻る</a>
+</div><!-- /check -->
+
+</div><!-- /content -->
+
+<script src="../gamba_support.js"></script>
+<script>
+// ===== 縦型分数 =====
+function F(n,d){return `<span class="frac"><span class="num">${n}</span><span class="den">${d}</span></span>`;}
+
+// ===== ステップ管理 =====
+const stepOrder=['intro','example','drill','check'];
+function goStep(s){
+  stepOrder.forEach(id=>{
+    document.getElementById('step-'+id).style.display=(id===s)?'':'none';
+    const nb=document.getElementById('nav-'+id);
+    nb.classList.remove('active','done');
+    if(id===s) nb.classList.add('active');
+    else if(stepOrder.indexOf(id)<stepOrder.indexOf(s)) nb.classList.add('done');
+  });
+  if(s==='intro') renderIntro();
+  if(s==='example') renderExample();
+  if(s==='drill') initDrill();
+  if(s==='check') initCheck();
+  window.scrollTo(0,0);
+}
+
+// ===== intro 描画 =====
+function renderIntro(){
+  // 公式3つ
+  document.getElementById('f1').innerHTML = `tanθ ＝ ${F('sinθ','cosθ')}`;
+  document.getElementById('f2').innerHTML = `sin²θ ＋ cos²θ ＝ 1`;
+
+  // 公式①の意味
+  document.getElementById('f1-meaning').innerHTML =
+    `sinθ ＝ ${F('b','r')}、cosθ ＝ ${F('a','r')} なので<br>`+
+    `sinθ ÷ cosθ ＝ ${F('b','r')} ÷ ${F('a','r')} ＝ ${F('b','a')}<br>`+
+    `tanθ の定義も ${F('b','a')} なので、<strong>tanθ ＝ sinθ ÷ cosθ</strong>`;
+
+  // 証明①
+  document.getElementById('p1a').innerHTML = F('b','r');
+  document.getElementById('p1b').innerHTML = F('a','r');
+  document.getElementById('p1c').innerHTML = F('b','r');
+  document.getElementById('p1d').innerHTML = F('a','r');
+  document.getElementById('p1e').innerHTML = F('b','r');
+  document.getElementById('p1f').innerHTML = F('r','a');
+  document.getElementById('p1g').innerHTML = F('b','a');
+  document.getElementById('p1h').innerHTML = `tanθ ＝ ${F('b','a')}`;
+
+  // 証明②
+  document.getElementById('p2a').innerHTML = F('b','r');
+  document.getElementById('p2b').innerHTML = F('a','r');
+  document.getElementById('p2c').innerHTML =
+    `sin²θ＋cos²θ ＝ (${F('b','r')})² ＋ (${F('a','r')})²`+
+    ` ＝ ${F('b²','r²')} ＋ ${F('a²','r²')} ＝ ${F('a²＋b²','r²')}`;
+  document.getElementById('p2d').innerHTML =
+    `${F('a²＋b²','r²')} ＝ ${F('r²','r²')} ＝ <strong>1</strong>`;
+
+}
+
+// ===== example 描画 =====
+function renderExample(){
+  // 例題1
+  document.getElementById('ex1-given-a').innerHTML = F('4','5');
+  document.getElementById('ex1-given-b').innerHTML = F('3','5');
+  document.getElementById('ex1-sol').innerHTML =
+    `公式① tanθ ＝ ${F('sinθ','cosθ')} を使います。<br>`+
+    `tanθ ＝ ${F('sinθ','cosθ')} ＝ ${F(F('3','5'),F('4','5'))}`+
+    ` ＝ ${F('3','5')} ÷ ${F('4','5')} ＝ ${F('3','5')} × ${F('5','4')} ＝ <strong>${F('3','4')}</strong>`;
+
+  // 例題2
+  document.getElementById('ex2-given').innerHTML = F('3','5');
+  document.getElementById('ex2-sol').innerHTML =
+    `公式② sin²θ＋cos²θ＝1 を使います。<br>`+
+    `(${F('3','5')})² ＋ cos²θ ＝ 1<br>`+
+    `${F('9','25')} ＋ cos²θ ＝ 1<br>`+
+    `cos²θ ＝ 1 − ${F('9','25')} ＝ ${F('16','25')}<br>`+
+    `θは鋭角なので cosθ＞0 → <strong>cosθ ＝ ${F('4','5')}</strong>`;
+
+
+  // 例題4（鈍角）
+  document.getElementById('ex4-given').innerHTML = F('4','7');
+  document.getElementById('ex4-sol').innerHTML =
+    `公式② sin²θ＋cos²θ＝1 を使います。<br>`+
+    `(${F('4','7')})² ＋ cos²A ＝ 1<br>`+
+    `${F('16','49')} ＋ cos²A ＝ 1<br>`+
+    `cos²A ＝ 1 − ${F('16','49')} ＝ ${F('33','49')}<br>`+
+    `cosA ＝ ±${F('√33','7')}<br>`+
+    `<strong>A は鈍角なので cosA＜0 → cosA ＝ −${F('√33','7')}</strong>`;
+
+  buildMinis();
+}
+
+// ===== ミニテストデータ =====
+const MT1 = [
+  {q:`sinA＝${F('3√5','7')}、cosA＝${F('2','7')} のとき、tanA の値はどれか。`,
+   ch:[`① ${F('2√5','15')}`,`② ${F('6√5','7')}`,`③ ${F('3√5','2')}`,`④ ${F('6√5','49')}`],
+   a:2, exp:`tanA＝${F('sinA','cosA')}＝${F(F('3√5','7'),F('2','7'))}＝${F('3√5','7')}÷${F('2','7')}＝${F('3√5','2')}　→ ③`},
+  {q:`sinA＝${F('4','5')}、cosA＝${F('3','5')} のとき、tanA の値はどれか。`,
+   ch:[`① ${F('4','3')}`,`② ${F('3','4')}`,`③ ${F('12','25')}`,`④ ${F('25','12')}`],
+   a:0, exp:`tanA＝${F('sinA','cosA')}＝${F(F('4','5'),F('3','5'))}＝${F('4','3')}　→ ①`},
+];
+const MT2 = [
+  {q:`sinθ＝${F('3','4')} のとき、cosθ の値はどれか。（θは鋭角）`,
+   ch:[`① ${F('√7','4')}`,`② −${F('√7','4')}`,`③ ${F('7','16')}`,`④ −${F('7','16')}`],
+   a:0, exp:`sin²θ＋cos²θ＝1 より cos²θ＝1−${F('9','16')}＝${F('7','16')}　鋭角なのでcosθ＞0 → ${F('√7','4')}　→ ①`},
+  {q:`A が鋭角で cosA＝${F('√15','8')} のとき、sinA の値はどれか。`,
+   ch:[`① ${F('7','8')}`,`② ${F('√15','8')}`,`③ ${F('√55','8')}`,`④ ${F('√64','8')}`],
+   a:0, exp:`sin²A＝1−(${F('√15','8')})²＝1−${F('15','64')}＝${F('49','64')}　鋭角なのでsinA＞0 → ${F('7','8')}　→ ①`},
+];
+const MT3 = [];
+const MT4 = [
+  {q:`A が<strong>鈍角</strong>で、sinA＝${F('4','7')} のとき、cosA の値はどれか。`,
+   ch:[`① ${F('√33','7')}`,`② −${F('√33','7')}`,`③ ${F('3','7')}`,`④ −${F('3','7')}`],
+   a:1, exp:`cos²A＝1−${F('16','49')}＝${F('33','49')}　鈍角なのでcosA＜0 → −${F('√33','7')}　→ ②`},
+  {q:`A が<strong>鋭角</strong>で、sinA＝${F('4','5')} のとき、cosA の値はどれか。`,
+   ch:[`① −${F('3','5')}`,`② ${F('3','5')}`,`③ ${F('√41','5')}`,`④ ${F('4','5')}`],
+   a:1, exp:`cos²A＝1−${F('16','25')}＝${F('9','25')}　鋭角なのでcosA＞0 → ${F('3','5')}　→ ②`},
+];
+
+const allMT=[null,MT1,MT2,MT4];
+const mtAns=[null,[],[],[]];
+const mtDone=[null,false,false,false];
+
+function buildMinis(){
+  [1,2,4].forEach(n=>{
+    mtAns[n]=new Array(allMT[n].length).fill(-1);
+    mtDone[n]=false;
+    document.getElementById(`mt${n}-fb`).style.display='none';
+    document.getElementById(`mt${n}-btn`).disabled=false;
+    const c=document.getElementById(`mt${n}-qs`);c.innerHTML='';
+    allMT[n].forEach((d,i)=>{
+      const b=document.createElement('div');b.className='q-block';b.id=`mt${n}q${i}`;
+      b.innerHTML=`<div class="q-num">問${i+1}</div>
+        <div class="q-text">${d.q}</div>
+        <div class="choices" id="mt${n}c${i}">
+          ${d.ch.map((ch,ci)=>`<button class="choice" onclick="selMT(${n},${i},${ci})">${ch}</button>`).join('')}
+        </div>`;
+      c.appendChild(b);
+    });
+  });
+}
+function selMT(n,qi,ci){
+  if(mtDone[n])return;
+  mtAns[n][qi]=ci;
+  document.querySelectorAll(`#mt${n}c${qi} .choice`).forEach((b,i)=>{
+    b.style.background=i===ci?'#ede9fe':'';b.style.borderColor=i===ci?'#7c3aed':'';
+  });
+}
+function submitMini(n){
+  if(mtDone[n])return;mtDone[n]=true;
+  const data=allMT[n];let correct=0;
+  data.forEach((d,qi)=>{
+    const ua=mtAns[n][qi];
+    document.querySelectorAll(`#mt${n}c${qi} .choice`).forEach((b,i)=>{
+      if(i===d.a)b.classList.add('show-correct');
+      if(i===ua&&ua===d.a){b.classList.add('selected-correct');correct++;}
+      else if(i===ua)b.classList.add('selected-wrong');
+    });
+    document.getElementById(`mt${n}q${qi}`).classList.add(ua===d.a?'correct':'wrong');
+    const fb=document.createElement('div');fb.className='feedback '+(ua===d.a?'ok':'ng');
+    fb.innerHTML=(ua===d.a?'✓ 正解！ ':'✗ 不正解。')+d.exp;
+    document.getElementById(`mt${n}q${qi}`).appendChild(fb);
+  });
+  document.getElementById(`mt${n}-btn`).disabled=true;
+  const fb=document.getElementById(`mt${n}-fb`);fb.style.display='block';
+  fb.innerHTML=`<div class="score-box"><div class="score-circle">${correct}<div class="score-label">/ ${data.length}</div></div>
+    <div style="font-size:14px;font-weight:700;color:#5b21b6;">${correct===data.length?'全問正解！🎉':correct>=1?'もう少し！':'公式を確認しよう'}</div></div>`;
+  if(correct===data.length)fireConfetti();
+}
+
+// ===== 練習問題 =====
+const drillSets=[
+  // Aセット（公式①②）
+  [
+    {q:`sinA＝${F('√15','4')}、cosA＝${F('1','4')} のとき、tanA の値は？`,
+     ch:[`① √15`,`② ${F('√15','15')}`,`③ ${F('√15','16')}`,`④ ${F('4√15','15')}`],
+     ans:0, exp:`tanA＝${F('sinA','cosA')}＝${F(F('√15','4'),F('1','4'))}＝√15`},
+    {q:`sinθ＝${F('√5','3')} のとき、cosθ の値は？（θは鋭角）`,
+     ch:[`① ${F('2','3')}`,`② −${F('2','3')}`,`③ ${F('√5','3')}`,`④ ${F('4','9')}`],
+     ans:0, exp:`cos²θ＝1−${F('5','9')}＝${F('4','9')}　鋭角なのでcosθ＝${F('2','3')}`},
+    {q:`sin²150°＋cos²150° の値は？`,
+     ch:[`① 0`,`② ${F('1','2')}`,`③ 1`,`④ 2`],
+     ans:2, exp:`sin²θ＋cos²θ＝1 は任意のθで成立。sin²150°＋cos²150°＝1`},
+    {q:`sinA＝${F('2√2','3')}、cosA＝${F('1','3')} のとき、tanA の値は？`,
+     ch:[`① ${F('√2','4')}`,`② ${F('2√2','9')}`,`③ ${F('9√2','4')}`,`④ 2√2`],
+     ans:3, exp:`tanA＝${F('sinA','cosA')}＝${F(F('2√2','3'),F('1','3'))}＝2√2`},
+  ],
+  // Bセット（公式②③）
+  [
+    {q:`A が鈍角で sinA＝${F('√5','3')} のとき、cosA は？`,
+     ch:[`① ${F('2','3')}`,`② −${F('2','3')}`,`③ ${F('√5','3')}`,`④ −${F('√5','3')}`],
+     ans:1, exp:`cos²A＝1−${F('5','9')}＝${F('4','9')}　鈍角なのでcosA＜0 → −${F('2','3')}`},
+    {q:`A が鋭角で sinA＝${F('4','5')} のとき、cosA の値は？`,
+     ch:[`① ${F('3','5')}`,`② −${F('3','5')}`,`③ ${F('4','5')}`,`④ ${F('16','25')}`],
+     ans:0, exp:`cos²A＝1−${F('16','25')}＝${F('9','25')}　鋭角なのでcosA＝${F('3','5')}`},
+    {q:`A が鋭角で cosA＝${F('3','8')} のとき、sinA は？`,
+     ch:[`① ${F('√55','8')}`,`② ${F('√7','8')}`,`③ ${F('9','64')}`,`④ ${F('√55','64')}`],
+     ans:0, exp:`sin²A＝1−${F('9','64')}＝${F('55','64')}　鋭角なのでsinA＝${F('√55','8')}`},
+    {q:`sinA＝${F('2√2','3')}、cosA＝${F('1','3')} のとき、tanA の値は？`,
+     ch:[`① ${F('√2','4')}`,`② ${F('2√2','9')}`,`③ ${F('9√2','4')}`,`④ 2√2`],
+     ans:3, exp:`tanA＝${F('sinA','cosA')}＝${F(F('2√2','3'),F('1','3'))}＝2√2`},
+  ],
+  // Cセット（混合）
+  [
+    {q:`sinA＝${F('4','5')}、cosA＝${F('3','5')} のとき、tanA は？`,
+     ch:[`① ${F('4','3')}`,`② ${F('3','4')}`,`③ ${F('12','25')}`,`④ ${F('25','12')}`],
+     ans:0, exp:`tanA＝${F('4/5','3/5')}＝${F('4','3')}`},
+    {q:`A が鈍角で sinA＝${F('4','7')} のとき、cosA は？`,
+     ch:[`① ${F('√33','7')}`,`② −${F('√33','7')}`,`③ ${F('3','7')}`,`④ −${F('3','7')}`],
+     ans:1, exp:`cos²A＝1−${F('16','49')}＝${F('33','49')}　鈍角なのでcosA＜0 → −${F('√33','7')}`},
+    {q:`A が鈍角で sinA＝${F('√5','3')} のとき、cosA の値は？`,
+     ch:[`① ${F('2','3')}`,`② −${F('2','3')}`,`③ ${F('√5','3')}`,`④ −${F('√5','3')}`],
+     ans:1, exp:`cos²A＝1−${F('5','9')}＝${F('4','9')}　鈍角なのでcosA＜0 → −${F('2','3')}`},
+    {q:`A が鋭角で cosA＝${F('1','4')} のとき、sinA は？`,
+     ch:[`① ${F('√15','4')}`,`② −${F('√15','4')}`,`③ ${F('√3','4')}`,`④ ${F('3','4')}`],
+     ans:0, exp:`sin²A＝1−${F('1','16')}＝${F('15','16')}　鋭角なのでsinA＝${F('√15','4')}`},
+  ],
+];
+let curDrillSet=0,drillAnswers=[],drillSubmitted=false;
+function loadDrill(setIdx){
+  curDrillSet=setIdx;drillAnswers=new Array(4).fill(-1);drillSubmitted=false;
+  document.querySelectorAll('.set-tab').forEach((t,i)=>t.classList.toggle('active',i===setIdx));
+  document.getElementById('drill-result').style.display='none';
+  document.getElementById('drill-submit').disabled=false;
+  const c=document.getElementById('drill-questions');c.innerHTML='';
+  drillSets[setIdx].forEach((d,qi)=>{
+    const b=document.createElement('div');b.className='q-block';b.id='dq'+qi;
+    b.innerHTML=`<div class="q-num">問${qi+1}</div>
+      <div class="q-text">${d.q}</div>
+      <div class="choices" id="dc${qi}">
+        ${d.ch.map((ch,ci)=>`<button class="choice" onclick="selDrill(${qi},${ci})">${ch}</button>`).join('')}
+      </div>`;
+    c.appendChild(b);
+  });
+}
+function selDrill(qi,ci){if(drillSubmitted)return;drillAnswers[qi]=ci;
+  document.querySelectorAll(`#dc${qi} .choice`).forEach((b,i)=>{b.style.background=i===ci?'#ede9fe':'';b.style.borderColor=i===ci?'#7c3aed':'';});}
+function submitDrill(){
+  if(drillSubmitted)return;drillSubmitted=true;
+  let correct=0;
+  drillSets[curDrillSet].forEach((d,qi)=>{
+    const ua=drillAnswers[qi];
+    document.querySelectorAll(`#dc${qi} .choice`).forEach((b,i)=>{
+      if(i===d.ans)b.classList.add('show-correct');
+      if(i===ua&&ua===d.ans){b.classList.add('selected-correct');correct++;}
+      else if(i===ua)b.classList.add('selected-wrong');
+    });
+    document.getElementById('dq'+qi).classList.add(ua===d.ans?'correct':'wrong');
+    const fb=document.createElement('div');fb.className='feedback '+(ua===d.ans?'ok':'ng');
+    fb.innerHTML=(ua===d.ans?'✓ 正解！ ':'✗ 不正解。')+d.exp;
+    document.getElementById('dq'+qi).appendChild(fb);
+  });
+  document.getElementById('drill-submit').disabled=true;
+  const res=document.getElementById('drill-result');res.style.display='block';
+  res.innerHTML=`<div class="score-box"><div class="score-circle">${correct}<div class="score-label">/ 4</div></div>
+    <div style="font-size:14px;font-weight:700;color:#5b21b6;">${correct===4?'全問正解！🎉':'もう一度チャレンジしよう'}</div></div>`;
+  if(correct===4)fireConfetti();
+}
+function initDrill(){loadDrill(0);}
+
+// ===== 確認テスト（7問・過去問形式）=====
+const checkData=[
+  {q:`sin²150°＋cos²150° の値は〔　イ　〕である。`,
+   given:'',
+   choices:['① 0','② ½','③ 1','④ 2'],
+   ans:2, exp:`sin²θ＋cos²θ＝1 はすべての角度で成立　→ ③`},
+  {q:`sinA＝${F('2√2','3')}、cosA＝${F('1','3')} のとき、tanA の値はどれか。`,
+   given:'',
+   choices:[`① ${F('√2','4')}`,`② ${F('2√2','9')}`,`③ ${F('9√2','4')}`,`④ 2√2`],
+   ans:3, exp:`tanA＝${F('sinA','cosA')}＝${F(F('2√2','3'),F('1','3'))}＝2√2　→ ④`},
+  {q:`sinA＝${F('4','5')}、cosA＝${F('3','5')} のとき、tanA の値はどれか。`,
+   given:'',
+   choices:[`① ${F('4','3')}`,`② ${F('3','4')}`,`③ ${F('12','25')}`,`④ ${F('25','12')}`],
+   ans:0, exp:`tanA＝${F('4/5','3/5')}＝${F('4','3')}　→ ①`},
+  {q:`A が鋭角で、sinA＝${F('3','4')} のとき、cosA の値はどれか。`,
+   given:'',
+   choices:[`① ${F('√7','4')}`,`② −${F('√7','4')}`,`③ ${F('√7','16')}`,`④ ${F('7','16')}`],
+   ans:0, exp:`cos²A＝1−${F('9','16')}＝${F('7','16')}　鋭角なのでcosA＞0 → ${F('√7','4')}　→ ①`},
+  {q:`A が鋭角で、cosA＝${F('3','8')} のとき、sinA の値は${F('√アイ','ウ')} である。アイ・ウを求めよ。`,
+   given:'アイ＝55、ウ＝8 となる選択肢を選べ。',
+   choices:[`① ${F('√55','8')}`,`② ${F('√7','8')}`,`③ ${F('√3','8')}`,`④ ${F('3','8')}`],
+   ans:0, exp:`sin²A＝1−${F('9','64')}＝${F('55','64')}　sinA＝${F('√55','8')}　→ ①`},
+  {q:`A が<strong>鈍角</strong>で、sinA＝${F('√5','3')} のとき、cosA の値はどれか。`,
+   given:'',
+   choices:[`① ${F('2','3')}`,`② −${F('2','3')}`,`③ ${F('√5','3')}`,`④ −${F('√5','3')}`],
+   ans:1, exp:`cos²A＝1−${F('5','9')}＝${F('4','9')}　鈍角なのでcosA＜0 → −${F('2','3')}　→ ②`}
+];
+let checkAnswers=[],checkSubmitted=false;
+function initCheck(){
+  checkAnswers=new Array(checkData.length).fill(-1);checkSubmitted=false;
+  document.getElementById('check-result').style.display='none';
+  document.getElementById('check-submit').disabled=false;
+  const c=document.getElementById('check-questions');c.innerHTML='';
+  checkData.forEach((d,qi)=>{
+    const b=document.createElement('div');b.className='q-block';b.id='cq'+qi;
+    b.innerHTML=`<div class="q-num">問${qi+1}</div>
+      <div class="q-text">${d.q}</div>
+      ${d.given?`<div class="q-given">${d.given}</div>`:''}
+      <div class="choices" id="cc${qi}">
+        ${d.choices.map((ch,ci)=>`<button class="choice" onclick="selCheck(${qi},${ci})">${ch}</button>`).join('')}
+      </div>`;
+    c.appendChild(b);
+  });
+}
+function selCheck(qi,ci){if(checkSubmitted)return;checkAnswers[qi]=ci;
+  document.querySelectorAll(`#cc${qi} .choice`).forEach((b,i)=>{b.style.background=i===ci?'#ede9fe':'';b.style.borderColor=i===ci?'#7c3aed':'';});}
+function submitCheck(){
+  if(checkSubmitted)return;checkSubmitted=true;
+  let correct=0;
+  checkData.forEach((d,qi)=>{
+    const ua=checkAnswers[qi];
+    document.querySelectorAll(`#cc${qi} .choice`).forEach((b,i)=>{
+      if(i===d.ans)b.classList.add('show-correct');
+      if(i===ua&&ua===d.ans){b.classList.add('selected-correct');correct++;}
+      else if(i===ua)b.classList.add('selected-wrong');
+    });
+    document.getElementById('cq'+qi).classList.add(ua===d.ans?'correct':'wrong');
+    const fb=document.createElement('div');fb.className='feedback '+(ua===d.ans?'ok':'ng');
+    fb.innerHTML=(ua===d.ans?'✓ 正解！ ':'✗ 不正解。')+d.exp;
+    document.getElementById('cq'+qi).appendChild(fb);
+  });
+  document.getElementById('check-submit').disabled=true;
+  const res=document.getElementById('check-result');res.style.display='block';
+  const pct=correct/checkData.length;
+  res.innerHTML=`<div class="score-box"><div class="score-circle">${correct}<div class="score-label">/ ${checkData.length}</div></div>
+    <div style="font-size:14px;font-weight:700;color:#5b21b6;">${pct>=5/7?'合格！よくできました！🎉':pct>=0.5?'あと少し！':'説明に戻って公式を確認しよう'}</div></div>`;
+  if(pct>=5/7){fireConfetti();markPassed('TR07');}
+}
+
+// ===== 花吹雪 =====
+function fireConfetti(){
+  const wrap=document.createElement('div');wrap.className='confetti-wrap';document.body.appendChild(wrap);
+  const colors=['#7c3aed','#5b21b6','#a78bfa','#f59e0b','#10b981','#c4b5fd'];
+  for(let i=0;i<60;i++){
+    const p=document.createElement('div');
+    const c=colors[Math.floor(Math.random()*colors.length)];
+    const size=8+Math.random()*8;
+    p.style.cssText=`position:absolute;width:${size}px;height:${size}px;left:${Math.random()*100}%;top:-10px;background:${c};border-radius:${Math.random()>.5?'50%':'2px'};opacity:1;animation:fall${i} ${1.5+Math.random()*2}s ${Math.random()*1.5}s forwards;`;
+    wrap.appendChild(p);
+    const st=document.createElement('style');
+    const tx=(Math.random()-.5)*200;
+    st.textContent=`@keyframes fall${i}{0%{top:-10px;opacity:1;transform:rotate(0deg) translateX(0);}100%{top:110vh;opacity:0;transform:rotate(720deg) translateX(${tx}px);}}`;
+    document.head.appendChild(st);
+  }
+  setTimeout(()=>wrap.remove(),5000);
+}
+
+window.addEventListener('load',()=>renderIntro());
+</script>
+</body>
+</html>
