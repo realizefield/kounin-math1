@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IN01 不等式の基礎｜例題</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" onload="renderAllMath();"></script>
+<style>
+:root{
+  --primary:#1d4ed8;
+  --primary-light:#dbeafe;
+  --primary-pale:#eff6ff;
+  --accent:#e8372d;
+  --bg:#eff6ff;
+  --border:#bfdbfe;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background:var(--bg);color:#1f2937;line-height:1.8;padding:20px;max-width:900px;margin:0 auto;}
+header{background:var(--primary);color:#fff;padding:20px 24px;border-radius:12px 12px 0 0;margin:-20px -20px 0 -20px;}
+h1{font-size:1.4em;margin-bottom:4px;}
+.subtitle{font-size:0.95em;opacity:0.9;}
+section{background:#fff;padding:24px;border-radius:0 0 12px 12px;border:2px solid var(--border);border-top:none;margin-bottom:20px;}
+h2{color:var(--primary);border-bottom:3px solid var(--primary-light);padding-bottom:8px;margin:24px 0 16px;font-size:1.2em;}
+h2:first-child{margin-top:0;}
+.qcard{background:var(--primary-pale);border:2px solid var(--border);border-radius:8px;padding:20px;margin:20px 0;}
+.qtitle{background:var(--primary);color:#fff;padding:8px 14px;border-radius:6px;display:inline-block;margin-bottom:12px;font-weight:bold;}
+.qbody{background:#fff;padding:14px 18px;border-radius:6px;margin:8px 0;font-size:1.05em;border:1px solid var(--border);}
+.btn-toggle{background:#fff;border:2px solid var(--primary);color:var(--primary);padding:8px 16px;border-radius:6px;cursor:pointer;font-size:0.95em;font-weight:bold;margin:8px 8px 8px 0;font-family:inherit;}
+.btn-toggle:hover{background:var(--primary-light);}
+.btn-toggle.active{background:var(--primary);color:#fff;}
+.hint, .solution{display:none;background:#fff;border:1px solid var(--border);border-radius:6px;padding:14px 18px;margin:8px 0;}
+.hint.show, .solution.show{display:block;}
+.hint{border-left:4px solid #facc15;background:#fefce8;}
+.solution{border-left:4px solid var(--primary);}
+.step{background:var(--primary-pale);padding:8px 12px;margin:6px 0;border-radius:4px;border-left:3px solid var(--primary);}
+.step strong{color:var(--primary);}
+.warn-pattern{background:#fef2f2;border:2px solid var(--accent);border-radius:6px;padding:10px 14px;margin:8px 0;}
+.warn-tag{display:inline-block;background:var(--accent);color:#fff;padding:3px 10px;border-radius:4px;font-size:0.85em;font-weight:bold;margin-right:8px;}
+.koritsu{background:#fff7ed;border-left:4px solid #f97316;padding:10px 14px;margin:10px 0;border-radius:4px;}
+.koritsu strong{color:#c2410c;}
+.summary{background:linear-gradient(to right,var(--primary-light),var(--primary-pale));border:2px solid var(--primary);padding:16px 20px;border-radius:8px;margin:20px 0;}
+.summary h3{color:var(--primary);margin-bottom:8px;}
+.summary ol{padding-left:24px;}
+.summary li{margin:4px 0;}
+.nav{display:flex;justify-content:space-between;margin-top:24px;gap:12px;}
+.nav a{flex:1;padding:14px 20px;background:var(--primary);color:#fff;text-decoration:none;border-radius:8px;text-align:center;font-weight:bold;transition:0.2s;}
+.nav a:hover{background:#1e40af;}
+.nav a.back{background:#6b7280;}
+.nav a.back:hover{background:#4b5563;}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>IN01 例題</h1>
+  <div class="subtitle">不等式の基礎・記号と性質</div>
+</header>
+
+<section>
+
+<p>不等式の基礎を例題で確認しましょう。「💡ヒント」「✅解き方」のボタンで答えを確認できます。</p>
+
+<!-- 例題1：日本語を不等式に -->
+<h2>例題1：日本語を不等式で表す</h2>
+<div class="qcard">
+  <div class="qtitle">例題1</div>
+  <div class="qbody">次の文を不等式で表しなさい。<br>
+  「ある数 $x$ は $7$ 以上である」</div>
+
+  <button class="btn-toggle" onclick="toggleBox(this,'hint1')">💡 ヒント</button>
+  <button class="btn-toggle" onclick="toggleBox(this,'sol1')">✅ 答えを見る</button>
+
+  <div class="hint" id="hint1">
+    <p>📌 「以上」は<strong>その数を含む</strong>場合の記号を使います。</p>
+    <p>横棒2本の記号を思い出しましょう。</p>
+  </div>
+
+  <div class="solution" id="sol1">
+    <div class="step"><strong>考え方：</strong>「以上」 → 等しい場合も含むので $\geqq$ を使う</div>
+    <div class="step" style="background:#dcfce7;border-color:#16a34a;"><strong>答：</strong> $x \geqq 7$</div>
+    <div class="koritsu"><strong>【コツ】</strong> 以上 → $\geqq$、以下 → $\leqq$、より大きい → $>$、より小さい → $<$</div>
+  </div>
+</div>
+
+<!-- 例題2：日本語を不等式に（より小さい） -->
+<div class="qcard">
+  <div class="qtitle">例題1（応用）</div>
+  <div class="qbody">次の文を不等式で表しなさい。<br>
+  「ある数 $x$ は $5$ より小さい」</div>
+
+  <button class="btn-toggle" onclick="toggleBox(this,'hint1b')">💡 ヒント</button>
+  <button class="btn-toggle" onclick="toggleBox(this,'sol1b')">✅ 答えを見る</button>
+
+  <div class="hint" id="hint1b">
+    <p>📌 「より小さい」は<strong>その数を含まない</strong>記号を使います。</p>
+  </div>
+
+  <div class="solution" id="sol1b">
+    <div class="step"><strong>考え方：</strong>「より小さい」 → 等しい場合は含まないので $<$ を使う</div>
+    <div class="step" style="background:#dcfce7;border-color:#16a34a;"><strong>答：</strong> $x < 5$</div>
+  </div>
+</div>
+
+<!-- 例題2：性質①（足し算） -->
+<h2>例題2：性質を使った変形（足し算）</h2>
+<div class="qcard">
+  <div class="qtitle">例題2</div>
+  <div class="qbody">$a < b$ のとき、両辺に $3$ を足したらどうなるか。</div>
+
+  <button class="btn-toggle" onclick="toggleBox(this,'hint2')">💡 ヒント</button>
+  <button class="btn-toggle" onclick="toggleBox(this,'sol2')">✅ 答えを見る</button>
+
+  <div class="hint" id="hint2">
+    <p>📌 性質①：両辺に同じ数を足しても、不等号の向きは変わりません。</p>
+  </div>
+
+  <div class="solution" id="sol2">
+    <div class="step"><strong>考え方：</strong>足し算では向きは<strong>変わらない</strong></div>
+    <div class="step" style="background:#dcfce7;border-color:#16a34a;"><strong>答：</strong> $a + 3 < b + 3$</div>
+    <div class="koritsu"><strong>【コツ】</strong> 足し算・引き算では向きは絶対に変わらない！</div>
+  </div>
+</div>
+
+<!-- 例題3：性質③（正の数で割る） -->
+<h2>例題3：両辺に正の数をかける・割る</h2>
+<div class="qcard">
+  <div class="qtitle">例題3</div>
+  <div class="qbody">$2x \geqq 6$ の両辺を $2$ で割ると、どんな不等式になるか。</div>
+
+  <button class="btn-toggle" onclick="toggleBox(this,'hint3')">💡 ヒント</button>
+  <button class="btn-toggle" onclick="toggleBox(this,'sol3')">✅ 答えを見る</button>
+
+  <div class="hint" id="hint3">
+    <p>📌 $2$ は<strong>正の数</strong>なので、不等号の向きは変わりません。</p>
+    <p>両辺をそのまま $2$ で割ってみましょう。</p>
+  </div>
+
+  <div class="solution" id="sol3">
+    <div class="step"><strong>STEP 1：</strong>両辺を $2$ で割る（正の数なので向き変わらず）<br>
+    $\quad 2x \div 2 \geqq 6 \div 2$</div>
+    <div class="step"><strong>STEP 2：</strong>計算する<br>
+    $\quad x \geqq 3$</div>
+    <div class="step" style="background:#dcfce7;border-color:#16a34a;"><strong>答：</strong> $x \geqq 3$</div>
+    <div class="koritsu"><strong>【コツ】</strong> 正の数で割る → 不等号の向きは<strong>そのまま</strong></div>
+  </div>
+</div>
+
+<!-- 例題4：性質④（負の数で割る・反転） -->
+<h2>例題4：両辺に負の数をかける・割る ⚠ 反転注意 <span class="warn-tag">最重要</span></h2>
+<div class="qcard">
+  <div class="qtitle">例題4</div>
+  <div class="qbody">$-3x < 12$ の両辺を $-3$ で割ると、どんな不等式になるか。</div>
+
+  <button class="btn-toggle" onclick="toggleBox(this,'hint4')">💡 ヒント</button>
+  <button class="btn-toggle" onclick="toggleBox(this,'sol4')">✅ 答えを見る</button>
+
+  <div class="hint" id="hint4">
+    <p>📌 $-3$ は<strong>負の数</strong>なので、不等号の向きが<strong>反転</strong>します。</p>
+    <p>$<$ は割ったあと $>$ になります。</p>
+  </div>
+
+  <div class="solution" id="sol4">
+    <div class="step"><strong>STEP 1：</strong>両辺を $-3$ で割る<br>
+    <span class="warn-tag">⚠ 反転注意</span> 負の数で割るので、不等号の向きが反転！</div>
+    <div class="step"><strong>STEP 2：</strong>不等号を反転させて計算<br>
+    $\quad -3x \div (-3) > 12 \div (-3)$<br>
+    $\quad x > -4$</div>
+    <div class="step" style="background:#dcfce7;border-color:#16a34a;"><strong>答：</strong> $x > -4$</div>
+    <div class="warn-pattern"><strong>⚠ 大切なポイント：</strong>負の数で割る・かけるときは、必ず不等号の向きを<strong>逆向き</strong>にする！<br>
+    ・$<$ → $>$　　・$>$ → $<$<br>
+    ・$\leqq$ → $\geqq$　　・$\geqq$ → $\leqq$</div>
+  </div>
+</div>
+
+<!-- 例題5：負の数をかける（具体例） -->
+<div class="qcard">
+  <div class="qtitle">例題4（応用）</div>
+  <div class="qbody">$3 < 5$ の両辺に $-2$ をかけると、どんな不等式になるか。</div>
+
+  <button class="btn-toggle" onclick="toggleBox(this,'hint5')">💡 ヒント</button>
+  <button class="btn-toggle" onclick="toggleBox(this,'sol5')">✅ 答えを見る</button>
+
+  <div class="hint" id="hint5">
+    <p>📌 $-2$ は<strong>負の数</strong>。両辺にかけると向きが反転！</p>
+    <p>$3 \times (-2) = -6$、$5 \times (-2) = -10$。 $-6$ と $-10$、どちらが大きい？</p>
+  </div>
+
+  <div class="solution" id="sol5">
+    <div class="step"><strong>STEP 1：</strong>両辺に $-2$ をかける<br>
+    <span class="warn-tag">⚠ 反転注意</span> 負の数をかけるので反転！<br>
+    $\quad 3 \times (-2) > 5 \times (-2)$（向き反転）</div>
+    <div class="step"><strong>STEP 2：</strong>計算<br>
+    $\quad -6 > -10$</div>
+    <div class="step" style="background:#dcfce7;border-color:#16a34a;"><strong>答：</strong> $-6 > -10$</div>
+    <div class="koritsu"><strong>確かめ：</strong>数直線で見ると $-6$ は $-10$ より右側（大きい方）にある。だから $-6 > -10$ は正しい！</div>
+  </div>
+</div>
+
+<!-- まとめ -->
+<div class="summary">
+  <h3>📚 性質のまとめ</h3>
+  <ol>
+    <li>両辺に同じ数を足す・引く → 向きは<strong>変わらない</strong></li>
+    <li>両辺に<strong>正の数</strong>をかける・割る → 向きは<strong>変わらない</strong></li>
+    <li>両辺に<strong>負の数</strong>をかける・割る → 向きが<strong style="color:var(--accent)">反転する</strong>！</li>
+  </ol>
+  <p style="margin-top:12px;">この性質を使って、次の単元（IN02）で実際に不等式を解いていきます。</p>
+</div>
+
+<div class="nav">
+  <a class="back" href="intro.html">← 導入へ戻る</a>
+  <a href="drill.html">演習へ進む →</a>
+</div>
+
+</section>
+
+<script>
+function toggleBox(btn, id){
+  const box = document.getElementById(id);
+  if(box.classList.contains('show')){
+    box.classList.remove('show');
+    btn.classList.remove('active');
+  }else{
+    box.classList.add('show');
+    btn.classList.add('active');
+  }
+}
+function renderAllMath(){
+  if(typeof renderMathInElement === 'function'){
+    renderMathInElement(document.body, {
+      delimiters:[
+        {left:'$$',right:'$$',display:true},
+        {left:'$',right:'$',display:false}
+      ],
+      throwOnError:false
+    });
+  }
+}
+</script>
+
+</body>
+</html>

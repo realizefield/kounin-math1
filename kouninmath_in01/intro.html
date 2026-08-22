@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IN01 不等式の基礎｜導入</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" onload="renderAllMath();"></script>
+<style>
+:root{
+  --primary:#1d4ed8;
+  --primary-light:#dbeafe;
+  --primary-pale:#eff6ff;
+  --accent:#e8372d;
+  --bg:#eff6ff;
+  --border:#bfdbfe;
+  --warn:#fef3c7;
+  --warn-border:#fbbf24;
+  --warn-text:#92400e;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{
+  font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;
+  background:var(--bg);
+  color:#1f2937;
+  line-height:1.8;
+  padding:20px;
+  max-width:900px;
+  margin:0 auto;
+}
+header{
+  background:var(--primary);
+  color:#fff;
+  padding:20px 24px;
+  border-radius:12px 12px 0 0;
+  margin:-20px -20px 0 -20px;
+}
+h1{font-size:1.4em;margin-bottom:4px;}
+.subtitle{font-size:0.95em;opacity:0.9;}
+section{
+  background:#fff;
+  padding:24px;
+  border-radius:0 0 12px 12px;
+  border:2px solid var(--border);
+  border-top:none;
+  margin-bottom:20px;
+}
+h2{
+  color:var(--primary);
+  border-bottom:3px solid var(--primary-light);
+  padding-bottom:8px;
+  margin:24px 0 16px;
+  font-size:1.2em;
+}
+h2:first-child{margin-top:0;}
+h3{
+  color:var(--primary);
+  margin:16px 0 8px;
+  font-size:1.05em;
+}
+p{margin-bottom:12px;}
+.box{background:var(--primary-pale);border-left:4px solid var(--primary);padding:12px 16px;margin:12px 0;border-radius:4px;}
+.warn-box{background:var(--warn);border-left:4px solid var(--warn-border);padding:12px 16px;margin:12px 0;border-radius:4px;color:var(--warn-text);}
+.warn-box strong{color:#b45309;}
+.star-box{background:#fff7ed;border-left:4px solid var(--accent);padding:12px 16px;margin:12px 0;border-radius:4px;}
+table{width:100%;border-collapse:collapse;margin:12px 0;}
+th,td{border:1px solid var(--border);padding:8px 12px;text-align:left;}
+th{background:var(--primary-light);color:var(--primary);}
+.symbol-cell{text-align:center;font-size:1.3em;font-weight:bold;color:var(--primary);}
+.example-mini{background:#f9fafb;border:1px dashed var(--border);padding:12px 16px;margin:8px 0;border-radius:4px;}
+.goal{background:linear-gradient(to right,var(--primary-light),var(--primary-pale));border:2px solid var(--primary);padding:16px 20px;border-radius:8px;margin:16px 0;}
+.goal h3{margin-top:0;}
+.goal ul{padding-left:24px;}
+.goal li{margin:4px 0;}
+.nav{display:flex;justify-content:space-between;margin-top:24px;gap:12px;}
+.nav a{flex:1;padding:14px 20px;background:var(--primary);color:#fff;text-decoration:none;border-radius:8px;text-align:center;font-weight:bold;transition:0.2s;}
+.nav a:hover{background:#1e40af;}
+.nav a.back{background:#6b7280;}
+.nav a.back:hover{background:#4b5563;}
+.number-line{background:#fff;padding:16px;margin:12px 0;border:1px solid var(--border);border-radius:6px;text-align:center;}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>IN01 不等式の基礎</h1>
+  <div class="subtitle">記号と性質を覚えよう</div>
+</header>
+
+<section>
+
+<h2>① 不等式とは？</h2>
+<p>「等式」が「$=$（イコール）」で結ばれた式（例：$3 + 5 = 8$）であるのに対し、<br>
+「<strong>不等式</strong>」は「$>$、$<$、$\geqq$、$\leqq$」などの<strong>不等号</strong>で結ばれた式のことです。</p>
+<div class="example-mini">
+  <p>例：$5 > 3$（5は3より大きい）<br>
+  例：$x \leqq 7$（$x$ は7以下）</p>
+</div>
+<p>身近な例で言えば「<strong>身長140cm以上の人だけ乗れる遊園地のアトラクション</strong>」のような<strong>「○○以上」「△△未満」</strong>といった条件を表すのが不等式です。</p>
+
+<h2>② 不等号の記号と意味</h2>
+<table>
+  <tr>
+    <th>記号</th>
+    <th>読み方</th>
+    <th>意味</th>
+    <th>例</th>
+  </tr>
+  <tr>
+    <td class="symbol-cell">$>$</td>
+    <td>より大きい</td>
+    <td>左の数が大きい</td>
+    <td>$5 > 3$</td>
+  </tr>
+  <tr>
+    <td class="symbol-cell">$<$</td>
+    <td>より小さい・未満</td>
+    <td>左の数が小さい</td>
+    <td>$3 < 5$</td>
+  </tr>
+  <tr>
+    <td class="symbol-cell">$\geqq$</td>
+    <td>以上</td>
+    <td>等しい場合も含めて大きい</td>
+    <td>$x \geqq 7$</td>
+  </tr>
+  <tr>
+    <td class="symbol-cell">$\leqq$</td>
+    <td>以下</td>
+    <td>等しい場合も含めて小さい</td>
+    <td>$x \leqq 5$</td>
+  </tr>
+</table>
+
+<div class="star-box">
+  <p><strong>★ココが大事：「以上・以下」と「より大きい・より小さい」の違い</strong></p>
+  <ul style="padding-left:24px;margin:8px 0;">
+    <li><strong>$\geqq$（以上）、$\leqq$（以下）</strong>：その数を<strong>含む</strong>（横棒2本がその印！）</li>
+    <li><strong>$>$（より大きい）、$<$（より小さい）</strong>：その数を<strong>含まない</strong></li>
+  </ul>
+  <p>例：$x \geqq 5$ には $x = 5$ が含まれるが、$x > 5$ には $x = 5$ は<strong>含まれない</strong>。</p>
+</div>
+
+<h2>③ 不等式の性質（とても大切！）</h2>
+<p>不等式には、4つの大切な性質があります。次の単元（IN02）で実際に解くときに必ず使います。</p>
+
+<h3>性質①：両辺に同じ数を足しても、不等号の向きは変わらない</h3>
+<div class="example-mini">
+  <p>$a < b$ ならば $a + c < b + c$</p>
+  <p>例：$3 < 5$ の両辺に $2$ を足しても、$3+2 < 5+2$、つまり $5 < 7$。<strong>向きは同じ</strong>。</p>
+</div>
+
+<h3>性質②：両辺から同じ数を引いても、不等号の向きは変わらない</h3>
+<div class="example-mini">
+  <p>$a < b$ ならば $a - c < b - c$</p>
+  <p>例：$3 < 5$ の両辺から $1$ を引いても、$3-1 < 5-1$、つまり $2 < 4$。<strong>向きは同じ</strong>。</p>
+</div>
+
+<h3>性質③：両辺に「正の数」をかける・割る → 向きは変わらない</h3>
+<div class="example-mini">
+  <p>$a < b$ で $c > 0$ ならば $a \times c < b \times c$、$a \div c < b \div c$</p>
+  <p>例：$3 < 5$ の両辺に $2$ をかけても、$3 \times 2 < 5 \times 2$、つまり $6 < 10$。<strong>向きは同じ</strong>。</p>
+</div>
+
+<div class="warn-box">
+  <p><strong>⚠ 性質④（最重要・落とし穴）：両辺に「負の数」をかける・割ると、不等号の向きが反転する！</strong></p>
+  <p>$a < b$ で $c < 0$ ならば $a \times c > b \times c$、$a \div c > b \div c$</p>
+  <p class="example-mini">例：$3 < 5$ の両辺に $-1$ をかけると、$-3 > -5$。<br>
+  → 数直線で見ると、$-3$ は $-5$ より<strong>右側（大きい方）</strong>にあります。<br>
+  → だから不等号の向きが <strong>逆になる</strong>のです！</p>
+</div>
+
+<h2>④ 数直線でイメージする</h2>
+<p>不等式の解を視覚的にイメージするには <strong>数直線</strong> が便利です。</p>
+<div class="number-line">
+  <svg viewBox="0 0 600 80" xmlns="http://www.w3.org/2000/svg" style="max-width:100%;">
+    <line x1="20" y1="40" x2="580" y2="40" stroke="#1f2937" stroke-width="2"/>
+    <polygon points="580,40 570,35 570,45" fill="#1f2937"/>
+    <polygon points="20,40 30,35 30,45" fill="#1f2937"/>
+    <line x1="100" y1="35" x2="100" y2="45" stroke="#1f2937" stroke-width="2"/>
+    <text x="100" y="65" text-anchor="middle" font-size="14">0</text>
+    <line x1="200" y1="35" x2="200" y2="45" stroke="#1f2937" stroke-width="2"/>
+    <text x="200" y="65" text-anchor="middle" font-size="14">1</text>
+    <line x1="300" y1="35" x2="300" y2="45" stroke="#1f2937" stroke-width="2"/>
+    <text x="300" y="65" text-anchor="middle" font-size="14">2</text>
+    <line x1="400" y1="35" x2="400" y2="45" stroke="#1f2937" stroke-width="2"/>
+    <text x="400" y="65" text-anchor="middle" font-size="14">3</text>
+    <line x1="500" y1="35" x2="500" y2="45" stroke="#1f2937" stroke-width="2"/>
+    <text x="500" y="65" text-anchor="middle" font-size="14">4</text>
+    <circle cx="300" cy="40" r="6" fill="#1d4ed8"/>
+    <line x1="300" y1="40" x2="580" y2="40" stroke="#1d4ed8" stroke-width="4" opacity="0.5"/>
+    <text x="200" y="20" text-anchor="middle" font-size="14" fill="#1d4ed8" font-weight="bold">x が 2 以上の範囲</text>
+  </svg>
+</div>
+<p>$x \geqq 2$ は「$2$ 以上のすべての数」を表します。$2$ も含むので、数直線では $2$ の点を <strong>●（黒丸）</strong> で表します。$x > 2$ なら、$2$ は含まないので <strong>○（白丸）</strong> になります。</p>
+
+<h2>⑤ 単元のゴール</h2>
+<div class="goal">
+  <h3>🎯 できるようになること</h3>
+  <ul>
+    <li>$>$、$<$、$\geqq$、$\leqq$ の意味を正しく言える</li>
+    <li>「以上・以下・より大きい・より小さい」を不等式で表せる</li>
+    <li>不等式の4つの性質を理解する</li>
+    <li>「負の数をかけたり割ったりすると向きが反転する」ことを覚える</li>
+  </ul>
+  <p style="margin-top:8px;font-size:0.95em;color:#6b7280;">※ 実際に不等式を解く方法は、次の単元 IN02 で学びます。</p>
+</div>
+
+<div class="nav">
+  <a class="back" href="../gamba_kounin.html">← 単元一覧へ</a>
+  <a href="example.html">例題へ進む →</a>
+</div>
+
+</section>
+
+<script>
+function renderAllMath(){
+  if(typeof renderMathInElement === 'function'){
+    renderMathInElement(document.body, {
+      delimiters:[
+        {left:'$$',right:'$$',display:true},
+        {left:'$',right:'$',display:false}
+      ],
+      throwOnError:false
+    });
+  }
+}
+</script>
+
+</body>
+</html>

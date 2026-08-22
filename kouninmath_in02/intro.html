@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IN02 不等式の解き方①｜導入</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" onload="renderAllMath();"></script>
+<style>
+:root{
+  --primary:#1d4ed8;
+  --primary-light:#dbeafe;
+  --primary-pale:#eff6ff;
+  --accent:#e8372d;
+  --bg:#eff6ff;
+  --border:#bfdbfe;
+  --warn:#fef3c7;
+  --warn-border:#fbbf24;
+  --warn-text:#92400e;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background:var(--bg);color:#1f2937;line-height:1.8;padding:20px;max-width:900px;margin:0 auto;}
+header{background:var(--primary);color:#fff;padding:20px 24px;border-radius:12px 12px 0 0;margin:-20px -20px 0 -20px;}
+h1{font-size:1.4em;margin-bottom:4px;}
+.subtitle{font-size:0.95em;opacity:0.9;}
+section{background:#fff;padding:24px;border-radius:0 0 12px 12px;border:2px solid var(--border);border-top:none;margin-bottom:20px;}
+h2{color:var(--primary);border-bottom:3px solid var(--primary-light);padding-bottom:8px;margin:24px 0 16px;font-size:1.2em;}
+h2:first-child{margin-top:0;}
+h3{color:var(--primary);margin:16px 0 8px;font-size:1.05em;}
+p{margin-bottom:12px;}
+.box{background:var(--primary-pale);border-left:4px solid var(--primary);padding:12px 16px;margin:12px 0;border-radius:4px;}
+.warn-box{background:var(--warn);border-left:4px solid var(--warn-border);padding:12px 16px;margin:12px 0;border-radius:4px;color:var(--warn-text);}
+.warn-box strong{color:#b45309;}
+.star-box{background:#fff7ed;border-left:4px solid var(--accent);padding:12px 16px;margin:12px 0;border-radius:4px;}
+.flow{background:var(--primary-pale);border:2px solid var(--primary);border-radius:8px;padding:20px;margin:16px 0;}
+.flow ol{list-style:none;counter-reset:step;padding-left:0;}
+.flow li{counter-increment:step;padding:10px 12px 10px 50px;margin:8px 0;background:#fff;border-radius:6px;border:1px solid var(--border);position:relative;}
+.flow li::before{content:counter(step);position:absolute;left:12px;top:50%;transform:translateY(-50%);background:var(--primary);color:#fff;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:bold;}
+table{width:100%;border-collapse:collapse;margin:12px 0;}
+th,td{border:1px solid var(--border);padding:8px 12px;text-align:left;}
+th{background:var(--primary-light);color:var(--primary);}
+.example-mini{background:#f9fafb;border:1px dashed var(--border);padding:12px 16px;margin:8px 0;border-radius:4px;}
+.goal{background:linear-gradient(to right,var(--primary-light),var(--primary-pale));border:2px solid var(--primary);padding:16px 20px;border-radius:8px;margin:16px 0;}
+.goal h3{margin-top:0;}
+.goal ul{padding-left:24px;}
+.goal li{margin:4px 0;}
+.nav{display:flex;justify-content:space-between;margin-top:24px;gap:12px;}
+.nav a{flex:1;padding:14px 20px;background:var(--primary);color:#fff;text-decoration:none;border-radius:8px;text-align:center;font-weight:bold;transition:0.2s;}
+.nav a:hover{background:#1e40af;}
+.nav a.back{background:#6b7280;}
+.nav a.back:hover{background:#4b5563;}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>IN02 不等式の解き方①</h1>
+  <div class="subtitle">基本パターン：移項・両辺で割る</div>
+</header>
+
+<section>
+
+<h2>① IN01の復習</h2>
+<p>前の単元（IN01）では、不等式の<strong>記号と性質</strong>を学びました。</p>
+<div class="box">
+  <p><strong>4つの性質：</strong></p>
+  <ul style="padding-left:24px;">
+    <li>両辺に同じ数を足す・引く → 向きは<strong>変わらない</strong></li>
+    <li>両辺に<strong>正の数</strong>をかける・割る → 向きは<strong>変わらない</strong></li>
+    <li>両辺に<strong>負の数</strong>をかける・割る → 向きが<strong style="color:var(--accent)">反転する</strong>！</li>
+  </ul>
+</div>
+
+<h2>② IN02で学ぶ「不等式を解く」とは？</h2>
+<p>不等式を解くとは、<strong>$x$ がどんな範囲の数なのかを求める</strong>ことです。</p>
+<div class="example-mini">
+  <p>例：$2x + 5 \leqq 11$ を解くと → $x \leqq 3$<br>
+  → 「$x$ は $3$ 以下のすべての数」という答えが得られます。</p>
+</div>
+<p>等式（方程式）を解くのと同じように、<strong>移項</strong>と<strong>両辺で割る</strong>を使います。違いは「不等号の向きに注意すること」だけです。</p>
+
+<h2>③ 解き方の流れ（2ステップ）</h2>
+<div class="flow">
+  <ol>
+    <li><strong>移項する</strong>（$x$ がついた項を左に、数字を右に集める）</li>
+    <li><strong>両辺を $x$ の係数で割る</strong>（負の数で割ったら不等号反転！）</li>
+  </ol>
+</div>
+
+<h2>④ 移項のしくみ</h2>
+<p>「移項」とは、項を不等式の反対側に移動させることです。<br>
+このとき、<strong>符号（プラス・マイナス）が入れかわります</strong>。</p>
+<div class="example-mini">
+  <p>例：$2x + 5 \leqq 11$<br>
+  → $+5$ を右辺に移項すると、$-5$ になる<br>
+  → $2x \leqq 11 - 5$<br>
+  → $2x \leqq 6$</p>
+</div>
+<div class="box">
+  <p><strong>なぜ符号が入れかわる？</strong><br>
+  実は「両辺から同じ数を引いている」だけです。$2x + 5 \leqq 11$ の両辺から $5$ を引くと、$2x \leqq 11 - 5$、つまり $2x \leqq 6$。これを簡単にやる方法が「移項」です。</p>
+</div>
+
+<h2>⑤ 重要ポイント</h2>
+
+<h3>★ココが大事①：基本パターンの解き方</h3>
+<div class="star-box">
+  <p><strong>基本：$ax + b \square c$ の形（$\square$ は不等号）</strong></p>
+  <ol style="padding-left:24px;">
+    <li>$+b$ を右辺に移項 → $ax \square c - b$</li>
+    <li>両辺を $a$ で割る → $x \square \dfrac{c-b}{a}$</li>
+  </ol>
+  <p class="example-mini">例：$2x + 5 \leqq 11$<br>
+  → $2x \leqq 6$（移項）<br>
+  → $x \leqq 3$（両辺を $2$ で割る）</p>
+</div>
+
+<h3>★ココが大事②：負の数で割るときは反転！</h3>
+<div class="star-box">
+  <p><strong>$x$ の係数が負の数のときは、不等号の向きを反転させる</strong></p>
+  <p class="example-mini">例：$-3x \leqq 12$<br>
+  → 両辺を $-3$ で割る（負の数なので反転！）<br>
+  → $x \geqq -4$</p>
+</div>
+
+<h2>⑥ ⚠落とし穴に注意</h2>
+<div class="warn-box">
+  <p><strong>⚠ 落とし穴①：移項するときに符号を変え忘れる</strong></p>
+  <p class="example-mini">$2x + 5 \leqq 11$ で $+5$ を移項するとき<br>
+  ✗ $2x \leqq 11 + 5$（符号変え忘れ）<br>
+  ✓ $2x \leqq 11 - 5$（マイナスにする）</p>
+</div>
+<div class="warn-box">
+  <p><strong>⚠ 落とし穴②：割る数が負のとき反転を忘れる</strong></p>
+  <p class="example-mini">$-3x \leqq 12$ で両辺を $-3$ で割るとき<br>
+  ✗ $x \leqq -4$（反転忘れ）<br>
+  ✓ $x \geqq -4$（向きを逆にする）</p>
+</div>
+
+<h2>⑦ 単元のゴール</h2>
+<div class="goal">
+  <h3>🎯 できるようになること</h3>
+  <ul>
+    <li>$ax + b \square c$ の形の不等式を解ける</li>
+    <li>移項して、両辺で割る手順を実行できる</li>
+    <li>負の数で割るときは不等号を反転させられる</li>
+    <li>解の範囲を正しく書ける</li>
+  </ul>
+</div>
+
+<div class="nav">
+  <a class="back" href="../gamba_kounin.html">← 単元一覧へ</a>
+  <a href="example.html">例題へ進む →</a>
+</div>
+
+</section>
+
+<script>
+function renderAllMath(){
+  if(typeof renderMathInElement === 'function'){
+    renderMathInElement(document.body, {
+      delimiters:[
+        {left:'$$',right:'$$',display:true},
+        {left:'$',right:'$',display:false}
+      ],
+      throwOnError:false
+    });
+  }
+}
+</script>
+
+</body>
+</html>
