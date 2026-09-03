@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DA01 代表値</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=BIZ+UDPGothic:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'BIZ UDPGothic',sans-serif;background:#fff7ed;color:#431407;min-height:100vh;}
+.header{background:linear-gradient(135deg,#ea580c,#9a3412);color:#fff;padding:16px 20px;display:flex;align-items:center;gap:12px;}
+.header-icon{font-size:28px;}
+.header-title{font-size:18px;font-weight:700;}
+.header-sub{font-size:12px;opacity:.8;margin-top:2px;}
+.step-nav{display:flex;background:#fff;border-bottom:2px solid #fed7aa;overflow:hidden;}
+.step-btn{flex:1;padding:10px 4px;border:none;background:transparent;font-family:'BIZ UDPGothic',sans-serif;font-size:12px;color:#6b7280;cursor:pointer;transition:.2s;display:flex;flex-direction:column;align-items:center;gap:3px;}
+.step-btn.active{background:#ea580c;color:#fff;}
+.step-btn.done{background:#ffedd5;color:#9a3412;}
+.step-icon{font-size:16px;}
+.content{padding:16px;max-width:640px;margin:0 auto;}
+.card{background:#fff;border-radius:12px;padding:18px;margin-bottom:14px;box-shadow:0 2px 8px rgba(234,88,12,.08);}
+.card-title{font-size:14px;font-weight:700;color:#9a3412;margin-bottom:12px;}
+.explain{font-size:14px;line-height:1.8;color:#374151;}
+.point-box{background:#fff7ed;border-left:4px solid #ea580c;padding:12px 14px;border-radius:0 8px 8px 0;margin:12px 0;}
+.point-box .label{font-size:11px;font-weight:700;color:#ea580c;margin-bottom:6px;}
+.important{background:#ea580c;color:#fff;border-radius:10px;padding:14px 16px;margin:12px 0;}
+.important .imp-title{font-size:12px;font-weight:700;opacity:.85;margin-bottom:10px;}
+.imp-row{display:flex;align-items:center;gap:10px;margin-bottom:8px;font-size:14px;font-weight:700;}
+.imp-row:last-child{margin-bottom:0;}
+.imp-label{background:rgba(255,255,255,.25);border-radius:6px;padding:3px 10px;font-size:13px;min-width:32px;text-align:center;}
+.hint-box{background:#fefce8;border-left:4px solid #f59e0b;padding:10px 14px;border-radius:0 8px 8px 0;margin:10px 0;font-size:13px;line-height:1.9;}
+.hint-box .label{font-size:11px;font-weight:700;color:#92400e;margin-bottom:3px;}
+/* 縦型分数 */
+.frac{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;margin:0 2px;line-height:1.2;}
+.frac .num{border-bottom:1.5px solid currentColor;padding:0 3px 1px;text-align:center;font-size:.95em;}
+.frac .den{padding:1px 3px 0;text-align:center;font-size:.95em;}
+/* ドリル */
+.drill-intro{font-size:13px;color:#6b7280;margin-bottom:14px;}
+.set-tabs{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;}
+.set-tab{padding:6px 14px;border-radius:20px;border:2px solid #fed7aa;background:#fff;font-family:'BIZ UDPGothic',sans-serif;font-size:13px;cursor:pointer;color:#6b7280;transition:.2s;}
+.set-tab.active{background:#ea580c;border-color:#ea580c;color:#fff;font-weight:700;}
+.q-block{background:#fff;border-radius:10px;padding:14px;margin-bottom:10px;border:2px solid #fed7aa;}
+.q-block.correct{border-color:#10b981;}
+.q-block.wrong{border-color:#ef4444;}
+.q-num{font-size:11px;color:#9ca3af;margin-bottom:6px;}
+.q-text{font-size:14px;margin-bottom:10px;line-height:1.8;font-weight:700;}
+.q-given{font-size:13px;color:#6b7280;background:#f9fafb;border-radius:6px;padding:7px 10px;margin-bottom:10px;line-height:1.9;}
+.choices{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.choice{padding:8px 10px;border-radius:8px;border:2px solid #e5e7eb;background:#fff;font-family:'BIZ UDPGothic',sans-serif;font-size:13px;cursor:pointer;text-align:left;transition:.15s;line-height:1.6;}
+.choice:hover{border-color:#ea580c;background:#fff7ed;}
+.choice.selected-correct{background:#d1fae5;border-color:#10b981;color:#065f46;}
+.choice.selected-wrong{background:#fee2e2;border-color:#ef4444;color:#991b1b;}
+.choice.show-correct{background:#d1fae5;border-color:#10b981;}
+.choice .frac .num,.choice .frac .den{font-size:.82em;}
+.feedback{font-size:13px;margin-top:8px;padding:8px 10px;border-radius:6px;line-height:1.8;}
+.feedback.ok{background:#d1fae5;color:#065f46;}
+.feedback.ng{background:#fee2e2;color:#991b1b;}
+.feedback .frac .num,.feedback .frac .den{font-size:.85em;}
+.drill-action{display:flex;justify-content:center;margin-top:14px;}
+.btn-check{background:#ea580c;color:#fff;border:none;padding:12px 32px;border-radius:24px;font-family:'BIZ UDPGothic',sans-serif;font-size:15px;font-weight:700;cursor:pointer;}
+.btn-check:disabled{opacity:.5;cursor:default;}
+.score-box{background:#fff;border-radius:12px;padding:16px;text-align:center;margin-bottom:14px;border:2px solid #fed7aa;}
+.score-circle{width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,#ea580c,#9a3412);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;margin:0 auto 10px;font-size:24px;font-weight:700;}
+.score-label{font-size:11px;opacity:.8;}
+.nav-row{display:flex;gap:10px;justify-content:center;margin-top:16px;flex-wrap:wrap;}
+.btn-nav{padding:10px 24px;border-radius:20px;border:2px solid #ea580c;background:#fff;color:#ea580c;font-family:'BIZ UDPGothic',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:.2s;}
+.btn-nav.primary{background:#ea580c;color:#fff;}
+.btn-nav:hover{opacity:.85;}
+.back-link{display:block;text-align:center;margin-top:16px;color:#9ca3af;font-size:13px;text-decoration:none;}
+.back-link:hover{color:#ea580c;}
+.confetti-wrap{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:999;}
+/* ミニテスト */
+.mini-card{background:#fff;border:2px solid #ea580c;border-radius:12px;padding:16px;margin-bottom:14px;}
+/* プルダウン証明 */
+details{margin:10px 0;}
+summary{font-size:13px;color:#ea580c;cursor:pointer;font-weight:700;padding:8px 12px;background:#fff7ed;border-radius:8px;list-style:none;display:flex;align-items:center;gap:6px;}
+summary::before{content:'▶';font-size:11px;transition:transform .2s;}
+details[open] summary::before{transform:rotate(90deg);}
+details .proof-body{background:#fafafa;border:1px solid #fed7aa;border-radius:0 0 8px 8px;padding:14px;font-size:14px;line-height:2.2;}
+details .proof-body .step{margin-bottom:8px;padding-left:12px;border-left:3px solid #fb923c;}
+/* 使い分けボックス */
+.use-box{border:2px solid #fed7aa;border-radius:10px;padding:12px 14px;margin:10px 0;background:#fff7ed;}
+.use-row{display:flex;align-items:flex-start;gap:8px;margin-bottom:8px;font-size:13px;}
+.use-row:last-child{margin-bottom:0;}
+.use-key{background:#ea580c;color:#fff;border-radius:6px;padding:2px 10px;font-weight:700;font-size:12px;white-space:nowrap;}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-icon">📊</div>
+  <div>
+    <div class="header-title">DA01　代表値</div>
+    <div class="header-sub">平均値・中央値・最頻値 ― データの特徴を1つの数字で表す</div>
+  </div>
+</div>
+
+<nav class="step-nav">
+  <button class="step-btn active" id="nav-intro" onclick="goStep('intro')">
+    <span class="step-icon">📖</span>説明
+  </button>
+  <button class="step-btn" id="nav-example" onclick="goStep('example')">
+    <span class="step-icon">💡</span>例題
+  </button>
+  <button class="step-btn" id="nav-drill" onclick="goStep('drill')">
+    <span class="step-icon">✏️</span>練習
+  </button>
+  <button class="step-btn" id="nav-check" onclick="goStep('check')">
+    <span class="step-icon">✅</span>確認
+  </button>
+</nav>
+
+<div class="content">
+
+<!-- ===== INTRO ===== -->
+<div id="step-intro">
+
+<div class="card">
+  <div class="card-title">📖 代表値とは？</div>
+  <p class="explain">
+    たくさんのデータをそのまま眺めても、全体の特徴はつかみにくいものです。<br>
+    そこで、データ全体の特徴を<strong>1つの数値</strong>で表したものを「<strong>代表値</strong>」といいます。代表値には主に次の3種類があります。
+  </p>
+  <div class="important">
+    <div class="imp-title">【重要】3つの代表値</div>
+    <div class="imp-row">
+      <span class="imp-label">①</span>
+      <span>平均値 ＝ <span class="frac"><span class="num">データの合計</span><span class="den">個数</span></span></span>
+    </div>
+    <div class="imp-row">
+      <span class="imp-label">②</span>
+      <span>中央値 ＝ 大きさの順に並べたときの真ん中の値</span>
+    </div>
+    <div class="imp-row">
+      <span class="imp-label">③</span>
+      <span>最頻値 ＝ もっとも多く出てくる値</span>
+    </div>
+  </div>
+  <div class="point-box">
+    <div class="label">【具体例】次の9個のデータで、3つの代表値を実際に求めてみよう</div>
+    <p class="explain" style="font-size:14px;margin-bottom:8px;">
+      7，8，6，4，4，8，4，6，5
+    </p>
+    <p class="explain" style="font-size:13px;color:#6b7280;margin-bottom:10px;">
+      まずは小さい順に並べ替えます　→　4，4，4，5，6，6，7，8，8
+    </p>
+    <p class="explain" style="font-size:14px;line-height:2.1;margin-bottom:10px;">
+      <strong>① 平均値を求める</strong>：全部の値を足して、個数（9個）で割ります。<br>
+      7＋8＋6＋4＋4＋8＋4＋6＋5 ＝ 52<br>
+      52 ÷ 9 ＝ 5.77…　→　<strong>平均値 ≒ 5.8</strong>
+    </p>
+    <p class="explain" style="font-size:14px;line-height:2.1;margin-bottom:10px;">
+      <strong>② 中央値を求める</strong>：中央値は「大きさの順に並べたときの、ちょうど真ん中にくる値」です。<br>
+      ・データの個数が<strong>奇数</strong>のとき　→　ちょうど真ん中の1個の値がそのまま中央値<br>
+      ・データの個数が<strong>偶数</strong>のとき　→　真ん中の2個の値を足して2で割った値（＝平均）が中央値<br><br>
+      今回のデータは9個で<strong>奇数</strong>なので、並べ替えた列のちょうど真ん中（5番目）の値を見ます。<br>
+      4，4，4，5，<strong>6</strong>，6，7，8，8　←　5番目が真ん中<br>
+      →　<strong>中央値 ＝ 6</strong>
+    </p>
+    <p class="explain" style="font-size:13px;line-height:2.1;margin-bottom:10px;background:#fff;border-radius:8px;padding:8px 10px;">
+      <strong>【参考：個数が偶数のときの例】</strong>（教科書 練習4(2)より）　次の8個（偶数）のデータの中央値を求めよ。<br>
+      12，13，14，16，18，19，20，22<br>
+      解）8個（偶数）なので、真ん中2つ（4番目＝16、5番目＝18）の平均 →
+      <span class="frac"><span class="num">16＋18</span><span class="den">2</span></span> ＝ <strong>17</strong>　答）中央値 ＝ 17
+    </p>
+    <p class="explain" style="font-size:14px;line-height:2.1;">
+      <strong>③ 最頻値を求める</strong>：それぞれの値が何回出てくるか数えます。<br>
+      4は3回、6は2回、8は2回、5と7は1回ずつ。一番多いのは4（3回）。<br>
+      →　<strong>最頻値 ＝ 4</strong>
+    </p>
+  </div>
+</div>
+
+<!-- 概念タブ切り替え -->
+<div class="card" style="padding-bottom:10px;">
+  <div class="card-title">▶ 学習する代表値を選んでください</div>
+  <div class="set-tabs" id="concept-tabs">
+    <button class="set-tab active" onclick="showConcept(0)">① 平均値</button>
+    <button class="set-tab" onclick="showConcept(1)">② 中央値</button>
+    <button class="set-tab" onclick="showConcept(2)">③ 最頻値</button>
+  </div>
+</div>
+
+<!-- 平均値 -->
+<div id="concept-0">
+<div class="card">
+  <div class="card-title">① 平均値の求め方</div>
+  <p class="explain">
+    データの値が x1，x2，……，xn の n個あるとき、平均値 x̄ は次の式で求めます。
+  </p>
+  <div class="point-box">
+    <div class="label">【平均値の公式】</div>
+    <p class="explain" style="font-size:14px;line-height:2.4;">
+      x̄ ＝ <span class="frac"><span class="num">x1＋x2＋……＋xn</span><span class="den">n</span></span>
+      （データの値をすべて足して、個数で割る）
+    </p>
+  </div>
+  <p class="explain" style="margin:14px 0 8px;"><strong>【例題1】</strong>次のデータは、男子10人の1分間の腕立てふせの回数の記録である。この記録の平均値を求めよ。</p>
+  <div class="q-given">21，29，31，24，23，27，20，25，28，17（回）</div>
+  <div class="point-box">
+    <div class="label">【考え方】全部足して、個数（10）で割る</div>
+    <p class="explain" style="font-size:14px;line-height:2.4;">
+      21＋29＋31＋24＋23＋27＋20＋25＋28＋17 ＝ 245<br>
+      x̄ ＝ <span class="frac"><span class="num">245</span><span class="den">10</span></span> ＝ <strong>24.5（回）</strong>
+    </p>
+  </div>
+  <div class="hint-box">
+    <div class="label">【注意】平均値の弱点】</div>
+    <strong>外れ値</strong>とは、他の値から大きく離れた、極端に大きい（または小さい）値のことです。<br>
+    例えば、5人のテストの点数が「60，65，70，62，<strong>0</strong>」だったとしましょう。ほとんどの人が60点台なのに、1人だけ0点をとっています。この「0点」が外れ値です。<br>
+    平均値は、この外れ値が1つ混じっているだけで大きく引っ張られてしまいます。<br>
+    もし0点の人がいなければ平均は<strong>64.25点</strong>（60＋65＋70＋62を4人で割る）ですが、0点を含めて計算すると平均は<strong>51.4点</strong>（60＋65＋70＋62＋0を5人で割る）まで下がってしまいます。
+  </div>
+</div>
+
+<!-- ミニテスト1 -->
+<div class="mini-card">
+  <div class="card-title">🖊️ ミニテスト①　平均値を求めよう！</div>
+  <div id="mt1-qs"></div>
+  <div class="drill-action"><button class="btn-check" id="mt1-btn" onclick="submitMini(1)">答え合わせ</button></div>
+  <div id="mt1-fb" style="display:none;"></div>
+</div>
+</div><!-- /concept-0 -->
+
+<!-- 中央値 -->
+<div id="concept-1" style="display:none;">
+<div class="card">
+  <div class="card-title">② 中央値の求め方</div>
+  <p class="explain">
+    データを<strong>小さい順に並べ替えて</strong>、ちょうど真ん中にくる値が中央値です。
+  </p>
+  <div class="point-box">
+    <div class="label">【個数が奇数のとき／偶数のとき】</div>
+    <p class="explain" style="font-size:14px;line-height:2.2;">
+      ・個数が<strong>奇数</strong>のとき → ちょうど真ん中の1個の値<br>
+      ・個数が<strong>偶数</strong>のとき → 真ん中2個の値の平均値
+    </p>
+  </div>
+  <p class="explain" style="margin:14px 0 8px;"><strong>【例題2】</strong>次のデータの中央値を求めよ。</p>
+  <div class="q-given">
+    (a)　3，4，4，5，7，8，9，9，10（9個）<br>
+    (b)　3，3，4，4，5，5，6，7，8，9，10，11（12個）
+  </div>
+  <div class="point-box">
+    <div class="label">【考え方】すでに小さい順に並んでいる → 真ん中を探す</div>
+    <p class="explain" style="font-size:14px;line-height:2.4;">
+      (a) 9個（奇数）なので、真ん中は5番目 → <strong>中央値＝7</strong><br>
+      (b) 12個（偶数）なので、真ん中2つ（6番目＝5、7番目＝6）の平均 →
+      <span class="frac"><span class="num">5＋6</span><span class="den">2</span></span> ＝ <strong>5.5</strong>
+    </p>
+  </div>
+  <div class="hint-box">
+    <div class="label">【中央値のポイント】</div>
+    中央値は、平均値と違って<strong>外れ値</strong>（他の値から大きく離れた、極端に大きい・小さい値）の影響をほとんど受けません。<br>
+    先ほどの「60，65，70，62，0」の例で確かめてみましょう。平均値は0点のせいで51.4点まで下がってしまいましたが、中央値は小さい順に並べた0，60，62，65，70の真ん中（3番目）である<strong>62点</strong>のままです。0点が1つ混じっても、ほとんど変わりません。<br>
+    <strong>この「外れ値に強い」という性質が、次の単元で学ぶ「箱ひげ図」の便利さの土台になります。</strong>
+  </div>
+</div>
+
+<!-- ミニテスト2 -->
+<div class="mini-card">
+  <div class="card-title">🖊️ ミニテスト②　中央値を求めよう！</div>
+  <div id="mt2-qs"></div>
+  <div class="drill-action"><button class="btn-check" id="mt2-btn" onclick="submitMini(2)">答え合わせ</button></div>
+  <div id="mt2-fb" style="display:none;"></div>
+</div>
+</div><!-- /concept-1 -->
+
+<!-- 最頻値 -->
+<div id="concept-2" style="display:none;">
+<div class="card">
+  <div class="card-title">③ 最頻値の求め方</div>
+  <p class="explain">
+    データの中で<strong>もっとも個数（度数）の多い値</strong>が最頻値です。
+  </p>
+  <p class="explain" style="margin:14px 0 8px;"><strong>【例題3】</strong>次の12個のデータの最頻値を求めよ。</p>
+  <div class="q-given">1，2，7，2，3，6，8，11，12，12，15，12，4</div>
+  <div class="point-box">
+    <div class="label">【考え方】それぞれの値が何回出てくるか数える</div>
+    <p class="explain" style="font-size:14px;line-height:2.4;">
+      12という値が3回出てきて、他のどの値よりも多い。<br>
+      → <strong>最頻値＝12</strong>
+    </p>
+  </div>
+  <div class="point-box">
+    <div class="label">【最頻値のポイント】</div>
+    <p class="explain" style="font-size:14px;">
+      「一番人気の値」がひと目でわかるので、アンケートやサイズ調査など「典型的な値」を知りたいときに向いています。
+    </p>
+  </div>
+</div>
+
+<!-- ミニテスト3 -->
+<div class="mini-card">
+  <div class="card-title">🖊️ ミニテスト③　最頻値を求めよう！</div>
+  <div id="mt3-qs"></div>
+  <div class="drill-action"><button class="btn-check" id="mt3-btn" onclick="submitMini(3)">答え合わせ</button></div>
+  <div id="mt3-fb" style="display:none;"></div>
+</div>
+</div><!-- /concept-2 -->
+
+<!-- 使い分け -->
+<div class="card">
+  <div class="card-title">📌 3つの代表値の使い分け</div>
+  <div class="use-box">
+    <div class="use-row">
+      <span class="use-key">平均値</span>
+      <span>データ全体をバランスよく見たいとき（外れ値が少ないとき）</span>
+    </div>
+    <div class="use-row">
+      <span class="use-key">中央値</span>
+      <span>極端に大きい・小さい値（外れ値）が混じっているとき</span>
+    </div>
+    <div class="use-row">
+      <span class="use-key">最頻値</span>
+      <span>「一番多い・一番典型的な値」を知りたいとき</span>
+    </div>
+  </div>
+</div>
+
+<div class="nav-row">
+  <button class="btn-nav primary" onclick="goStep('example')">総合問題へ →</button>
+</div>
+<a href="kounin_math_index.html" class="back-link">← 単元一覧に戻る</a>
+</div><!-- /intro -->
+
+
+<!-- ===== EXAMPLE ===== -->
+<div id="step-example" style="display:none;">
+
+<!-- 総合例題 -->
+<div class="card">
+  <div class="card-title">💡 総合問題：3つの代表値をまとめて求めよう</div>
+  <p class="explain" style="margin-bottom:8px;">
+    次のデータは、あるテストの得点である。平均値・中央値・最頻値をすべて求めよ。（教科書 練習6(2)②より）
+  </p>
+  <div class="q-given">4，7，4，5，6，8，6，7，8，6（10人）</div>
+  <div class="point-box">
+    <div class="label">【手順1】小さい順に並べ替える</div>
+    <p class="explain" style="font-size:14px;">4，4，5，6，6，6，7，7，8，8</p>
+  </div>
+  <div class="point-box">
+    <div class="label">【手順2】平均値を求める</div>
+    <p class="explain" style="font-size:14px;line-height:2.4;">
+      全部足して、個数（10）で割ります。<br>
+      4＋7＋4＋5＋6＋8＋6＋7＋8＋6 ＝ 61<br>
+      x̄ ＝ <span class="frac"><span class="num">61</span><span class="den">10</span></span> ＝ <strong>6.1</strong>
+    </p>
+  </div>
+  <div class="point-box">
+    <div class="label">【手順3】中央値を求める</div>
+    <p class="explain" style="font-size:14px;line-height:2.4;">
+      10個（偶数）なので、真ん中2つ（5番目＝6、6番目＝6）の平均 →
+      <span class="frac"><span class="num">6＋6</span><span class="den">2</span></span> ＝ <strong>6</strong>
+    </p>
+  </div>
+  <div class="point-box">
+    <div class="label">【手順4】最頻値を求める</div>
+    <p class="explain" style="font-size:14px;line-height:2.4;">
+      4は2回、5は1回、6は3回、7は2回、8は2回、出てきます。一番多いのは6（3回）。<br>
+      → <strong>最頻値＝6</strong>
+    </p>
+  </div>
+  <div class="hint-box">
+    <div class="label">【まとめ】</div>
+    平均値6.1、中央値6、最頻値6 ― 今回は3つとも近い値になりました。データによって3つの代表値がどう変わるか、次のミニテストで確認してみましょう。
+  </div>
+</div>
+
+<!-- ミニテスト4 -->
+<div class="mini-card">
+  <div class="card-title">🖊️ ミニテスト④　3つの代表値を求めよう！</div>
+  <p class="explain" style="font-size:13px;margin-bottom:10px;">次のデータについて、平均値・中央値・最頻値をそれぞれ求めよう。</p>
+  <div class="q-given" style="margin-bottom:10px;">1，2，2，3，3，3，4，20（8個）</div>
+  <div id="mt4-qs"></div>
+  <div class="drill-action"><button class="btn-check" id="mt4-btn" onclick="submitMini(4)">答え合わせ</button></div>
+  <div id="mt4-fb" style="display:none;"></div>
+</div>
+
+<div class="nav-row">
+  <button class="btn-nav" onclick="goStep('intro')">← 説明に戻る</button>
+  <button class="btn-nav primary" onclick="goStep('drill')">練習へ →</button>
+</div>
+<a href="kounin_math_index.html" class="back-link">← 単元一覧に戻る</a>
+</div><!-- /example -->
+
+
+<!-- ===== DRILL ===== -->
+<div id="step-drill" style="display:none;">
+
+<div class="card">
+  <div class="card-title">✏️ 練習問題</div>
+  <p class="drill-intro">セットを選んで4問解きましょう。平均値・中央値・最頻値のどれを求めるか、まず問題文をよく読もう。</p>
+  <div class="set-tabs">
+    <button class="set-tab active" onclick="loadDrill(0)">Aセット</button>
+    <button class="set-tab" onclick="loadDrill(1)">Bセット</button>
+    <button class="set-tab" onclick="loadDrill(2)">Cセット</button>
+  </div>
+  <div id="drill-questions"></div>
+  <div class="drill-action">
+    <button class="btn-check" id="drill-submit" onclick="submitDrill()">採点する</button>
+  </div>
+</div>
+<div id="drill-result" style="display:none;"></div>
+
+<div class="nav-row">
+  <button class="btn-nav" onclick="goStep('example')">← 例題に戻る</button>
+  <button class="btn-nav primary" onclick="goStep('check')">確認テストへ →</button>
+</div>
+<a href="kounin_math_index.html" class="back-link">← 単元一覧に戻る</a>
+</div><!-- /drill -->
+
+
+<!-- ===== CHECK ===== -->
+<div id="step-check" style="display:none;">
+
+<div class="card">
+  <div class="card-title">✅ 確認テスト（6問）</div>
+  <p class="drill-intro">高認過去問を含む形式です。じっくり考えて解こう！</p>
+  <div id="check-questions"></div>
+  <div class="drill-action">
+    <button class="btn-check" id="check-submit" onclick="submitCheck()">採点する</button>
+  </div>
+</div>
+<div id="check-result" style="display:none;"></div>
+
+<div class="nav-row">
+  <button class="btn-nav" onclick="goStep('drill')">← 練習に戻る</button>
+</div>
+<a href="kounin_math_index.html" class="back-link">← 単元一覧に戻る</a>
+</div><!-- /check -->
+
+</div><!-- /content -->
+
+<script src="gamba_support.js"></script>
+<script>
+// ===== 縦型分数 =====
+function F(n,d){return `<span class="frac"><span class="num">${n}</span><span class="den">${d}</span></span>`;}
+
+// ===== ステップ管理 =====
+const stepOrder=['intro','example','drill','check'];
+function goStep(s){
+  stepOrder.forEach(id=>{
+    document.getElementById('step-'+id).style.display=(id===s)?'':'none';
+    const nb=document.getElementById('nav-'+id);
+    nb.classList.remove('active','done');
+    if(id===s) nb.classList.add('active');
+    else if(stepOrder.indexOf(id)<stepOrder.indexOf(s)) nb.classList.add('done');
+  });
+  if(s==='example') buildMinis([4]);
+  if(s==='drill') initDrill();
+  if(s==='check') initCheck();
+  window.scrollTo(0,0);
+}
+
+// ===== 説明ステップ内：代表値タブ切り替え =====
+function showConcept(idx){
+  [0,1,2].forEach(i=>{
+    document.getElementById('concept-'+i).style.display=(i===idx)?'':'none';
+  });
+  document.querySelectorAll('#concept-tabs .set-tab').forEach((t,i)=>t.classList.toggle('active',i===idx));
+  const tabs=document.getElementById('concept-tabs');
+  if(tabs) tabs.scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+// ===== ミニテストデータ =====
+const MT1 = [
+  {q:`6，9，7，10，8 の平均値はどれか。`,
+   ch:['① 7','② 7.5','③ 8','④ 8.5'],
+   a:2, exp:`合計＝6＋9＋7＋10＋8＝40　40÷5＝8　→ ③`},
+  {q:`12，15，11，14，13 の平均値はどれか。`,
+   ch:['① 12','② 13','③ 14','④ 15'],
+   a:1, exp:`合計＝12＋15＋11＋14＋13＝65　65÷5＝13　→ ②`},
+];
+const MT2 = [
+  {q:`5，9，3，8，6 の中央値はどれか。`,
+   ch:['① 5','② 6','③ 7','④ 8'],
+   a:1, exp:`小さい順に並べると 3，5，6，8，9。真ん中（3番目）は6　→ ②`},
+  {q:`4，10，6，8 の中央値はどれか。`,
+   ch:['① 6','② 6.5','③ 7','④ 7.5'],
+   a:2, exp:`小さい順に並べると 4，6，8，10。真ん中2つ（6と8）の平均＝${F('6＋8','2')}＝7　→ ③`},
+];
+const MT3 = [
+  {q:`2，5，2，7，2，9 の最頻値はどれか。`,
+   ch:['① 2','② 5','③ 7','④ 9'],
+   a:0, exp:`2が3回で最も多く出現している　→ ①`},
+  {q:`値10が5人、値20が2人、値30が7人のデータがある。このデータの最頻値はどれか。`,
+   ch:['① 10','② 20','③ 30','④ 求められない'],
+   a:2, exp:`度数が最大（7人）なのは値30　→ ③`},
+];
+const MT4 = [
+  {q:`このデータの平均値はどれか。`,
+   ch:['① 3','② 4','③ 4.75','④ 5'],
+   a:2, exp:`合計＝1＋2＋2＋3＋3＋3＋4＋20＝38　38÷8＝4.75　→ ③（20という外れ値に引っ張られて大きくなっている）`},
+  {q:`このデータの中央値はどれか。`,
+   ch:['① 2.5','② 3','③ 3.5','④ 4'],
+   a:1, exp:`小さい順に並べると 1，2，2，3，3，3，4，20。真ん中2つ（4番目＝3、5番目＝3）の平均＝${F('3＋3','2')}＝3　→ ②（外れ値20があっても、ほとんど影響を受けない）`},
+  {q:`このデータの最頻値はどれか。`,
+   ch:['① 1','② 2','③ 3','④ 4'],
+   a:2, exp:`3が3回で最も多く出現している　→ ③`},
+];
+
+const allMT=[null,MT1,MT2,MT3,MT4];
+const mtAns=[null,[],[],[],[]];
+const mtDone=[null,false,false,false,false];
+
+function buildMinis(indices){
+  indices.forEach(n=>{
+    mtAns[n]=new Array(allMT[n].length).fill(-1);
+    mtDone[n]=false;
+    document.getElementById(`mt${n}-fb`).style.display='none';
+    document.getElementById(`mt${n}-btn`).disabled=false;
+    const c=document.getElementById(`mt${n}-qs`);c.innerHTML='';
+    allMT[n].forEach((d,i)=>{
+      const b=document.createElement('div');b.className='q-block';b.id=`mt${n}q${i}`;
+      b.innerHTML=`<div class="q-num">問${i+1}</div>
+        <div class="q-text">${d.q}</div>
+        <div class="choices" id="mt${n}c${i}">
+          ${d.ch.map((ch,ci)=>`<button class="choice" onclick="selMT(${n},${i},${ci})">${ch}</button>`).join('')}
+        </div>`;
+      c.appendChild(b);
+    });
+  });
+}
+buildMinis([1,2,3]); // 説明ステップは初期表示なので、読み込み時にミニテスト①②③を組み立てる
+function selMT(n,qi,ci){
+  if(mtDone[n])return;
+  mtAns[n][qi]=ci;
+  document.querySelectorAll(`#mt${n}c${qi} .choice`).forEach((b,i)=>{
+    b.style.background=i===ci?'#ffedd5':'';b.style.borderColor=i===ci?'#ea580c':'';
+  });
+}
+function submitMini(n){
+  if(mtDone[n])return;mtDone[n]=true;
+  const data=allMT[n];let correct=0;
+  data.forEach((d,qi)=>{
+    const ua=mtAns[n][qi];
+    document.querySelectorAll(`#mt${n}c${qi} .choice`).forEach((b,i)=>{
+      if(i===d.a)b.classList.add('show-correct');
+      if(i===ua&&ua===d.a){b.classList.add('selected-correct');correct++;}
+      else if(i===ua)b.classList.add('selected-wrong');
+    });
+    document.getElementById(`mt${n}q${qi}`).classList.add(ua===d.a?'correct':'wrong');
+    const fb=document.createElement('div');fb.className='feedback '+(ua===d.a?'ok':'ng');
+    fb.innerHTML=(ua===d.a?'✓ 正解！ ':'✗ 不正解。')+d.exp;
+    document.getElementById(`mt${n}q${qi}`).appendChild(fb);
+  });
+  document.getElementById(`mt${n}-btn`).disabled=true;
+  const fb=document.getElementById(`mt${n}-fb`);fb.style.display='block';
+  fb.innerHTML=`<div class="score-box"><div class="score-circle">${correct}<div class="score-label">/ ${data.length}</div></div>
+    <div style="font-size:14px;font-weight:700;color:#9a3412;">${correct===data.length?'全問正解！🎉':correct>=1?'もう少し！':'例題を見直そう'}</div></div>`;
+  if(correct===data.length)fireConfetti();
+}
+
+// ===== 練習問題 =====
+const drillSets=[
+  // Aセット
+  [
+    {q:`5，8，6，9，7 の平均値は？`,
+     ch:['① 6','② 7','③ 8','④ 9'],
+     ans:1, exp:`合計＝35　35÷5＝7`},
+    {q:`12，7，9，15，10 の中央値は？`,
+     ch:['① 9','② 10','③ 11','④ 12'],
+     ans:1, exp:`小さい順に並べると 7，9，10，12，15。真ん中は10`},
+    {q:`3，5，3，7，3，9，5 の最頻値は？`,
+     ch:['① 3','② 5','③ 7','④ 9'],
+     ans:0, exp:`3が3回で最も多く出現している`},
+    {q:`値2が3人、値4が2人、値6が5人のデータがある。このデータの平均値は？`,
+     ch:['① 4','② 4.2','③ 4.4','④ 4.6'],
+     ans:2, exp:`合計＝2×3＋4×2＋6×5＝6＋8＋30＝44　個数10人　44÷10＝4.4`},
+  ],
+  // Bセット
+  [
+    {q:`4，9，2，7，5，10 の中央値は？`,
+     ch:['① 5','② 5.5','③ 6','④ 6.5'],
+     ans:2, exp:`小さい順に並べると 2，4，5，7，9，10。真ん中2つ（5と7）の平均＝${F('5＋7','2')}＝6`},
+    {q:`値10が2人、値20が7人、値30が1人のデータがある。このデータの最頻値は？`,
+     ch:['① 10','② 20','③ 30','④ 25'],
+     ans:1, exp:`度数が最大（7人）なのは値20`},
+    {q:`14，18，16，20，12，16 の平均値は？`,
+     ch:['① 15','② 16','③ 17','④ 18'],
+     ans:1, exp:`合計＝14＋18＋16＋20＋12＋16＝96　96÷6＝16`},
+    {q:`3，7，2，9，5，7，4，8 の中央値は？`,
+     ch:['① 5','② 5.5','③ 6','④ 6.5'],
+     ans:2, exp:`小さい順に並べると 2，3，4，5，7，7，8，9。真ん中2つ（5と7）の平均＝${F('5＋7','2')}＝6`},
+  ],
+  // Cセット
+  [
+    {q:`20，22，24，26，28，30 の平均値は？`,
+     ch:['① 24','② 25','③ 26','④ 27'],
+     ans:1, exp:`合計＝150　150÷6＝25`},
+    {q:`6，2，9，4，7，3，8 の中央値は？`,
+     ch:['① 5','② 6','③ 7','④ 8'],
+     ans:1, exp:`小さい順に並べると 2，3，4，6，7，8，9。真ん中（4番目）は6`},
+    {q:`値5が4人、値15が1人、値25が6人、値35が2人のデータがある。このデータの最頻値は？`,
+     ch:['① 5','② 15','③ 25','④ 35'],
+     ans:2, exp:`度数が最大（6人）なのは値25`},
+    {q:`15，18，12，20，17，19，14，16，21，13 の中央値は？`,
+     ch:['① 16','② 16.5','③ 17','④ 17.5'],
+     ans:1, exp:`小さい順に並べると 12～21の10個。真ん中2つ（16と17）の平均＝${F('16＋17','2')}＝16.5`},
+  ],
+];
+let curDrillSet=0,drillAnswers=[],drillSubmitted=false;
+function loadDrill(setIdx){
+  curDrillSet=setIdx;drillAnswers=new Array(4).fill(-1);drillSubmitted=false;
+  document.querySelectorAll('.set-tab').forEach((t,i)=>t.classList.toggle('active',i===setIdx));
+  document.getElementById('drill-result').style.display='none';
+  document.getElementById('drill-submit').disabled=false;
+  const c=document.getElementById('drill-questions');c.innerHTML='';
+  drillSets[setIdx].forEach((d,qi)=>{
+    const b=document.createElement('div');b.className='q-block';b.id='dq'+qi;
+    b.innerHTML=`<div class="q-num">問${qi+1}</div>
+      <div class="q-text">${d.q}</div>
+      <div class="choices" id="dc${qi}">
+        ${d.ch.map((ch,ci)=>`<button class="choice" onclick="selDrill(${qi},${ci})">${ch}</button>`).join('')}
+      </div>`;
+    c.appendChild(b);
+  });
+}
+function selDrill(qi,ci){if(drillSubmitted)return;drillAnswers[qi]=ci;
+  document.querySelectorAll(`#dc${qi} .choice`).forEach((b,i)=>{b.style.background=i===ci?'#ffedd5':'';b.style.borderColor=i===ci?'#ea580c':'';});}
+function submitDrill(){
+  if(drillSubmitted)return;drillSubmitted=true;
+  let correct=0;
+  drillSets[curDrillSet].forEach((d,qi)=>{
+    const ua=drillAnswers[qi];
+    document.querySelectorAll(`#dc${qi} .choice`).forEach((b,i)=>{
+      if(i===d.ans)b.classList.add('show-correct');
+      if(i===ua&&ua===d.ans){b.classList.add('selected-correct');correct++;}
+      else if(i===ua)b.classList.add('selected-wrong');
+    });
+    document.getElementById('dq'+qi).classList.add(ua===d.ans?'correct':'wrong');
+    const fb=document.createElement('div');fb.className='feedback '+(ua===d.ans?'ok':'ng');
+    fb.innerHTML=(ua===d.ans?'✓ 正解！ ':'✗ 不正解。')+d.exp;
+    document.getElementById('dq'+qi).appendChild(fb);
+  });
+  document.getElementById('drill-submit').disabled=true;
+  const res=document.getElementById('drill-result');res.style.display='block';
+  res.innerHTML=`<div class="score-box"><div class="score-circle">${correct}<div class="score-label">/ 4</div></div>
+    <div style="font-size:14px;font-weight:700;color:#9a3412;">${correct===4?'全問正解！🎉':'もう一度チャレンジしよう'}</div></div>`;
+  if(correct===4)fireConfetti();
+}
+function initDrill(){loadDrill(0);}
+
+// ===== 確認テスト（6問・過去問含む）=====
+const checkData=[
+  {q:`あるアイスクリーム店で1時間に売れたアイスクリームの金額と個数を調べた。次の記述Ⅰ～Ⅲに関して、このデータから読み取れるものはどれか。（高認過去問）`,
+   given:`金額(円)：250，280，300，350，400　／　個数(個)：2，10，1，0，3　（合計16個）<br>
+     Ⅰ：最頻値は280円である。　Ⅱ：中央値は300円である。　Ⅲ：平均値は300円である。`,
+   choices:['① ⅠとⅡのみ','② ⅡとⅢのみ','③ ⅠとⅢのみ','④ ⅠとⅡとⅢすべて'],
+   ans:2, exp:`個数の合計は16個。安い順に並べると280円が3～12番目を占めるため、中央値（8，9番目の平均）は280円 → Ⅱは誤り。最頻値は個数最大の280円 → Ⅰは正しい。平均値＝(250×2＋280×10＋300×1＋400×3)÷16＝4800÷16＝300円 → Ⅲは正しい。よってⅠとⅢのみ → ③`},
+  {q:`Aさんが5店舗で、ある商品の価格（円）を調べた。データから読み取れることとして、最も適切なものはどれか。（高認過去問）`,
+   given:`192，198，198，192，190（円）<br>
+     Ⅰ：中央値は192である。　Ⅱ：平均値は194である。　Ⅲ：範囲は2である。`,
+   choices:['① ⅠとⅡのみ正しい。','② ⅠとⅢのみ正しい。','③ ⅡとⅢのみ正しい。','④ ⅠとⅡとⅢはすべて正しい。'],
+   ans:0, exp:`小さい順に並べると190，192，192，198，198。中央値（3番目）＝192 → Ⅰ正しい。平均値＝(192＋198＋198＋192＋190)÷5＝970÷5＝194 → Ⅱ正しい。範囲＝最大−最小＝198−190＝8（2ではない）→ Ⅲ誤り。よってⅠとⅡのみ → ①`},
+  {q:`2，9，5，7，a（aは自然数）からなるデータの中央値が5であるとき、aの値として誤っているものはどれか。（高認過去問）`,
+   given:``,
+   choices:['① 3','② 4','③ 5','④ 6'],
+   ans:3, exp:`2，5，7，9にaを挿入して中央値（3番目）を確認する。a＝3→2，3，5，7，9(中央値5)○／a＝4→2，4，5，7，9(中央値5)○／a＝5→2，5，5，7，9(中央値5)○／a＝6→2，5，6，7，9(中央値6)×。よって誤っているのは④`},
+  {q:`次のデータは、ある高校1年生女子7名の握力を調べたものである。このときの記述として、誤っているものはどれか。（高認過去問）`,
+   given:`17，26，22，15，27，25，22（kg）`,
+   choices:['① 平均値は22kgである。','② 中央値は22kgである。','③ 最頻値は22kgである。','④ 最小値は17kgである。'],
+   ans:3, exp:`小さい順に並べると15，17，22，22，25，26，27。平均値＝(17+26+22+15+27+25+22)÷7＝154÷7＝22kg→①正しい。中央値(4番目)＝22kg→②正しい。最頻値＝22kg(2回出現)→③正しい。最小値は15kgであり17kgではない→④が誤り`},
+  {q:`あるテストの得点データ　9，5，7，6，5，9，7，8，5　の最頻値はどれか。`,
+   given:``,
+   choices:['① 5','② 6','③ 7','④ 9'],
+   ans:0, exp:`5が3回で最も多く出現している → 最頻値は5 → ①`},
+  {q:`10個のデータ　5，3，6，2，4，1，3，3，5，4　の中央値はどれか。`,
+   given:``,
+   choices:['① 3','② 3.5','③ 4','④ 4.5'],
+   ans:1, exp:`小さい順に並べると1，2，3，3，3，4，4，5，5，6。中央値は5番目(3)と6番目(4)の平均＝${F('3＋4','2')}＝3.5 → ②`}
+];
+let checkAnswers=[],checkSubmitted=false;
+function initCheck(){
+  checkAnswers=new Array(checkData.length).fill(-1);checkSubmitted=false;
+  document.getElementById('check-result').style.display='none';
+  document.getElementById('check-submit').disabled=false;
+  const c=document.getElementById('check-questions');c.innerHTML='';
+  checkData.forEach((d,qi)=>{
+    const b=document.createElement('div');b.className='q-block';b.id='cq'+qi;
+    b.innerHTML=`<div class="q-num">問${qi+1}</div>
+      <div class="q-text">${d.q}</div>
+      ${d.given?`<div class="q-given">${d.given}</div>`:''}
+      <div class="choices" id="cc${qi}">
+        ${d.choices.map((ch,ci)=>`<button class="choice" onclick="selCheck(${qi},${ci})">${ch}</button>`).join('')}
+      </div>`;
+    c.appendChild(b);
+  });
+}
+function selCheck(qi,ci){if(checkSubmitted)return;checkAnswers[qi]=ci;
+  document.querySelectorAll(`#cc${qi} .choice`).forEach((b,i)=>{b.style.background=i===ci?'#ffedd5':'';b.style.borderColor=i===ci?'#ea580c':'';});}
+function submitCheck(){
+  if(checkSubmitted)return;checkSubmitted=true;
+  let correct=0;
+  checkData.forEach((d,qi)=>{
+    const ua=checkAnswers[qi];
+    document.querySelectorAll(`#cc${qi} .choice`).forEach((b,i)=>{
+      if(i===d.ans)b.classList.add('show-correct');
+      if(i===ua&&ua===d.ans){b.classList.add('selected-correct');correct++;}
+      else if(i===ua)b.classList.add('selected-wrong');
+    });
+    document.getElementById('cq'+qi).classList.add(ua===d.ans?'correct':'wrong');
+    const fb=document.createElement('div');fb.className='feedback '+(ua===d.ans?'ok':'ng');
+    fb.innerHTML=(ua===d.ans?'✓ 正解！ ':'✗ 不正解。')+d.exp;
+    document.getElementById('cq'+qi).appendChild(fb);
+  });
+  document.getElementById('check-submit').disabled=true;
+  const res=document.getElementById('check-result');res.style.display='block';
+  const pct=correct/checkData.length;
+  res.innerHTML=`<div class="score-box"><div class="score-circle">${correct}<div class="score-label">/ ${checkData.length}</div></div>
+    <div style="font-size:14px;font-weight:700;color:#9a3412;">${pct>=5/6?'合格！よくできました！🎉':pct>=0.5?'あと少し！':'説明に戻って確認しよう'}</div></div>`;
+  if(pct>=5/6){fireConfetti();if(typeof markPassed==='function')markPassed('DA01');}
+}
+
+// ===== 花吹雪 =====
+function fireConfetti(){
+  const wrap=document.createElement('div');wrap.className='confetti-wrap';document.body.appendChild(wrap);
+  const colors=['#ea580c','#9a3412','#fb923c','#f59e0b','#10b981','#fed7aa'];
+  for(let i=0;i<60;i++){
+    const p=document.createElement('div');
+    const c=colors[Math.floor(Math.random()*colors.length)];
+    const size=8+Math.random()*8;
+    p.style.cssText=`position:absolute;width:${size}px;height:${size}px;left:${Math.random()*100}%;top:-10px;background:${c};border-radius:${Math.random()>.5?'50%':'2px'};opacity:1;animation:fall${i} ${1.5+Math.random()*2}s ${Math.random()*1.5}s forwards;`;
+    wrap.appendChild(p);
+    const st=document.createElement('style');
+    const tx=(Math.random()-.5)*200;
+    st.textContent=`@keyframes fall${i}{0%{top:-10px;opacity:1;transform:rotate(0deg) translateX(0);}100%{top:110vh;opacity:0;transform:rotate(720deg) translateX(${tx}px);}}`;
+    document.head.appendChild(st);
+  }
+  setTimeout(()=>wrap.remove(),5000);
+}
+</script>
+</body>
+</html>

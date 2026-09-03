@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DA02 箱ひげ図とヒストグラム</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=BIZ+UDPGothic:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'BIZ UDPGothic',sans-serif;background:#fff7ed;color:#431407;min-height:100vh;}
+.header{background:linear-gradient(135deg,#ea580c,#9a3412);color:#fff;padding:16px 20px;display:flex;align-items:center;gap:12px;}
+.header-icon{font-size:28px;}
+.header-title{font-size:18px;font-weight:700;}
+.header-sub{font-size:12px;opacity:.8;margin-top:2px;}
+.step-nav{display:flex;background:#fff;border-bottom:2px solid #fed7aa;overflow:hidden;}
+.step-btn{flex:1;padding:10px 4px;border:none;background:transparent;font-family:'BIZ UDPGothic',sans-serif;font-size:12px;color:#6b7280;cursor:pointer;transition:.2s;display:flex;flex-direction:column;align-items:center;gap:3px;}
+.step-btn.active{background:#ea580c;color:#fff;}
+.step-btn.done{background:#ffedd5;color:#9a3412;}
+.step-icon{font-size:16px;}
+.content{padding:16px;max-width:640px;margin:0 auto;}
+.card{background:#fff;border-radius:12px;padding:18px;margin-bottom:14px;box-shadow:0 2px 8px rgba(234,88,12,.08);}
+.card-title{font-size:14px;font-weight:700;color:#9a3412;margin-bottom:12px;}
+.explain{font-size:14px;line-height:1.8;color:#374151;}
+.point-box{background:#fff7ed;border-left:4px solid #ea580c;padding:12px 14px;border-radius:0 8px 8px 0;margin:12px 0;}
+.point-box .label{font-size:11px;font-weight:700;color:#ea580c;margin-bottom:6px;}
+.important{background:#ea580c;color:#fff;border-radius:10px;padding:14px 16px;margin:12px 0;}
+.important .imp-title{font-size:12px;font-weight:700;opacity:.85;margin-bottom:10px;}
+.imp-row{display:flex;align-items:center;gap:10px;margin-bottom:8px;font-size:14px;font-weight:700;}
+.imp-row:last-child{margin-bottom:0;}
+.imp-label{background:rgba(255,255,255,.25);border-radius:6px;padding:3px 10px;font-size:13px;min-width:32px;text-align:center;}
+.hint-box{background:#fefce8;border-left:4px solid #f59e0b;padding:10px 14px;border-radius:0 8px 8px 0;margin:10px 0;font-size:13px;line-height:1.9;}
+.hint-box .label{font-size:11px;font-weight:700;color:#92400e;margin-bottom:3px;}
+.frac{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;margin:0 2px;line-height:1.2;}
+.frac .num{border-bottom:1.5px solid currentColor;padding:0 3px 1px;text-align:center;font-size:.95em;}
+.frac .den{padding:1px 3px 0;text-align:center;font-size:.95em;}
+.drill-intro{font-size:13px;color:#6b7280;margin-bottom:14px;}
+.set-tabs{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;}
+.set-tab{padding:6px 14px;border-radius:20px;border:2px solid #fed7aa;background:#fff;font-family:'BIZ UDPGothic',sans-serif;font-size:13px;cursor:pointer;color:#6b7280;transition:.2s;}
+.set-tab.active{background:#ea580c;border-color:#ea580c;color:#fff;font-weight:700;}
+.q-block{background:#fff;border-radius:10px;padding:14px;margin-bottom:10px;border:2px solid #fed7aa;}
+.q-block.correct{border-color:#10b981;}
+.q-block.wrong{border-color:#ef4444;}
+.q-num{font-size:11px;color:#9ca3af;margin-bottom:6px;}
+.q-text{font-size:14px;margin-bottom:10px;line-height:1.8;font-weight:700;}
+.q-given{font-size:13px;color:#6b7280;background:#f9fafb;border-radius:6px;padding:9px 10px;margin-bottom:10px;line-height:1.9;}
+.choices{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.choice{padding:8px 10px;border-radius:8px;border:2px solid #e5e7eb;background:#fff;font-family:'BIZ UDPGothic',sans-serif;font-size:13px;cursor:pointer;text-align:left;transition:.15s;line-height:1.6;}
+.choice:hover{border-color:#ea580c;background:#fff7ed;}
+.choice.selected-correct{background:#d1fae5;border-color:#10b981;color:#065f46;}
+.choice.selected-wrong{background:#fee2e2;border-color:#ef4444;color:#991b1b;}
+.choice.show-correct{background:#d1fae5;border-color:#10b981;}
+.choice .frac .num,.choice .frac .den{font-size:.82em;}
+.feedback{font-size:13px;margin-top:8px;padding:8px 10px;border-radius:6px;line-height:1.8;}
+.feedback.ok{background:#d1fae5;color:#065f46;}
+.feedback.ng{background:#fee2e2;color:#991b1b;}
+.drill-action{display:flex;justify-content:center;margin-top:14px;}
+.btn-check{background:#ea580c;color:#fff;border:none;padding:12px 32px;border-radius:24px;font-family:'BIZ UDPGothic',sans-serif;font-size:15px;font-weight:700;cursor:pointer;}
+.btn-check:disabled{opacity:.5;cursor:default;}
+.score-box{background:#fff;border-radius:12px;padding:16px;text-align:center;margin-bottom:14px;border:2px solid #fed7aa;}
+.score-circle{width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,#ea580c,#9a3412);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;margin:0 auto 10px;font-size:24px;font-weight:700;}
+.score-label{font-size:11px;opacity:.8;}
+.nav-row{display:flex;gap:10px;justify-content:center;margin-top:16px;flex-wrap:wrap;}
+.btn-nav{padding:10px 24px;border-radius:20px;border:2px solid #ea580c;background:#fff;color:#ea580c;font-family:'BIZ UDPGothic',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:.2s;}
+.btn-nav.primary{background:#ea580c;color:#fff;}
+.btn-nav:hover{opacity:.85;}
+.back-link{display:block;text-align:center;margin-top:16px;color:#9ca3af;font-size:13px;text-decoration:none;}
+.back-link:hover{color:#ea580c;}
+.confetti-wrap{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:999;}
+.mini-card{background:#fff;border:2px solid #ea580c;border-radius:12px;padding:16px;margin-bottom:14px;}
+.use-box{border:2px solid #fed7aa;border-radius:10px;padding:12px 14px;margin:10px 0;background:#fff7ed;}
+.use-row{display:flex;align-items:flex-start;gap:8px;margin-bottom:8px;font-size:13px;}
+.use-row:last-child{margin-bottom:0;}
+.use-key{background:#ea580c;color:#fff;border-radius:6px;padding:2px 10px;font-weight:700;font-size:12px;white-space:nowrap;}
+/* 図解 */
+.diagram-box{background:#fff;border-radius:10px;padding:10px;margin:8px 0;border:1px solid #fed7aa;}
+.diagram-label{font-size:12px;font-weight:700;color:#9a3412;margin-bottom:4px;text-align:center;}
+.diagram-pair{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0;}
+.diagram-col{flex:1;min-width:190px;}
+.diagram-pair.cols3 .diagram-col{min-width:150px;}
+.diagram-col .diagram-box{height:100%;}
+.match-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0;}
+.match-tag{display:inline-block;background:#ea580c;color:#fff;border-radius:6px;padding:2px 10px;font-weight:700;font-size:12px;margin-bottom:4px;}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-icon">📦</div>
+  <div>
+    <div class="header-title">DA02　箱ひげ図とヒストグラム</div>
+    <div class="header-sub">四分位数・箱ひげ図の基礎 ― 箱を見れば分布の形がわかる！</div>
+  </div>
+</div>
+
+<nav class="step-nav">
+  <button class="step-btn active" id="nav-intro" onclick="goStep('intro')">
+    <span class="step-icon">📖</span>説明
+  </button>
+  <button class="step-btn" id="nav-example" onclick="goStep('example')">
+    <span class="step-icon">💡</span>例題
+  </button>
+  <button class="step-btn" id="nav-drill" onclick="goStep('drill')">
+    <span class="step-icon">✏️</span>練習
+  </button>
+  <button class="step-btn" id="nav-check" onclick="goStep('check')">
+    <span class="step-icon">✅</span>確認
+  </button>
+</nav>
+
+<div class="content">
+
+<!-- ===== INTRO ===== -->
+<div id="step-intro">
+
+<div class="card">
+  <div class="card-title">📖 四分位数とは</div>
+  <p class="explain">
+    データを小さい順に並べて<strong>4等分</strong>する位置にくる数を「四分位数」といいます。小さい方から
+    第1四分位数（Q1）、第2四分位数（Q2＝中央値）、第3四分位数（Q3）といいます。
+  </p>
+  <div class="point-box">
+    <div class="label">【求め方】</div>
+    <p class="explain" style="font-size:14px;line-height:2.0;">
+      ① データを小さい順に並べる<br>
+      ② 全体の中央値がQ2<br>
+      ③ 個数が奇数のときは中央値を除いて、下半分・上半分に分ける（偶数のときはそのまま半分に分ける）<br>
+      ④ 下半分の中央値がQ1、上半分の中央値がQ3
+    </p>
+  </div>
+  <p class="explain" style="margin:14px 0 8px;"><strong>【例題6】</strong>次のデータの第1四分位数Q1，第2四分位数Q2，第3四分位数Q3をそれぞれ求めよ。</p>
+  <div class="q-given">(1)　2，3，4，5，6，7，8，9，10（9個）</div>
+  <div class="point-box">
+    <div class="label">【考え方】9個（奇数）なので、真ん中の6を除いて上下半分に分ける</div>
+    <p class="explain" style="font-size:14px;line-height:2.2;">
+      すでに小さい順に並んでいます。まず全体の中央値（5番目）＝<strong>6＝Q2</strong><br>
+      6を除いた下半分：2，3，4，5　→　真ん中2つ（3と4）の平均＝<span class="frac"><span class="num">3＋4</span><span class="den">2</span></span>＝<strong>3.5＝Q1</strong><br>
+      6を除いた上半分：7，8，9，10　→　真ん中2つ（8と9）の平均＝<span class="frac"><span class="num">8＋9</span><span class="den">2</span></span>＝<strong>8.5＝Q3</strong>
+    </p>
+  </div>
+  <div class="q-given">(2)　3，4，4，5，6，6，7，8（8個）</div>
+  <div class="point-box">
+    <div class="label">【考え方】8個（偶数）なので、そのまま半分に分ける</div>
+    <p class="explain" style="font-size:14px;line-height:2.2;">
+      すでに小さい順に並んでいます。全体8個の中央値＝真ん中2つ（4番目＝5、5番目＝6）の平均＝<span class="frac"><span class="num">5＋6</span><span class="den">2</span></span>＝<strong>5.5＝Q2</strong><br>
+      下半分（前半4個）：3，4，4，5　→　真ん中2つ（4と4）の平均＝<span class="frac"><span class="num">4＋4</span><span class="den">2</span></span>＝<strong>4＝Q1</strong><br>
+      上半分（後半4個）：6，6，7，8　→　真ん中2つ（6と7）の平均＝<span class="frac"><span class="num">6＋7</span><span class="den">2</span></span>＝<strong>6.5＝Q3</strong>
+    </p>
+  </div>
+</div>
+
+<!-- 概念タブ切り替え -->
+<div class="card" style="padding-bottom:10px;">
+  <div class="card-title">▶ 学習する内容を選んでください</div>
+  <div class="set-tabs" id="concept-tabs">
+    <button class="set-tab active" onclick="showConcept(0)">① 四分位範囲・四分位偏差</button>
+    <button class="set-tab" onclick="showConcept(1)">② 箱ひげ図の読み方</button>
+  </div>
+</div>
+
+<!-- ① 四分位範囲・四分位偏差 -->
+<div id="concept-0">
+<div class="card">
+  <div class="card-title">① 四分位範囲と四分位偏差</div>
+  <div class="important">
+    <div class="imp-title">【重要】散らばりを表す2つの値</div>
+    <div class="imp-row"><span class="imp-label">①</span><span>四分位範囲 ＝ Q3 － Q1</span></div>
+    <div class="imp-row"><span class="imp-label">②</span><span>四分位偏差 ＝ 四分位範囲 ÷ 2</span></div>
+  </div>
+  <p class="explain">四分位範囲が大きいほど、データ全体の中央付近（真ん中50%）が広く散らばっていることを表します。</p>
+  <p class="explain" style="margin:14px 0 8px;"><strong>【例題7】</strong>次のデータは10人の英語のテスト結果を並べたものである。Q1，Q2，Q3、四分位範囲、四分位偏差を求めよ。</p>
+  <div class="q-given">41，45，47，62，68，72，78，84，90，96（点）</div>
+  <div class="point-box">
+    <div class="label">【考え方】10個（偶数）なので、5個ずつ下半分・上半分に分ける</div>
+    <p class="explain" style="font-size:14px;line-height:2.2;">
+      下半分：41，45，47，62，68 → 中央値＝47＝Q1<br>
+      上半分：72，78，84，90，96 → 中央値＝84＝Q3<br>
+      全体10個の中央値＝<span class="frac"><span class="num">68＋72</span><span class="den">2</span></span>＝70＝Q2<br>
+      → 四分位範囲＝84－47＝<strong>37</strong>、四分位偏差＝37÷2＝<strong>18.5</strong>
+    </p>
+  </div>
+</div>
+
+<div class="mini-card">
+  <div class="card-title">🖊️ ミニテスト①　四分位数を求めよう！</div>
+  <div id="mt1-qs"></div>
+  <div class="drill-action"><button class="btn-check" id="mt1-btn" onclick="submitMini(1)">答え合わせ</button></div>
+  <div id="mt1-fb" style="display:none;"></div>
+</div>
+</div><!-- /concept-0 -->
+
+<!-- ② 箱ひげ図の読み方 -->
+<div id="concept-1" style="display:none;">
+<div class="card">
+  <div class="card-title">② 箱ひげ図とは</div>
+  <p class="explain">
+    最小値・Q1・Q2（中央値）・Q3・最大値の5つの値を、箱とひげ（線）で表した図が「箱ひげ図」です。
+  </p>
+  <p class="explain" style="margin:14px 0 8px;"><strong>【例題8】</strong>次のデータの箱ひげ図をかこう。</p>
+  <div class="q-given">40，43，47，55，59，63，65，70，78，83（点）</div>
+  <div class="diagram-box">
+    <div class="diagram-label">最小値40／Q1＝47／中央値61／Q3＝70／最大値83</div>
+    <div id="diagram-anatomy"></div>
+  </div>
+  <div class="hint-box">
+    <div class="label">【箱ひげ図の読み方】</div>
+    箱の左端がQ1、右端がQ3、箱の中の太い線が中央値。ひげの両端が最小値・最大値を表します。
+  </div>
+  <div class="point-box">
+    <div class="label">【外れ値とは】</div>
+    <p class="explain" style="font-size:14px;line-height:2.0;">
+      データの中で、他の値から極端に離れている値を<strong>外れ値</strong>といいます（DA01で学んだ「外れ値」と同じ考え方です）。箱ひげ図では、外れ値だけをひげの先まで伸ばさず、◯などの記号で別に示すことがあります。<br>
+      高認の問題では、外れ値の基準として次の式がよく使われます（問題文で必ず示されます）：<br>
+      ・（Q1－1.5×四分位範囲）<strong>以下</strong>の値<br>
+      ・（Q3＋1.5×四分位範囲）<strong>以上</strong>の値
+    </p>
+  </div>
+  <div class="hint-box">
+    <div class="label">【外れ値の見つけ方（例）】</div>
+    8人のテストの点数「65，68，72，62，70，64，66，<strong>15</strong>」を考えます。1人だけ15点ととても低い点をとっています。<br>
+    小さい順に並べると　15，62，64，65，66，68，70，72<br>
+    Q1＝<span class="frac"><span class="num">62＋64</span><span class="den">2</span></span>＝63、Q3＝<span class="frac"><span class="num">68＋70</span><span class="den">2</span></span>＝69　→　四分位範囲＝69－63＝6<br>
+    下限＝Q1－1.5×6＝63－9＝<strong>54</strong><br>
+    15は54より小さいので、<strong>15点は外れ値</strong>と判定されます。
+  </div>
+</div>
+
+<div class="mini-card">
+  <div class="card-title">🖊️ ミニテスト②　箱ひげ図を読み取ろう！</div>
+  <div id="mt2-qs"></div>
+  <div class="drill-action"><button class="btn-check" id="mt2-btn" onclick="submitMini(2)">答え合わせ</button></div>
+  <div id="mt2-fb" style="display:none;"></div>
+</div>
+</div><!-- /concept-1 -->
+
+<!-- ★★★ 最重要：箱ひげ図とヒストグラムの対応 ★★★ -->
+<div class="card">
+  <div class="card-title">🌟【最重要】箱ひげ図を見ればヒストグラムの形がわかる！</div>
+  <p class="explain">
+    実は、箱ひげ図だけを見ても、元のデータがどんなヒストグラム（分布の形）をしていたか、<strong>おおよそ推測できます</strong>。
+    これが箱ひげ図の一番便利なところです。教科書には、次のように書かれています。
+  </p>
+  <div class="important">
+    <div class="imp-title">【教科書より】箱ひげ図とヒストグラムの関係</div>
+    <div class="imp-row"><span class="imp-label">①</span><span>ヒストグラムが左右対称であれば、箱ひげ図も左右対称になる</span></div>
+    <div class="imp-row"><span class="imp-label">②</span><span>ヒストグラムの山の位置が偏っていると、箱の位置も偏った方向に寄る</span></div>
+    <div class="imp-row"><span class="imp-label">③</span><span>箱の長さは、散らばりの度合い（データの集中している範囲）を表す</span></div>
+  </div>
+
+  <p class="explain" style="margin-top:10px;"><strong>実際の数値で確認してみよう① 箱が細い ＝ とがった山、箱が広い ＝ なだらかな山</strong></p>
+  <div class="diagram-pair">
+    <div class="diagram-col">
+      <div class="diagram-box"><div class="diagram-label">箱が細い（中央に集中）</div><div id="diagram-narrow-hist"></div><div id="diagram-narrow-box"></div></div>
+    </div>
+    <div class="diagram-col">
+      <div class="diagram-box"><div class="diagram-label">箱が広い（広く散らばる）</div><div id="diagram-wide-hist"></div><div id="diagram-wide-box"></div></div>
+    </div>
+  </div>
+  <p class="explain" style="font-size:13px;color:#6b7280;">
+    2つとも中央値はほぼ同じ（約50点）ですが、箱の広さがまったく違います。箱が細いデータはヒストグラムも中央に集中した「とがった山」に、箱が広いデータは横に広がった「なだらかな山」になります。
+  </p>
+
+  <p class="explain" style="margin-top:14px;"><strong>実際の数値で確認してみよう② 山の位置が偏ると、箱の位置も同じ方向に偏る</strong></p>
+  <div class="diagram-pair">
+    <div class="diagram-col">
+      <div class="diagram-box"><div class="diagram-label">山が左寄り（右に長い裾）</div><div id="diagram-left-hist"></div><div id="diagram-left-box"></div></div>
+    </div>
+    <div class="diagram-col">
+      <div class="diagram-box"><div class="diagram-label">山が右寄り（左に長い裾）</div><div id="diagram-right-hist"></div><div id="diagram-right-box"></div></div>
+    </div>
+  </div>
+  <p class="explain" style="font-size:13px;color:#6b7280;">
+    山（データが多い場所）が左に寄っていれば箱も左寄りになり、右側のひげが長く伸びます。山が右に寄っていればその逆になります。
+  </p>
+</div>
+
+<!-- マッチングミニクイズ -->
+<div class="mini-card">
+  <div class="card-title">🖊️ ミニクイズ：箱ひげ図からヒストグラムを当てよう！（教科書 練習11(1)より）</div>
+  <p class="explain" style="margin-bottom:10px;">下の①～④の箱ひげ図は、ア～エのどのヒストグラムに対応するか考えてみよう。</p>
+  <div class="match-grid">
+    <div class="diagram-box"><span class="match-tag">①</span><div id="diagram-box1"></div></div>
+    <div class="diagram-box"><span class="match-tag">②</span><div id="diagram-box2"></div></div>
+    <div class="diagram-box"><span class="match-tag">③</span><div id="diagram-box3"></div></div>
+    <div class="diagram-box"><span class="match-tag">④</span><div id="diagram-box4"></div></div>
+  </div>
+  <div class="match-grid">
+    <div class="diagram-box"><span class="match-tag">ア</span><div id="diagram-histA"></div></div>
+    <div class="diagram-box"><span class="match-tag">イ</span><div id="diagram-histB"></div></div>
+    <div class="diagram-box"><span class="match-tag">ウ</span><div id="diagram-histC"></div></div>
+    <div class="diagram-box"><span class="match-tag">エ</span><div id="diagram-histD"></div></div>
+  </div>
+  <div id="mt5-qs"></div>
+  <div class="drill-action"><button class="btn-check" id="mt5-btn" onclick="submitMini(5)">答え合わせ</button></div>
+  <div id="mt5-fb" style="display:none;"></div>
+</div>
+
+<div class="card">
+  <div class="card-title">📌 まとめ</div>
+  <div class="use-box">
+    <div class="use-row"><span class="use-key">箱が細い</span><span>データが中央に集中 → ヒストグラムはとがった山</span></div>
+    <div class="use-row"><span class="use-key">箱が広い</span><span>データが広く散らばる → ヒストグラムはなだらかな山</span></div>
+    <div class="use-row"><span class="use-key">箱が左右どちらかに寄る</span><span>山（データの多い場所）も同じ方向に寄っている</span></div>
+  </div>
+</div>
+
+<div class="nav-row">
+  <button class="btn-nav primary" onclick="goStep('example')">総合問題へ →</button>
+</div>
+<a href="kounin_math_index.html" class="back-link">← 単元一覧に戻る</a>
+</div><!-- /intro -->
+
+
+<!-- ===== EXAMPLE ===== -->
+<div id="step-example" style="display:none;">
+
+<div class="card">
+  <div class="card-title">💡 総合問題：3つのクラスの小テスト結果を比較しよう（教科書 練習9より）</div>
+  <p class="explain" style="margin-bottom:8px;">
+    次のデータは、10人の生徒に10点満点の小テストA，B，Cを行った結果である。それぞれのQ1，Q2，Q3，四分位範囲を求め、箱ひげ図で比べてみよう。
+  </p>
+  <div class="q-given">
+    A　4，5，5，6，7，7，8，8，9，9<br>
+    B　3，4，4，5，6，7，7，8，8，9<br>
+    C　4，5，5，6，6，6，7，7，9，9
+  </div>
+  <div class="point-box">
+    <div class="label">【Aの計算】10個（偶数）なので5個ずつに分ける</div>
+    <p class="explain" style="font-size:14px;line-height:2.2;">
+      下半分：4，5，5，6，7 → 中央値＝5＝Q1<br>
+      上半分：7，8，8，9，9 → 中央値＝8＝Q3<br>
+      全体の中央値＝<span class="frac"><span class="num">7＋7</span><span class="den">2</span></span>＝7＝Q2　→　四分位範囲＝8－5＝<strong>3</strong>
+    </p>
+  </div>
+  <div class="point-box">
+    <div class="label">【Bの計算】</div>
+    <p class="explain" style="font-size:14px;line-height:2.2;">
+      下半分：3，4，4，5，6 → 中央値＝4＝Q1<br>
+      上半分：7，7，8，8，9 → 中央値＝8＝Q3<br>
+      全体の中央値＝<span class="frac"><span class="num">6＋7</span><span class="den">2</span></span>＝6.5＝Q2　→　四分位範囲＝8－4＝<strong>4</strong>
+    </p>
+  </div>
+  <div class="point-box">
+    <div class="label">【Cの計算】</div>
+    <p class="explain" style="font-size:14px;line-height:2.2;">
+      下半分：4，5，5，6，6 → 中央値＝5＝Q1<br>
+      上半分：6，7，7，9，9 → 中央値＝7＝Q3<br>
+      全体の中央値＝<span class="frac"><span class="num">6＋6</span><span class="den">2</span></span>＝6＝Q2　→　四分位範囲＝7－5＝<strong>2</strong>
+    </p>
+  </div>
+  <div class="diagram-pair cols3">
+    <div class="diagram-col"><div class="diagram-box"><div class="diagram-label">A（四分位範囲3）</div><div id="diagram-p9A"></div></div></div>
+    <div class="diagram-col"><div class="diagram-box"><div class="diagram-label">B（四分位範囲4）</div><div id="diagram-p9B"></div></div></div>
+    <div class="diagram-col"><div class="diagram-box"><div class="diagram-label">C（四分位範囲2）</div><div id="diagram-p9C"></div></div></div>
+  </div>
+  <div class="hint-box">
+    <div class="label">【教科書の問い】データの散らばりの度合いが最も大きいのは、A，B，Cのうちどれか。</div>
+    箱の長さ（四分位範囲）を比べると、A＝3，B＝4，C＝2。もっとも大きいのはB（四分位範囲4）なので、<strong>散らばりが最も大きいのはB</strong>です。
+  </div>
+</div>
+
+<div class="mini-card">
+  <div class="card-title">🖊️ ミニテスト⑥　A・B・Cを比べよう！</div>
+  <div id="mt6-qs"></div>
+  <div class="drill-action"><button class="btn-check" id="mt6-btn" onclick="submitMini(6)">答え合わせ</button></div>
+  <div id="mt6-fb" style="display:none;"></div>
+</div>
+
+<div class="nav-row">
+  <button class="btn-nav" onclick="goStep('intro')">← 説明に戻る</button>
+  <button class="btn-nav primary" onclick="goStep('drill')">練習へ →</button>
+</div>
+<a href="kounin_math_index.html" class="back-link">← 単元一覧に戻る</a>
+</div><!-- /example -->
+
+
+<!-- ===== DRILL ===== -->
+<div id="step-drill" style="display:none;">
+
+<div class="card">
+  <div class="card-title">✏️ 練習問題</div>
+  <p class="drill-intro">セットを選んで4問解きましょう。四分位数の計算と、箱ひげ図の読み取りに慣れよう。</p>
+  <div class="set-tabs">
+    <button class="set-tab active" onclick="loadDrill(0)">Aセット</button>
+    <button class="set-tab" onclick="loadDrill(1)">Bセット</button>
+    <button class="set-tab" onclick="loadDrill(2)">Cセット</button>
+  </div>
+  <div id="drill-questions"></div>
+  <div class="drill-action">
+    <button class="btn-check" id="drill-submit" onclick="submitDrill()">採点する</button>
+  </div>
+</div>
+<div id="drill-result" style="display:none;"></div>
+
+<div class="nav-row">
+  <button class="btn-nav" onclick="goStep('example')">← 例題に戻る</button>
+  <button class="btn-nav primary" onclick="goStep('check')">確認テストへ →</button>
+</div>
+<a href="kounin_math_index.html" class="back-link">← 単元一覧に戻る</a>
+</div><!-- /drill -->
+
+
+<!-- ===== CHECK ===== -->
+<div id="step-check" style="display:none;">
+
+<div class="card">
+  <div class="card-title">✅ 確認テスト（6問）</div>
+  <p class="drill-intro">高認過去問・教科書の練習問題を含む形式です。じっくり考えて解こう！</p>
+  <div id="check-questions"></div>
+  <div class="drill-action">
+    <button class="btn-check" id="check-submit" onclick="submitCheck()">採点する</button>
+  </div>
+</div>
+<div id="check-result" style="display:none;"></div>
+
+<div class="nav-row">
+  <button class="btn-nav" onclick="goStep('drill')">← 練習に戻る</button>
+</div>
+<a href="kounin_math_index.html" class="back-link">← 単元一覧に戻る</a>
+</div><!-- /check -->
+
+</div><!-- /content -->
+
+<script src="gamba_support.js"></script>
+<script>
+function F(n,d){return `<span class="frac"><span class="num">${n}</span><span class="den">${d}</span></span>`;}
+
+// ===== SVG 箱ひげ図・ヒストグラム描画 =====
+function bpSVG(stats, dmin, dmax, ticks, opts){
+  opts = opts||{};
+  const W=opts.w||500, H=opts.h||72, color=opts.color||'#ea580c';
+  const marginL=18, marginR=14;
+  const showTicks = opts.showTicks!==false;
+  const plotW=W-marginL-marginR;
+  const yMid = opts.h ? opts.h*0.4 : 30, boxH=opts.boxH||20;
+  const axisY = yMid + boxH/2 + (showTicks? 16:6);
+  function X(v){return marginL+(v-dmin)/(dmax-dmin)*plotW;}
+  let s=`<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto;display:block;">`;
+  s+=`<line x1="${marginL}" y1="${axisY}" x2="${W-marginR}" y2="${axisY}" stroke="#d1d5db" stroke-width="1"/>`;
+  if(showTicks){
+    ticks.forEach(t=>{
+      const x=X(t);
+      s+=`<line x1="${x}" y1="${axisY-3}" x2="${x}" y2="${axisY+3}" stroke="#9ca3af" stroke-width="1"/>`;
+      s+=`<text x="${x}" y="${axisY+13}" font-size="9" fill="#6b7280" text-anchor="middle">${t}</text>`;
+    });
+  }
+  s+=`<line x1="${X(stats.min)}" y1="${yMid}" x2="${X(stats.q1)}" y2="${yMid}" stroke="${color}" stroke-width="2"/>`;
+  s+=`<line x1="${X(stats.q3)}" y1="${yMid}" x2="${X(stats.max)}" y2="${yMid}" stroke="${color}" stroke-width="2"/>`;
+  s+=`<line x1="${X(stats.min)}" y1="${yMid-boxH/3}" x2="${X(stats.min)}" y2="${yMid+boxH/3}" stroke="${color}" stroke-width="2"/>`;
+  s+=`<line x1="${X(stats.max)}" y1="${yMid-boxH/3}" x2="${X(stats.max)}" y2="${yMid+boxH/3}" stroke="${color}" stroke-width="2"/>`;
+  s+=`<rect x="${X(stats.q1)}" y="${yMid-boxH/2}" width="${Math.max(1,X(stats.q3)-X(stats.q1))}" height="${boxH}" fill="${color}" fill-opacity="0.18" stroke="${color}" stroke-width="2"/>`;
+  s+=`<line x1="${X(stats.q2)}" y1="${yMid-boxH/2}" x2="${X(stats.q2)}" y2="${yMid+boxH/2}" stroke="${color}" stroke-width="3"/>`;
+  if(stats.outliers){
+    stats.outliers.forEach(o=>{
+      s+=`<circle cx="${X(o)}" cy="${yMid}" r="3.5" fill="#fff" stroke="${color}" stroke-width="2"/>`;
+    });
+  }
+  s+=`</svg>`;
+  return s;
+}
+function svgBoxplot(id, stats, dmin, dmax, ticks, opts){
+  const el=document.getElementById(id); if(el) el.innerHTML=bpSVG(stats,dmin,dmax,ticks,opts);
+}
+function histSVG(counts, edges, opts){
+  opts=opts||{};
+  const W=opts.w||500,H=opts.h||120,color=opts.color||'#ea580c';
+  const marginL=24,marginR=10,marginB=22,marginT=14;
+  const plotW=W-marginL-marginR, plotH=H-marginT-marginB;
+  const maxCount=Math.max(...counts)||1;
+  const n=counts.length, barW=plotW/n;
+  let s=`<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto;display:block;">`;
+  s+=`<line x1="${marginL}" y1="${H-marginB}" x2="${W-marginR}" y2="${H-marginB}" stroke="#d1d5db" stroke-width="1"/>`;
+  counts.forEach((c,i)=>{
+    const h=(c/maxCount)*plotH;
+    const x=marginL+i*barW, y=H-marginB-h;
+    s+=`<rect x="${x+2}" y="${y}" width="${Math.max(0,barW-4)}" height="${h}" fill="${color}" fill-opacity="0.8"/>`;
+    s+=`<text x="${x+barW/2}" y="${H-marginB+13}" font-size="8" fill="#6b7280" text-anchor="middle">${edges[i]}-${edges[i+1]}</text>`;
+    if(c>0) s+=`<text x="${x+barW/2}" y="${y-3}" font-size="9" fill="#374151" text-anchor="middle" font-weight="700">${c}</text>`;
+  });
+  s+=`</svg>`;
+  return s;
+}
+function svgHistogram(id, counts, edges, opts){
+  const el=document.getElementById(id); if(el) el.innerHTML=histSVG(counts,edges,opts);
+}
+
+function renderDiagrams(){
+  svgBoxplot('diagram-anatomy', {min:40,q1:47,q2:61,q3:70,max:83}, 0,100, [0,20,40,60,80,100]);
+  svgBoxplot('diagram-narrow-box', {min:15,q1:43,q2:48.5,q3:55.5,max:88}, 0,100,[0,20,40,60,80,100],{h:60});
+  svgHistogram('diagram-narrow-hist', [1,3,12,3,1], [0,20,40,60,80,100],{h:100});
+  svgBoxplot('diagram-wide-box', {min:5,q1:26.5,q2:50,q3:73.5,max:95}, 0,100,[0,20,40,60,80,100],{h:60});
+  svgHistogram('diagram-wide-hist', [3,5,4,5,3], [0,20,40,60,80,100],{h:100});
+  svgBoxplot('diagram-left-box', {min:12,q1:25.5,q2:34.5,q3:54,max:92}, 0,100,[0,20,40,60,80,100],{h:60});
+  svgHistogram('diagram-left-hist', [2,9,5,3,1], [0,20,40,60,80,100],{h:100});
+  svgBoxplot('diagram-right-box', {min:8,q1:46,q2:63,q3:71.5,max:89}, 0,100,[0,20,40,60,80,100],{h:60});
+  svgHistogram('diagram-right-hist', [1,3,5,9,2], [0,20,40,60,80,100],{h:100});
+  // 教科書 練習11(1)：①左寄り(イ) ②広い・左右対称(ウ) ③狭い・左右対称(ア) ④右寄り(エ)
+  svgBoxplot('diagram-box1', {min:12,q1:25.5,q2:34.5,q3:54,max:92},0,100,[0,50,100],{h:56});
+  svgBoxplot('diagram-box2', {min:5,q1:26.5,q2:50,q3:73.5,max:95},0,100,[0,50,100],{h:56});
+  svgBoxplot('diagram-box3', {min:15,q1:43,q2:48.5,q3:55.5,max:88},0,100,[0,50,100],{h:56});
+  svgBoxplot('diagram-box4', {min:8,q1:46,q2:63,q3:71.5,max:89},0,100,[0,50,100],{h:56});
+  svgHistogram('diagram-histA', [1,3,12,3,1], [0,20,40,60,80,100],{h:90});
+  svgHistogram('diagram-histB', [2,9,5,3,1], [0,20,40,60,80,100],{h:90});
+  svgHistogram('diagram-histC', [3,5,4,5,3], [0,20,40,60,80,100],{h:90});
+  svgHistogram('diagram-histD', [1,3,5,9,2], [0,20,40,60,80,100],{h:90});
+  // 教科書 練習9：A・B・Cの箱ひげ図
+  svgBoxplot('diagram-p9A', {min:4,q1:5,q2:7,q3:8,max:9}, 0,10, [0,5,10], {h:56});
+  svgBoxplot('diagram-p9B', {min:3,q1:4,q2:6.5,q3:8,max:9}, 0,10, [0,5,10], {h:56});
+  svgBoxplot('diagram-p9C', {min:4,q1:5,q2:6,q3:7,max:9}, 0,10, [0,5,10], {h:56});
+}
+
+// ===== ステップ管理 =====
+const stepOrder=['intro','example','drill','check'];
+function goStep(s){
+  stepOrder.forEach(id=>{
+    document.getElementById('step-'+id).style.display=(id===s)?'':'none';
+    const nb=document.getElementById('nav-'+id);
+    nb.classList.remove('active','done');
+    if(id===s) nb.classList.add('active');
+    else if(stepOrder.indexOf(id)<stepOrder.indexOf(s)) nb.classList.add('done');
+  });
+  if(s==='example') buildMinis([6]);
+  if(s==='drill') initDrill();
+  if(s==='check') initCheck();
+  window.scrollTo(0,0);
+}
+
+// ===== 説明ステップ内：タブ切り替え =====
+function showConcept(idx){
+  [0,1].forEach(i=>{
+    document.getElementById('concept-'+i).style.display=(i===idx)?'':'none';
+  });
+  document.querySelectorAll('#concept-tabs .set-tab').forEach((t,i)=>t.classList.toggle('active',i===idx));
+  const tabs=document.getElementById('concept-tabs');
+  if(tabs) tabs.scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+// ===== ミニテスト／マッチングクイズ データ =====
+const MT1 = [
+  {q:`次のデータのQ1はどれか。　10，12，14，16，18，20`,
+   ch:['① 10','② 12','③ 14','④ 16'],
+   a:1, exp:`下半分10,12,14→中央値12＝Q1　→ ②`},
+  {q:`次のデータのQ1はどれか。　5，7，9，11，13，15，17`,
+   ch:['① 5','② 6','③ 7','④ 9'],
+   a:2, exp:`中央値(4番目)＝11＝Q2。下半分5,7,9→中央値7＝Q1　→ ③`},
+];
+const MT2 = [
+  {q:`この箱ひげ図の最小値はどれか。`,
+   diagId:'mt2d0', diagStats:{min:15,q1:30,q2:45,q3:60,max:80}, diagTicks:[0,20,40,60,80],
+   ch:['① 15','② 30','③ 45','④ 60'],
+   a:0, exp:`ひげの左端が最小値＝15　→ ①`},
+  {q:`この箱ひげ図の第1四分位数Q1はどれか。`,
+   diagId:'mt2d1', diagStats:{min:25,q1:40,q2:55,q3:68,max:90}, diagTicks:[0,20,40,60,80,100],
+   ch:['① 25','② 40','③ 55','④ 68'],
+   a:1, exp:`箱の左端がQ1＝40　→ ②`},
+];
+const MT5 = [
+  {q:`①の箱ひげ図に対応するヒストグラムはどれか。`,
+   ch:['ア','イ','ウ','エ'],
+   a:1, exp:`①は中央値が左寄りで右のひげが長い（山が左寄り）→ イ`},
+  {q:`②の箱ひげ図に対応するヒストグラムはどれか。`,
+   ch:['ア','イ','ウ','エ'],
+   a:2, exp:`②は箱が広く散らばりが大きい（なだらかな山）→ ウ`},
+  {q:`③の箱ひげ図に対応するヒストグラムはどれか。`,
+   ch:['ア','イ','ウ','エ'],
+   a:0, exp:`③は箱が細く中央付近に集中している（とがった山）→ ア`},
+  {q:`④の箱ひげ図に対応するヒストグラムはどれか。`,
+   ch:['ア','イ','ウ','エ'],
+   a:3, exp:`④は中央値が右寄りで左のひげが長い（山が右寄り）→ エ`},
+];
+const MT6 = [
+  {q:`A・B・Cのうち、四分位範囲が最も大きい（＝散らばりが最も大きい）のはどれか。`,
+   ch:['① A','② B','③ C','④ 3つとも同じ'],
+   a:1, exp:`四分位範囲は A＝3，B＝4，C＝2。最も大きいのはB　→ ②`},
+  {q:`A・B・Cのうち、中央値（Q2）が最も低いのはどれか。`,
+   ch:['① A（7点）','② B（6.5点）','③ C（6点）','④ 3つとも同じ'],
+   a:2, exp:`中央値は A＝7，B＝6.5，C＝6。最も低いのはC　→ ③`},
+];
+
+const allMT={1:MT1,2:MT2,5:MT5,6:MT6};
+const mtAns={}, mtDone={};
+
+function buildMinis(indices){
+  indices.forEach(n=>{
+    const data=allMT[n];
+    mtAns[n]=new Array(data.length).fill(-1);
+    mtDone[n]=false;
+    document.getElementById(`mt${n}-fb`).style.display='none';
+    document.getElementById(`mt${n}-btn`).disabled=false;
+    const c=document.getElementById(`mt${n}-qs`);c.innerHTML='';
+    data.forEach((d,i)=>{
+      const b=document.createElement('div');b.className='q-block';b.id=`mt${n}q${i}`;
+      b.innerHTML=`<div class="q-num">問${i+1}</div>
+        <div class="q-text">${d.q}</div>
+        ${d.diagId?`<div class="q-given"><div id="${d.diagId}"></div></div>`:''}
+        <div class="choices" id="mt${n}c${i}">
+          ${d.ch.map((ch,ci)=>`<button class="choice" onclick="selMT(${n},${i},${ci})">${ch}</button>`).join('')}
+        </div>`;
+      c.appendChild(b);
+      if(d.diagId) svgBoxplot(d.diagId, d.diagStats, 0, 100, d.diagTicks, {h:60});
+    });
+  });
+}
+function selMT(n,qi,ci){
+  if(mtDone[n])return;
+  mtAns[n][qi]=ci;
+  document.querySelectorAll(`#mt${n}c${qi} .choice`).forEach((b,i)=>{
+    b.style.background=i===ci?'#ffedd5':'';b.style.borderColor=i===ci?'#ea580c':'';
+  });
+}
+function submitMini(n){
+  if(mtDone[n])return;mtDone[n]=true;
+  const data=allMT[n];let correct=0;
+  data.forEach((d,qi)=>{
+    const ua=mtAns[n][qi];
+    document.querySelectorAll(`#mt${n}c${qi} .choice`).forEach((b,i)=>{
+      if(i===d.a)b.classList.add('show-correct');
+      if(i===ua&&ua===d.a){b.classList.add('selected-correct');correct++;}
+      else if(i===ua)b.classList.add('selected-wrong');
+    });
+    document.getElementById(`mt${n}q${qi}`).classList.add(ua===d.a?'correct':'wrong');
+    const fb=document.createElement('div');fb.className='feedback '+(ua===d.a?'ok':'ng');
+    fb.innerHTML=(ua===d.a?'✓ 正解！ ':'✗ 不正解。')+d.exp;
+    document.getElementById(`mt${n}q${qi}`).appendChild(fb);
+  });
+  document.getElementById(`mt${n}-btn`).disabled=true;
+  const fb=document.getElementById(`mt${n}-fb`);fb.style.display='block';
+  fb.innerHTML=`<div class="score-box"><div class="score-circle">${correct}<div class="score-label">/ ${data.length}</div></div>
+    <div style="font-size:14px;font-weight:700;color:#9a3412;">${correct===data.length?'全問正解！🎉':correct>=1?'もう少し！':'説明を見直そう'}</div></div>`;
+  if(correct===data.length)fireConfetti();
+}
+
+// ===== 練習問題 =====
+const drillSets=[
+  // Aセット
+  [
+    {q:`例題6(2)と同じデータ　3，4，4，5，6，6，7，8のQ1はどれか。`,
+     ch:['① 3.5','② 4','③ 4.5','④ 5'],
+     ans:1, exp:`8個（偶数）。下半分3,4,4,5→中央値＝${F('4＋4','2')}＝4＝Q1`},
+    {q:`教科書 練習8Bのデータ　41，46，54，56，60，63，66，71，75，80のQ3はどれか。`,
+     ch:['① 66','② 71','③ 75','④ 80'],
+     ans:1, exp:`上半分63,66,71,75,80→中央値＝71＝Q3`},
+    {q:`次の箱ひげ図の中央値はどれか。`,
+     diagId:'da0', diagStats:{min:10,q1:25,q2:40,q3:55,max:70}, diagTicks:[0,20,40,60,80],
+     ch:['① 25','② 40','③ 55','④ 70'],
+     ans:1, exp:`箱の中の太い線（中央値）は40`},
+    {q:`箱ひげ図の箱（四分位範囲）が広いとき、対応するヒストグラムの散らばりの度合いはどうなるか。`,
+     ch:['① 中央に集中し、とがった山になる','② 広く散らばり、なだらかな山になる','③ 山が2つできる','④ ヒストグラムの形とは関係ない'],
+     ans:1, exp:`箱が広い＝散らばりが大きい → なだらかな山になる`},
+  ],
+  // Bセット
+  [
+    {q:`教科書 練習10のデータ　64，60，62，55，57，68，71，70，65，60（gの重さ）の中央値（Q2）はどれか。`,
+     ch:['① 60','② 62','③ 63','④ 65'],
+     ans:2, exp:`小さい順55,57,60,60,62,64,65,68,70,71。全体の中央値＝${F('62＋64','2')}＝63＝Q2`},
+    {q:`Q1＝30、Q3＝50のとき、四分位偏差はどれか。`,
+     ch:['① 5','② 10','③ 15','④ 20'],
+     ans:1, exp:`四分位範囲＝50－30＝20　四分位偏差＝20÷2＝10`},
+    {q:`次の箱ひげ図の第3四分位数Q3はどれか。`,
+     diagId:'db2', diagStats:{min:5,q1:15,q2:30,q3:50,max:65}, diagTicks:[0,20,40,60],
+     ch:['① 15','② 30','③ 50','④ 65'],
+     ans:2, exp:`箱の右端がQ3＝50`},
+    {q:`ヒストグラムの山が右寄り（高い値にデータが集中）にあるとき、箱ひげ図の箱の位置はどうなるか。`,
+     ch:['① 左寄りになる','② 右寄りになる','③ 中央になる','④ 箱の位置は変化しない'],
+     ans:1, exp:`山の位置が右に寄れば、箱も同じ方向（右）に寄る`},
+  ],
+  // Cセット
+  [
+    {q:`教科書 練習10のデータ　68，59，65，70，60，67，69，62，63，67（gの重さ）のQ1はどれか。`,
+     ch:['① 60','② 62','③ 63','④ 65'],
+     ans:1, exp:`小さい順59,60,62,63,65,67,67,68,69,70。下半分59,60,62,63,65→中央値＝62＝Q1`},
+    {q:`Q1＝20、Q3＝40（四分位範囲20）のとき、外れ値の下限（Q1－1.5×四分位範囲）はどれか。`,
+     ch:['① －10','② 0','③ 10','④ 20'],
+     ans:0, exp:`20－1.5×20＝20－30＝－10`},
+    {q:`次の箱ひげ図の四分位範囲はどれか。`,
+     diagId:'dc2', diagStats:{min:20,q1:35,q2:42,q3:58,max:75}, diagTicks:[0,20,40,60,80],
+     ch:['① 16','② 23','③ 38','④ 55'],
+     ans:1, exp:`四分位範囲＝Q3－Q1＝58－35＝23`},
+    {q:`2つの箱ひげ図の中央値がほぼ同じでも、片方の箱が細く、もう片方の箱が広いとき、正しい説明はどれか。`,
+     ch:['① 箱が細い方が散らばりが大きい','② 箱が広い方が散らばりが大きい','③ 箱の広さと散らばりは無関係','④ 中央値が同じなら散らばりも同じ'],
+     ans:1, exp:`箱の広さ（四分位範囲）が大きいほど散らばりが大きい`},
+  ],
+];
+let curDrillSet=0,drillAnswers=[],drillSubmitted=false;
+function loadDrill(setIdx){
+  curDrillSet=setIdx;drillAnswers=new Array(4).fill(-1);drillSubmitted=false;
+  document.querySelectorAll('.set-tab').forEach((t,i)=>t.classList.toggle('active',i===setIdx));
+  document.getElementById('drill-result').style.display='none';
+  document.getElementById('drill-submit').disabled=false;
+  const c=document.getElementById('drill-questions');c.innerHTML='';
+  drillSets[setIdx].forEach((d,qi)=>{
+    const b=document.createElement('div');b.className='q-block';b.id='dq'+qi;
+    b.innerHTML=`<div class="q-num">問${qi+1}</div>
+      <div class="q-text">${d.q}</div>
+      ${d.diagId?`<div class="q-given"><div id="${d.diagId}"></div></div>`:''}
+      <div class="choices" id="dc${qi}">
+        ${d.ch.map((ch,ci)=>`<button class="choice" onclick="selDrill(${qi},${ci})">${ch}</button>`).join('')}
+      </div>`;
+    c.appendChild(b);
+    if(d.diagId) svgBoxplot(d.diagId, d.diagStats, 0, 100, d.diagTicks, {h:60});
+  });
+}
+function selDrill(qi,ci){if(drillSubmitted)return;drillAnswers[qi]=ci;
+  document.querySelectorAll(`#dc${qi} .choice`).forEach((b,i)=>{b.style.background=i===ci?'#ffedd5':'';b.style.borderColor=i===ci?'#ea580c':'';});}
+function submitDrill(){
+  if(drillSubmitted)return;drillSubmitted=true;
+  let correct=0;
+  drillSets[curDrillSet].forEach((d,qi)=>{
+    const ua=drillAnswers[qi];
+    document.querySelectorAll(`#dc${qi} .choice`).forEach((b,i)=>{
+      if(i===d.ans)b.classList.add('show-correct');
+      if(i===ua&&ua===d.ans){b.classList.add('selected-correct');correct++;}
+      else if(i===ua)b.classList.add('selected-wrong');
+    });
+    document.getElementById('dq'+qi).classList.add(ua===d.ans?'correct':'wrong');
+    const fb=document.createElement('div');fb.className='feedback '+(ua===d.ans?'ok':'ng');
+    fb.innerHTML=(ua===d.ans?'✓ 正解！ ':'✗ 不正解。')+d.exp;
+    document.getElementById('dq'+qi).appendChild(fb);
+  });
+  document.getElementById('drill-submit').disabled=true;
+  const res=document.getElementById('drill-result');res.style.display='block';
+  res.innerHTML=`<div class="score-box"><div class="score-circle">${correct}<div class="score-label">/ 4</div></div>
+    <div style="font-size:14px;font-weight:700;color:#9a3412;">${correct===4?'全問正解！🎉':'もう一度チャレンジしよう'}</div></div>`;
+  if(correct===4)fireConfetti();
+}
+function initDrill(){loadDrill(0);}
+
+// ===== 確認テスト（6問・過去問／教科書練習を含む）=====
+const checkData=[
+  {q:`あるコンビニエンスストアにおける10日間のお茶の販売数を、小さい値から順に並べた。このデータについての記述として、正しいものはどれか。ただし、外れ値は次のような値とする：（第1四分位数－1.5×四分位範囲）以下の値、（第3四分位数＋1.5×四分位範囲）以上の値。（高認過去問）`,
+   given:`18，19，23，24，24，27，29，30，35，42（本）`,
+   choices:['① データの最大値だけが外れ値である。','② データの最小値だけが外れ値である。','③ データの最大値も最小値も外れ値である。','④ 外れ値はない。'],
+   ans:0, exp:`Q1＝23，Q3＝30，四分位範囲＝7。下限＝23－10.5＝12.5、上限＝30＋10.5＝40.5。最小値18は下限より大きく外れ値でない。最大値42は上限40.5を超えるので外れ値。→ ①`},
+  {q:`次の図は、100人が受けたテストA・B・Cの得点を箱ひげ図に表したものである（教科書 練習11(2)より、目盛りから読み取ったおよその値を使用）。次のⅠ～Ⅲについて、正しい組合せはどれか。<br>
+     Ⅰ：テストBの中央値は約50点である。<br>
+     Ⅱ：50人以上が70点以上であったのはテストCである。<br>
+     Ⅲ：40点未満が25人以上いたのはテストBである。`,
+   given:'',
+   diagPairs:[
+     {label:'A', stats:{min:27,q1:33,q2:48,q3:67,max:82}},
+     {label:'B', stats:{min:35,q1:42,q2:50,q3:65,max:73}},
+     {label:'C', stats:{min:40,q1:67,q2:74,q3:82,max:95}}
+   ],
+   choices:['① ⅠとⅡのみ','② ⅠとⅢのみ','③ ⅡとⅢのみ','④ ⅠとⅡとⅢすべて'],
+   ans:0, exp:`Ⅰ：Bの中央値は約50点 → 正しい。Ⅱ：Cの中央値は約74点で70点を超えているので、少なくとも50人（全体の半分）は74点以上、つまり70点以上である → 正しい。Ⅲ：40点未満が25人以上いることを保証できるのは、第1四分位数（Q1）が40点未満のテスト。AのQ1は約33点なので該当するのはAで、Bではない（BのQ1は約42点）→ 誤り。よってⅠとⅡのみ → ①`},
+  {q:`いちご10個の重さを軽い順に並べた。外れ値は（第1四分位数－1.5×四分位範囲）以下の値、または（第3四分位数＋1.5×四分位範囲）以上の値とする。このデータの箱ひげ図として正しいものはどれか。ただし外れ値は○で示し、ひげは外れ値を除いた最小値・最大値まで伸ばす。`,
+   given:`8，11，12，16，17，17，18，18，23，30（g）`,
+   choices:[], useBoxChoices:true, dMin:0, dMax:32,
+   boxChoices:[
+     {min:8,q1:12,q2:17,q3:18,max:23,outliers:[30]},
+     {min:8,q1:12,q2:17,q3:18,max:30,outliers:[]},
+     {min:8,q1:11,q2:17,q3:18,max:23,outliers:[30]},
+     {min:8,q1:12,q2:16,q3:18,max:23,outliers:[30]}
+   ],
+   ans:0, exp:`下半分8,11,12,16,17→中央値12＝Q1。上半分17,18,18,23,30→中央値18＝Q3。中央値＝(17＋17)÷2＝17。四分位範囲＝18－12＝6。上限＝18＋9＝27。30＞27なので30は外れ値。ひげは23までにする → ①`},
+  {q:`あるコンビニエンスストアにおけるカップ麺12日間の販売数を、小さい順に並べた。このデータの箱ひげ図として正しいものはどれか。`,
+   given:`9，10，11，12，12，14，15，16，17，17，20，21（個）`,
+   choices:[], useBoxChoices:true, dMin:0, dMax:24,
+   boxChoices:[
+     {min:9,q1:11.5,q2:14.5,q3:17,max:21},
+     {min:9,q1:12,q2:14.5,q3:17,max:21},
+     {min:9,q1:11.5,q2:13,q3:17,max:21},
+     {min:9,q1:10,q2:14.5,q3:18,max:21}
+   ],
+   ans:0, exp:`下半分(前6個)9,10,11,12,12,14→中央値＝${F('11＋12','2')}＝11.5＝Q1。上半分(後6個)15,16,17,17,20,21→中央値＝17＝Q3。全体12個の中央値＝${F('14＋15','2')}＝14.5＝Q2 → ①`},
+  {q:`次のデータは、A，B2つの箱に入っている10個の卵の重さを調べた結果である（教科書 練習10より）。四分位範囲を比較したとき、正しい記述はどれか。`,
+   given:`A　64，60，62，55，57，68，71，70，65，60（g）<br>B　68，59，65，70，60，67，69，62，63，67（g）`,
+   choices:['① Aの方が散らばりが大きい','② Bの方が散らばりが大きい','③ AとBの散らばりは同じ','④ この情報だけでは判断できない'],
+   ans:0, exp:`A：Q1＝60，Q3＝68 → 四分位範囲＝8。B：Q1＝62，Q3＝68 → 四分位範囲＝6。8＞6なので、Aの方が散らばりが大きい → ①`},
+  {q:`次の11個のデータについて、四分位範囲を求めよ（教科書 練習8より）。`,
+   given:`38，45，47，53，56，57，60，65，69，74，80`,
+   choices:['① 18','② 20','③ 22','④ 24'],
+   ans:2, exp:`中央値(6番目)＝57＝Q2。下半分38,45,47,53,56→中央値47＝Q1。上半分60,65,69,74,80→中央値69＝Q3。四分位範囲＝69－47＝22 → ③`}
+];
+let checkAnswers=[],checkSubmitted=false;
+function initCheck(){
+  checkAnswers=new Array(checkData.length).fill(-1);checkSubmitted=false;
+  document.getElementById('check-result').style.display='none';
+  document.getElementById('check-submit').disabled=false;
+  const c=document.getElementById('check-questions');c.innerHTML='';
+  checkData.forEach((d,qi)=>{
+    const b=document.createElement('div');b.className='q-block';b.id='cq'+qi;
+    let givenHtml='';
+    if(d.given) givenHtml+=`<div class="q-given">${d.given}</div>`;
+    if(d.diagPairs){
+      givenHtml+=`<div class="diagram-pair${d.diagPairs.length>=3?' cols3':''}">`+d.diagPairs.map((p,pi)=>
+        `<div class="diagram-col"><div class="diagram-box"><div class="diagram-label">${p.label}</div><div id="cq${qi}diag${pi}"></div></div></div>`
+      ).join('')+`</div>`;
+    }
+    let choicesHtml='';
+    if(d.useBoxChoices){
+      const labels=['①','②','③','④'];
+      choicesHtml=`<div class="choices" id="cc${qi}">`+d.boxChoices.map((st,ci)=>
+        `<button class="choice" onclick="selCheck(${qi},${ci})">${labels[ci]}<div id="cq${qi}box${ci}"></div></button>`
+      ).join('')+`</div>`;
+    } else {
+      choicesHtml=`<div class="choices" id="cc${qi}">
+        ${d.choices.map((ch,ci)=>`<button class="choice" onclick="selCheck(${qi},${ci})">${ch}</button>`).join('')}
+      </div>`;
+    }
+    b.innerHTML=`<div class="q-num">問${qi+1}</div>
+      <div class="q-text">${d.q}</div>
+      ${givenHtml}
+      ${choicesHtml}`;
+    c.appendChild(b);
+    if(d.diagPairs) d.diagPairs.forEach((p,pi)=>svgBoxplot(`cq${qi}diag${pi}`, p.stats, 0,100,[0,50,100],{h:56}));
+    if(d.useBoxChoices) d.boxChoices.forEach((st,ci)=>svgBoxplot(`cq${qi}box${ci}`, st, d.dMin, d.dMax, [], {h:56,showTicks:false}));
+  });
+}
+function selCheck(qi,ci){if(checkSubmitted)return;checkAnswers[qi]=ci;
+  document.querySelectorAll(`#cc${qi} .choice`).forEach((b,i)=>{b.style.background=i===ci?'#ffedd5':'';b.style.borderColor=i===ci?'#ea580c':'';});}
+function submitCheck(){
+  if(checkSubmitted)return;checkSubmitted=true;
+  let correct=0;
+  checkData.forEach((d,qi)=>{
+    const ua=checkAnswers[qi];
+    document.querySelectorAll(`#cc${qi} .choice`).forEach((b,i)=>{
+      if(i===d.ans)b.classList.add('show-correct');
+      if(i===ua&&ua===d.ans){b.classList.add('selected-correct');correct++;}
+      else if(i===ua)b.classList.add('selected-wrong');
+    });
+    document.getElementById('cq'+qi).classList.add(ua===d.ans?'correct':'wrong');
+    const fb=document.createElement('div');fb.className='feedback '+(ua===d.ans?'ok':'ng');
+    fb.innerHTML=(ua===d.ans?'✓ 正解！ ':'✗ 不正解。')+d.exp;
+    document.getElementById('cq'+qi).appendChild(fb);
+  });
+  document.getElementById('check-submit').disabled=true;
+  const res=document.getElementById('check-result');res.style.display='block';
+  const pct=correct/checkData.length;
+  res.innerHTML=`<div class="score-box"><div class="score-circle">${correct}<div class="score-label">/ ${checkData.length}</div></div>
+    <div style="font-size:14px;font-weight:700;color:#9a3412;">${pct>=5/6?'合格！よくできました！🎉':pct>=0.5?'あと少し！':'説明に戻って確認しよう'}</div></div>`;
+  if(pct>=5/6){fireConfetti();if(typeof markPassed==='function')markPassed('DA02');}
+}
+
+// ===== 花吹雪 =====
+function fireConfetti(){
+  const wrap=document.createElement('div');wrap.className='confetti-wrap';document.body.appendChild(wrap);
+  const colors=['#ea580c','#9a3412','#fb923c','#f59e0b','#10b981','#fed7aa'];
+  for(let i=0;i<60;i++){
+    const p=document.createElement('div');
+    const c=colors[Math.floor(Math.random()*colors.length)];
+    const size=8+Math.random()*8;
+    p.style.cssText=`position:absolute;width:${size}px;height:${size}px;left:${Math.random()*100}%;top:-10px;background:${c};border-radius:${Math.random()>.5?'50%':'2px'};opacity:1;animation:fall${i} ${1.5+Math.random()*2}s ${Math.random()*1.5}s forwards;`;
+    wrap.appendChild(p);
+    const st=document.createElement('style');
+    const tx=(Math.random()-.5)*200;
+    st.textContent=`@keyframes fall${i}{0%{top:-10px;opacity:1;transform:rotate(0deg) translateX(0);}100%{top:110vh;opacity:0;transform:rotate(720deg) translateX(${tx}px);}}`;
+    document.head.appendChild(st);
+  }
+  setTimeout(()=>wrap.remove(),5000);
+}
+
+window.addEventListener('load',()=>{renderDiagrams();buildMinis([1,2,5]);});
+</script>
+</body>
+</html>
