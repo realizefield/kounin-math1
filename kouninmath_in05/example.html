@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>IN05 不等式の文章題①｜例題</title>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" onload="renderAllMath();"></script>
+
+<style>
+:root{
+  --primary:#1d4ed8;
+  --primary-light:#dbeafe;
+  --primary-mid:#3b82f6;
+  --accent:#e8372d;
+  --accent-light:#fff1f0;
+  --success:#16a34a;
+  --success-light:#dcfce7;
+  --warn:#d97706;
+  --warn-light:#fffbeb;
+  --bg:#f0f6ff;
+  --card:#ffffff;
+  --border:#bfdbfe;
+  --text:#1e293b;
+  --text-sub:#64748b;
+  --radius:12px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:60px;line-height:1.7;}
+.g-container{max-width:760px;margin:0 auto;}
+.page-header{background:var(--primary);color:#fff;padding:18px 24px 14px;text-align:center;box-shadow:0 3px 10px rgba(29,78,216,.25);}
+.page-header .unit-code{font-size:.82em;opacity:.85;letter-spacing:.1em;margin-bottom:4px;}
+.page-header h1{font-size:clamp(1.1em,3vw,1.55em);font-weight:700;margin:0;}
+
+.step-nav{display:flex;align-items:center;justify-content:center;padding:14px 12px;background:var(--card);border-bottom:1px solid var(--border);flex-wrap:nowrap;overflow-x:auto;position:sticky;top:0;z-index:10;}
+.step-item{display:flex;align-items:center;gap:6px;font-size:clamp(.75em,2vw,.88em);color:#94a3b8;white-space:nowrap;padding:4px 6px;}
+.step-item a{color:inherit;text-decoration:none;}
+.step-item.active{color:var(--primary);font-weight:700;}
+.step-circle{width:22px;height:22px;border-radius:50%;font-size:.76em;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.step-item.active .step-circle{background:var(--primary);color:#fff;box-shadow:0 0 0 3px var(--primary-light);}
+.step-item:not(.active) .step-circle{background:#94a3b8;color:#fff;}
+.step-arrow{color:#cbd5e1;font-size:1.1em;padding:0 2px;user-select:none;}
+
+.content{padding:20px 16px 40px;}
+.intro-lead{background:var(--primary-light);border-left:4px solid var(--primary);padding:14px 18px;border-radius:0 var(--radius) var(--radius) 0;margin-bottom:24px;color:var(--primary);font-size:.94em;}
+
+.kw-cond{color:var(--accent);font-weight:700;}
+.kw-num{background:linear-gradient(transparent 60%,#fff3a0 60%);font-weight:700;padding:0 2px;}
+
+.qcard{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);padding:18px;margin-bottom:22px;}
+.qcard-head{display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap;}
+.qcard-tag{background:var(--accent);color:#fff;padding:4px 12px;border-radius:6px;font-size:.85em;font-weight:700;}
+.qcard-year{color:var(--text-sub);font-size:.85em;}
+.qcard-title{font-weight:700;color:var(--primary);font-size:1em;margin-left:auto;}
+
+.q-statement{background:#f8fafc;border-left:4px solid var(--primary-mid);padding:12px 16px;border-radius:0 8px 8px 0;font-size:.95em;line-height:1.85;margin-bottom:14px;}
+
+.toggle-btn{display:block;width:100%;padding:10px 14px;margin-top:10px;background:#fff;border:2px solid var(--success);color:var(--success);border-radius:8px;font-size:.95em;font-weight:700;cursor:pointer;text-align:left;font-family:inherit;}
+.toggle-btn:hover{background:var(--success-light);}
+.toggle-btn .arrow{float:right;transition:transform .2s;}
+.toggle-btn.open .arrow{transform:rotate(90deg);}
+
+.toggle-content{display:none;margin-top:10px;padding:14px 16px;background:#fafbff;border:1px solid var(--border);border-radius:8px;font-size:.93em;line-height:1.85;}
+.toggle-content.show{display:block;animation:fadeIn .3s;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(-4px);}to{opacity:1;transform:translateY(0);}}
+
+.solve-step{padding:10px 0;border-bottom:1px dashed #e2e8f0;}
+.solve-step:last-child{border-bottom:none;}
+.solve-step .step-head{font-weight:700;color:var(--primary);margin-bottom:6px;font-size:.95em;display:flex;align-items:center;gap:6px;}
+.solve-step .step-head .num{background:var(--primary);color:#fff;width:22px;height:22px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:.78em;flex-shrink:0;}
+.solve-step .step-body{font-size:.93em;line-height:1.85;padding-left:0;}
+
+.translate-box{background:#fff;border:2px solid var(--primary);border-radius:8px;padding:12px 14px;margin:8px 0;}
+.tr-step{margin-bottom:8px;}
+.tr-step:last-child{margin-bottom:0;}
+.tr-label{font-size:.82em;color:var(--primary);font-weight:700;margin-bottom:4px;}
+.tr-content{background:#f8fafc;padding:8px 12px;border-radius:6px;font-size:.93em;line-height:1.75;}
+.tr-content.final{background:var(--success-light);border-left:3px solid var(--success);}
+.tr-arrow{text-align:center;color:var(--primary);font-size:1.2em;line-height:1;margin:4px 0;}
+
+.calc-line{background:#fff;border:1px solid #e2e8f0;border-radius:6px;padding:8px 12px;margin:6px 0;font-size:.95em;}
+.calc-line .op-label{color:var(--text-sub);font-size:.82em;display:inline-block;margin-right:6px;}
+
+.answer-box{background:var(--success-light);border:2px solid var(--success);border-radius:8px;padding:10px 14px;color:var(--success);font-weight:700;font-size:1em;margin-top:10px;text-align:center;}
+
+.summary{background:linear-gradient(135deg,#dbeafe 0%,#e0e7ff 100%);border:2px solid var(--primary);border-radius:var(--radius);padding:18px;margin-top:20px;}
+.summary h3{color:var(--primary);font-size:1.05em;margin-bottom:10px;text-align:center;}
+.summary ol{padding-left:1.6em;font-size:.95em;line-height:1.85;}
+.summary ol li{margin-bottom:4px;}
+
+.btn-row{text-align:center;margin-top:24px;}
+.btn-back,.btn-next{display:inline-block;margin:4px;padding:10px 22px;text-decoration:none;border-radius:8px;font-weight:700;font-size:.95em;}
+.btn-back{background:#fff;border:2px solid var(--primary);color:var(--primary);}
+.btn-back:hover{background:var(--primary-light);}
+.btn-next{background:var(--primary);color:#fff;border:2px solid var(--primary);}
+.btn-next:hover{background:var(--primary-mid);}
+</style>
+</head>
+<body>
+<div class="g-container">
+
+<header class="page-header">
+  <div class="unit-code">IN05 ｜ 江原予備校オリジナル問題（対面指導生徒・限定配信）</div>
+  <h1>不等式の文章題①（合計購入型）｜例題</h1>
+</header>
+
+<nav class="step-nav">
+  <div class="step-item"><a href="intro.html"><span class="step-circle">1</span>導入</a></div>
+  <span class="step-arrow">→</span>
+  <div class="step-item active"><span class="step-circle">2</span>例題</div>
+  <span class="step-arrow">→</span>
+  <div class="step-item"><a href="drill.html"><span class="step-circle">3</span>演習</a></div>
+  <span class="step-arrow">→</span>
+  <div class="step-item"><a href="check.html"><span class="step-circle">4</span>確認</a></div>
+</nav>
+
+<div class="content">
+
+  <div class="intro-lead">
+    📚 <strong>江原予備校オリジナルの2問</strong>を完全解説します。<br>
+    <strong>例題1：以内型（りんご・みかん）／例題2：以上型（お弁当・お茶）</strong><br>
+    この2つの解き方をしっかりマスターすれば，本番でも怖くありません！
+  </div>
+
+  <!-- ════════ 例題1：以内型 ════════ -->
+  <div class="qcard">
+    <div class="qcard-head">
+      <span class="qcard-tag">例題1</span>
+      <span class="qcard-year">江原予備校オリジナル問題</span>
+      <span class="qcard-title" style="font-size:.9em;">★以内型</span>
+    </div>
+
+    <div class="q-statement">
+      文房具店で，ノートとえんぴつを合わせて <span class="kw-num">14個</span> 買う。<br>
+      ノート1冊 <span class="kw-num">120円</span>，えんぴつ1本 <span class="kw-num">60円</span>のとき，代金の合計を <span class="kw-num">1200円</span><span class="kw-cond">以内</span>にするには，ノートを最大何冊まで買うことができるか。
+    </div>
+
+    <button class="toggle-btn" onclick="toggleBox(this)">
+      ✅ 解き方を見る<span class="arrow">▶</span>
+    </button>
+    <div class="toggle-content">
+
+      <div class="solve-step">
+        <div class="step-head"><span class="num">1</span>ノートの冊数を $x$ 冊とおく</div>
+        <div class="step-body">求めたいのは最大の冊数なので，ノートを $x$ 冊とする。</div>
+      </div>
+
+      <div class="solve-step">
+        <div class="step-head"><span class="num">2</span>えんぴつは $(14-x)$ 本</div>
+        <div class="step-body">合わせて14個買うので，えんぴつの本数は $(14-x)$ 本。</div>
+      </div>
+
+      <div class="solve-step">
+        <div class="step-head"><span class="num">3</span>「1200円以内」を不等式に</div>
+        <div class="step-body">
+          <div class="translate-box">
+            <div class="tr-step">
+              <div class="tr-label">📖 文章を不等式の形に</div>
+              <div class="tr-content">
+                ノート代 ＋ えんぴつ代 ≦ 1200円<br>
+                ↓<br>
+                $120x + 60(14-x) \leqq 1200$
+              </div>
+            </div>
+            <div class="tr-arrow">↓</div>
+            <div class="tr-step">
+              <div class="tr-label">✨ 完成した不等式</div>
+              <div class="tr-content final">
+                <strong>$120x + 60(14-x) \leqq 1200$</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="solve-step">
+        <div class="step-head"><span class="num">4</span>不等式を解く</div>
+        <div class="step-body">
+          <div class="calc-line"><span class="op-label">かっこを外す：</span>$120x + 840 - 60x \leqq 1200$</div>
+          <div class="calc-line"><span class="op-label">整理する：</span>$60x + 840 \leqq 1200$</div>
+          <div class="calc-line"><span class="op-label">移項：</span>$60x \leqq 360$</div>
+          <div class="calc-line"><span class="op-label">両辺を係数で割る：</span>$x \leqq 6$</div>
+        </div>
+      </div>
+
+      <div class="answer-box">
+        ✅ 答え：ノートは最大 <span style="font-size:1.3em;">6</span> 冊
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════ 例題2：以上型 ════════ -->
+  <div class="qcard">
+    <div class="qcard-head">
+      <span class="qcard-tag">例題2</span>
+      <span class="qcard-year">江原予備校オリジナル問題</span>
+      <span class="qcard-title" style="font-size:.9em;">★以上型</span>
+    </div>
+
+    <div class="q-statement">
+      コンビニで，お弁当とお茶を合わせて <span class="kw-num">10個</span> 買う。<br>
+      お弁当1個 <span class="kw-num">450円</span>，お茶1本 <span class="kw-num">150円</span>のとき，代金の合計を <span class="kw-num">3300円</span><span class="kw-cond">以上</span>にするには，お弁当を何個以上買えばよいか。
+    </div>
+
+    <button class="toggle-btn" onclick="toggleBox(this)">
+      ✅ 解き方を見る<span class="arrow">▶</span>
+    </button>
+    <div class="toggle-content">
+
+      <div class="solve-step">
+        <div class="step-head"><span class="num">1</span>お弁当の個数を $x$ 個とおく</div>
+        <div class="step-body">「お弁当は何個以上か」と聞かれているので，お弁当を $x$ 個とする。</div>
+      </div>
+
+      <div class="solve-step">
+        <div class="step-head"><span class="num">2</span>お茶は $(10-x)$ 本</div>
+        <div class="step-body">合わせて10個買うので，お茶の本数は $(10-x)$ 本。</div>
+      </div>
+
+      <div class="solve-step">
+        <div class="step-head"><span class="num">3</span>「3300円以上」を不等式に</div>
+        <div class="step-body">
+          <div class="translate-box">
+            <div class="tr-step">
+              <div class="tr-label">📖 文章を不等式の形に</div>
+              <div class="tr-content">
+                お弁当代 ＋ お茶代 ≧ 3300円<br>
+                ↓<br>
+                $450x + 150(10-x) \geqq 3300$
+              </div>
+            </div>
+            <div class="tr-arrow">↓</div>
+            <div class="tr-step">
+              <div class="tr-label">✨ 完成した不等式</div>
+              <div class="tr-content final">
+                <strong>$450x + 150(10-x) \geqq 3300$</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="solve-step">
+        <div class="step-head"><span class="num">4</span>不等式を解く</div>
+        <div class="step-body">
+          <div class="calc-line"><span class="op-label">かっこを外す：</span>$450x + 1500 - 150x \geqq 3300$</div>
+          <div class="calc-line"><span class="op-label">整理する：</span>$300x + 1500 \geqq 3300$</div>
+          <div class="calc-line"><span class="op-label">移項：</span>$300x \geqq 1800$</div>
+          <div class="calc-line"><span class="op-label">両辺を係数で割る：</span>$x \geqq 6$</div>
+        </div>
+      </div>
+
+      <div class="answer-box">
+        ✅ 答え：お弁当は <span style="font-size:1.3em;">6</span> 個以上
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════ まとめ ════════ -->
+  <div class="summary">
+    <h3>📌 合計購入型の解き方 まとめ</h3>
+    <ol>
+      <li>求めたい方を $x$ とおく</li>
+      <li>もう一方を「合計 $- x$」で表す</li>
+      <li>合計代金の式をつくる<br>
+          <span style="font-size:.88em;color:var(--text-sub);">　・以内型：$ax + b(N-x) \leqq T$</span><br>
+          <span style="font-size:.88em;color:var(--text-sub);">　・以上型：$ax + b(N-x) \geqq T$</span></li>
+      <li>解いて，<strong>整数で答える</strong></li>
+    </ol>
+    <p style="margin-top:10px;font-size:.9em;color:var(--primary);text-align:center;font-weight:700;">
+      ✨ 演習で同じパターンを繰り返し練習しよう！
+    </p>
+  </div>
+
+  <div class="btn-row">
+    <a href="intro.html" class="btn-back">← 導入へ</a>
+    <a href="drill.html" class="btn-next">演習へ進む →</a>
+  </div>
+
+</div>
+</div>
+
+<script>
+function toggleBox(btn){
+  btn.classList.toggle('open');
+  const next = btn.nextElementSibling;
+  if(next && next.classList.contains('toggle-content')){
+    next.classList.toggle('show');
+    if(next.classList.contains('show') && typeof renderMathInElement === 'function'){
+      renderMathInElement(next, {
+        delimiters:[
+          {left:'$$',right:'$$',display:true},
+          {left:'$',right:'$',display:false}
+        ],
+        throwOnError:false
+      });
+    }
+  }
+}
+function renderAllMath(){
+  if(typeof renderMathInElement === 'function'){
+    renderMathInElement(document.body, {
+      delimiters:[
+        {left:'$$',right:'$$',display:true},
+        {left:'$',right:'$',display:false}
+      ],
+      throwOnError:false
+    });
+  }
+}
+</script>
+</body>
+</html>
