@@ -90,8 +90,8 @@ body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background
 const QS=[
   {badge:"公式③",badge_cls:"blue",
     q:"(χ＋5)(χ－5) を展開すると？",
-    choices:["χ²－25","χ²＋25","χ²－10χ－25","χ²＋10χ－25"],
-    ans:0,
+    choices:["χ²＋10χ－25","χ²＋25","χ²－10χ－25","χ²－25"],
+    ans:3,
     exp:"前² ＝ χ²，後² ＝ 5² ＝ 25　→ χ² － 25。真ん中は消える！"},
   {badge:"公式③",badge_cls:"blue",
     q:"(χ＋9)(χ－9) を展開すると？",
@@ -105,20 +105,19 @@ const QS=[
     exp:"前² ＝ (3χ)² ＝ 9χ²，後² ＝ 2² ＝ 4　→ 9χ² － 4"},
   {badge:"公式③応用",badge_cls:"blue",
     q:"(4χ＋1)(4χ－1) を展開すると？",
-    choices:["4χ²－1","16χ²＋1","16χ²－1","4χ²＋1"],
-    ans:2,
+    choices:["4χ²－1","16χ²－1","16χ²＋1","4χ²＋1"],
+    ans:1,
     exp:"前² ＝ (4χ)² ＝ 16χ²，後² ＝ 1² ＝ 1　→ 16χ² － 1"},
   {badge:"公式③応用",badge_cls:"blue",
     q:"(χ＋4y)(χ－4y) を展開すると？",
-    choices:["χ²－4y²","χ²＋16y²","χ²－8χy＋16y²","χ²－16y²"],
-    ans:3,
+    choices:["χ²－16y²","χ²＋16y²","χ²－8χy＋16y²","χ²－4y²"],
+    ans:0,
     exp:"前² ＝ χ²，後² ＝ (4y)² ＝ 16y²　→ χ² － 16y²"},
   {badge:"公式③応用",badge_cls:"blue",
     q:"(2χ＋3y)(2χ－3y) を展開すると？",
-    choices:["4χ²－9y²","4χ²＋9y²","2χ²－3y²","4χ²－6y²"],
-    ans:0,
-    exp:"前² ＝ (2χ)² ＝ 4χ²，後² ＝ (3y)² ＝ 9y²　→ 4χ² － 9y²"},
-];
+    choices:["4χ²＋9y²","4χ²－9y²","2χ²－3y²","4χ²－6y²"],
+    ans:1,
+    exp:"前² ＝ (2χ)² ＝ 4χ²，後² ＝ (3y)² ＝ 9y²　→ 4χ² － 9y²"}];
 let answers=[],answered=new Array(QS.length).fill(false);
 function buildQuiz(){
   const area=document.getElementById('quiz-area');area.innerHTML='';

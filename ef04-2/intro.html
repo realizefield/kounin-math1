@@ -258,18 +258,17 @@ function togDrill(i){
 }
 const QS=[
   {q:"(χ＋y＋4)(χ＋y－4) を展開すると？",
-    choices:["χ²＋2χy＋y²－16","(χ＋y)²－4","χ²＋y²－16","χ²＋2χy＋y²＋8χ＋8y＋16"],
-    ans:0,exp:"A＝χ＋y → A²－16＝(χ＋y)²－16＝χ²＋2χy＋y²－16"},
+    choices:["χ²＋y²－16","(χ＋y)²－4","χ²＋2χy＋y²－16","χ²＋2χy＋y²＋8χ＋8y＋16"],
+    ans:2,exp:"A＝χ＋y → A²－16＝(χ＋y)²－16＝χ²＋2χy＋y²－16"},
   {q:"(χ＋y＋1)² を展開すると？",
-    choices:["χ²＋y²＋1","χ²＋2χy＋y²＋1","χ²＋2χy＋y²＋2χ＋2y＋1","(χ＋y)²＋1"],
-    ans:2,exp:"A＝χ＋y → A²＋2A＋1＝(χ＋y)²＋2(χ＋y)＋1＝χ²＋2χy＋y²＋2χ＋2y＋1"},
+    choices:["χ²＋2χy＋y²＋2χ＋2y＋1","χ²＋2χy＋y²＋1","χ²＋y²＋1","(χ＋y)²＋1"],
+    ans:0,exp:"A＝χ＋y → A²＋2A＋1＝(χ＋y)²＋2(χ＋y)＋1＝χ²＋2χy＋y²＋2χ＋2y＋1"},
   {q:"(χ－2＋y)(χ－2－y) を展開すると？",
-    choices:["χ²－4χ＋4－y²","χ²－y²－4","(χ－2)²－y","χ²－2χ＋4－y²"],
-    ans:0,exp:"A＝χ－2 → A²－y²＝(χ－2)²－y²＝χ²－4χ＋4－y²"},
+    choices:["χ²－y²－4","χ²－4χ＋4－y²","(χ－2)²－y","χ²－2χ＋4－y²"],
+    ans:1,exp:"A＝χ－2 → A²－y²＝(χ－2)²－y²＝χ²－4χ＋4－y²"},
   {q:"(a＋b＋2)(a＋b－5) を展開すると？",
-    choices:["a²＋2ab＋b²－3a－3b－10","a²＋b²－10","a²＋2ab＋b²－3","(a＋b)²－10"],
-    ans:0,exp:"A＝a＋b → (A＋2)(A－5)＝A²－3A－10＝(a＋b)²－3(a＋b)－10"},
-];
+    choices:["(a＋b)²－10","a²＋b²－10","a²＋2ab＋b²－3","a²＋2ab＋b²－3a－3b－10"],
+    ans:3,exp:"A＝a＋b → (A＋2)(A－5)＝A²－3A－10＝(a＋b)²－3(a＋b)－10"}];
 let answers=[],answered=new Array(QS.length).fill(false);
 function buildQuiz(){
   const area=document.getElementById('quiz-area');area.innerHTML='';
