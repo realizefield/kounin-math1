@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>過去問・判別練習【過去問演習】</title>
+
+<!-- KaTeX (CDN) -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+  onload="renderAllMath();"></script>
+
+<style>
+:root{--primary:#0f766e;--primary-light:#ccfbf1;--accent:#e8372d;--accent-light:#fff1f0;--success:#16a34a;--success-light:#dcfce7;--warn:#d97706;--warn-light:#fffbeb;--purple:#9333ea;--purple-light:#f3e8ff;--bg:#f0fdfa;--card:#ffffff;--border:#99f6e4;--text:#1e293b;--text-sub:#64748b;--radius:12px;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:60px;}
+.g-container{max-width:760px;margin:0 auto;padding:22px 15px 60px;}
+.page-header{background:linear-gradient(135deg,#9333ea,#7e22ce);color:#fff;padding:16px 20px 12px;text-align:center;box-shadow:0 3px 10px rgba(147,51,234,.25);}
+.page-header .unit-code{font-size:.8em;opacity:.8;letter-spacing:.1em;margin-bottom:3px;}
+.page-header h1{font-size:clamp(.98em,3vw,1.38em);font-weight:700;margin:0;line-height:1.4;}
+.step-nav{display:flex;align-items:center;justify-content:center;padding:9px 6px;background:var(--card);border-bottom:1px solid var(--border);flex-wrap:nowrap;overflow-x:auto;position:sticky;top:0;z-index:10;gap:1px;}
+.step-item{display:flex;align-items:center;gap:3px;font-size:clamp(.62em,1.6vw,.78em);color:#94a3b8;white-space:nowrap;padding:2px 4px;}
+.step-item a{color:inherit;text-decoration:none;}
+.step-item a:hover{color:var(--purple);}
+.step-item.active{color:var(--purple);font-weight:700;}
+.step-circle{width:19px;height:19px;border-radius:50%;font-size:.68em;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.step-item.active .step-circle{background:var(--purple);color:#fff;box-shadow:0 0 0 2px var(--purple-light);}
+.step-item:not(.active) .step-circle{background:#94a3b8;color:#fff;}
+.step-arrow{color:#cbd5e1;font-size:.9em;padding:0;}
+
+.instruction{background:var(--purple-light);border-left:4px solid var(--purple);border-radius:0 var(--radius) var(--radius) 0;padding:13px 16px;margin-bottom:18px;font-size:.93em;color:#7e22ce;line-height:1.8;}
+.instruction strong{color:#581c87;}
+
+/* タブ切替 */
+.tab-bar{display:flex;background:#fff;border-radius:var(--radius);overflow:hidden;border:2px solid var(--purple);margin-bottom:14px;}
+.tab-btn{flex:1;background:none;border:none;padding:11px 8px;font-family:'BIZ UDPGothic',sans-serif;font-size:.92em;font-weight:700;cursor:pointer;color:var(--text-sub);transition:all .15s;}
+.tab-btn.active{background:var(--purple);color:#fff;}
+.tab-btn:not(.active):hover{background:var(--purple-light);color:var(--purple);}
+
+/* セレクター */
+.selector-bar{background:#fff;border:2px solid var(--border);border-radius:var(--radius);padding:11px 14px;margin-bottom:14px;}
+.selector-bar .slabel{font-size:.83em;font-weight:700;color:var(--purple);margin-bottom:8px;}
+.selector-bar .schoices{display:flex;flex-wrap:wrap;gap:6px;}
+.selector-btn{background:#f5f3ff;border:1.5px solid #ddd6fe;border-radius:50px;padding:6px 13px;font-family:'BIZ UDPGothic',sans-serif;font-size:.84em;font-weight:700;cursor:pointer;color:#1e293b;transition:all .15s;}
+.selector-btn:hover{background:var(--purple-light);}
+.selector-btn.active{background:var(--purple);color:#fff;border-color:var(--purple);}
+
+/* 問題カード */
+.problem-card{background:var(--card);border:2px solid var(--border);border-radius:var(--radius);margin-bottom:14px;overflow:hidden;}
+.problem-head{background:linear-gradient(135deg,#9333ea,#7e22ce);color:#fff;padding:9px 16px;font-size:.85em;font-weight:700;display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.problem-head .p-num{background:rgba(255,255,255,.25);border-radius:6px;padding:2px 8px;}
+.problem-head .p-year{font-size:.92em;opacity:.92;}
+.problem-head .p-tag{margin-left:auto;background:rgba(255,255,255,.2);border-radius:5px;padding:2px 8px;font-size:.78em;}
+
+.problem-body{padding:14px 16px 14px;}
+.problem-q{font-size:1.05em;font-weight:700;color:#1e293b;background:#fafaf9;border-left:4px solid var(--purple);border-radius:0 8px 8px 0;padding:11px 14px;margin-bottom:13px;line-height:2;}
+
+.action-bar{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:9px;}
+.action-btn{background:#f5f3ff;border:1.5px solid #ddd6fe;border-radius:8px;padding:7px 13px;font-family:'BIZ UDPGothic',sans-serif;font-size:.83em;font-weight:700;cursor:pointer;color:#7e22ce;transition:all .15s;}
+.action-btn:hover{background:var(--purple-light);}
+.action-btn.shown{background:var(--purple);color:#fff;border-color:var(--purple);}
+.action-btn.link-btn{background:#ecfdf5;border-color:#86efac;color:#166534;}
+.action-btn.link-btn:hover{background:#d1fae5;}
+
+.detail-area{display:none;margin-top:11px;}
+.detail-area.shown{display:block;}
+.detail-row{display:flex;align-items:flex-start;gap:8px;padding:10px 13px;border-radius:8px;margin-bottom:7px;font-size:.9em;font-weight:700;line-height:2;animation:fadeIn .25s ease;}
+.detail-row.hint{background:var(--warn-light);border:1.5px solid var(--warn);}
+.detail-row.solv{background:var(--primary-light);border:1.5px solid var(--primary);color:#0f766e;}
+.detail-row.ans{background:var(--success-light);border:1.5px solid var(--success);color:#15803d;font-size:1em;}
+.detail-row .dl{font-size:.7em;font-weight:700;border-radius:5px;padding:2px 7px;white-space:nowrap;flex-shrink:0;margin-top:4px;}
+.detail-row.hint .dl{background:var(--warn);color:#fff;}
+.detail-row.solv .dl{background:var(--primary);color:#fff;}
+.detail-row.ans .dl{background:var(--success);color:#fff;}
+
+.empty-msg{background:#f9fafb;border:2px dashed #cbd5e1;border-radius:var(--radius);padding:30px 20px;text-align:center;color:var(--text-sub);font-size:.92em;font-weight:700;}
+
+@keyframes fadeIn{from{opacity:0;transform:translateY(3px);}to{opacity:1;transform:translateY(0);}}
+
+/* 進捗バー */
+.progress-bar{background:#fff;border:2px solid var(--border);border-radius:var(--radius);padding:11px 14px;margin-bottom:14px;display:flex;justify-content:space-between;align-items:center;font-size:.85em;font-weight:700;}
+.progress-bar .pleft{color:var(--purple);}
+.progress-bar .pright{color:var(--text-sub);}
+
+.nav-btns{display:flex;gap:10px;flex-wrap:wrap;justify-content:space-between;margin-top:26px;}
+.btn-nav{font-family:'BIZ UDPGothic','BIZ UDP Gothic',sans-serif;font-size:.93em;font-weight:700;padding:11px 24px;border-radius:50px;border:none;cursor:pointer;text-decoration:none;display:inline-block;transition:transform .15s,box-shadow .15s;}
+.btn-nav:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.15);}
+.btn-f{background:var(--purple);color:#fff;}
+.btn-b{background:#f1f5f9;color:var(--text-sub);}
+.btn-h{background:var(--purple-light);color:var(--purple);font-size:.83em;padding:9px 18px;}
+</style>
+</head>
+<body>
+<div class="page-header">
+  <div class="unit-code">EF14</div>
+  <h1>過去問演習<br><small style="font-size:.75em;opacity:.85;">年度別／単元別で実戦練習</small></h1>
+</div>
+<nav class="step-nav">
+  <div class="step-item"><span class="step-circle">①</span><a href="intro.html">使い分けマップ</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">②</span><a href="classify.html">判別練習</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item active"><span class="step-circle">③</span><span>過去問演習</span></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">④</span><a href="check.html">実戦テスト</a></div>
+</nav>
+<main class="g-container">
+
+<div class="instruction">
+  <strong>📝 過去問演習</strong>　本物の高認過去問（R1〜R7年・全21問）を年度別／単元別で解こう！<br>
+  各問題に <strong>ヒント・考え方・答え</strong> がついているので，自分のペースで進められます。
+</div>
+
+<!-- タブ切替 -->
+<div class="tab-bar">
+  <button class="tab-btn active" id="tab-year" onclick="switchTab('year')">📅 年度別</button>
+  <button class="tab-btn" id="tab-topic" onclick="switchTab('topic')">📚 単元別</button>
+</div>
+
+<!-- セレクター（タブで切替） -->
+<div class="selector-bar" id="selector-year">
+  <div class="slabel">📅 年度を選ぶ</div>
+  <div class="schoices" id="year-choices"></div>
+</div>
+<div class="selector-bar" id="selector-topic" style="display:none;">
+  <div class="slabel">📚 単元を選ぶ</div>
+  <div class="schoices" id="topic-choices"></div>
+</div>
+
+<div class="progress-bar">
+  <div class="pleft">📊 表示中：<span id="filter-label">全問題</span></div>
+  <div class="pright"><span id="problem-count">0</span> 問</div>
+</div>
+
+<div id="problems-area"></div>
+
+<div class="nav-btns">
+  <a href="../kounin_math_index.html" class="btn-nav btn-h">🏠 単元一覧へ</a>
+  <a href="classify.html" class="btn-nav btn-b">← 判別練習</a>
+  <a href="check.html" class="btn-nav btn-f">④ 実戦テストへ →</a>
+</div>
+</main>
+
+<script>
+// 全21問のデータ
+// topic: 単元タグ（A置換展開, A置換因数分解, 平方公式, 和と差の積, たすき掛け, 文字式の加減, 展開公式①, 因数分解(和差)）
+// linkUnit: 該当EF単元の例題ページ（戻り学習用）
+const PROBLEMS = [
+  // R7年
+  {year:"R7-1", num:"(1)", q:"$(2a-b)(2a-b+1)$ を展開せよ。",
+    topic:"A置換展開",
+    hint:"$(2a-b)$ という同じカタマリが見える。$A=2a-b$ と置く。",
+    solve:"$A=2a-b$ とすると $A(A+1) = A^2 + A$。$A^2 = (2a-b)^2 = 4a^2 - 4ab + b^2$。これに $A=2a-b$ を足す。",
+    ans:"$4a^2 - 4ab + b^2 + 2a - b$",
+    linkUnit:"../kouninmath04-2/example.html", linkLabel:"EF04-2"},
+  {year:"R7-2", num:"(1)", q:"$2x^2+5x+3$ を因数分解せよ。",
+    topic:"たすき掛け",
+    hint:"$x^2$ の係数が1ではない（=2）。両プラス型のたすき掛け。",
+    solve:"$2 = 2 \\times 1$，$3 = 3 \\times 1$ または $1 \\times 3$。たすき掛けで $2x \\times 1 + 1x \\times 3 = 5x$ となる組を見つける。",
+    ans:"$(2x+3)(x+1)$",
+    linkUnit:"../kouninmath11/example.html", linkLabel:"EF11"},
+  // R6年
+  {year:"R6-1", num:"(1)", q:"$(a+b)(a+b+3)$ を展開せよ。",
+    topic:"A置換展開",
+    hint:"$(a+b)$ という同じカタマリ。$A=a+b$ と置く。",
+    solve:"$A=a+b$ とすると $A(A+3) = A^2 + 3A$。$A^2 = (a+b)^2 = a^2 + 2ab + b^2$。これに $3A=3(a+b)=3a+3b$ を足す。",
+    ans:"$a^2 + 2ab + b^2 + 3a + 3b$",
+    linkUnit:"../kouninmath04-2/example.html", linkLabel:"EF04-2"},
+  {year:"R6-2", num:"(1)", q:"$3x^2+2x-1$ を因数分解せよ。",
+    topic:"たすき掛け",
+    hint:"$x^2$ の係数が1ではない（=3）。定数項マイナス → 符号が逆型。",
+    solve:"$3=3 \\times 1$，$1=1 \\times 1$。符号の振り方を試す → $(3x-1)(x+1)$ なら $3x \\times 1 + 1x \\times (-1) = 2x$ ✓",
+    ans:"$(3x-1)(x+1)$",
+    linkUnit:"../kouninmath13/example.html", linkLabel:"EF13"},
+  // R5年
+  {year:"R5-1", num:"(1)", q:"$(x+4)^2 - 7(x+4)$ を因数分解せよ。",
+    topic:"A置換因数分解",
+    hint:"$(x+4)$ という同じカタマリ。$A=x+4$ と置く。",
+    solve:"$A=x+4$ とすると $A^2 - 7A = A(A-7)$。$A$ を戻す → $(x+4)((x+4)-7) = (x+4)(x-3)$。",
+    ans:"$(x+4)(x-3)$",
+    linkUnit:"../kouninmath09/example.html", linkLabel:"EF09"},
+  {year:"R5-2", num:"(1)", q:"$A=x^2+x-2$，$B=-3x^2-3x-1$ のとき，$A-B$ を計算せよ。",
+    topic:"文字式の加減",
+    hint:"$A-B$ は $B$ の各項の符号を反転して足す。",
+    solve:"$A-B = (x^2+x-2) - (-3x^2-3x-1) = x^2+x-2 + 3x^2+3x+1 = 4x^2+4x-1$",
+    ans:"$4x^2 + 4x - 1$",
+    linkUnit:"#", linkLabel:"基礎計算"},
+  // R4年
+  {year:"R4-1", num:"(1)", q:"$2x^2-3x+1$ を因数分解せよ。",
+    topic:"たすき掛け",
+    hint:"$x^2$ の係数1ではない（=2）。係数 −，定数項 + → 両マイナス型。",
+    solve:"$2=2 \\times 1$，$1=1 \\times 1$。両マイナスの組を試す → $(2x-1)(x-1)$ なら $2x \\times (-1) + 1x \\times (-1) = -3x$ ✓",
+    ans:"$(2x-1)(x-1)$",
+    linkUnit:"../kouninmath12/example.html", linkLabel:"EF12"},
+  {year:"R4-1", num:"(2)", q:"$(2x+y-1)(2x+y+1)$ を展開せよ。",
+    topic:"和と差の積",
+    hint:"$(2x+y)$ をAと置けば $(A-1)(A+1) = A^2-1$。",
+    solve:"$A=2x+y$ とすると $(A-1)(A+1) = A^2-1$。$A^2 = (2x+y)^2 = 4x^2+4xy+y^2$。これから $1$ を引く。",
+    ans:"$4x^2 + 4xy + y^2 - 1$",
+    linkUnit:"../kouninmath04-2/example.html", linkLabel:"EF04-2"},
+  {year:"R4-2", num:"(1)", q:"$A=-x^2+2x-3$，$B=3x^2-2x+1$ のとき $A+B$ と $A-B$ を計算せよ。",
+    topic:"文字式の加減",
+    hint:"$A+B$ はそのまま足す。$A-B$ は $B$ の各項の符号を反転。",
+    solve:"$A+B = (-x^2+2x-3) + (3x^2-2x+1) = 2x^2-2$。$A-B = (-x^2+2x-3) - (3x^2-2x+1) = -x^2+2x-3 -3x^2+2x-1 = -4x^2+4x-4$",
+    ans:"$A+B = 2x^2 - 2$，$A-B = -4x^2 + 4x - 4$",
+    linkUnit:"#", linkLabel:"基礎計算"},
+  // R3年
+  {year:"R3-1", num:"(1)", q:"$A=2x^2+4x-1$，$B=-x^2-5x+2$ のとき $3A+B$ を計算せよ。",
+    topic:"文字式の加減",
+    hint:"$3A$ を計算してから $B$ を足す。",
+    solve:"$3A = 3(2x^2+4x-1) = 6x^2+12x-3$。$3A+B = (6x^2+12x-3) + (-x^2-5x+2) = 5x^2+7x-1$",
+    ans:"$5x^2 + 7x - 1$",
+    linkUnit:"#", linkLabel:"基礎計算"},
+  {year:"R3-2", num:"(1)", q:"$2x^2+5x-3$ を因数分解せよ。",
+    topic:"たすき掛け",
+    hint:"定数項マイナス → 符号が逆型。",
+    solve:"$2=2 \\times 1$，$3=1 \\times 3$。符号を試す → $(2x-1)(x+3)$ なら $2x \\times 3 + 1x \\times (-1) = 5x$ ✓",
+    ans:"$(2x-1)(x+3)$",
+    linkUnit:"../kouninmath13/example.html", linkLabel:"EF13"},
+  {year:"R3-2", num:"(2)", q:"$(a^2+b)^2$ を展開せよ。",
+    topic:"平方公式",
+    hint:"$(○+△)^2 = ○^2 + 2○△ + △^2$ の公式を使う。$○=a^2$，$△=b$。",
+    solve:"$(a^2+b)^2 = (a^2)^2 + 2 \\cdot a^2 \\cdot b + b^2 = a^4 + 2a^2b + b^2$",
+    ans:"$a^4 + 2a^2 b + b^2$",
+    linkUnit:"../kouninmath02/example.html", linkLabel:"EF02"},
+  // R2年
+  {year:"R2-1", num:"(1)", q:"$A=x^2+2x+1$，$B=x^2+6x+9$ のとき $4A-B$ を計算せよ。",
+    topic:"文字式の加減",
+    hint:"$4A$ を計算してから $B$ の各項の符号を反転して足す。",
+    solve:"$4A = 4(x^2+2x+1) = 4x^2+8x+4$。$4A-B = (4x^2+8x+4) - (x^2+6x+9) = 3x^2+2x-5$",
+    ans:"$3x^2 + 2x - 5$",
+    linkUnit:"#", linkLabel:"基礎計算"},
+  {year:"R2-1", num:"(2)", q:"$(x+1)^2(x-1)^2$ を展開せよ。",
+    topic:"和と差の積",
+    hint:"$(x+1)(x-1) = x^2-1$ をまず作って，それを2乗する。",
+    solve:"$(x+1)^2(x-1)^2 = \\{(x+1)(x-1)\\}^2 = (x^2-1)^2 = x^4 - 2x^2 + 1$",
+    ans:"$x^4 - 2x^2 + 1$",
+    linkUnit:"../kouninmath03/example.html", linkLabel:"EF03"},
+  {year:"R2-2", num:"(1)", q:"$4x^2-4x-3$ を因数分解せよ。",
+    topic:"たすき掛け",
+    hint:"$x^2$ の係数1ではない（=4）。定数項マイナス → 符号が逆型。",
+    solve:"$4=2 \\times 2$，$3=1 \\times 3$。$(2x+1)(2x-3)$ なら $2x \\times (-3) + 2x \\times 1 = -4x$ ✓",
+    ans:"$(2x+1)(2x-3)$",
+    linkUnit:"../kouninmath13/example.html", linkLabel:"EF13"},
+  {year:"R2-2", num:"(2)", q:"$(a+b)(a-b+1)$ を展開せよ。",
+    topic:"A置換展開",
+    hint:"並び替えると $(a+b)\\{(a-b)+1\\}$。$(a+b)$ をそのまま分配する。",
+    solve:"$(a+b)(a-b+1) = (a+b)(a-b) + (a+b)$。$(a+b)(a-b) = a^2-b^2$。よって $a^2-b^2+a+b$",
+    ans:"$a^2 - b^2 + a + b$",
+    linkUnit:"../kouninmath04-2/example.html", linkLabel:"EF04-2"},
+  // R1年
+  {year:"R1-1", num:"(1)", q:"$3x^2+7x+2$ を因数分解せよ。",
+    topic:"たすき掛け",
+    hint:"$x^2$ の係数1ではない（=3）。両プラス型。",
+    solve:"$3=3 \\times 1$，$2=1 \\times 2$。$(3x+1)(x+2)$ なら $3x \\times 2 + 1x \\times 1 = 7x$ ✓",
+    ans:"$(3x+1)(x+2)$",
+    linkUnit:"../kouninmath11/example.html", linkLabel:"EF11"},
+  {year:"R1-2", num:"(1)", q:"$2A$ から $2x^2+6x-4$ を引いたら $A$ となった。このとき $A$ を求めよ。",
+    topic:"文字式の加減",
+    hint:"式を立てる：$2A - (2x^2+6x-4) = A$ → $A = 2x^2+6x-4$。",
+    solve:"$2A - (2x^2+6x-4) = A$ より $2A - A = 2x^2+6x-4$，つまり $A = 2x^2+6x-4$",
+    ans:"$A = 2x^2 + 6x - 4$",
+    linkUnit:"#", linkLabel:"基礎計算"},
+  {year:"R1-2", num:"(2)", q:"$(a+b+2c)(a+b-2c)$ を展開せよ。",
+    topic:"和と差の積",
+    hint:"$(a+b)$ をAと置けば $(A+2c)(A-2c) = A^2-(2c)^2$。",
+    solve:"$A=a+b$ とすると $(A+2c)(A-2c) = A^2 - 4c^2$。$A^2 = (a+b)^2 = a^2+2ab+b^2$。よって $a^2+2ab+b^2-4c^2$",
+    ans:"$a^2 + 2ab + b^2 - 4c^2$",
+    linkUnit:"../kouninmath04-2/example.html", linkLabel:"EF04-2"},
+];
+
+// 状態管理
+let currentTab = 'year'; // 'year' or 'topic'
+let currentFilter = 'all'; // 年度名 or 単元名 or 'all'
+
+function switchTab(tab){
+  currentTab = tab;
+  currentFilter = 'all';
+  document.getElementById('tab-year').classList.toggle('active', tab==='year');
+  document.getElementById('tab-topic').classList.toggle('active', tab==='topic');
+  document.getElementById('selector-year').style.display = (tab==='year')?'block':'none';
+  document.getElementById('selector-topic').style.display = (tab==='topic')?'block':'none';
+  buildSelectors();
+  renderProblems();
+}
+
+function buildSelectors(){
+  // 年度のリスト
+  const years = ['all', ...new Set(PROBLEMS.map(p => p.year.split('-')[0]))];
+  const yearArea = document.getElementById('year-choices');
+  yearArea.innerHTML = years.map(y =>
+    '<button class="selector-btn '+(currentTab==='year'&&currentFilter===y?'active':'')+'" onclick="setFilter(\''+y+'\')">'
+    +(y==='all'?'すべて':y+'年')
+    +'</button>'
+  ).join('');
+
+  // 単元のリスト
+  const topics = ['all', ...new Set(PROBLEMS.map(p => p.topic))];
+  const topicArea = document.getElementById('topic-choices');
+  topicArea.innerHTML = topics.map(t =>
+    '<button class="selector-btn '+(currentTab==='topic'&&currentFilter===t?'active':'')+'" onclick="setFilter(\''+t+'\')">'
+    +(t==='all'?'すべて':t)
+    +'</button>'
+  ).join('');
+}
+
+function setFilter(value){
+  currentFilter = value;
+  buildSelectors();
+  renderProblems();
+}
+
+function getFiltered(){
+  if(currentFilter === 'all') return PROBLEMS.slice();
+  if(currentTab === 'year'){
+    return PROBLEMS.filter(p => p.year.startsWith(currentFilter));
+  } else {
+    return PROBLEMS.filter(p => p.topic === currentFilter);
+  }
+}
+
+function renderProblems(){
+  const list = getFiltered();
+  document.getElementById('problem-count').textContent = list.length;
+  document.getElementById('filter-label').textContent =
+    (currentFilter==='all') ? '全問題'
+    : (currentTab==='year' ? currentFilter+'年' : currentFilter);
+
+  const area = document.getElementById('problems-area');
+  if(list.length === 0){
+    area.innerHTML = '<div class="empty-msg">該当する問題がありません</div>';
+    return;
+  }
+  area.innerHTML = '';
+  list.forEach((p, i) => {
+    const card = document.createElement('div');
+    card.className = 'problem-card';
+    card.id = 'pc'+i;
+    card.innerHTML =
+      '<div class="problem-head">'
+      +'<span class="p-num">'+p.year+' '+p.num+'</span>'
+      +'<span class="p-tag">'+p.topic+'</span>'
+      +'</div>'
+      +'<div class="problem-body">'
+      +'<div class="problem-q">'+p.q+'</div>'
+      +'<div class="action-bar">'
+      +'<button class="action-btn" id="bh'+i+'" onclick="toggle('+i+',\'hint\')">💡 ヒント</button>'
+      +'<button class="action-btn" id="bs'+i+'" onclick="toggle('+i+',\'solve\')">📝 考え方</button>'
+      +'<button class="action-btn" id="ba'+i+'" onclick="toggle('+i+',\'ans\')">✅ 答え</button>'
+      +(p.linkUnit && p.linkUnit !== '#'
+        ? '<a class="action-btn link-btn" href="'+p.linkUnit+'">📖 '+p.linkLabel+' で復習</a>'
+        : '')
+      +'</div>'
+      +'<div class="detail-area" id="dh'+i+'"><div class="detail-row hint"><span class="dl">ヒント</span><div>'+p.hint+'</div></div></div>'
+      +'<div class="detail-area" id="ds'+i+'"><div class="detail-row solv"><span class="dl">考え方</span><div>'+p.solve+'</div></div></div>'
+      +'<div class="detail-area" id="da'+i+'"><div class="detail-row ans"><span class="dl">答え</span><div>'+p.ans+'</div></div></div>'
+      +'</div>';
+    area.appendChild(card);
+  });
+  renderAllMath();
+}
+
+function toggle(i, kind){
+  const map = {hint:'h', solve:'s', ans:'a'};
+  const id = 'd'+map[kind]+i;
+  const btnId = 'b'+map[kind]+i;
+  const area = document.getElementById(id);
+  const btn = document.getElementById(btnId);
+  area.classList.toggle('shown');
+  btn.classList.toggle('shown');
+}
+
+function renderAllMath(){
+  if(typeof renderMathInElement==='function'){
+    renderMathInElement(document.body,{
+      delimiters:[
+        {left:'$$',right:'$$',display:true},
+        {left:'$',right:'$',display:false}
+      ],
+      throwOnError:false
+    });
+  }
+}
+
+// 初期化
+buildSelectors();
+renderProblems();
+</script>
+<script src="../gamba_support.js"></script>
+</body>
+</html>

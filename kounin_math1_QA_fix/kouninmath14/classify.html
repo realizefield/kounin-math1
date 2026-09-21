@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>過去問 判別練習【どの公式を使う？】</title>
+
+<!-- KaTeX (CDN) -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+  onload="renderAllMath();"></script>
+
+<style>
+:root{--primary:#0f766e;--primary-light:#ccfbf1;--accent:#e8372d;--accent-light:#fff1f0;--success:#16a34a;--success-light:#dcfce7;--warn:#d97706;--warn-light:#fffbeb;--purple:#9333ea;--purple-light:#f3e8ff;--bg:#f0fdfa;--card:#ffffff;--border:#99f6e4;--text:#1e293b;--text-sub:#64748b;--radius:12px;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:60px;}
+.g-container{max-width:760px;margin:0 auto;padding:22px 15px 60px;}
+.page-header{background:linear-gradient(135deg,#9333ea,#7e22ce);color:#fff;padding:16px 20px 12px;text-align:center;box-shadow:0 3px 10px rgba(147,51,234,.25);}
+.page-header .unit-code{font-size:.8em;opacity:.8;letter-spacing:.1em;margin-bottom:3px;}
+.page-header h1{font-size:clamp(.98em,3vw,1.38em);font-weight:700;margin:0;line-height:1.4;}
+.step-nav{display:flex;align-items:center;justify-content:center;padding:9px 6px;background:var(--card);border-bottom:1px solid var(--border);flex-wrap:nowrap;overflow-x:auto;position:sticky;top:0;z-index:10;gap:1px;}
+.step-item{display:flex;align-items:center;gap:3px;font-size:clamp(.62em,1.6vw,.78em);color:#94a3b8;white-space:nowrap;padding:2px 4px;}
+.step-item a{color:inherit;text-decoration:none;}
+.step-item a:hover{color:var(--purple);}
+.step-item.active{color:var(--purple);font-weight:700;}
+.step-circle{width:19px;height:19px;border-radius:50%;font-size:.68em;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.step-item.active .step-circle{background:var(--purple);color:#fff;box-shadow:0 0 0 2px var(--purple-light);}
+.step-item:not(.active) .step-circle{background:#94a3b8;color:#fff;}
+.step-arrow{color:#cbd5e1;font-size:.9em;padding:0;}
+
+.instruction{background:var(--purple-light);border-left:4px solid var(--purple);border-radius:0 var(--radius) var(--radius) 0;padding:13px 16px;margin-bottom:18px;font-size:.93em;color:#7e22ce;line-height:1.8;}
+.instruction strong{color:#581c87;}
+
+.progress-bar{background:#fff;border:2px solid var(--border);border-radius:var(--radius);padding:11px 14px;margin-bottom:14px;display:flex;justify-content:space-between;align-items:center;font-size:.85em;font-weight:700;}
+.progress-bar .pleft{color:var(--purple);}
+.progress-bar .pright{color:var(--text-sub);}
+
+.q-card{background:var(--card);border:2px solid var(--border);border-radius:var(--radius);margin-bottom:16px;padding:0;overflow:hidden;}
+.q-head{background:linear-gradient(135deg,#9333ea,#7e22ce);color:#fff;padding:9px 16px;font-size:.84em;font-weight:700;display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.q-head .q-num{background:rgba(255,255,255,.25);border-radius:6px;padding:2px 8px;font-size:.92em;}
+.q-head .q-year{font-size:.85em;opacity:.92;}
+.q-body{padding:14px 16px 16px;}
+.q-text{font-size:1.08em;font-weight:700;color:#1e293b;line-height:2.1;background:#fafaf9;border-left:4px solid var(--purple);border-radius:0 8px 8px 0;padding:10px 14px;margin-bottom:14px;}
+
+.q-prompt{font-size:.93em;font-weight:700;color:var(--purple);margin-bottom:11px;}
+
+.choices{display:grid;grid-template-columns:1fr;gap:8px;}
+.choice-btn{background:#f5f3ff;border:2px solid #ddd6fe;border-radius:10px;padding:11px 13px;font-family:'BIZ UDPGothic',sans-serif;font-size:.92em;font-weight:700;cursor:pointer;text-align:left;transition:all .15s;line-height:1.7;color:#1e293b;}
+.choice-btn:hover{background:var(--purple-light);border-color:var(--purple);}
+.choice-btn .ch-tag{display:inline-block;background:var(--purple);color:#fff;border-radius:5px;padding:2px 7px;font-size:.74em;margin-right:7px;}
+.choice-btn.correct{background:var(--success-light);border-color:var(--success);color:#15803d;}
+.choice-btn.correct .ch-tag{background:var(--success);}
+.choice-btn.wrong{background:var(--accent-light);border-color:var(--accent);color:var(--accent);}
+.choice-btn.wrong .ch-tag{background:var(--accent);}
+.choice-btn.show-ans{background:var(--success-light);border-color:var(--success);color:#15803d;}
+.choice-btn.show-ans .ch-tag{background:var(--success);}
+.choice-btn:disabled{cursor:default;}
+
+.result-panel{margin-top:13px;padding:12px 14px;border-radius:9px;font-size:.9em;font-weight:700;display:none;line-height:1.9;}
+.result-panel.ok{background:var(--success-light);border:2px solid var(--success);color:#15803d;}
+.result-panel.ng{background:var(--accent-light);border:2px solid var(--accent);color:var(--accent);}
+.result-panel .reason{font-weight:400;color:#1e293b;margin-top:5px;line-height:1.8;}
+.result-panel .next-link{display:inline-block;margin-top:9px;background:var(--primary);color:#fff;padding:7px 14px;border-radius:50px;text-decoration:none;font-size:.85em;font-weight:700;transition:transform .15s;}
+.result-panel .next-link:hover{transform:translateY(-1px);background:#0d6661;}
+
+.score-box{background:linear-gradient(135deg,#9333ea,#7e22ce);color:#fff;border-radius:var(--radius);padding:22px;text-align:center;margin-top:22px;display:none;box-shadow:0 5px 18px rgba(147,51,234,.3);}
+.score-box .sc{font-size:2.2em;font-weight:700;margin-bottom:5px;}
+.score-box .sc-msg{font-size:.93em;opacity:.95;margin-bottom:5px;}
+.btn-retry{background:#fff;color:var(--purple);margin-top:14px;width:100%;font-family:'BIZ UDPGothic',sans-serif;font-size:.95em;font-weight:700;padding:12px;border-radius:50px;border:none;cursor:pointer;}
+.btn-retry:hover{background:var(--purple-light);}
+
+.shuffle-bar{text-align:center;margin-bottom:14px;}
+.btn-shuffle{background:var(--card);border:1.5px solid var(--purple);color:var(--purple);border-radius:50px;padding:8px 22px;font-family:'BIZ UDPGothic',sans-serif;font-size:.88em;font-weight:700;cursor:pointer;}
+.btn-shuffle:hover{background:var(--purple-light);}
+
+.nav-btns{display:flex;gap:10px;flex-wrap:wrap;justify-content:space-between;margin-top:26px;}
+.btn-nav{font-family:'BIZ UDPGothic','BIZ UDP Gothic',sans-serif;font-size:.93em;font-weight:700;padding:11px 24px;border-radius:50px;border:none;cursor:pointer;text-decoration:none;display:inline-block;transition:transform .15s,box-shadow .15s;}
+.btn-nav:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.15);}
+.btn-f{background:var(--purple);color:#fff;}
+.btn-b{background:#f1f5f9;color:var(--text-sub);}
+.btn-h{background:var(--purple-light);color:var(--purple);font-size:.83em;padding:9px 18px;}
+</style>
+</head>
+<body>
+<canvas id="confetti-canvas" style="position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9999;display:none"></canvas>
+<div class="page-header">
+  <div class="unit-code">EF14</div>
+  <h1>どの公式を使う？<br><small style="font-size:.75em;opacity:.85;">問題を見て→正しい解法を選ぼう</small></h1>
+</div>
+<nav class="step-nav">
+  <div class="step-item"><span class="step-circle">①</span><a href="intro.html">使い分けマップ</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item active"><span class="step-circle">②</span><span>判別練習</span></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">③</span><a href="practice.html">過去問演習</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">④</span><a href="check.html">実戦テスト</a></div>
+</nav>
+<main class="g-container">
+
+<div class="instruction">
+  <strong>🎯 判別練習</strong>　高認の過去問を <strong>解かずに</strong>，<br>
+  「これはどの公式・パターン？」だけを4択で選びます。<br>
+  正解したら，対応する単元へジャンプして詳しく学べます！
+</div>
+
+<div class="progress-bar">
+  <div class="pleft">📊 全 <span id="p-total">10</span> 問</div>
+  <div class="pright"><span id="p-done">0</span> 問完了</div>
+</div>
+
+<div class="shuffle-bar">
+  <button class="btn-shuffle" onclick="shuffleAndBuild()">🔀 問題をシャッフル</button>
+</div>
+
+<div id="quiz-area"></div>
+
+<div class="score-box" id="score-box">
+  <div class="sc" id="sc-text"></div>
+  <div class="sc-msg" id="sc-msg"></div>
+  <button class="btn-retry" onclick="retry()">🔄 もう一度チャレンジ</button>
+</div>
+
+<div class="nav-btns">
+  <a href="../kounin_math_index.html" class="btn-nav btn-h">🏠 単元一覧へ</a>
+  <a href="intro.html" class="btn-nav btn-b">← 使い分けマップ</a>
+  <a href="practice.html" class="btn-nav btn-f">③ 過去問演習へ →</a>
+</div>
+</main>
+
+<script>
+// 過去問の判別問題セット
+// type: 公式タイプ（正解の選択肢）
+// linkUnit: 該当する単元フォルダ名（戻るリンク用）
+// linkLabel: ボタンに表示する単元名
+const QUESTIONS = [
+  {
+    year:"R7年 第1回",
+    q:"$(2a-b)(2a-b+1)$ を展開する",
+    correctType:"A置換展開",
+    reason:"$(2a-b)$ という <strong>同じカタマリ</strong> が見える。これを $A$ と置けば $A(A+1)$ になる。<br><span style=\"color:#16a34a;font-weight:700;\">🌱 もし置き換えが難しければ，そのまま全部展開してもOK！</span>",
+    linkUnit:"../kouninmath04-2/example.html",
+    linkLabel:"EF04-2 の例題で復習する"
+  },
+  {
+    year:"R7年 第2回",
+    q:"$2x^2+5x+3$ を因数分解する",
+    correctType:"たすき掛け",
+    reason:"$x^2$ の係数が <strong>1ではない</strong>（=2）。両プラス型のたすき掛け。",
+    linkUnit:"../kouninmath11/example.html",
+    linkLabel:"EF11 の例題で復習する"
+  },
+  {
+    year:"R6年 第1回",
+    q:"$(a+b)(a+b+3)$ を展開する",
+    correctType:"A置換展開",
+    reason:"$(a+b)$ という <strong>同じカタマリ</strong> を $A$ と置けば $A(A+3)$ になる。<br><span style=\"color:#16a34a;font-weight:700;\">🌱 もし置き換えが難しければ，そのまま全部展開してもOK！</span>",
+    linkUnit:"../kouninmath04-2/example.html",
+    linkLabel:"EF04-2 の例題で復習する"
+  },
+  {
+    year:"R6年 第2回",
+    q:"$3x^2+2x-1$ を因数分解する",
+    correctType:"たすき掛け",
+    reason:"$x^2$ の係数が1ではない（=3）。<strong>定数項マイナス</strong>＝符号が逆型。",
+    linkUnit:"../kouninmath13/example.html",
+    linkLabel:"EF13 の例題で復習する"
+  },
+  {
+    year:"R5年 第1回",
+    q:"$(x+4)^2-7(x+4)$ を因数分解する",
+    correctType:"A置換因数分解",
+    reason:"$(x+4)$ という <strong>同じカタマリ</strong> が2回出ている。$A$ と置く。<br><span style=\"color:#16a34a;font-weight:700;\">🌱 もし置き換えが難しければ，そのまま展開してから因数分解してもOK！</span>",
+    linkUnit:"../kouninmath09/example.html",
+    linkLabel:"EF09 の例題で復習する"
+  },
+  {
+    year:"R5年 第2回",
+    q:"$A=x^2+x-2$，$B=-3x^2-3x-1$ のとき $A-B$ を計算する",
+    correctType:"文字式の加減",
+    reason:"$A, B$ をそれぞれ <strong>多項式と見て</strong> 引き算する。$A-B$ なら $B$ の各項の符号を反転。",
+    linkUnit:"#",
+    linkLabel:"（EFシリーズ外の基礎計算）"
+  },
+  {
+    year:"R4年 第1回 (1)",
+    q:"$2x^2-3x+1$ を因数分解する",
+    correctType:"たすき掛け",
+    reason:"$x^2$ の係数が1ではない（=2）。係数 $-3$，定数項 $+1$ → <strong>両マイナス型</strong>。",
+    linkUnit:"../kouninmath12/example.html",
+    linkLabel:"EF12 の例題で復習する"
+  },
+  {
+    year:"R4年 第1回 (2)",
+    q:"$(2x+y-1)(2x+y+1)$ を展開する",
+    correctType:"和と差の積",
+    reason:"$(2x+y)$ を $A$ と置けば，$(A-1)(A+1) = A^2-1$ → <strong>2乗の差</strong> の公式。<br><span style=\"color:#16a34a;font-weight:700;\">🌱 もし置き換えが難しければ，そのまま全部展開してもOK！</span>",
+    linkUnit:"../kouninmath04-2/example.html",
+    linkLabel:"EF04-2 の例題で復習する"
+  },
+  {
+    year:"R3年 第2回 (2)",
+    q:"$(a^2+b)^2$ を展開する",
+    correctType:"平方公式",
+    reason:"$(\\bigcirc + \\square)^2$ の形 → <strong>$(a+b)^2 = a^2 + 2ab + b^2$</strong> の公式。",
+    linkUnit:"../kouninmath02/example.html",
+    linkLabel:"EF02 の例題で復習する"
+  },
+  {
+    year:"R2年 第1回 (2)",
+    q:"$(x+1)^2(x-1)^2$ を展開する",
+    correctType:"和と差の積",
+    reason:"$(x+1)(x-1) = x^2-1$ をまず作り，それを2乗 → $(x^2-1)^2$。",
+    linkUnit:"../kouninmath03/example.html",
+    linkLabel:"EF03 の例題で復習する"
+  },
+  {
+    year:"R2年 第2回",
+    q:"$4x^2-4x-3$ を因数分解する",
+    correctType:"たすき掛け",
+    reason:"$x^2$ の係数が1ではない（=4）。<strong>定数項マイナス</strong>＝符号が逆型。",
+    linkUnit:"../kouninmath13/example.html",
+    linkLabel:"EF13 の例題で復習する"
+  },
+  {
+    year:"R2年 第2回 (2)",
+    q:"$(a+b)(a-b+1)$ を展開する",
+    correctType:"A置換展開",
+    reason:"並び替えると $(a+b)\\{(a-b)+1\\}$。$(a+b)$ をそのまま分配して計算する応用型。<br><span style=\"color:#16a34a;font-weight:700;\">🌱 もし置き換えが難しければ，そのまま全部展開してもOK！</span>",
+    linkUnit:"../kouninmath04-2/example.html",
+    linkLabel:"EF04-2 の例題で復習する"
+  },
+  {
+    year:"R1年 第1回",
+    q:"$3x^2+7x+2$ を因数分解する",
+    correctType:"たすき掛け",
+    reason:"$x^2$ の係数が1ではない（=3）。<strong>両プラス型</strong>のたすき掛け。",
+    linkUnit:"../kouninmath11/example.html",
+    linkLabel:"EF11 の例題で復習する"
+  },
+  {
+    year:"R1年 第2回 (2)",
+    q:"$(a+b+2c)(a+b-2c)$ を展開する",
+    correctType:"和と差の積",
+    reason:"$(a+b)$ を $A$ と置けば $(A+2c)(A-2c) = A^2 - (2c)^2$ → <strong>2乗の差</strong>。<br><span style=\"color:#16a34a;font-weight:700;\">🌱 もし置き換えが難しければ，そのまま全部展開してもOK！</span>",
+    linkUnit:"../kouninmath04-2/example.html",
+    linkLabel:"EF04-2 の例題で復習する"
+  },
+];
+
+// 共通の選択肢（4択）
+const CHOICE_TYPES = [
+  {tag:"展開", name:"A置換展開", hint:"カタマリを $A$ と置いて展開"},
+  {tag:"展開", name:"平方公式", hint:"$(○ \\pm a)^2$ の展開"},
+  {tag:"展開", name:"和と差の積", hint:"$(○+a)(○-a)$ の展開"},
+  {tag:"因数分解", name:"たすき掛け", hint:"$ax^2+bx+c$ の因数分解"},
+  {tag:"因数分解", name:"A置換因数分解", hint:"カタマリを $A$ と置いて因数分解"},
+  {tag:"計算", name:"文字式の加減", hint:"$A+B$, $A-B$ などの基本計算"},
+];
+
+let questions = [];
+let answered = [];
+let answers = [];
+
+function shuffle(arr){
+  const a = arr.slice();
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i],a[j]] = [a[j],a[i]];
+  }
+  return a;
+}
+
+// 4択を生成（正解＋ダミー3つ）
+function makeChoices(correctType){
+  const correct = CHOICE_TYPES.find(c => c.name === correctType);
+  const others = CHOICE_TYPES.filter(c => c.name !== correctType);
+  const dummies = shuffle(others).slice(0,3);
+  const all = shuffle([correct, ...dummies]);
+  return all;
+}
+
+function shuffleAndBuild(){
+  // 問題をシャッフルして10問選ぶ
+  questions = shuffle(QUESTIONS).slice(0,10).map(q => ({
+    ...q,
+    choices: makeChoices(q.correctType)
+  }));
+  answered = new Array(questions.length).fill(false);
+  answers = [];
+  document.getElementById('p-total').textContent = questions.length;
+  document.getElementById('p-done').textContent = 0;
+  document.getElementById('score-box').style.display = 'none';
+  buildQuiz();
+}
+
+function buildQuiz(){
+  const area = document.getElementById('quiz-area');
+  area.innerHTML = '';
+  questions.forEach((q,i) => {
+    const choicesHtml = q.choices.map((c,j) =>
+      '<button class="choice-btn" id="c'+i+'_'+j+'" onclick="choose('+i+','+j+')">'
+      +'<span class="ch-tag">'+c.tag+'</span>'
+      +c.name+'<br><span style="font-size:.78em;font-weight:400;color:#64748b;">'+c.hint+'</span>'
+      +'</button>'
+    ).join('');
+    area.innerHTML +=
+      '<div class="q-card" id="qc'+i+'">'
+      +'<div class="q-head">'
+      +'<span class="q-num">問'+(i+1)+'</span>'
+      +'<span class="q-year">📌 '+q.year+'</span>'
+      +'</div>'
+      +'<div class="q-body">'
+      +'<div class="q-text">'+q.q+'</div>'
+      +'<div class="q-prompt">❓ どの公式・パターンを使う？</div>'
+      +'<div class="choices">'+choicesHtml+'</div>'
+      +'<div class="result-panel" id="rp'+i+'"></div>'
+      +'</div>'
+      +'</div>';
+  });
+  renderAllMath();
+}
+
+function choose(qi, ci){
+  if(answered[qi]) return;
+  answered[qi] = true;
+  answers[qi] = ci;
+  const q = questions[qi];
+  const correctIdx = q.choices.findIndex(c => c.name === q.correctType);
+  const correct = (ci === correctIdx);
+  for(let j=0;j<q.choices.length;j++){
+    const btn = document.getElementById('c'+qi+'_'+j);
+    btn.disabled = true;
+    if(j === correctIdx) btn.classList.add('show-ans');
+  }
+  document.getElementById('c'+qi+'_'+ci).classList.add(correct?'correct':'wrong');
+  const rp = document.getElementById('rp'+qi);
+  rp.style.display = 'block';
+  rp.className = 'result-panel ' + (correct?'ok':'ng');
+  let html = correct
+    ? '✅ 正解！　正解は <strong>'+q.correctType+'</strong>'
+    : '❌ 不正解…　正解は <strong>'+q.correctType+'</strong>';
+  html += '<div class="reason">💡 '+q.reason+'</div>';
+  if(q.linkUnit && q.linkUnit !== '#'){
+    html += '<a class="next-link" href="'+q.linkUnit+'">📖 '+q.linkLabel+' →</a>';
+  }else{
+    html += '<div style="margin-top:8px;font-size:.85em;color:#64748b;font-weight:400;">'+q.linkLabel+'</div>';
+  }
+  rp.innerHTML = html;
+  if(typeof renderMathInElement==='function'){
+    renderMathInElement(rp,{
+      delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],
+      throwOnError:false
+    });
+  }
+  // 進捗更新
+  const doneCount = answered.filter(a=>a).length;
+  document.getElementById('p-done').textContent = doneCount;
+  if(answered.every(a=>a)) showScore();
+}
+
+function showScore(){
+  const box = document.getElementById('score-box');
+  const correct = answers.filter((a,i) => a === questions[i].choices.findIndex(c => c.name === questions[i].correctType)).length;
+  box.style.display = 'block';
+  document.getElementById('sc-text').textContent = correct + ' / ' + questions.length + ' 問正解';
+  let msg;
+  const ratio = correct / questions.length;
+  if(ratio === 1) msg = '🏆 パーフェクト！　判別力バッチリ！過去問演習へ進もう！';
+  else if(ratio >= 0.8) msg = '🌟 素晴らしい！　あと少しで完璧！';
+  else if(ratio >= 0.6) msg = '✨ いい調子！　弱いパターンを単元で復習しよう！';
+  else if(ratio >= 0.4) msg = '📖 もう一歩！　間違えた問題のEF単元に戻って学び直そう！';
+  else msg = '💪 まずは「使い分けマップ」を確認してから再挑戦しよう！';
+  document.getElementById('sc-msg').textContent = msg;
+  if(ratio === 1){
+    if(typeof markPassed === 'function'){
+      try{ markPassed('EF14'); }catch(e){}
+    }
+    launchConfetti();
+  }
+}
+
+function retry(){
+  shuffleAndBuild();
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function renderAllMath(){
+  if(typeof renderMathInElement==='function'){
+    renderMathInElement(document.body,{
+      delimiters:[
+        {left:'$$',right:'$$',display:true},
+        {left:'$',right:'$',display:false}
+      ],
+      throwOnError:false
+    });
+  }
+}
+
+function launchConfetti(){
+  const canvas = document.getElementById('confetti-canvas');
+  const ctx = canvas.getContext('2d');
+  canvas.style.display = 'block';
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  const colors = ['#fbbf24','#f59e0b','#dc2626','#16a34a','#2563eb','#9333ea','#ec4899','#0f766e'];
+  const particles = [];
+  for(let i=0;i<200;i++){
+    particles.push({
+      x:Math.random()*canvas.width,
+      y:-Math.random()*canvas.height*0.5-20,
+      w:Math.random()*8+6,
+      h:Math.random()*4+3,
+      color:colors[Math.floor(Math.random()*colors.length)],
+      vx:(Math.random()-0.5)*4,
+      vy:Math.random()*3+2,
+      rot:Math.random()*Math.PI*2,
+      vrot:(Math.random()-0.5)*0.2
+    });
+  }
+  const startTime = Date.now();
+  function animate(){
+    const elapsed = Date.now() - startTime;
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    particles.forEach(p=>{
+      p.x+=p.vx; p.y+=p.vy; p.vy+=0.08; p.vx*=0.99; p.rot+=p.vrot;
+      ctx.save();
+      ctx.translate(p.x,p.y);
+      ctx.rotate(p.rot);
+      ctx.fillStyle=p.color;
+      ctx.fillRect(-p.w/2,-p.h/2,p.w,p.h);
+      ctx.restore();
+    });
+    if(elapsed<5000){ requestAnimationFrame(animate); }
+    else { ctx.clearRect(0,0,canvas.width,canvas.height); canvas.style.display='none'; }
+  }
+  animate();
+}
+
+shuffleAndBuild();
+</script>
+<script src="../gamba_support.js"></script>
+</body>
+</html>

@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>過去問・判別練習【使い分けマップ】</title>
+
+<!-- KaTeX (CDN) -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{
+    delimiters:[
+      {left:'$$',right:'$$',display:true},
+      {left:'$',right:'$',display:false}
+    ],
+    throwOnError:false
+  });"></script>
+
+<style>
+:root{--primary:#0f766e;--primary-light:#ccfbf1;--accent:#e8372d;--accent-light:#fff1f0;--success:#16a34a;--success-light:#dcfce7;--warn:#d97706;--warn-light:#fffbeb;--purple:#9333ea;--purple-light:#f3e8ff;--blue:#2563eb;--blue-light:#dbeafe;--bg:#f0fdfa;--card:#ffffff;--border:#99f6e4;--text:#1e293b;--text-sub:#64748b;--radius:12px;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:60px;}
+.g-container{max-width:760px;margin:0 auto;padding:22px 15px 60px;}
+.page-header{background:linear-gradient(135deg,#9333ea,#7e22ce);color:#fff;padding:16px 20px 12px;text-align:center;box-shadow:0 3px 10px rgba(147,51,234,.25);}
+.page-header .unit-code{font-size:.8em;opacity:.8;letter-spacing:.1em;margin-bottom:3px;}
+.page-header h1{font-size:clamp(.98em,3vw,1.38em);font-weight:700;margin:0;line-height:1.4;}
+.step-nav{display:flex;align-items:center;justify-content:center;padding:9px 6px;background:var(--card);border-bottom:1px solid var(--border);flex-wrap:nowrap;overflow-x:auto;position:sticky;top:0;z-index:10;gap:1px;}
+.step-item{display:flex;align-items:center;gap:3px;font-size:clamp(.62em,1.6vw,.78em);color:#94a3b8;white-space:nowrap;padding:2px 4px;}
+.step-item a{color:inherit;text-decoration:none;}
+.step-item a:hover{color:var(--purple);}
+.step-item.active{color:var(--purple);font-weight:700;}
+.step-circle{width:19px;height:19px;border-radius:50%;font-size:.68em;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.step-item.active .step-circle{background:var(--purple);color:#fff;box-shadow:0 0 0 2px var(--purple-light);}
+.step-item:not(.active) .step-circle{background:#94a3b8;color:#fff;}
+.step-arrow{color:#cbd5e1;font-size:.9em;padding:0;}
+
+.intro-msg{background:var(--purple-light);border-left:4px solid var(--purple);border-radius:0 var(--radius) var(--radius) 0;padding:14px 17px;margin-bottom:22px;font-size:.95em;color:#7e22ce;line-height:1.9;}
+.intro-msg strong{color:#581c87;}
+
+.sec{font-size:1.05em;font-weight:700;color:var(--purple);border-left:4px solid var(--purple);padding-left:11px;margin-bottom:14px;margin-top:30px;}
+.sec:first-of-type{margin-top:0;}
+
+/* ステップ1：種類を見極める */
+.step-card{background:var(--card);border:2px solid var(--border);border-radius:14px;padding:14px 17px;margin-bottom:13px;}
+.step-card .step-no{display:inline-block;background:var(--purple);color:#fff;padding:3px 10px;border-radius:50px;font-size:.78em;font-weight:700;margin-bottom:8px;}
+.step-card .step-q{font-size:1.02em;font-weight:700;color:#1e293b;margin-bottom:11px;}
+
+/* 種類カード */
+.type-grid{display:grid;grid-template-columns:1fr;gap:10px;}
+.type-card{border:2px solid var(--border);border-radius:10px;padding:11px 14px;background:#fafafa;}
+.type-card.t1{border-color:#16a34a;background:#f0fdf4;}
+.type-card.t2{border-color:#2563eb;background:#eff6ff;}
+.type-card.t3{border-color:#d97706;background:#fffbeb;}
+.type-card .tlabel{font-size:.83em;font-weight:700;margin-bottom:6px;}
+.type-card.t1 .tlabel{color:#16a34a;}
+.type-card.t2 .tlabel{color:#2563eb;}
+.type-card.t3 .tlabel{color:#d97706;}
+.type-card .texample{font-size:.95em;font-weight:700;background:#fff;border-radius:8px;padding:6px 11px;line-height:1.8;}
+
+/* フローチャート */
+.flow-box{background:#fff;border:2px solid var(--purple);border-radius:14px;padding:14px 16px;margin:12px 0;}
+.flow-box .flabel{font-size:.85em;font-weight:700;color:var(--purple);margin-bottom:10px;text-align:center;}
+.flow-row{display:flex;align-items:flex-start;gap:9px;margin-bottom:9px;padding:10px 13px;border-radius:8px;background:#fafaf9;border-left:4px solid var(--purple);font-size:.91em;font-weight:700;line-height:1.9;}
+.flow-row .fmark{background:var(--purple);color:#fff;border-radius:50%;width:23px;height:23px;display:flex;align-items:center;justify-content:center;font-size:.78em;flex-shrink:0;}
+.flow-row .fbody{flex:1;}
+.flow-row .ftgt{display:inline-block;background:var(--success);color:#fff;border-radius:5px;padding:2px 9px;font-size:.78em;margin-left:4px;}
+
+/* 分類カード */
+.cat-card{background:var(--card);border:2px solid var(--border);border-radius:14px;margin-bottom:13px;overflow:hidden;}
+.cat-card.展開{border-color:#16a34a;}
+.cat-card.因数分解{border-color:#2563eb;}
+.cat-card.計算{border-color:#d97706;}
+.cat-card .chead{padding:9px 16px;color:#fff;font-size:.93em;font-weight:700;display:flex;align-items:center;gap:8px;}
+.cat-card.展開 .chead{background:#16a34a;}
+.cat-card.因数分解 .chead{background:#2563eb;}
+.cat-card.計算 .chead{background:#d97706;}
+.cat-card .ctag{background:rgba(255,255,255,.25);border-radius:5px;padding:2px 8px;font-size:.8em;}
+.cat-card .cbody{padding:13px 16px;}
+.subrule{background:#f9fafb;border-left:3px solid #94a3b8;border-radius:0 8px 8px 0;padding:9px 12px;margin-bottom:8px;font-size:.91em;font-weight:700;line-height:1.9;}
+.subrule .sname{color:var(--purple);}
+.subrule .sex{display:block;font-size:.92em;color:#475569;margin-top:3px;font-weight:400;}
+.subrule .stgt{display:inline-block;background:var(--success);color:#fff;border-radius:5px;padding:2px 8px;font-size:.78em;margin-left:5px;font-weight:700;}
+.subrule.recommend{background:#fef9c3;border-left-color:#eab308;}
+
+/* 重要ポイント */
+.warn-box{background:#fef2f2;border:2px solid var(--accent);border-radius:12px;padding:13px 16px;margin:14px 0;}
+.warn-box .wt{font-size:.86em;font-weight:700;color:var(--accent);margin-bottom:7px;}
+.warn-box .wb{font-size:.92em;line-height:2;}
+
+.pop-note{background:#fff7ed;border:1.5px dashed #fb923c;border-radius:10px;padding:10px 14px;font-size:.88em;color:#9a3412;font-weight:700;margin-top:10px;margin-bottom:14px;line-height:1.9;}
+.pop-note::before{content:"💡 ";}
+
+/* チェックリスト */
+.checklist{background:#fff;border:2px solid var(--border);border-radius:12px;padding:14px 17px;margin-bottom:14px;}
+.checklist .cltitle{font-size:.88em;font-weight:700;color:var(--purple);margin-bottom:10px;}
+.checklist ol{padding-left:0;list-style:none;counter-reset:cl;}
+.checklist li{counter-increment:cl;padding-left:35px;position:relative;font-size:.93em;line-height:2;font-weight:700;color:#1e293b;margin-bottom:5px;}
+.checklist li::before{content:counter(cl);position:absolute;left:0;top:6px;background:var(--purple);color:#fff;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.78em;}
+.checklist li small{font-weight:400;color:#64748b;font-size:.86em;}
+
+.cta-box{background:linear-gradient(135deg,#9333ea,#7e22ce);color:#fff;border-radius:14px;padding:18px;text-align:center;margin-top:24px;box-shadow:0 5px 18px rgba(147,51,234,.25);}
+.cta-box .ctitle{font-size:1.1em;font-weight:700;margin-bottom:8px;}
+.cta-box .cdesc{font-size:.9em;opacity:.95;margin-bottom:13px;line-height:1.8;}
+.cta-box .cbtn{display:inline-block;background:#fff;color:var(--purple);padding:11px 26px;border-radius:50px;text-decoration:none;font-size:.96em;font-weight:700;transition:transform .15s;}
+.cta-box .cbtn:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.2);}
+
+.nav-btns{display:flex;gap:10px;flex-wrap:wrap;justify-content:space-between;margin-top:26px;}
+.btn-nav{font-family:'BIZ UDPGothic','BIZ UDP Gothic',sans-serif;font-size:.93em;font-weight:700;padding:11px 24px;border-radius:50px;border:none;cursor:pointer;text-decoration:none;display:inline-block;transition:transform .15s,box-shadow .15s;}
+.btn-nav:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.15);}
+.btn-f{background:var(--purple);color:#fff;}
+.btn-b{background:#f1f5f9;color:var(--text-sub);}
+.btn-h{background:var(--purple-light);color:var(--purple);font-size:.83em;padding:9px 18px;}
+</style>
+</head>
+<body>
+<div class="page-header">
+  <div class="unit-code">EF14</div>
+  <h1>使い分けマップ<br><small style="font-size:.75em;opacity:.85;">問題を見て→どの公式かわかるように</small></h1>
+</div>
+<nav class="step-nav">
+  <div class="step-item active"><span class="step-circle">①</span><span>使い分けマップ</span></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">②</span><a href="classify.html">判別練習</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">③</span><a href="practice.html">過去問演習</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">④</span><a href="check.html">実戦テスト</a></div>
+</nav>
+<main class="g-container">
+
+<div class="intro-msg">
+  <strong>📌 「公式は知ってるけど，どれを使うかわからない」</strong>を解決！<br>
+  問題を見たとき，<strong>どこを見れば</strong>，<strong>どの公式</strong>を使えばよいか — このマップで一目瞭然！
+</div>
+
+<!-- =============================== -->
+<div class="sec">ステップ1：何をする問題？</div>
+<div class="step-card">
+  <span class="step-no">STEP 1</span>
+  <div class="step-q">問題は <strong>3種類のどれ</strong> ？</div>
+  <div class="type-grid">
+    <div class="type-card t1">
+      <div class="tlabel">🟢 ① 展開（カッコを開く）</div>
+      <div class="texample">$(2x+3)(x-1)$ を展開せよ</div>
+    </div>
+    <div class="type-card t2">
+      <div class="tlabel">🔵 ② 因数分解（カッコにまとめる）</div>
+      <div class="texample">$x^2 + 5x + 6$ を因数分解せよ</div>
+    </div>
+    <div class="type-card t3">
+      <div class="tlabel">🟠 ③ 文字式の計算</div>
+      <div class="texample">$A=x^2+1$，$B=x-2$ のとき $A+B$ を計算</div>
+    </div>
+  </div>
+</div>
+
+<div class="pop-note">
+  問題文の <strong>動詞</strong> を見るだけ！<br>
+  「展開」「因数分解」「計算」のキーワードで分類できる。
+</div>
+
+<!-- =============================== -->
+<div class="sec">ステップ2：展開のときの判別</div>
+
+<div class="cat-card 展開">
+  <div class="chead">🟢 展開　<span class="ctag">5パターン</span></div>
+  <div class="cbody">
+    <div class="subrule">
+      <span class="sname">同じカタマリが2回ある？</span>
+      <span class="stgt">→ A置換</span>
+      <span class="sex">例：$(2a-b)(2a-b+1)$ や $(a+b)(a+b+3)$<br>
+      → $(2a-b)$ や $(a+b)$ を $A$ と置く（EF04-2）</span>
+    </div>
+    <div class="subrule">
+      <span class="sname">$(○+a)(○-a)$ の形？</span>
+      <span class="stgt">→ 和と差の積</span>
+      <span class="sex">例：$(a+b+2c)(a+b-2c)$<br>
+      → $(a+b)=A$ と置けば $(A+2c)(A-2c) = A^2-(2c)^2$（EF03/EF04-2）</span>
+    </div>
+    <div class="subrule">
+      <span class="sname">$(○+a)^2$ の形？</span>
+      <span class="stgt">→ 平方公式</span>
+      <span class="sex">例：$(a^2+b)^2$<br>
+      → $(a+b)^2 = a^2 + 2ab + b^2$ の公式を使う（EF02）</span>
+    </div>
+    <div class="subrule">
+      <span class="sname">$(ax+b)(cx+d)$ — $x$ の係数が1ではない？</span>
+      <span class="stgt">→ 展開公式①</span>
+      <span class="sex">例：$(3x+5)(2x-7)$<br>
+      → 外×外＋内×内（EF10）</span>
+    </div>
+    <div class="subrule">
+      <span class="sname">$(x+a)(x+b)$ — 両方とも係数1？</span>
+      <span class="stgt">→ 展開公式</span>
+      <span class="sex">例：$(x+3)(x-2)$<br>
+      → $x^2 + (a+b)x + ab$ の公式（EF01）</span>
+    </div>
+  </div>
+</div>
+
+<div class="warn-box">
+  <div class="wt">⚠️ 展開で <strong>最重要</strong> なのは「同じカタマリ」を見つけること！</div>
+  <div class="wb">
+    高認の出題傾向を見ると，<strong>A置換</strong>（同じカタマリを置き換え）が圧倒的に多い。<br>
+    まず「同じものが2回出てないか？」をチェックする習慣をつけよう。
+  </div>
+</div>
+
+<div style="background:#ecfdf5;border:2px solid #16a34a;border-radius:12px;padding:13px 16px;margin:13px 0;">
+  <div style="font-size:.86em;font-weight:700;color:#16a34a;margin-bottom:7px;">🌱 A置換が難しいと感じたら…</div>
+  <div style="font-size:.92em;line-height:2;color:#1e293b;">
+    A置換に気づけなくても，<strong>そのまま全部それぞれ展開すれば必ず正解にたどり着けます</strong>！<br>
+    例：$(2a-b)(2a-b+1)$ →　$2a \times 2a + 2a \times (-b) + 2a \times 1 + (-b) \times 2a + (-b) \times (-b) + (-b) \times 1$<br>
+    一つひとつ丁寧に掛けて，最後にまとめれば OK。<br>
+    <strong style="color:#16a34a;">A置換は「速く解く近道」</strong>であって，<strong>使えなくても問題は解ける</strong>から安心して！
+  </div>
+</div>
+
+<!-- =============================== -->
+<div class="sec">ステップ3：因数分解のときの判別</div>
+
+<div class="cat-card 因数分解">
+  <div class="chead">🔵 因数分解　<span class="ctag">5パターン</span></div>
+  <div class="cbody">
+    <div class="subrule">
+      <span class="sname">同じカタマリが2回ある？</span>
+      <span class="stgt">→ A置換</span>
+      <span class="sex">例：$(x+4)^2 - 7(x+4)$<br>
+      → $(x+4)$ を $A$ と置く（EF09）</span>
+    </div>
+    <div class="subrule">
+      <span class="sname">$a^2 - b^2$ の形（2乗の差）？</span>
+      <span class="stgt">→ 和と差の積</span>
+      <span class="sex">例：$x^2 - 9$<br>
+      → $(a+b)(a-b)$ の形に（EF05）</span>
+    </div>
+    <div class="subrule">
+      <span class="sname">共通因数がある？</span>
+      <span class="stgt">→ 共通因数</span>
+      <span class="sex">例：$3x^2 + 6x$<br>
+      → 共通因数 $3x$ をくくり出す（EF08）</span>
+    </div>
+    <div class="subrule">
+      <span class="sname">$x^2 + bx + c$ — $x^2$ の係数が <strong>1</strong> ？</span>
+      <span class="stgt">→ たして・かけて</span>
+      <span class="sex">例：$x^2 + 5x + 6 = (x+2)(x+3)$<br>
+      → 2数を見つける（EF06系）</span>
+    </div>
+    <div class="subrule recommend">
+      <span class="sname">$ax^2 + bx + c$ — $x^2$ の係数が <strong>1ではない</strong> ？</span>
+      <span class="stgt">→ たすき掛け</span>
+      <span class="sex">例：$2x^2 + 5x + 3 = (2x+3)(x+1)$<br>
+      → たすき掛けで組み合わせを見つける（EF11/12/13）<br>
+      <strong style="color:#9a3412;">⭐ 高認では <strong>このタイプが最頻出</strong>！</strong></span>
+    </div>
+  </div>
+</div>
+
+<!-- =============================== -->
+<div class="sec">ステップ4：たすき掛けの3パターン</div>
+<div class="step-card">
+  <div class="step-q">$x^2$ の係数が1ではない時，<strong>定数項と係数の符号</strong> でさらに分類：</div>
+  <div class="flow-box">
+    <div class="flabel">🌳 たすき掛けの分岐</div>
+    <div class="flow-row">
+      <span class="fmark">+</span>
+      <div class="fbody">
+        定数項 + ， 係数 + → <strong>両プラス型</strong>
+        <span class="ftgt">EF11</span><br>
+        <span style="font-weight:400;font-size:.86em;color:#475569;">例：$2x^2 + 5x + 3 = (2x+3)(x+1)$</span>
+      </div>
+    </div>
+    <div class="flow-row">
+      <span class="fmark">−</span>
+      <div class="fbody">
+        定数項 + ， 係数 − → <strong>両マイナス型</strong>
+        <span class="ftgt">EF12</span><br>
+        <span style="font-weight:400;font-size:.86em;color:#475569;">例：$6x^2 - 7x + 2 = (3x-2)(2x-1)$</span>
+      </div>
+    </div>
+    <div class="flow-row">
+      <span class="fmark">±</span>
+      <div class="fbody">
+        定数項 − （係数の符号は問わず）→ <strong>符号が逆型</strong>
+        <span class="ftgt">EF13</span><br>
+        <span style="font-weight:400;font-size:.86em;color:#475569;">例：$2x^2 + 5x - 3 = (2x-1)(x+3)$</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- =============================== -->
+<div class="sec">ステップ5：文字式の計算</div>
+
+<div class="cat-card 計算">
+  <div class="chead">🟠 文字式の加減　<span class="ctag">基本</span></div>
+  <div class="cbody">
+    <div class="subrule">
+      <span class="sname">$A+B$，$A-B$，$3A+B$ などの計算</span>
+      <span class="sex">
+        例：$A=x^2+x-2$，$B=-3x^2-3x-1$ のとき $A-B$ を計算<br>
+        → $A-B = (x^2+x-2) - (-3x^2-3x-1) = 4x^2+4x-1$<br>
+        <strong style="color:var(--accent);">注意：</strong>引き算は <strong>各項の符号を反転</strong>
+      </span>
+    </div>
+    <div class="subrule">
+      <span class="sname">高認では R5-2, R4-2, R3-1, R2-1, R1-2 で出題</span>
+      <span class="sex">本番で頻出 → 落ち着いて符号に注意するだけ。<strong>難しい公式は不要</strong>！</span>
+    </div>
+  </div>
+</div>
+
+<!-- =============================== -->
+<div class="sec">📋 問題を見たときの確認手順</div>
+
+<div class="checklist">
+  <div class="cltitle">⭐ この順番でチェックすれば必ず判別できる！</div>
+  <ol>
+    <li>問題文を読み，「<strong>展開</strong>」「<strong>因数分解</strong>」「<strong>計算</strong>」のどれか確認<br><small>→ 動詞でわかる</small></li>
+    <li>同じカタマリが2回出てないか確認<br><small>→ あれば「<strong>A置換</strong>」で決まり</small></li>
+    <li>$(○+a)(○-a)$ や $(○+a)^2$ の形か確認<br><small>→ あれば「<strong>和と差の積</strong>」「<strong>平方公式</strong>」</small></li>
+    <li>因数分解なら，$x^2$ の係数が1か確認<br><small>→ 1なら EF06系，1ではないなら <strong>たすき掛け</strong></small></li>
+    <li>たすき掛けなら，定数項と係数の符号を見る<br><small>→ EF11 / EF12 / EF13 のどれか分かる</small></li>
+  </ol>
+</div>
+
+<div class="warn-box">
+  <div class="wt">💡 迷ったら「カタマリ」と「係数」の確認！</div>
+  <div class="wb">
+    迷ったときの第一手は，<strong>「同じカタマリが2回ないか」</strong> のチェック。<br>
+    次に <strong>「$x^2$ の係数が1か1ではないか」</strong>。この2つでほぼ判別できる！
+  </div>
+</div>
+
+<!-- =============================== -->
+<div class="cta-box">
+  <div class="ctitle">🎯 マップを覚えたら，判別練習でテスト！</div>
+  <div class="cdesc">
+    実際の高認過去問を見て，<br>
+    どの公式を使うか判別する練習に進もう。
+  </div>
+  <a href="classify.html" class="cbtn">② 判別練習へ進む →</a>
+</div>
+
+<div class="nav-btns">
+  <a href="../kounin_math_index.html" class="btn-nav btn-h">🏠 単元一覧へ</a>
+  <a href="classify.html" class="btn-nav btn-f">② 判別練習へ →</a>
+</div>
+</main>
+
+<script src="../gamba_support.js"></script>
+</body>
+</html>
