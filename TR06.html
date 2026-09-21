@@ -6,17 +6,17 @@
 <title>TR06 補角・余角の公式</title>
 <style>
 :root{
-  --primary:#7c3aed;--pl:#ede9fe;--pm:#a78bfa;
+  --primary:#16a34a;--pl:#dcfce7;--pm:#4ade80;
   --acc:#f59e0b;--al:#fef3c7;
-  --bg:#faf9ff;--card:#fff;--text:#1e1b2e;--tm:#4c4563;--tl:#7c6fa0;
-  --bd:#e0d9f7;--ok:#059669;--okb:#d1fae5;--ng:#dc2626;--ngb:#fee2e2;
-  --sh:0 2px 12px rgba(124,58,237,.10);
+  --bg:#f0fdf4;--card:#fff;--text:#14532d;--tm:#166534;--tl:#15803d;
+  --bd:#bbf7d0;--ok:#059669;--okb:#d1fae5;--ng:#dc2626;--ngb:#fee2e2;
+  --sh:0 2px 12px rgba(22,163,74,.10);
 }
 *{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:'BIZ UDPGothic','Meiryo',sans-serif;background:var(--bg);color:var(--text);font-size:16px;line-height:1.7;}
 
 /* ヘッダー */
-.hd{background:linear-gradient(135deg,#7c3aed,#a855f7);color:#fff;padding:16px 18px 12px;position:sticky;top:0;z-index:100;box-shadow:0 2px 16px rgba(124,58,237,.25);}
+.hd{background:linear-gradient(135deg,#16a34a,#22c55e);color:#fff;padding:16px 18px 12px;position:sticky;top:0;z-index:100;box-shadow:0 2px 16px rgba(22,163,74,.25);}
 .hd .ser{font-size:11px;letter-spacing:2px;opacity:.85;text-transform:uppercase;margin-bottom:2px;}
 .hd h1{font-size:19px;font-weight:700;}
 .hd .sub{font-size:13px;opacity:.85;margin-top:2px;}
@@ -39,7 +39,7 @@ body{font-family:'BIZ UDPGothic','Meiryo',sans-serif;background:var(--bg);color:
 
 /* 重要公式ボックス */
 .formula-box{
-  background:linear-gradient(135deg,#f5f3ff,#faf5ff);
+  background:linear-gradient(135deg,#f0fdf4,#f0fdf4);
   border:2px solid var(--primary);border-radius:14px;
   padding:16px 18px;margin:12px 0;
 }
@@ -52,7 +52,7 @@ body{font-family:'BIZ UDPGothic','Meiryo',sans-serif;background:var(--bg);color:
 .highlight-ng{color:var(--ng);font-weight:700;}
 
 /* 例題 */
-.exb{background:#f5f3ff;border:2px solid var(--pm);border-radius:14px;padding:13px 16px;margin:10px 0;}
+.exb{background:#f0fdf4;border:2px solid var(--pm);border-radius:14px;padding:13px 16px;margin:10px 0;}
 .exb .et{font-size:13px;font-weight:700;color:var(--primary);letter-spacing:1px;margin-bottom:7px;}
 .exb .eq{font-size:15px;font-weight:700;color:var(--text);margin-bottom:8px;}
 
@@ -85,7 +85,7 @@ body{font-family:'BIZ UDPGothic','Meiryo',sans-serif;background:var(--bg);color:
 .fb.wrg{background:var(--ngb);color:var(--ng);border:1px solid var(--ng);}
 
 /* スコア */
-.sca{background:linear-gradient(135deg,#7c3aed,#a855f7);color:#fff;border-radius:16px;padding:18px;text-align:center;margin-top:18px;display:none;}
+.sca{background:linear-gradient(135deg,#16a34a,#22c55e);color:#fff;border-radius:16px;padding:18px;text-align:center;margin-top:18px;display:none;}
 .sca .sn{font-size:48px;font-weight:700;}
 .sca .sm{font-size:14px;opacity:.85;}
 .nbtn{background:#fff;color:var(--primary);border:none;border-radius:12px;padding:11px 26px;font-size:15px;font-weight:700;font-family:inherit;cursor:pointer;margin-top:12px;transition:all .18s;}
@@ -118,7 +118,7 @@ canvas{border-radius:8px;display:block;}
 
 /* ===== ミニテスト（アコーディオン） ===== */
 .mini-toggle {
-  width:100%;background:linear-gradient(135deg,#7c3aed,#a855f7);
+  width:100%;background:linear-gradient(135deg,#16a34a,#22c55e);
   color:#fff;border:none;border-radius:10px;padding:11px 16px;
   font-size:14px;font-family:inherit;font-weight:700;cursor:pointer;
   display:flex;align-items:center;justify-content:space-between;
@@ -135,7 +135,7 @@ canvas{border-radius:8px;display:block;}
 }
 .mini-body.open{max-height:1200px;padding:14px;}
 .mini-q{font-size:14px;font-weight:700;color:var(--text);margin-bottom:6px;}
-.mini-given{font-size:13px;color:var(--tm);padding:6px 10px;background:#ede9fe;border-radius:8px;margin-bottom:10px;}
+.mini-given{font-size:13px;color:var(--tm);padding:6px 10px;background:#dcfce7;border-radius:8px;margin-bottom:10px;}
 .mini-chs{display:flex;flex-direction:column;gap:7px;}
 .mini-cb{background:#fff;border:2px solid var(--bd);border-radius:10px;
   padding:9px 13px;font-size:14px;font-family:inherit;cursor:pointer;
@@ -157,7 +157,7 @@ canvas{border-radius:8px;display:block;}
 <body>
 
 <header class="hd">
-  <div class="ser">GAMBA 高認数学 ▶ 三角比シリーズ TR06</div>
+  <div class="ser">GAMBA 公務員数学 ▶ 三角比シリーズ TR06</div>
   <h1>補角・余角の公式</h1>
   <div class="sub">sin(180°−θ)・cos(180°−θ)・sin(90°−θ) などの変換をマスターしよう</div>
   <div class="pbw"><div class="pbf" id="pb"></div></div>
@@ -182,7 +182,7 @@ canvas{border-radius:8px;display:block;}
     </div>
 
     <!-- 図：補角の3パターン（sin/cos/tan） -->
-    <p style="font-size:13px;color:var(--tm);margin-bottom:6px;">下の図で、<span style="color:#7c3aed;font-weight:700;">紫の動径（鈍角）</span>と<span style="color:#ef4444;font-weight:700;">赤の動径（鋭角）</span>を比べましょう。</p>
+    <p style="font-size:13px;color:var(--tm);margin-bottom:6px;">下の図で、<span style="color:#16a34a;font-weight:700;">紫の動径（鈍角）</span>と<span style="color:#ef4444;font-weight:700;">赤の動径（鋭角）</span>を比べましょう。</p>
     <div class="cwrap">
       <div class="ccon">
         <canvas id="cvSin120" width="170" height="150"></canvas>
@@ -326,7 +326,7 @@ canvas{border-radius:8px;display:block;}
         <rect width="850" height="550" fill="#ffffff"/>
 
         <!-- タイトル -->
-        <text x="425" y="34" font-size="17" font-weight="bold" text-anchor="middle" fill="#7c3aed">直角三角形の向きを変えて比べよう</text>
+        <text x="425" y="34" font-size="17" font-weight="bold" text-anchor="middle" fill="#16a34a">直角三角形の向きを変えて比べよう</text>
 
         <!-- 左の三角形：左下=90°−θ、右下=直角、上=θ（縦長） -->
         <g transform="translate(70, 55)">
@@ -348,17 +348,17 @@ canvas{border-radius:8px;display:block;}
 
         <!-- 右の三角形：左下=θ、右下=直角、上=90°−θ（横広） -->
         <g transform="translate(430, 55)">
-          <path d="M 0,250 L 300,250 L 300,80 Z" fill="#fdf2f8" stroke="#7c3aed" stroke-width="3" stroke-linejoin="round"/>
+          <path d="M 0,250 L 300,250 L 300,80 Z" fill="#fdf2f8" stroke="#16a34a" stroke-width="3" stroke-linejoin="round"/>
           <!-- 直角マーク -->
-          <path d="M 285,250 L 285,235 L 300,235" fill="none" stroke="#7c3aed" stroke-width="2"/>
+          <path d="M 285,250 L 285,235 L 300,235" fill="none" stroke="#16a34a" stroke-width="2"/>
           <!-- 角度弧：左下(θ) -->
           <path d="M 32,250 A 32,32 0 0,0 28.8,232" fill="none" stroke="#f59e0b" stroke-width="2"/>
           <!-- 角度弧：右上(90°−θ) -->
           <path d="M 300,112 A 28,28 0 0,1 278,100" fill="none" stroke="#f59e0b" stroke-width="2"/>
           <!-- 辺ラベル -->
-          <text x="130" y="155" font-size="18" font-style="italic" font-family="Georgia,serif" fill="#7c3aed" font-weight="bold">r</text>
+          <text x="130" y="155" font-size="18" font-style="italic" font-family="Georgia,serif" fill="#16a34a" font-weight="bold">r</text>
           <text x="150" y="270" font-size="18" font-style="italic" font-family="Georgia,serif" fill="#888" text-anchor="middle">b</text>
-          <text x="310" y="170" font-size="18" font-style="italic" font-family="Georgia,serif" fill="#7c3aed" font-weight="bold">a</text>
+          <text x="310" y="170" font-size="18" font-style="italic" font-family="Georgia,serif" fill="#16a34a" font-weight="bold">a</text>
           <!-- 角度ラベル -->
           <text x="38" y="238" font-size="15" font-weight="bold" fill="#f59e0b">θ</text>
           <text x="248" y="128" font-size="13" font-weight="bold" fill="#f59e0b">90°−θ</text>
@@ -391,23 +391,23 @@ canvas{border-radius:8px;display:block;}
         <g transform="translate(60, 430)">
           <text x="0" y="28" font-size="17" font-family="Georgia,serif" fill="#333">cos(90°−θ) =</text>
           <!-- 分数 a/r -->
-          <rect x="145" y="4" width="30" height="36" rx="4" fill="none" stroke="#7c3aed" stroke-width="2"/>
+          <rect x="145" y="4" width="30" height="36" rx="4" fill="none" stroke="#16a34a" stroke-width="2"/>
           <text x="160" y="20" font-size="16" font-style="italic" font-family="Georgia,serif" text-anchor="middle" fill="#333">a</text>
           <line x1="149" y1="26" x2="171" y2="26" stroke="#333" stroke-width="1.5"/>
           <text x="160" y="38" font-size="16" font-style="italic" font-family="Georgia,serif" text-anchor="middle" fill="#333">r</text>
 
           <text x="310" y="28" font-size="17" font-family="Georgia,serif" fill="#333">sinθ =</text>
           <!-- 分数 a/r -->
-          <rect x="370" y="4" width="30" height="36" rx="4" fill="none" stroke="#7c3aed" stroke-width="2"/>
+          <rect x="370" y="4" width="30" height="36" rx="4" fill="none" stroke="#16a34a" stroke-width="2"/>
           <text x="385" y="20" font-size="16" font-style="italic" font-family="Georgia,serif" text-anchor="middle" fill="#333">a</text>
           <line x1="374" y1="26" x2="396" y2="26" stroke="#333" stroke-width="1.5"/>
           <text x="385" y="38" font-size="16" font-style="italic" font-family="Georgia,serif" text-anchor="middle" fill="#333">r</text>
 
           <!-- 括弧「同じ」 -->
-          <path d="M 160,42 L 160,65 L 385,65 L 385,42" fill="none" stroke="#7c3aed" stroke-width="2"/>
-          <text x="272" y="82" font-size="14" font-weight="bold" fill="#7c3aed" text-anchor="middle">同じ！</text>
+          <path d="M 160,42 L 160,65 L 385,65 L 385,42" fill="none" stroke="#16a34a" stroke-width="2"/>
+          <text x="272" y="82" font-size="14" font-weight="bold" fill="#16a34a" text-anchor="middle">同じ！</text>
           <!-- 結論 -->
-          <text x="450" y="28" font-size="16" font-weight="bold" fill="#7c3aed">∴ cos(90°−θ) = sinθ</text>
+          <text x="450" y="28" font-size="16" font-weight="bold" fill="#16a34a">∴ cos(90°−θ) = sinθ</text>
         </g>
 
       </svg>
@@ -555,14 +555,14 @@ canvas{border-radius:8px;display:block;}
   </div>
 </div>
 
-<!-- PH6: 確認問題（高認過去問形式） -->
+<!-- PH6: 確認問題 -->
 <div class="ph" id="ph6">
   <div class="slb">✅ 確認問題</div>
 
   <div class="card" style="border-color:var(--pm);">
-    <h2>📝 高認過去問形式で解いてみよう</h2>
+    <h2>📝 確認問題を解いてみよう</h2>
     <p style="font-size:13px;color:var(--tm);margin-bottom:6px;">
-      実際の高認試験と同じ形式です。与えられた数値表を使って答えを選んでください。
+      実際の試験と同じ形式です。与えられた数値表を使って答えを選んでください。
     </p>
   </div>
 
@@ -655,7 +655,7 @@ function drawYokaku1(canvasId){
   ctx.beginPath();ctx.arc(Cx,Cy,18,angCB,angCA,false);ctx.stroke();
 
   // 頂点ラベル
-  ctx.font='bold 13px sans-serif';ctx.fillStyle='#1e1b2e';
+  ctx.font='bold 13px sans-serif';ctx.fillStyle='#14532d';
   ctx.fillText('A',Ax-18,Ay+4);
   ctx.fillText('B',Bx+4,By+4);
   ctx.fillText('C',Cx+4,Cy-2);
@@ -685,7 +685,7 @@ function drawYokaku1(canvasId){
 
   ctx.font='bold 11px sans-serif';ctx.fillStyle='#059669';
   ctx.fillText('sin(90°−θ) = b/r',8,20);
-  ctx.fillStyle='#1e1b2e';
+  ctx.fillStyle='#14532d';
   ctx.fillText('cosθ = b/r',8,36);
   ctx.fillStyle='#059669';
   ctx.fillText('→ 同じ！ ∴ sin(90°−θ)=cosθ',8,52);
@@ -740,7 +740,7 @@ function drawYokaku2(canvasId){
   ctx.beginPath();ctx.arc(Cx,Cy,18,angCB,angCA,false);ctx.stroke();
 
   // 頂点ラベル
-  ctx.font='bold 13px sans-serif';ctx.fillStyle='#1e1b2e';
+  ctx.font='bold 13px sans-serif';ctx.fillStyle='#14532d';
   ctx.fillText('A',Ax-18,Ay+4);
   ctx.fillText('B',Bx+4,By+4);
   ctx.fillText('C',Cx+4,Cy-2);
@@ -770,7 +770,7 @@ function drawYokaku2(canvasId){
 
   ctx.font='bold 11px sans-serif';ctx.fillStyle='#3b82f6';
   ctx.fillText('cos(90°−θ) = a/r',8,20);
-  ctx.fillStyle='#1e1b2e';
+  ctx.fillStyle='#14532d';
   ctx.fillText('sinθ = a/r',8,36);
   ctx.fillStyle='#3b82f6';
   ctx.fillText('→ 同じ！ ∴ cos(90°−θ)=sinθ',8,52);
@@ -806,12 +806,12 @@ function drawBokakuFig(canvasId, deg, type){
   ctx.clearRect(0,0,W,H);
 
   // 軸
-  ctx.strokeStyle='#c4b5fd';ctx.lineWidth=1;
+  ctx.strokeStyle='#86efac';ctx.lineWidth=1;
   ctx.beginPath();ctx.moveTo(4,cy);ctx.lineTo(W-4,cy);ctx.stroke();
   ctx.beginPath();ctx.moveTo(cx,4);ctx.lineTo(cx,cy+4);ctx.stroke();
 
   // 上半円
-  ctx.strokeStyle='#a78bfa';ctx.lineWidth=2;
+  ctx.strokeStyle='#4ade80';ctx.lineWidth=2;
   ctx.beginPath();ctx.arc(cx,cy,r,Math.PI,0,false);ctx.stroke();
 
   if(type==='sin'){
@@ -832,22 +832,22 @@ function drawBokakuFig(canvasId, deg, type){
     ctx.fillText('←同じ→',cx-20,py-6);
 
     // 動径
-    ctx.strokeStyle='#7c3aed';ctx.lineWidth=2;
+    ctx.strokeStyle='#16a34a';ctx.lineWidth=2;
     ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(px,py);ctx.stroke();
     ctx.strokeStyle='#ef4444';ctx.lineWidth=1.5;ctx.setLineDash([4,3]);
     ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(rx,ry);ctx.stroke();
     ctx.setLineDash([]);
 
     // 点
-    ctx.fillStyle='#7c3aed';ctx.beginPath();ctx.arc(px,py,5,0,2*Math.PI);ctx.fill();
+    ctx.fillStyle='#16a34a';ctx.beginPath();ctx.arc(px,py,5,0,2*Math.PI);ctx.fill();
     ctx.fillStyle='#ef4444';ctx.beginPath();ctx.arc(rx,ry,5,0,2*Math.PI);ctx.fill();
-    ctx.fillStyle='#4c4563';ctx.beginPath();ctx.arc(cx,cy,3,0,2*Math.PI);ctx.fill();
+    ctx.fillStyle='#166534';ctx.beginPath();ctx.arc(cx,cy,3,0,2*Math.PI);ctx.fill();
 
     // ラベル
     ctx.font='bold 11px sans-serif';
-    ctx.fillStyle='#7c3aed';ctx.fillText('P('+deg+'°)',px-46,py-5);
+    ctx.fillStyle='#16a34a';ctx.fillText('P('+deg+'°)',px-46,py-5);
     ctx.fillStyle='#ef4444';ctx.fillText('Q('+refDeg+'°)',rx+4,ry-5);
-    ctx.fillStyle='#1e1b2e';ctx.fillText('O',cx+3,cy+12);
+    ctx.fillStyle='#14532d';ctx.fillText('O',cx+3,cy+12);
 
     // 結論テキスト
     ctx.font='bold 11px sans-serif';ctx.fillStyle='#059669';
@@ -867,22 +867,22 @@ function drawBokakuFig(canvasId, deg, type){
     ctx.fillStyle='#ef4444';ctx.fillText('cos'+refDeg+'°>0',rx-10,ry-6);
 
     // 動径
-    ctx.strokeStyle='#7c3aed';ctx.lineWidth=2;
+    ctx.strokeStyle='#16a34a';ctx.lineWidth=2;
     ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(px,py);ctx.stroke();
     ctx.strokeStyle='#ef4444';ctx.lineWidth=1.5;ctx.setLineDash([4,3]);
     ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(rx,ry);ctx.stroke();
     ctx.setLineDash([]);
 
     // 点
-    ctx.fillStyle='#7c3aed';ctx.beginPath();ctx.arc(px,py,5,0,2*Math.PI);ctx.fill();
+    ctx.fillStyle='#16a34a';ctx.beginPath();ctx.arc(px,py,5,0,2*Math.PI);ctx.fill();
     ctx.fillStyle='#ef4444';ctx.beginPath();ctx.arc(rx,ry,5,0,2*Math.PI);ctx.fill();
-    ctx.fillStyle='#4c4563';ctx.beginPath();ctx.arc(cx,cy,3,0,2*Math.PI);ctx.fill();
+    ctx.fillStyle='#166534';ctx.beginPath();ctx.arc(cx,cy,3,0,2*Math.PI);ctx.fill();
 
     // ラベル
     ctx.font='bold 11px sans-serif';
-    ctx.fillStyle='#7c3aed';ctx.fillText('P('+deg+'°)',px-44,py-6);
+    ctx.fillStyle='#16a34a';ctx.fillText('P('+deg+'°)',px-44,py-6);
     ctx.fillStyle='#ef4444';ctx.fillText('Q('+refDeg+'°)',rx+3,ry-6);
-    ctx.fillStyle='#1e1b2e';ctx.fillText('O',cx+3,cy+12);
+    ctx.fillStyle='#14532d';ctx.fillText('O',cx+3,cy+12);
 
     // 結論テキスト
     ctx.font='bold 11px sans-serif';ctx.fillStyle='#dc2626';
@@ -890,7 +890,7 @@ function drawBokakuFig(canvasId, deg, type){
 
   } else { // tan
     // tanは動径（傾き）で示す
-    ctx.strokeStyle='#7c3aed';ctx.lineWidth=2;
+    ctx.strokeStyle='#16a34a';ctx.lineWidth=2;
     ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(px,py);ctx.stroke();
     ctx.strokeStyle='#ef4444';ctx.lineWidth=1.5;ctx.setLineDash([4,3]);
     ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(rx,ry);ctx.stroke();
@@ -908,15 +908,15 @@ function drawBokakuFig(canvasId, deg, type){
     ctx.fillStyle='#059669';ctx.fillText('Rx>0',rx-2,cy+14);
 
     // 点
-    ctx.fillStyle='#7c3aed';ctx.beginPath();ctx.arc(px,py,5,0,2*Math.PI);ctx.fill();
+    ctx.fillStyle='#16a34a';ctx.beginPath();ctx.arc(px,py,5,0,2*Math.PI);ctx.fill();
     ctx.fillStyle='#ef4444';ctx.beginPath();ctx.arc(rx,ry,5,0,2*Math.PI);ctx.fill();
-    ctx.fillStyle='#4c4563';ctx.beginPath();ctx.arc(cx,cy,3,0,2*Math.PI);ctx.fill();
+    ctx.fillStyle='#166534';ctx.beginPath();ctx.arc(cx,cy,3,0,2*Math.PI);ctx.fill();
 
     // ラベル
     ctx.font='bold 11px sans-serif';
-    ctx.fillStyle='#7c3aed';ctx.fillText('P('+deg+'°)',px-44,py-5);
+    ctx.fillStyle='#16a34a';ctx.fillText('P('+deg+'°)',px-44,py-5);
     ctx.fillStyle='#ef4444';ctx.fillText('Q('+refDeg+'°)',rx+3,ry-5);
-    ctx.fillStyle='#1e1b2e';ctx.fillText('O',cx+3,cy+12);
+    ctx.fillStyle='#14532d';ctx.fillText('O',cx+3,cy+12);
 
     // 結論テキスト
     ctx.font='bold 11px sans-serif';ctx.fillStyle='#dc2626';
@@ -1080,7 +1080,7 @@ function ansD(qi,ch,cor,hint){
   }
 }
 
-/* ===== 確認問題（高認過去問形式・7問）===== */
+/* ===== 確認問題（全7問）===== */
 // 問題ごとに「与えられた値の表」を個別に持つ本格過去問レイアウト
 const CHK=[
   // 問1：sin118°（補角・sin）R3年度参考
@@ -1307,7 +1307,7 @@ function ansC(qi,ch,cor,sol){
 }
 
 function confetti(){
-  const cols=['#7c3aed','#f59e0b','#059669','#ef4444','#3b82f6','#ec4899'];
+  const cols=['#16a34a','#f59e0b','#059669','#ef4444','#3b82f6','#ec4899'];
   for(let i=0;i<80;i++){
     const p=document.createElement('div');p.className='cp';
     p.style.left=Math.random()*100+'vw';p.style.top='-20px';
@@ -1442,14 +1442,13 @@ function markPassed(unit){
   try{localStorage.setItem('passed_'+unit,'1');}catch(e){}
   confetti();
   const msg=document.createElement('div');
-  msg.style.cssText='position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:#7c3aed;color:white;padding:24px 36px;border-radius:20px;font-size:20px;font-weight:700;z-index:9999;text-align:center;box-shadow:0 8px 32px rgba(124,58,237,.4);';
+  msg.style.cssText='position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:#16a34a;color:white;padding:24px 36px;border-radius:20px;font-size:20px;font-weight:700;z-index:9999;text-align:center;box-shadow:0 8px 32px rgba(22,163,74,.4);';
   msg.innerHTML='✅ TR06 完了！<br><span style="font-size:14px;opacity:.85;">次のTR07へ進もう</span>';
   document.body.appendChild(msg);
-  setTimeout(()=>{try{window.location.href='kounin_math_index.html';}catch(e){}},2500);
+  setTimeout(()=>{try{window.location.href='../gamba_kounin.html';}catch(e){}},2500);
 }
 
 document.getElementById('pb').style.width='0%';
 </script>
-<script src="https://realizefield.github.io/gamba-kounin-seito/gamba-ai.js" defer></script>
 </body>
 </html>

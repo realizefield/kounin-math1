@@ -10,39 +10,39 @@
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
-body{font-family:'BIZ UDPGothic',sans-serif;background:#f5f3ff;color:#1e1b4b;min-height:100vh;}
+body{font-family:'BIZ UDPGothic',sans-serif;background:#f0fdf4;color:#14532d;min-height:100vh;}
 
 /* ヘッダー */
-.header{background:linear-gradient(135deg,#7c3aed,#5b21b6);color:#fff;padding:16px 20px;display:flex;align-items:center;gap:12px;}
+.header{background:linear-gradient(135deg,#16a34a,#15803d);color:#fff;padding:16px 20px;display:flex;align-items:center;gap:12px;}
 .header-icon{font-size:28px;}
 .header-title{font-size:18px;font-weight:700;}
 .header-sub{font-size:12px;opacity:.8;margin-top:2px;}
 
 /* ステップナビ */
-.step-nav{display:flex;background:#fff;border-bottom:2px solid #ede9fe;overflow:hidden;}
+.step-nav{display:flex;background:#fff;border-bottom:2px solid #dcfce7;overflow:hidden;}
 .step-btn{flex:1;padding:10px 4px;border:none;background:transparent;font-family:'BIZ UDPGothic',sans-serif;font-size:12px;color:#6b7280;cursor:pointer;transition:.2s;display:flex;flex-direction:column;align-items:center;gap:3px;}
-.step-btn.active{background:#7c3aed;color:#fff;}
-.step-btn.done{background:#ede9fe;color:#5b21b6;}
+.step-btn.active{background:#16a34a;color:#fff;}
+.step-btn.done{background:#dcfce7;color:#15803d;}
 .step-icon{font-size:16px;}
 
 /* コンテンツ */
 .content{padding:16px;max-width:640px;margin:0 auto;}
 
 /* カード */
-.card{background:#fff;border-radius:12px;padding:18px;margin-bottom:14px;box-shadow:0 2px 8px rgba(124,58,237,.08);}
-.card-title{font-size:14px;font-weight:700;color:#5b21b6;margin-bottom:12px;display:flex;align-items:center;gap:6px;}
+.card{background:#fff;border-radius:12px;padding:18px;margin-bottom:14px;box-shadow:0 2px 8px rgba(22,163,74,.08);}
+.card-title{font-size:14px;font-weight:700;color:#15803d;margin-bottom:12px;display:flex;align-items:center;gap:6px;}
 
 /* 説明文 */
 .explain{font-size:14px;line-height:1.8;color:#374151;}
 .explain p{margin-bottom:8px;}
-.point-box{background:#f5f3ff;border-left:4px solid #7c3aed;padding:12px 14px;border-radius:0 8px 8px 0;margin:12px 0;}
-.point-box .label{font-size:11px;font-weight:700;color:#7c3aed;margin-bottom:4px;}
+.point-box{background:#f0fdf4;border-left:4px solid #16a34a;padding:12px 14px;border-radius:0 8px 8px 0;margin:12px 0;}
+.point-box .label{font-size:11px;font-weight:700;color:#16a34a;margin-bottom:4px;}
 
 /* SVG図 */
 .fig-wrap{display:flex;justify-content:center;margin:12px 0;}
 
 /* 重要ボックス */
-.important{background:#7c3aed;color:#fff;border-radius:10px;padding:14px 16px;margin:12px 0;}
+.important{background:#16a34a;color:#fff;border-radius:10px;padding:14px 16px;margin:12px 0;}
 .important .imp-title{font-size:12px;font-weight:700;opacity:.85;margin-bottom:8px;}
 .important .imp-row{display:flex;align-items:center;gap:8px;margin-bottom:6px;font-size:14px;}
 .important .imp-row:last-child{margin-bottom:0;}
@@ -51,17 +51,17 @@ body{font-family:'BIZ UDPGothic',sans-serif;background:#f5f3ff;color:#1e1b4b;min
 /* ドリル */
 .drill-intro{font-size:13px;color:#6b7280;margin-bottom:14px;}
 .set-tabs{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;}
-.set-tab{padding:6px 14px;border-radius:20px;border:2px solid #ede9fe;background:#fff;font-family:'BIZ UDPGothic',sans-serif;font-size:13px;cursor:pointer;color:#6b7280;transition:.2s;}
-.set-tab.active{background:#7c3aed;border-color:#7c3aed;color:#fff;font-weight:700;}
+.set-tab{padding:6px 14px;border-radius:20px;border:2px solid #dcfce7;background:#fff;font-family:'BIZ UDPGothic',sans-serif;font-size:13px;cursor:pointer;color:#6b7280;transition:.2s;}
+.set-tab.active{background:#16a34a;border-color:#16a34a;color:#fff;font-weight:700;}
 
-.q-block{background:#fff;border-radius:10px;padding:14px;margin-bottom:10px;border:2px solid #ede9fe;}
+.q-block{background:#fff;border-radius:10px;padding:14px;margin-bottom:10px;border:2px solid #dcfce7;}
 .q-block.correct{border-color:#10b981;}
 .q-block.wrong{border-color:#ef4444;}
 .q-num{font-size:11px;color:#9ca3af;margin-bottom:6px;}
 .q-text{font-size:14px;margin-bottom:10px;line-height:1.7;}
 .choices{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
 .choice{padding:8px 10px;border-radius:8px;border:2px solid #e5e7eb;background:#fff;font-family:'BIZ UDPGothic',sans-serif;font-size:13px;cursor:pointer;text-align:left;transition:.15s;line-height:1.5;}
-.choice:hover{border-color:#7c3aed;background:#f5f3ff;}
+.choice:hover{border-color:#16a34a;background:#f0fdf4;}
 .choice.selected-correct{background:#d1fae5;border-color:#10b981;color:#065f46;}
 .choice.selected-wrong{background:#fee2e2;border-color:#ef4444;color:#991b1b;}
 .choice.show-correct{background:#d1fae5;border-color:#10b981;}
@@ -70,16 +70,16 @@ body{font-family:'BIZ UDPGothic',sans-serif;background:#f5f3ff;color:#1e1b4b;min
 .feedback.ng{background:#fee2e2;color:#991b1b;}
 
 .drill-action{display:flex;justify-content:center;margin-top:14px;}
-.btn-check{background:#7c3aed;color:#fff;border:none;padding:12px 32px;border-radius:24px;font-family:'BIZ UDPGothic',sans-serif;font-size:15px;font-weight:700;cursor:pointer;}
+.btn-check{background:#16a34a;color:#fff;border:none;padding:12px 32px;border-radius:24px;font-family:'BIZ UDPGothic',sans-serif;font-size:15px;font-weight:700;cursor:pointer;}
 .btn-check:disabled{opacity:.5;cursor:default;}
 
 /* 採点結果 */
-.score-box{background:#fff;border-radius:12px;padding:16px;text-align:center;margin-bottom:14px;border:2px solid #ede9fe;}
-.score-circle{width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,#7c3aed,#5b21b6);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;margin:0 auto 10px;font-size:24px;font-weight:700;}
+.score-box{background:#fff;border-radius:12px;padding:16px;text-align:center;margin-bottom:14px;border:2px solid #dcfce7;}
+.score-circle{width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,#16a34a,#15803d);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;margin:0 auto 10px;font-size:24px;font-weight:700;}
 .score-label{font-size:11px;opacity:.8;}
 
 /* チェック */
-.check-q{background:#fff;border-radius:10px;padding:14px;margin-bottom:10px;border:2px solid #ede9fe;}
+.check-q{background:#fff;border-radius:10px;padding:14px;margin-bottom:10px;border:2px solid #dcfce7;}
 .check-q.correct{border-color:#10b981;}
 .check-q.wrong{border-color:#ef4444;}
 
@@ -89,12 +89,12 @@ body{font-family:'BIZ UDPGothic',sans-serif;background:#f5f3ff;color:#1e1b4b;min
 
 /* ナビボタン */
 .nav-row{display:flex;gap:10px;justify-content:center;margin-top:16px;}
-.btn-nav{padding:10px 24px;border-radius:20px;border:2px solid #7c3aed;background:#fff;color:#7c3aed;font-family:'BIZ UDPGothic',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:.2s;}
-.btn-nav.primary{background:#7c3aed;color:#fff;}
+.btn-nav{padding:10px 24px;border-radius:20px;border:2px solid #16a34a;background:#fff;color:#16a34a;font-family:'BIZ UDPGothic',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:.2s;}
+.btn-nav.primary{background:#16a34a;color:#fff;}
 .btn-nav:hover{opacity:.85;}
 
 .back-link{display:block;text-align:center;margin-top:16px;color:#9ca3af;font-size:13px;text-decoration:none;}
-.back-link:hover{color:#7c3aed;}
+.back-link:hover{color:#16a34a;}
 
 /* 解説 */
 .exp-text{font-size:13px;color:#6b7280;margin-top:6px;line-height:1.6;}
@@ -102,7 +102,7 @@ body{font-family:'BIZ UDPGothic',sans-serif;background:#f5f3ff;color:#1e1b4b;min
 /* プルダウン（details/summary） */
 details>summary{list-style:none;}
 details>summary::-webkit-details-marker{display:none;}
-details[open]>summary{color:#5b21b6;}
+details[open]>summary{color:#15803d;}
 details[open]>summary::before{content:'▼ ';}
 details:not([open])>summary::before{content:'▶ ';}
 
@@ -164,7 +164,7 @@ details:not([open])>summary::before{content:'▶ ';}
   <div class="point-box">
     <div class="label">🔑 辺の名前</div>
     <p class="explain" style="font-size:13px;">
-      <b style="color:#7c3aed">斜辺</b>：直角と向かいあう一番長い辺<br>
+      <b style="color:#16a34a">斜辺</b>：直角と向かいあう一番長い辺<br>
       <b style="color:#dc2626">対辺（高さ）</b>：角度θと向かいあう辺<br>
       <b style="color:#2563eb">隣辺（底辺）</b>：角度θに隣り合う辺（斜辺以外）
     </p>
@@ -200,7 +200,7 @@ details:not([open])>summary::before{content:'▶ ';}
 <div class="nav-row">
   <button class="btn-nav primary" onclick="goStep('example')">例題へ →</button>
 </div>
-<a href="kounin_math_index.html" class="back-link">← 単元一覧に戻る</a>
+<a href="../gamba_kounin.html" class="back-link">← 単元一覧に戻る</a>
 </div><!-- /intro -->
 
 <!-- ===== EXAMPLE ===== -->
@@ -211,17 +211,17 @@ details:not([open])>summary::before{content:'▶ ';}
   <div class="card-title" style="margin-bottom:10px;">📌 辺の名前（いつでも確認！）</div>
   <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
     <svg width="220" height="145" viewBox="0 0 220 145" style="flex-shrink:0;">
-      <polygon points="20,120 160,120 160,20" fill="#f5f3ff" stroke="#7c3aed" stroke-width="2.2"/>
-      <polyline points="147,120 147,107 160,107" fill="none" stroke="#7c3aed" stroke-width="1.8"/>
-      <path d="M 44,120 A 24 24 0 0 0 30.6,98.8" fill="none" stroke="#7c3aed" stroke-width="1.6"/>
-      <text x="46" y="108" font-size="14" font-style="italic" fill="#7c3aed" font-family="serif">θ</text>
-      <text x="78" y="62" font-size="13" font-weight="bold" fill="#7c3aed" font-family="'BIZ UDPGothic',sans-serif" text-anchor="middle" transform="rotate(-33,78,62)">斜辺</text>
+      <polygon points="20,120 160,120 160,20" fill="#f0fdf4" stroke="#16a34a" stroke-width="2.2"/>
+      <polyline points="147,120 147,107 160,107" fill="none" stroke="#16a34a" stroke-width="1.8"/>
+      <path d="M 44,120 A 24 24 0 0 0 30.6,98.8" fill="none" stroke="#16a34a" stroke-width="1.6"/>
+      <text x="46" y="108" font-size="14" font-style="italic" fill="#16a34a" font-family="serif">θ</text>
+      <text x="78" y="62" font-size="13" font-weight="bold" fill="#16a34a" font-family="'BIZ UDPGothic',sans-serif" text-anchor="middle" transform="rotate(-33,78,62)">斜辺</text>
       <text x="163" y="73" font-size="13" font-weight="bold" fill="#dc2626" font-family="'BIZ UDPGothic',sans-serif">対辺</text>
       <text x="163" y="88" font-size="11" fill="#dc2626" font-family="'BIZ UDPGothic',sans-serif">（高さ）</text>
       <text x="90" y="136" font-size="13" font-weight="bold" fill="#2563eb" font-family="'BIZ UDPGothic',sans-serif" text-anchor="middle">隣辺（底辺）</text>
     </svg>
     <div style="font-size:13px;line-height:2.2;">
-      <div><b style="color:#7c3aed">斜辺</b>：直角と向かいあう一番長い辺</div>
+      <div><b style="color:#16a34a">斜辺</b>：直角と向かいあう一番長い辺</div>
       <div><b style="color:#dc2626">対辺（高さ）</b>：θと向かいあう辺</div>
       <div><b style="color:#2563eb">隣辺（底辺）</b>：θに隣り合う辺（斜辺以外）</div>
     </div>
@@ -248,13 +248,13 @@ details:not([open])>summary::before{content:'▶ ';}
     <div style="margin-bottom:10px;">
       <p class="explain" style="font-size:14px;font-weight:700;margin-bottom:4px;">斜辺 × sin θ ＝ 対辺（高さ）</p>
       <details style="margin-left:8px;">
-        <summary style="font-size:12px;color:#7c3aed;cursor:pointer;font-weight:700;">どうしてそうなるの？</summary>
-        <div style="background:#f5f3ff;border-radius:8px;padding:10px 12px;margin-top:6px;font-size:13px;line-height:2.2;">
+        <summary style="font-size:12px;color:#16a34a;cursor:pointer;font-weight:700;">どうしてそうなるの？</summary>
+        <div style="background:#f0fdf4;border-radius:8px;padding:10px 12px;margin-top:6px;font-size:13px;line-height:2.2;">
           sin の定義から出発します：<br>
           <span style="font-weight:700;">sin θ ＝ <span class="frac"><span class="num">対辺</span><span class="den">斜辺</span></span></span><br>
           <span style="color:#9ca3af;font-size:12px;">↓ 両辺に「斜辺」をかける</span><br>
           <span style="font-weight:700;">斜辺 × sin θ ＝ 対辺 × </span><span style="font-size:12px;color:#9ca3af;">（斜辺÷斜辺＝1 なので消える）</span><br>
-          <span style="font-weight:700;color:#7c3aed;">∴ 斜辺 × sin θ ＝ 対辺 &nbsp;✓</span>
+          <span style="font-weight:700;color:#16a34a;">∴ 斜辺 × sin θ ＝ 対辺 &nbsp;✓</span>
         </div>
       </details>
     </div>
@@ -263,13 +263,13 @@ details:not([open])>summary::before{content:'▶ ';}
     <div style="margin-bottom:10px;">
       <p class="explain" style="font-size:14px;font-weight:700;margin-bottom:4px;">斜辺 × cos θ ＝ 隣辺（底辺）</p>
       <details style="margin-left:8px;">
-        <summary style="font-size:12px;color:#7c3aed;cursor:pointer;font-weight:700;">どうしてそうなるの？</summary>
-        <div style="background:#f5f3ff;border-radius:8px;padding:10px 12px;margin-top:6px;font-size:13px;line-height:2.2;">
+        <summary style="font-size:12px;color:#16a34a;cursor:pointer;font-weight:700;">どうしてそうなるの？</summary>
+        <div style="background:#f0fdf4;border-radius:8px;padding:10px 12px;margin-top:6px;font-size:13px;line-height:2.2;">
           cos の定義から出発します：<br>
           <span style="font-weight:700;">cos θ ＝ <span class="frac"><span class="num">隣辺</span><span class="den">斜辺</span></span></span><br>
           <span style="color:#9ca3af;font-size:12px;">↓ 両辺に「斜辺」をかける</span><br>
           <span style="font-weight:700;">斜辺 × cos θ ＝ 隣辺 × </span><span style="font-size:12px;color:#9ca3af;">（斜辺÷斜辺＝1 なので消える）</span><br>
-          <span style="font-weight:700;color:#7c3aed;">∴ 斜辺 × cos θ ＝ 隣辺 &nbsp;✓</span>
+          <span style="font-weight:700;color:#16a34a;">∴ 斜辺 × cos θ ＝ 隣辺 &nbsp;✓</span>
         </div>
       </details>
     </div>
@@ -278,13 +278,13 @@ details:not([open])>summary::before{content:'▶ ';}
     <div>
       <p class="explain" style="font-size:14px;font-weight:700;margin-bottom:4px;">隣辺 × tan θ ＝ 対辺（高さ）</p>
       <details style="margin-left:8px;">
-        <summary style="font-size:12px;color:#7c3aed;cursor:pointer;font-weight:700;">どうしてそうなるの？</summary>
-        <div style="background:#f5f3ff;border-radius:8px;padding:10px 12px;margin-top:6px;font-size:13px;line-height:2.2;">
+        <summary style="font-size:12px;color:#16a34a;cursor:pointer;font-weight:700;">どうしてそうなるの？</summary>
+        <div style="background:#f0fdf4;border-radius:8px;padding:10px 12px;margin-top:6px;font-size:13px;line-height:2.2;">
           tan の定義から出発します：<br>
           <span style="font-weight:700;">tan θ ＝ <span class="frac"><span class="num">対辺</span><span class="den">隣辺</span></span></span><br>
           <span style="color:#9ca3af;font-size:12px;">↓ 両辺に「隣辺」をかける</span><br>
           <span style="font-weight:700;">隣辺 × tan θ ＝ 対辺 × </span><span style="font-size:12px;color:#9ca3af;">（隣辺÷隣辺＝1 なので消える）</span><br>
-          <span style="font-weight:700;color:#7c3aed;">∴ 隣辺 × tan θ ＝ 対辺 &nbsp;✓</span>
+          <span style="font-weight:700;color:#16a34a;">∴ 隣辺 × tan θ ＝ 対辺 &nbsp;✓</span>
         </div>
       </details>
     </div>
@@ -300,7 +300,7 @@ details:not([open])>summary::before{content:'▶ ';}
   <button class="btn-nav" onclick="goStep('intro')">← 説明に戻る</button>
   <button class="btn-nav primary" onclick="goStep('drill')">練習へ →</button>
 </div>
-<a href="kounin_math_index.html" class="back-link">← 単元一覧に戻る</a>
+<a href="../gamba_kounin.html" class="back-link">← 単元一覧に戻る</a>
 </div><!-- /example -->
 
 
@@ -312,17 +312,17 @@ details:not([open])>summary::before{content:'▶ ';}
   <div class="card-title" style="margin-bottom:10px;">📌 辺の名前（いつでも確認！）</div>
   <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
     <svg width="220" height="145" viewBox="0 0 220 145" style="flex-shrink:0;">
-      <polygon points="20,120 160,120 160,20" fill="#f5f3ff" stroke="#7c3aed" stroke-width="2.2"/>
-      <polyline points="147,120 147,107 160,107" fill="none" stroke="#7c3aed" stroke-width="1.8"/>
-      <path d="M 44,120 A 24 24 0 0 0 30.6,98.8" fill="none" stroke="#7c3aed" stroke-width="1.6"/>
-      <text x="46" y="108" font-size="14" font-style="italic" fill="#7c3aed" font-family="serif">θ</text>
-      <text x="78" y="62" font-size="13" font-weight="bold" fill="#7c3aed" font-family="'BIZ UDPGothic',sans-serif" text-anchor="middle" transform="rotate(-33,78,62)">斜辺</text>
+      <polygon points="20,120 160,120 160,20" fill="#f0fdf4" stroke="#16a34a" stroke-width="2.2"/>
+      <polyline points="147,120 147,107 160,107" fill="none" stroke="#16a34a" stroke-width="1.8"/>
+      <path d="M 44,120 A 24 24 0 0 0 30.6,98.8" fill="none" stroke="#16a34a" stroke-width="1.6"/>
+      <text x="46" y="108" font-size="14" font-style="italic" fill="#16a34a" font-family="serif">θ</text>
+      <text x="78" y="62" font-size="13" font-weight="bold" fill="#16a34a" font-family="'BIZ UDPGothic',sans-serif" text-anchor="middle" transform="rotate(-33,78,62)">斜辺</text>
       <text x="163" y="73" font-size="13" font-weight="bold" fill="#dc2626" font-family="'BIZ UDPGothic',sans-serif">対辺</text>
       <text x="163" y="88" font-size="11" fill="#dc2626" font-family="'BIZ UDPGothic',sans-serif">（高さ）</text>
       <text x="90" y="136" font-size="13" font-weight="bold" fill="#2563eb" font-family="'BIZ UDPGothic',sans-serif" text-anchor="middle">隣辺（底辺）</text>
     </svg>
     <div style="font-size:13px;line-height:2.2;">
-      <div><b style="color:#7c3aed">斜辺</b>：直角と向かいあう一番長い辺</div>
+      <div><b style="color:#16a34a">斜辺</b>：直角と向かいあう一番長い辺</div>
       <div><b style="color:#dc2626">対辺（高さ）</b>：θと向かいあう辺</div>
       <div><b style="color:#2563eb">隣辺（底辺）</b>：θに隣り合う辺（斜辺以外）</div>
     </div>
@@ -350,7 +350,7 @@ details:not([open])>summary::before{content:'▶ ';}
   <button class="btn-nav" onclick="goStep('example')">← 例題に戻る</button>
   <button class="btn-nav primary" onclick="goStep('check')">確認テストへ →</button>
 </div>
-<a href="kounin_math_index.html" class="back-link">← 単元一覧に戻る</a>
+<a href="../gamba_kounin.html" class="back-link">← 単元一覧に戻る</a>
 </div><!-- /drill -->
 
 <!-- ===== CHECK ===== -->
@@ -361,17 +361,17 @@ details:not([open])>summary::before{content:'▶ ';}
   <div class="card-title" style="margin-bottom:10px;">📌 辺の名前（いつでも確認！）</div>
   <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
     <svg width="220" height="145" viewBox="0 0 220 145" style="flex-shrink:0;">
-      <polygon points="20,120 160,120 160,20" fill="#f5f3ff" stroke="#7c3aed" stroke-width="2.2"/>
-      <polyline points="147,120 147,107 160,107" fill="none" stroke="#7c3aed" stroke-width="1.8"/>
-      <path d="M 44,120 A 24 24 0 0 0 30.6,98.8" fill="none" stroke="#7c3aed" stroke-width="1.6"/>
-      <text x="46" y="108" font-size="14" font-style="italic" fill="#7c3aed" font-family="serif">θ</text>
-      <text x="78" y="62" font-size="13" font-weight="bold" fill="#7c3aed" font-family="'BIZ UDPGothic',sans-serif" text-anchor="middle" transform="rotate(-33,78,62)">斜辺</text>
+      <polygon points="20,120 160,120 160,20" fill="#f0fdf4" stroke="#16a34a" stroke-width="2.2"/>
+      <polyline points="147,120 147,107 160,107" fill="none" stroke="#16a34a" stroke-width="1.8"/>
+      <path d="M 44,120 A 24 24 0 0 0 30.6,98.8" fill="none" stroke="#16a34a" stroke-width="1.6"/>
+      <text x="46" y="108" font-size="14" font-style="italic" fill="#16a34a" font-family="serif">θ</text>
+      <text x="78" y="62" font-size="13" font-weight="bold" fill="#16a34a" font-family="'BIZ UDPGothic',sans-serif" text-anchor="middle" transform="rotate(-33,78,62)">斜辺</text>
       <text x="163" y="73" font-size="13" font-weight="bold" fill="#dc2626" font-family="'BIZ UDPGothic',sans-serif">対辺</text>
       <text x="163" y="88" font-size="11" fill="#dc2626" font-family="'BIZ UDPGothic',sans-serif">（高さ）</text>
       <text x="90" y="136" font-size="13" font-weight="bold" fill="#2563eb" font-family="'BIZ UDPGothic',sans-serif" text-anchor="middle">隣辺（底辺）</text>
     </svg>
     <div style="font-size:13px;line-height:2.2;">
-      <div><b style="color:#7c3aed">斜辺</b>：直角と向かいあう一番長い辺</div>
+      <div><b style="color:#16a34a">斜辺</b>：直角と向かいあう一番長い辺</div>
       <div><b style="color:#dc2626">対辺（高さ）</b>：θと向かいあう辺</div>
       <div><b style="color:#2563eb">隣辺（底辺）</b>：θに隣り合う辺（斜辺以外）</div>
     </div>
@@ -392,13 +392,14 @@ details:not([open])>summary::before{content:'▶ ';}
 <div class="nav-row">
   <button class="btn-nav" onclick="goStep('drill')">← 練習に戻る</button>
 </div>
-<a href="kounin_math_index.html" class="back-link">← 単元一覧に戻る</a>
+<a href="../gamba_kounin.html" class="back-link">← 単元一覧に戻る</a>
 </div><!-- /check -->
 
 </div><!-- /content -->
 
-<script src="../gamba_support.js"></script>
 <script>
+// スタブ（外部jsなし環境用）
+function markPassed(id){ try{localStorage.setItem('passed_'+id,'1');}catch(e){} }
 // ===== KaTeX ユーティリティ =====
 let _katexReady = false;
 function waitKatex(fn){
@@ -634,8 +635,8 @@ function selectDrill(qi,ci){
   if(drillSubmitted) return;
   drillAnswers[qi]=ci;
   document.querySelectorAll(`#dc-${qi} .choice`).forEach((b,i)=>{
-    b.style.background=i===ci?'#ede9fe':'';
-    b.style.borderColor=i===ci?'#7c3aed':'';
+    b.style.background=i===ci?'#dcfce7':'';
+    b.style.borderColor=i===ci?'#16a34a':'';
   });
 }
 
@@ -664,7 +665,7 @@ function submitDrill(){
   res.style.display='block';
   res.innerHTML=`<div class="score-box">
     <div class="score-circle">${correct}<div class="score-label">/ 4</div></div>
-    <div style="font-size:14px;font-weight:700;color:#5b21b6;">${correct===4?'全問正解！🎉':'もう一度チャレンジしてみよう'}</div>
+    <div style="font-size:14px;font-weight:700;color:#15803d;">${correct===4?'全問正解！🎉':'もう一度チャレンジしてみよう'}</div>
   </div>`;
   if(correct===4) fireConfetti();
 }
@@ -697,8 +698,8 @@ function selectCheck(qi,ci){
   if(checkSubmitted) return;
   checkAnswers[qi]=ci;
   document.querySelectorAll(`#cc-${qi} .choice`).forEach((b,i)=>{
-    b.style.background=i===ci?'#ede9fe':'';
-    b.style.borderColor=i===ci?'#7c3aed':'';
+    b.style.background=i===ci?'#dcfce7':'';
+    b.style.borderColor=i===ci?'#16a34a':'';
   });
 }
 
@@ -726,7 +727,7 @@ function submitCheck(){
   res.style.display='block';
   res.innerHTML=`<div class="score-box">
     <div class="score-circle">${correct}<div class="score-label">/ 5</div></div>
-    <div style="font-size:14px;font-weight:700;color:#5b21b6;">${correct===5?'全問正解！🎉':correct>=3?'あと少し！復習してみよう':'もう一度説明から確認しよう'}</div>
+    <div style="font-size:14px;font-weight:700;color:#15803d;">${correct===5?'全問正解！🎉':correct>=3?'あと少し！復習してみよう':'もう一度説明から確認しよう'}</div>
   </div>`;
   if(correct===5){fireConfetti();markPassed('TR01');}
 }
@@ -734,7 +735,7 @@ function submitCheck(){
 // ===== 花吹雪 =====
 function fireConfetti(){
   const wrap=document.createElement('div');wrap.className='confetti-wrap';document.body.appendChild(wrap);
-  const colors=['#7c3aed','#5b21b6','#a78bfa','#c4b5fd','#f59e0b','#10b981'];
+  const colors=['#16a34a','#15803d','#4ade80','#86efac','#f59e0b','#10b981'];
   for(let i=0;i<60;i++){
     const p=document.createElement('div');p.className='confetti-piece';
     const c=colors[Math.floor(Math.random()*colors.length)];
@@ -754,19 +755,19 @@ function drawSmallTri(ctx, ox, oy, w, h){
   ctx.beginPath();
   ctx.moveTo(ox,oy); ctx.lineTo(ox+w,oy); ctx.lineTo(ox+w,oy-h);
   ctx.closePath();
-  ctx.fillStyle='#f5f3ff'; ctx.fill();
-  ctx.strokeStyle='#7c3aed'; ctx.lineWidth=1.8; ctx.stroke();
+  ctx.fillStyle='#f0fdf4'; ctx.fill();
+  ctx.strokeStyle='#16a34a'; ctx.lineWidth=1.8; ctx.stroke();
   const sq=7;
   ctx.beginPath();
   ctx.moveTo(ox+w-sq,oy); ctx.lineTo(ox+w-sq,oy-sq); ctx.lineTo(ox+w,oy-sq);
-  ctx.strokeStyle='#7c3aed'; ctx.lineWidth=1.5; ctx.stroke();
+  ctx.strokeStyle='#16a34a'; ctx.lineWidth=1.5; ctx.stroke();
   // 角度弧：左下頂点から，斜辺方向→底辺方向（三角形内側）半径12
   const ang = Math.atan2(-h, w); // 負（上向き）
   ctx.beginPath();
   ctx.arc(ox, oy, 12, ang, 0);
-  ctx.strokeStyle='#7c3aed'; ctx.lineWidth=1.4; ctx.stroke();
+  ctx.strokeStyle='#16a34a'; ctx.lineWidth=1.4; ctx.stroke();
   const mid = ang / 2;
-  ctx.fillStyle='#7c3aed'; ctx.font='italic 11px serif';
+  ctx.fillStyle='#16a34a'; ctx.font='italic 11px serif';
   ctx.fillText('θ', ox + 18*Math.cos(mid), oy + 18*Math.sin(mid));
 }
 
@@ -819,19 +820,19 @@ function drawExFig(){
   ctx.beginPath();
   ctx.moveTo(B.x,B.y); ctx.lineTo(C.x,C.y); ctx.lineTo(A.x,A.y);
   ctx.closePath();
-  ctx.fillStyle='#f5f3ff'; ctx.fill();
-  ctx.strokeStyle='#7c3aed'; ctx.lineWidth=2.5; ctx.stroke();
+  ctx.fillStyle='#f0fdf4'; ctx.fill();
+  ctx.strokeStyle='#16a34a'; ctx.lineWidth=2.5; ctx.stroke();
   const sq=13;
   ctx.beginPath();
   ctx.moveTo(C.x-sq,C.y); ctx.lineTo(C.x-sq,C.y-sq); ctx.lineTo(C.x,C.y-sq);
-  ctx.strokeStyle='#7c3aed'; ctx.lineWidth=2; ctx.stroke();
+  ctx.strokeStyle='#16a34a'; ctx.lineWidth=2; ctx.stroke();
   // 角度弧（B左下）
   const angH = Math.atan2(A.y-B.y, A.x-B.x);
   ctx.beginPath(); ctx.arc(B.x,B.y,24,angH,0);
-  ctx.strokeStyle='#7c3aed'; ctx.lineWidth=1.8; ctx.stroke();
+  ctx.strokeStyle='#16a34a'; ctx.lineWidth=1.8; ctx.stroke();
   // 角Aラベル（弧中点方向）
   const mA=angH/2;
-  ctx.fillStyle='#7c3aed'; ctx.font='bold 13px "BIZ UDPGothic",sans-serif';
+  ctx.fillStyle='#16a34a'; ctx.font='bold 13px "BIZ UDPGothic",sans-serif';
   ctx.fillText('A', B.x+32*Math.cos(mA)-5, B.y+32*Math.sin(mA)+5);
   // 頂点ラベル
   ctx.fillStyle='#333'; ctx.font='bold 13px "BIZ UDPGothic",sans-serif';
@@ -853,6 +854,5 @@ function initDrill(){if(!drillSubmitted||drillAnswers.every(a=>a===-1))loadDrill
 waitKatex(renderIntro);
 window.addEventListener('load', ()=>{ drawSinFig(); drawCosFig(); drawTanFig(); drawExFig(); });
 </script>
-<script src="https://realizefield.github.io/gamba-kounin-seito/gamba-ai.js" defer></script>
 </body>
 </html>

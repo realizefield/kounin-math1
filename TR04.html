@@ -8,32 +8,32 @@
 <link href="https://fonts.googleapis.com/css2?family=BIZ+UDPGothic:wght@400;700&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
-body{font-family:'BIZ UDPGothic',sans-serif;background:#f5f3ff;color:#1e1b4b;min-height:100vh;}
-.header{background:linear-gradient(135deg,#7c3aed,#5b21b6);color:#fff;padding:16px 20px;display:flex;align-items:center;gap:12px;}
+body{font-family:'BIZ UDPGothic',sans-serif;background:#f0fdf4;color:#14532d;min-height:100vh;}
+.header{background:linear-gradient(135deg,#16a34a,#15803d);color:#fff;padding:16px 20px;display:flex;align-items:center;gap:12px;}
 .header-icon{font-size:28px;}
 .header-title{font-size:18px;font-weight:700;}
 .header-sub{font-size:12px;opacity:.8;margin-top:2px;}
-.step-nav{display:flex;background:#fff;border-bottom:2px solid #ede9fe;overflow:hidden;}
+.step-nav{display:flex;background:#fff;border-bottom:2px solid #dcfce7;overflow:hidden;}
 .step-btn{flex:1;padding:10px 4px;border:none;background:transparent;font-family:'BIZ UDPGothic',sans-serif;font-size:12px;color:#6b7280;cursor:pointer;transition:.2s;display:flex;flex-direction:column;align-items:center;gap:3px;}
-.step-btn.active{background:#7c3aed;color:#fff;}
-.step-btn.done{background:#ede9fe;color:#5b21b6;}
+.step-btn.active{background:#16a34a;color:#fff;}
+.step-btn.done{background:#dcfce7;color:#15803d;}
 .step-icon{font-size:16px;}
 .content{padding:16px;max-width:640px;margin:0 auto;}
-.card{background:#fff;border-radius:12px;padding:18px;margin-bottom:14px;box-shadow:0 2px 8px rgba(124,58,237,.08);}
-.card-title{font-size:14px;font-weight:700;color:#5b21b6;margin-bottom:12px;}
+.card{background:#fff;border-radius:12px;padding:18px;margin-bottom:14px;box-shadow:0 2px 8px rgba(22,163,74,.08);}
+.card-title{font-size:14px;font-weight:700;color:#15803d;margin-bottom:12px;}
 .explain{font-size:14px;line-height:1.8;color:#374151;}
-.point-box{background:#f5f3ff;border-left:4px solid #7c3aed;padding:12px 14px;border-radius:0 8px 8px 0;margin:12px 0;}
-.point-box .label{font-size:11px;font-weight:700;color:#7c3aed;margin-bottom:6px;}
+.point-box{background:#f0fdf4;border-left:4px solid #16a34a;padding:12px 14px;border-radius:0 8px 8px 0;margin:12px 0;}
+.point-box .label{font-size:11px;font-weight:700;color:#16a34a;margin-bottom:6px;}
 .hint-box{background:#fefce8;border-left:4px solid #f59e0b;padding:10px 14px;border-radius:0 8px 8px 0;margin:10px 0;font-size:13px;line-height:1.9;}
 .hint-box .label{font-size:11px;font-weight:700;color:#92400e;margin-bottom:3px;}
-.important{background:#7c3aed;color:#fff;border-radius:10px;padding:14px 16px;margin:12px 0;}
+.important{background:#16a34a;color:#fff;border-radius:10px;padding:14px 16px;margin:12px 0;}
 .important .imp-title{font-size:12px;font-weight:700;opacity:.85;margin-bottom:10px;}
 .imp-row{display:flex;align-items:center;gap:10px;margin-bottom:8px;font-size:14px;font-weight:700;}
 .imp-row:last-child{margin-bottom:0;}
 .imp-label{background:rgba(255,255,255,.25);border-radius:6px;padding:3px 10px;font-size:13px;min-width:40px;text-align:center;}
 
 /* 問題カード */
-.q-block{background:#fff;border-radius:10px;padding:14px;margin-bottom:10px;border:2px solid #ede9fe;}
+.q-block{background:#fff;border-radius:10px;padding:14px;margin-bottom:10px;border:2px solid #dcfce7;}
 .q-block.correct{border-color:#10b981;}
 .q-block.wrong{border-color:#ef4444;}
 .q-num{font-size:11px;color:#9ca3af;margin-bottom:6px;}
@@ -43,7 +43,7 @@ body{font-family:'BIZ UDPGothic',sans-serif;background:#f5f3ff;color:#1e1b4b;min
 /* 6択ボタン */
 .choices6{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px;}
 .choice{padding:9px 10px;border-radius:8px;border:2px solid #e5e7eb;background:#fff;font-family:'BIZ UDPGothic',sans-serif;font-size:13px;cursor:pointer;text-align:left;transition:.15s;line-height:1.6;}
-.choice:hover{border-color:#7c3aed;background:#f5f3ff;}
+.choice:hover{border-color:#16a34a;background:#f0fdf4;}
 .choice.selected-correct{background:#d1fae5;border-color:#10b981;color:#065f46;}
 .choice.selected-wrong{background:#fee2e2;border-color:#ef4444;color:#991b1b;}
 .choice.show-correct{background:#d1fae5;border-color:#10b981;}
@@ -54,20 +54,20 @@ body{font-family:'BIZ UDPGothic',sans-serif;background:#f5f3ff;color:#1e1b4b;min
 /* セットタブ */
 .drill-intro{font-size:13px;color:#6b7280;margin-bottom:14px;}
 .set-tabs{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;}
-.set-tab{padding:6px 14px;border-radius:20px;border:2px solid #ede9fe;background:#fff;font-family:'BIZ UDPGothic',sans-serif;font-size:13px;cursor:pointer;color:#6b7280;transition:.2s;}
-.set-tab.active{background:#7c3aed;border-color:#7c3aed;color:#fff;font-weight:700;}
+.set-tab{padding:6px 14px;border-radius:20px;border:2px solid #dcfce7;background:#fff;font-family:'BIZ UDPGothic',sans-serif;font-size:13px;cursor:pointer;color:#6b7280;transition:.2s;}
+.set-tab.active{background:#16a34a;border-color:#16a34a;color:#fff;font-weight:700;}
 
 .drill-action{display:flex;justify-content:center;margin-top:14px;}
-.btn-check{background:#7c3aed;color:#fff;border:none;padding:12px 32px;border-radius:24px;font-family:'BIZ UDPGothic',sans-serif;font-size:15px;font-weight:700;cursor:pointer;}
+.btn-check{background:#16a34a;color:#fff;border:none;padding:12px 32px;border-radius:24px;font-family:'BIZ UDPGothic',sans-serif;font-size:15px;font-weight:700;cursor:pointer;}
 .btn-check:disabled{opacity:.5;cursor:default;}
-.score-box{background:#fff;border-radius:12px;padding:16px;text-align:center;margin-bottom:14px;border:2px solid #ede9fe;}
-.score-circle{width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,#7c3aed,#5b21b6);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;margin:0 auto 10px;font-size:24px;font-weight:700;}
+.score-box{background:#fff;border-radius:12px;padding:16px;text-align:center;margin-bottom:14px;border:2px solid #dcfce7;}
+.score-circle{width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,#16a34a,#15803d);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;margin:0 auto 10px;font-size:24px;font-weight:700;}
 .score-label{font-size:11px;opacity:.8;}
 .nav-row{display:flex;gap:10px;justify-content:center;margin-top:16px;}
-.btn-nav{padding:10px 24px;border-radius:20px;border:2px solid #7c3aed;background:#fff;color:#7c3aed;font-family:'BIZ UDPGothic',sans-serif;font-size:14px;font-weight:700;cursor:pointer;}
-.btn-nav.primary{background:#7c3aed;color:#fff;}
+.btn-nav{padding:10px 24px;border-radius:20px;border:2px solid #16a34a;background:#fff;color:#16a34a;font-family:'BIZ UDPGothic',sans-serif;font-size:14px;font-weight:700;cursor:pointer;}
+.btn-nav.primary{background:#16a34a;color:#fff;}
 .back-link{display:block;text-align:center;margin-top:16px;color:#9ca3af;font-size:13px;text-decoration:none;}
-.back-link:hover{color:#7c3aed;}
+.back-link:hover{color:#16a34a;}
 .confetti-wrap{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:999;}
 
 /* 縦型分数 */
@@ -83,8 +83,8 @@ body{font-family:'BIZ UDPGothic',sans-serif;background:#f5f3ff;color:#1e1b4b;min
 /* 手順フロー */
 .flow-box{display:flex;flex-direction:column;gap:6px;margin:10px 0;}
 .flow-step{display:flex;align-items:flex-start;gap:10px;font-size:13px;line-height:1.8;}
-.flow-num{background:#7c3aed;color:#fff;border-radius:50%;width:22px;height:22px;min-width:22px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;margin-top:1px;}
-.flow-arrow{color:#7c3aed;font-size:18px;text-align:center;margin-left:6px;}
+.flow-num{background:#16a34a;color:#fff;border-radius:50%;width:22px;height:22px;min-width:22px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;margin-top:1px;}
+.flow-arrow{color:#16a34a;font-size:18px;text-align:center;margin-left:6px;}
 </style>
 </head>
 <body>
@@ -118,9 +118,9 @@ body{font-family:'BIZ UDPGothic',sans-serif;background:#f5f3ff;color:#1e1b4b;min
 <div id="step-intro">
 
 <div class="card">
-  <div class="card-title">📖 高認の問題パターン</div>
+  <div class="card-title">📖 問題パターン</div>
   <p class="explain">
-    高認の試験では，毎回このような問題が出ます。
+    公務員試験では，毎回このような問題が出ます。
   </p>
   <div class="q-scene" style="margin-top:10px;">
     下の図は，〇〇の様子を表したものである。<br>
@@ -185,7 +185,7 @@ body{font-family:'BIZ UDPGothic',sans-serif;background:#f5f3ff;color:#1e1b4b;min
 <div class="nav-row">
   <button class="btn-nav primary" onclick="goStep('example')">例題へ →</button>
 </div>
-<a href="kounin_math_index.html" class="back-link">← 単元一覧に戻る</a>
+<a href="../gamba_kounin.html" class="back-link">← 単元一覧に戻る</a>
 </div><!-- /intro -->
 
 
@@ -207,7 +207,7 @@ body{font-family:'BIZ UDPGothic',sans-serif;background:#f5f3ff;color:#1e1b4b;min
       ❷ わかっている辺：<b>AB（斜辺）＝5 m</b><br>
       ❸ 求めたい辺：<b>AC（高さ・対辺）</b><br>
       ❹ 斜辺×sinθ＝対辺　だから<br>
-      <span style="color:#7c3aed;font-weight:700;font-size:15px;">　AC ＝ 5 × sin 50°</span>
+      <span style="color:#16a34a;font-weight:700;font-size:15px;">　AC ＝ 5 × sin 50°</span>
     </p>
   </div>
 </div>
@@ -227,7 +227,7 @@ body{font-family:'BIZ UDPGothic',sans-serif;background:#f5f3ff;color:#1e1b4b;min
       ❷ わかっている辺：<b>BC（底辺・隣辺）＝30 m</b><br>
       ❸ 求めたい辺：<b>AC（高さ・対辺）</b><br>
       ❹ 隣辺×tanθ＝対辺　だから<br>
-      <span style="color:#7c3aed;font-weight:700;font-size:15px;">　AC ＝ 30 × tan 40°</span>
+      <span style="color:#16a34a;font-weight:700;font-size:15px;">　AC ＝ 30 × tan 40°</span>
     </p>
   </div>
 </div>
@@ -247,7 +247,7 @@ body{font-family:'BIZ UDPGothic',sans-serif;background:#f5f3ff;color:#1e1b4b;min
       ❷ わかっている辺：<b>AB（斜辺）＝20 m</b><br>
       ❸ 求めたい辺：<b>BC（底辺・隣辺）</b><br>
       ❹ 斜辺×cosθ＝隣辺　だから<br>
-      <span style="color:#7c3aed;font-weight:700;font-size:15px;">　BC ＝ 20 × cos 25°</span>
+      <span style="color:#16a34a;font-weight:700;font-size:15px;">　BC ＝ 20 × cos 25°</span>
     </p>
   </div>
 </div>
@@ -256,7 +256,7 @@ body{font-family:'BIZ UDPGothic',sans-serif;background:#f5f3ff;color:#1e1b4b;min
   <button class="btn-nav" onclick="goStep('intro')">← 説明に戻る</button>
   <button class="btn-nav primary" onclick="goStep('drill')">練習へ →</button>
 </div>
-<a href="kounin_math_index.html" class="back-link">← 単元一覧に戻る</a>
+<a href="../gamba_kounin.html" class="back-link">← 単元一覧に戻る</a>
 </div><!-- /example -->
 
 
@@ -282,7 +282,7 @@ body{font-family:'BIZ UDPGothic',sans-serif;background:#f5f3ff;color:#1e1b4b;min
   <button class="btn-nav" onclick="goStep('example')">← 例題に戻る</button>
   <button class="btn-nav primary" onclick="goStep('check')">確認テストへ →</button>
 </div>
-<a href="kounin_math_index.html" class="back-link">← 単元一覧に戻る</a>
+<a href="../gamba_kounin.html" class="back-link">← 単元一覧に戻る</a>
 </div><!-- /drill -->
 
 
@@ -301,13 +301,14 @@ body{font-family:'BIZ UDPGothic',sans-serif;background:#f5f3ff;color:#1e1b4b;min
 <div class="nav-row">
   <button class="btn-nav" onclick="goStep('drill')">← 練習に戻る</button>
 </div>
-<a href="kounin_math_index.html" class="back-link">← 単元一覧に戻る</a>
+<a href="../gamba_kounin.html" class="back-link">← 単元一覧に戻る</a>
 </div><!-- /check -->
 
 </div><!-- /content -->
 
-<script src="../gamba_support.js"></script>
 <script>
+// スタブ（外部jsなし環境用）
+function markPassed(id){ try{localStorage.setItem('passed_'+id,'1');}catch(e){} }
 // ===== ステップ管理 =====
 const stepOrder=['intro','example','drill','check'];
 function goStep(s){
@@ -354,15 +355,15 @@ function drawScene(cv, scene){
   // 三角形
   ctx.beginPath();ctx.moveTo(B.x,B.y);ctx.lineTo(C.x,C.y);ctx.lineTo(A.x,A.y);ctx.closePath();
   ctx.fillStyle='rgba(245,243,255,.8)';ctx.fill();
-  ctx.strokeStyle='#7c3aed';ctx.lineWidth=2;ctx.stroke();
+  ctx.strokeStyle='#16a34a';ctx.lineWidth=2;ctx.stroke();
   // 直角マーク
   const sq=9;
   ctx.beginPath();ctx.moveTo(C.x-sq,C.y);ctx.lineTo(C.x-sq,C.y-sq);ctx.lineTo(C.x,C.y-sq);
-  ctx.strokeStyle='#7c3aed';ctx.lineWidth=1.5;ctx.stroke();
+  ctx.strokeStyle='#16a34a';ctx.lineWidth=1.5;ctx.stroke();
   // θ弧
   const ang=Math.atan2(A.y-B.y,C.x-B.x);
-  ctx.beginPath();ctx.arc(B.x,B.y,20,ang,0);ctx.strokeStyle='#7c3aed';ctx.lineWidth=1.5;ctx.stroke();
-  ctx.fillStyle='#7c3aed';ctx.font='bold 12px "BIZ UDPGothic",sans-serif';
+  ctx.beginPath();ctx.arc(B.x,B.y,20,ang,0);ctx.strokeStyle='#16a34a';ctx.lineWidth=1.5;ctx.stroke();
+  ctx.fillStyle='#16a34a';ctx.font='bold 12px "BIZ UDPGothic",sans-serif';
   ctx.fillText(angle,B.x+23,B.y-5);
 
   // わかっている辺（黒太線＋ラベル）
@@ -414,12 +415,12 @@ function drawJudge(){
   // 三角形
   const B={x:20,y:155},C={x:155,y:155},A={x:155,y:30};
   ctx.beginPath();ctx.moveTo(B.x,B.y);ctx.lineTo(C.x,C.y);ctx.lineTo(A.x,A.y);ctx.closePath();
-  ctx.fillStyle='#f5f3ff';ctx.fill();ctx.strokeStyle='#7c3aed';ctx.lineWidth=2;ctx.stroke();
+  ctx.fillStyle='#f0fdf4';ctx.fill();ctx.strokeStyle='#16a34a';ctx.lineWidth=2;ctx.stroke();
   const sq=10;ctx.beginPath();ctx.moveTo(C.x-sq,C.y);ctx.lineTo(C.x-sq,C.y-sq);ctx.lineTo(C.x,C.y-sq);
-  ctx.strokeStyle='#7c3aed';ctx.lineWidth=1.5;ctx.stroke();
+  ctx.strokeStyle='#16a34a';ctx.lineWidth=1.5;ctx.stroke();
   const ang=Math.atan2(A.y-B.y,C.x-B.x);
-  ctx.beginPath();ctx.arc(B.x,B.y,22,ang,0);ctx.strokeStyle='#7c3aed';ctx.lineWidth=1.5;ctx.stroke();
-  ctx.fillStyle='#7c3aed';ctx.font='bold 13px "BIZ UDPGothic",sans-serif';
+  ctx.beginPath();ctx.arc(B.x,B.y,22,ang,0);ctx.strokeStyle='#16a34a';ctx.lineWidth=1.5;ctx.stroke();
+  ctx.fillStyle='#16a34a';ctx.font='bold 13px "BIZ UDPGothic",sans-serif';
   ctx.fillText('θ',B.x+26,B.y-6);
 
   // 斜辺ラベル（三角形の左斜め外側）
@@ -638,7 +639,7 @@ function selectDrill(qi,ci){
   if(drillSubmitted)return;
   drillAnswers[qi]=ci;
   document.querySelectorAll(`#dc-${qi} .choice`).forEach((b,i)=>{
-    b.style.background=i===ci?'#ede9fe':''; b.style.borderColor=i===ci?'#7c3aed':'';
+    b.style.background=i===ci?'#dcfce7':''; b.style.borderColor=i===ci?'#16a34a':'';
   });
 }
 
@@ -660,7 +661,7 @@ function submitDrill(){
   document.getElementById('drill-submit').disabled=true;
   const res=document.getElementById('drill-result'); res.style.display='block';
   res.innerHTML=`<div class="score-box"><div class="score-circle">${correct}<div class="score-label">/ 4</div></div>
-    <div style="font-size:14px;font-weight:700;color:#5b21b6;">${correct===4?'全問正解！🎉':'もう一度チャレンジしよう'}</div></div>`;
+    <div style="font-size:14px;font-weight:700;color:#15803d;">${correct===4?'全問正解！🎉':'もう一度チャレンジしよう'}</div></div>`;
   if(correct===4) fireConfetti();
 }
 
@@ -692,7 +693,7 @@ function selectCheck(qi,ci){
   if(checkSubmitted)return;
   checkAnswers[qi]=ci;
   document.querySelectorAll(`#cc-${qi} .choice`).forEach((b,i)=>{
-    b.style.background=i===ci?'#ede9fe':''; b.style.borderColor=i===ci?'#7c3aed':'';
+    b.style.background=i===ci?'#dcfce7':''; b.style.borderColor=i===ci?'#16a34a':'';
   });
 }
 
@@ -714,14 +715,14 @@ function submitCheck(){
   document.getElementById('check-submit').disabled=true;
   const res=document.getElementById('check-result'); res.style.display='block';
   res.innerHTML=`<div class="score-box"><div class="score-circle">${correct}<div class="score-label">/ 6</div></div>
-    <div style="font-size:14px;font-weight:700;color:#5b21b6;">${correct===6?'全問正解！🎉':correct>=3?'あと少し！':'例題に戻って確認しよう'}</div></div>`;
+    <div style="font-size:14px;font-weight:700;color:#15803d;">${correct===6?'全問正解！🎉':correct>=3?'あと少し！':'例題に戻って確認しよう'}</div></div>`;
   if(correct===6){fireConfetti(); markPassed('TR04');}
 }
 
 // ===== 花吹雪 =====
 function fireConfetti(){
   const wrap=document.createElement('div');wrap.className='confetti-wrap';document.body.appendChild(wrap);
-  const colors=['#7c3aed','#5b21b6','#a78bfa','#f59e0b','#10b981','#c4b5fd'];
+  const colors=['#16a34a','#15803d','#4ade80','#f59e0b','#10b981','#86efac'];
   for(let i=0;i<60;i++){
     const p=document.createElement('div');
     const c=colors[Math.floor(Math.random()*colors.length)];
@@ -741,6 +742,5 @@ window.addEventListener('load',()=>{
   drawJudge();
 });
 </script>
-<script src="https://realizefield.github.io/gamba-kounin-seito/gamba-ai.js" defer></script>
 </body>
 </html>

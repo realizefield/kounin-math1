@@ -8,15 +8,15 @@
 <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
 <style>
 :root{
-  --primary:#7c3aed;--pl:#ede9fe;--pm:#a78bfa;
+  --primary:#16a34a;--pl:#dcfce7;--pm:#4ade80;
   --acc:#f59e0b;--al:#fef3c7;
-  --bg:#faf9ff;--card:#fff;--text:#1e1b2e;--tm:#4c4563;--tl:#7c6fa0;
-  --bd:#e0d9f7;--ok:#059669;--okb:#d1fae5;--ng:#dc2626;--ngb:#fee2e2;
-  --sh:0 2px 12px rgba(124,58,237,.10);
+  --bg:#f0fdf4;--card:#fff;--text:#14532d;--tm:#166534;--tl:#15803d;
+  --bd:#bbf7d0;--ok:#059669;--okb:#d1fae5;--ng:#dc2626;--ngb:#fee2e2;
+  --sh:0 2px 12px rgba(22,163,74,.10);
 }
 *{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:'BIZ UDPGothic','Meiryo',sans-serif;background:var(--bg);color:var(--text);font-size:16px;line-height:1.7;}
-.hd{background:linear-gradient(135deg,#7c3aed,#a855f7);color:#fff;padding:16px 18px 12px;position:sticky;top:0;z-index:100;box-shadow:0 2px 16px rgba(124,58,237,.25);}
+.hd{background:linear-gradient(135deg,#16a34a,#22c55e);color:#fff;padding:16px 18px 12px;position:sticky;top:0;z-index:100;box-shadow:0 2px 16px rgba(22,163,74,.25);}
 .hd .ser{font-size:11px;letter-spacing:2px;opacity:.85;text-transform:uppercase;margin-bottom:2px;}
 .hd h1{font-size:19px;font-weight:700;}
 .hd .sub{font-size:13px;opacity:.85;margin-top:2px;}
@@ -56,15 +56,15 @@ input[type=range]{flex:1;accent-color:var(--primary);cursor:pointer;}
 .ttbl tr:nth-child(even) td{background:var(--pl);}
 .ttbl .ob td{background:#f3e8ff;}
 .neg{color:var(--ng);font-weight:700;}.pos{color:var(--ok);font-weight:700;}.ud{color:var(--tl);font-style:italic;font-size:12px;}
-.exb{background:#f5f3ff;border:2px solid var(--pm);border-radius:14px;padding:13px 16px;margin:10px 0;}
+.exb{background:#f0fdf4;border:2px solid var(--pm);border-radius:14px;padding:13px 16px;margin:10px 0;}
 .exb .et{font-size:13px;font-weight:700;color:var(--primary);letter-spacing:1px;margin-bottom:7px;}
 .exb .eq{font-size:15px;font-weight:700;color:var(--text);}
 /* ボタン群 */
 .btn{background:var(--primary);color:#fff;border:none;border-radius:10px;padding:10px 18px;font-size:14px;font-family:inherit;font-weight:700;cursor:pointer;transition:all .18s;margin-top:6px;}
 .btn:hover{background:#6d28d9;transform:translateY(-1px);}
-.btn.sec{background:#e0d9f7;color:var(--primary);}.btn.sec:hover{background:var(--pm);color:#fff;}
+.btn.sec{background:#bbf7d0;color:var(--primary);}.btn.sec:hover{background:var(--pm);color:#fff;}
 .btn.ok2{background:#059669;}.btn.ok2:hover{background:#047857;}
-.btn.acc{background:var(--acc);color:#1e1b2e;}.btn.acc:hover{background:#d97706;}
+.btn.acc{background:var(--acc);color:#14532d;}.btn.acc:hover{background:#d97706;}
 .btn.back{background:#f3f4f6;color:var(--tm);border:1.5px solid #d1d5db;}.btn.back:hover{background:#e5e7eb;}
 .navrow{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-top:10px;}
 /* ドリル */
@@ -82,14 +82,14 @@ input[type=range]{flex:1;accent-color:var(--primary);cursor:pointer;}
 .fb{margin-top:9px;padding:9px 12px;border-radius:10px;font-size:14px;display:none;}
 .fb.cor{background:var(--okb);color:var(--ok);border:1px solid var(--ok);}
 .fb.wrg{background:var(--ngb);color:var(--ng);border:1px solid var(--ng);}
-.sca{background:linear-gradient(135deg,#7c3aed,#a855f7);color:#fff;border-radius:16px;padding:18px;text-align:center;margin-top:18px;display:none;}
+.sca{background:linear-gradient(135deg,#16a34a,#22c55e);color:#fff;border-radius:16px;padding:18px;text-align:center;margin-top:18px;display:none;}
 .sca .sn{font-size:48px;font-weight:700;}
 .sca .sm{font-size:14px;opacity:.85;}
 .nbtn{background:#fff;color:var(--primary);border:none;border-radius:12px;padding:11px 26px;font-size:15px;font-weight:700;font-family:inherit;cursor:pointer;margin-top:12px;transition:all .18s;}
 .nbtn:hover{background:var(--al);transform:translateY(-1px);}
 .ph{display:none;}.ph.ac{display:block;}
 /* ====== 表チャレンジ ====== */
-.wb{display:flex;flex-wrap:wrap;gap:8px;min-height:54px;padding:10px;background:#f5f3ff;border:2px dashed var(--pm);border-radius:12px;margin-bottom:12px;align-items:center;}
+.wb{display:flex;flex-wrap:wrap;gap:8px;min-height:54px;padding:10px;background:#f0fdf4;border:2px dashed var(--pm);border-radius:12px;margin-bottom:12px;align-items:center;}
 /* チップ：通常・選択中・使用済み */
 .chip{background:#fff;border:2px solid var(--primary);border-radius:8px;padding:7px 12px;cursor:pointer;font-size:14px;font-weight:700;color:var(--primary);transition:all .18s;user-select:none;display:inline-flex;align-items:center;justify-content:center;}
 .chip:hover{background:var(--pl);transform:scale(1.04);}
@@ -118,7 +118,7 @@ input[type=range]{flex:1;accent-color:var(--primary);cursor:pointer;}
 @media(max-width:520px){.cwrap{flex-direction:column;align-items:center;}.tvs{gap:7px;}.tvb{min-width:78px;padding:5px 7px;}}
 
 /* ===== ミニテスト（アコーディオン） ===== */
-.mini-toggle{width:100%;background:linear-gradient(135deg,#7c3aed,#a855f7);color:#fff;border:none;border-radius:10px;padding:11px 16px;font-size:14px;font-family:inherit;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:space-between;margin-top:12px;transition:all .2s;}
+.mini-toggle{width:100%;background:linear-gradient(135deg,#16a34a,#22c55e);color:#fff;border:none;border-radius:10px;padding:11px 16px;font-size:14px;font-family:inherit;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:space-between;margin-top:12px;transition:all .2s;}
 .mini-toggle:hover{background:linear-gradient(135deg,#6d28d9,#9333ea);}
 .mini-toggle .arrow{font-size:18px;transition:transform .25s;}
 .mini-toggle.open .arrow{transform:rotate(180deg);}
@@ -142,7 +142,7 @@ input[type=range]{flex:1;accent-color:var(--primary);cursor:pointer;}
 <body>
 
 <header class="hd">
-  <div class="ser">GAMBA 高認数学 ▶ 三角比シリーズ TR05</div>
+  <div class="ser">GAMBA 公務員数学 ▶ 三角比シリーズ TR05</div>
   <h1>鈍角の三角比・単位円</h1>
   <div class="sub">単位円を使って0°〜180°の三角比を理解しよう</div>
   <div class="pbw"><div class="pbf" id="pb"></div></div>
@@ -323,8 +323,6 @@ input[type=range]{flex:1;accent-color:var(--primary);cursor:pointer;}
   </div>
 </div>
 
-</div>
-
 <!-- PH5: 練習問題 -->
 <div class="ph" id="ph5">
   <div class="slb">✏️ 練習問題</div>
@@ -377,12 +375,12 @@ input[type=range]{flex:1;accent-color:var(--primary);cursor:pointer;}
   </div>
 </div>
 
-<!-- PH7: 確認問題（高認過去問形式） -->
+<!-- PH7: 確認問題 -->
 <div class="ph" id="ph7">
   <div class="slb">✅ 確認問題</div>
   <div class="card" style="border-color:var(--pm);">
-    <h2>📝 高認過去問形式で解いてみよう</h2>
-    <p style="font-size:13px;color:var(--tm);">実際の高認試験と同じ形式です。単位円の図を思い浮かべながら解いてみよう。</p>
+    <h2>📝 確認問題を解いてみよう</h2>
+    <p style="font-size:13px;color:var(--tm);">実際の試験と同じ形式です。単位円の図を思い浮かべながら解いてみよう。</p>
   </div>
   <div id="chkArea"></div>
   <div class="sca" id="chkScore">
@@ -498,27 +496,27 @@ function drawUC(deg){
   const W=ucv.width,H=ucv.height,cx=W/2,cy=H/2,r=W*.38;
   const rad=deg*Math.PI/180,px=cx+r*Math.cos(rad),py=cy-r*Math.sin(rad);
   uctx.clearRect(0,0,W,H);
-  uctx.strokeStyle='#e0d9f7';uctx.lineWidth=1;
+  uctx.strokeStyle='#bbf7d0';uctx.lineWidth=1;
   uctx.beginPath();uctx.moveTo(0,cy);uctx.lineTo(W,cy);uctx.stroke();
   uctx.beginPath();uctx.moveTo(cx,0);uctx.lineTo(cx,H);uctx.stroke();
-  uctx.strokeStyle='#a78bfa';uctx.lineWidth=2;
+  uctx.strokeStyle='#4ade80';uctx.lineWidth=2;
   uctx.beginPath();uctx.arc(cx,cy,r,0,2*Math.PI);uctx.stroke();
-  uctx.strokeStyle='#7c3aed';uctx.lineWidth=2.5;
+  uctx.strokeStyle='#16a34a';uctx.lineWidth=2.5;
   uctx.beginPath();uctx.moveTo(cx,cy);uctx.lineTo(px,py);uctx.stroke();
   uctx.strokeStyle='#3b82f6';uctx.lineWidth=2;uctx.setLineDash([4,3]);
   uctx.beginPath();uctx.moveTo(px,cy);uctx.lineTo(px,py);uctx.stroke();
   uctx.strokeStyle='#ef4444';
   uctx.beginPath();uctx.moveTo(cx,cy);uctx.lineTo(px,cy);uctx.stroke();
   uctx.setLineDash([]);
-  uctx.fillStyle='#7c3aed';uctx.beginPath();uctx.arc(px,py,6,0,2*Math.PI);uctx.fill();
-  uctx.fillStyle='#4c4563';uctx.beginPath();uctx.arc(cx,cy,4,0,2*Math.PI);uctx.fill();
+  uctx.fillStyle='#16a34a';uctx.beginPath();uctx.arc(px,py,6,0,2*Math.PI);uctx.fill();
+  uctx.fillStyle='#166534';uctx.beginPath();uctx.arc(cx,cy,4,0,2*Math.PI);uctx.fill();
   uctx.strokeStyle='#f59e0b';uctx.lineWidth=2;
   uctx.beginPath();uctx.arc(cx,cy,22,0,-rad,true);uctx.stroke();
   uctx.font='bold 12px sans-serif';
-  uctx.fillStyle='#7c3aed';uctx.fillText('P',px+7,py-5);
+  uctx.fillStyle='#16a34a';uctx.fillText('P',px+7,py-5);
   uctx.fillStyle='#3b82f6';uctx.fillText('sinθ',px+4,(cy+py)/2+4);
   uctx.fillStyle='#ef4444';uctx.fillText('cosθ',(cx+px)/2-18,cy+15);
-  uctx.fillStyle='#1e1b2e';uctx.fillText('O',cx-15,cy+14);
+  uctx.fillStyle='#14532d';uctx.fillText('O',cx-15,cy+14);
   uctx.fillStyle='#f59e0b';uctx.fillText('θ',cx+26,cy-5);
 }
 function updSl(){
@@ -547,20 +545,20 @@ function drawHS(cv,deg){
   const cx=W*.5,cy=H*.87,r=W*.38;
   const rad=deg*Math.PI/180,px=cx+r*Math.cos(rad),py=cy-r*Math.sin(rad);
   ctx.clearRect(0,0,W,H);
-  ctx.strokeStyle='#c4b5fd';ctx.lineWidth=1;
+  ctx.strokeStyle='#86efac';ctx.lineWidth=1;
   ctx.beginPath();ctx.moveTo(4,cy);ctx.lineTo(W-4,cy);ctx.stroke();
   ctx.beginPath();ctx.moveTo(cx,4);ctx.lineTo(cx,cy+4);ctx.stroke();
-  ctx.strokeStyle='#a78bfa';ctx.lineWidth=1.5;
+  ctx.strokeStyle='#4ade80';ctx.lineWidth=1.5;
   ctx.beginPath();ctx.arc(cx,cy,r,Math.PI,0,false);ctx.stroke();
-  ctx.strokeStyle='#7c3aed';ctx.lineWidth=2;
+  ctx.strokeStyle='#16a34a';ctx.lineWidth=2;
   ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(px,py);ctx.stroke();
-  ctx.fillStyle='#7c3aed';ctx.beginPath();ctx.arc(px,py,5,0,2*Math.PI);ctx.fill();
-  ctx.fillStyle='#4c4563';ctx.beginPath();ctx.arc(cx,cy,3,0,2*Math.PI);ctx.fill();
+  ctx.fillStyle='#16a34a';ctx.beginPath();ctx.arc(px,py,5,0,2*Math.PI);ctx.fill();
+  ctx.fillStyle='#166534';ctx.beginPath();ctx.arc(cx,cy,3,0,2*Math.PI);ctx.fill();
   ctx.font='bold 11px sans-serif';
-  ctx.fillStyle='#7c3aed';ctx.fillText('P',px+(deg<=90?6:-14),py-4);
-  ctx.fillStyle='#1e1b2e';ctx.fillText('O',cx+3,cy+12);
+  ctx.fillStyle='#16a34a';ctx.fillText('P',px+(deg<=90?6:-14),py-4);
+  ctx.fillStyle='#14532d';ctx.fillText('O',cx+3,cy+12);
   const sx=Math.round(Math.cos(rad)),sy=Math.round(Math.sin(rad));
-  ctx.font='10px sans-serif';ctx.fillStyle='#4c4563';
+  ctx.font='10px sans-serif';ctx.fillStyle='#166534';
   ctx.fillText('('+sx+', '+sy+')',3,13);
 }
 function drawEx1(){
@@ -580,25 +578,25 @@ function drawOb(cv,deg){
   const qx=px,qy=cy;
   const rrad=(180-deg)*Math.PI/180,rx=cx+r*Math.cos(rrad),ry=cy-r*Math.sin(rrad);
   ctx.clearRect(0,0,W,H);
-  ctx.strokeStyle='#c4b5fd';ctx.lineWidth=1;
+  ctx.strokeStyle='#86efac';ctx.lineWidth=1;
   ctx.beginPath();ctx.moveTo(4,cy);ctx.lineTo(W-4,cy);ctx.stroke();
   ctx.beginPath();ctx.moveTo(cx,4);ctx.lineTo(cx,cy+4);ctx.stroke();
-  ctx.strokeStyle='#a78bfa';ctx.lineWidth=2;
+  ctx.strokeStyle='#4ade80';ctx.lineWidth=2;
   ctx.beginPath();ctx.arc(cx,cy,r,Math.PI,0,false);ctx.stroke();
   // 左の三角形（緑塗り）
   ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(px,py);ctx.lineTo(qx,qy);ctx.closePath();
   ctx.fillStyle='rgba(16,185,129,.40)';ctx.fill();
   ctx.strokeStyle='#059669';ctx.lineWidth=1.5;ctx.stroke();
-  ctx.strokeStyle='#7c3aed';ctx.lineWidth=2.5;
+  ctx.strokeStyle='#16a34a';ctx.lineWidth=2.5;
   ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(px,py);ctx.stroke();
-  ctx.strokeStyle='#a78bfa';ctx.lineWidth=1.5;ctx.setLineDash([5,3]);
+  ctx.strokeStyle='#4ade80';ctx.lineWidth=1.5;ctx.setLineDash([5,3]);
   ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(rx,ry);ctx.stroke();ctx.setLineDash([]);
   const sq=5;ctx.strokeStyle='#059669';ctx.lineWidth=1;ctx.strokeRect(qx,qy-sq,sq,sq);
-  ctx.fillStyle='#7c3aed';ctx.beginPath();ctx.arc(px,py,5,0,2*Math.PI);ctx.fill();
-  ctx.fillStyle='#4c4563';ctx.beginPath();ctx.arc(cx,cy,3,0,2*Math.PI);ctx.fill();
+  ctx.fillStyle='#16a34a';ctx.beginPath();ctx.arc(px,py,5,0,2*Math.PI);ctx.fill();
+  ctx.fillStyle='#166534';ctx.beginPath();ctx.arc(cx,cy,3,0,2*Math.PI);ctx.fill();
   ctx.font='bold 12px sans-serif';
-  ctx.fillStyle='#7c3aed';ctx.fillText('P',px-16,py-5);
-  ctx.fillStyle='#1e1b2e';ctx.fillText('O',cx+4,cy+13);
+  ctx.fillStyle='#16a34a';ctx.fillText('P',px-16,py-5);
+  ctx.fillStyle='#14532d';ctx.fillText('O',cx+4,cy+13);
   ctx.fillStyle='#059669';ctx.fillText('Q',qx-14,qy+13);
   ctx.fillStyle='#f59e0b';ctx.font='bold 11px sans-serif';ctx.fillText((180-deg)+'°',cx-42,cy-10);
   ctx.fillStyle='#ef4444';ctx.fillText(deg+'°',cx+20,cy-10);
@@ -1060,7 +1058,7 @@ function showRef(){document.getElementById('refModal').classList.add('show');}
 function closeRef(){document.getElementById('refModal').classList.remove('show');}
 
 function confetti(){
-  const cols=['#7c3aed','#f59e0b','#059669','#ef4444','#3b82f6','#ec4899'];
+  const cols=['#16a34a','#f59e0b','#059669','#ef4444','#3b82f6','#ec4899'];
   for(let i=0;i<90;i++){
     const p=document.createElement('div');p.className='cp';
     p.style.left=Math.random()*100+'vw';
@@ -1078,7 +1076,7 @@ function confetti(){
 /* ======================================
    Phase 7: チェック問題
 ====================================== */
-/* ===== 確認問題（高認過去問形式・7問）===== */
+/* ===== 確認問題（全7問）===== */
 const CHK=[
   // 問1：sin120°（過去問頻出）
   {
@@ -1357,7 +1355,7 @@ function ansMini05(id,qi,ch,cor,hint){
 }
 
 function confetti05(){
-  const cols=['#7c3aed','#f59e0b','#059669','#ef4444','#3b82f6','#ec4899'];
+  const cols=['#16a34a','#f59e0b','#059669','#ef4444','#3b82f6','#ec4899'];
   for(let i=0;i<70;i++){
     const p=document.createElement('div');
     p.style.cssText='position:fixed;border-radius:2px;opacity:0;pointer-events:none;animation:fall05 2.6s ease-in forwards;';
@@ -1373,15 +1371,14 @@ function confetti05(){
 function markPassed(unit){
   try{localStorage.setItem('passed_'+unit,'1');}catch(e){}
   const msg=document.createElement('div');
-  msg.style.cssText='position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:#7c3aed;color:white;padding:24px 36px;border-radius:20px;font-size:20px;font-weight:700;z-index:9999;text-align:center;box-shadow:0 8px 32px rgba(124,58,237,.4);';
+  msg.style.cssText='position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:#16a34a;color:white;padding:24px 36px;border-radius:20px;font-size:20px;font-weight:700;z-index:9999;text-align:center;box-shadow:0 8px 32px rgba(22,163,74,.4);';
   msg.innerHTML='✅ TR05 完了！<br><span style="font-size:14px;opacity:.85;">次のTR06へ進もう</span>';
   document.body.appendChild(msg);
-  setTimeout(()=>{try{window.location.href='kounin_math_index.html';}catch(e){}},2500);
+  setTimeout(()=>{try{window.location.href='../gamba_kounin.html';}catch(e){}},2500);
 }
 
 // 初期進捗バー
 document.getElementById('pb').style.width='0%';
 </script>
-<script src="https://realizefield.github.io/gamba-kounin-seito/gamba-ai.js" defer></script>
 </body>
 </html>

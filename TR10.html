@@ -3,30 +3,30 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TR10 三角形の面積 | GAMBA高認数学</title>
+<title>TR10 三角形の面積 | GAMBA公務員数学</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
 <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'BIZ UDPGothic',sans-serif;background:#f5f3ff;color:#1e1b4b;min-height:100vh}
-.site-header{background:#7c3aed;color:#fff;padding:10px 16px;display:flex;align-items:center;gap:10px}
+body{font-family:'BIZ UDPGothic',sans-serif;background:#f0fdf4;color:#14532d;min-height:100vh}
+.site-header{background:#16a34a;color:#fff;padding:10px 16px;display:flex;align-items:center;gap:10px}
 .back-btn{background:rgba(255,255,255,.2);border:none;color:#fff;padding:5px 12px;border-radius:6px;cursor:pointer;font-size:13px}
 .site-header h1{font-size:16px;font-weight:700}
 .unit-badge{margin-left:auto;background:rgba(255,255,255,.25);padding:3px 10px;border-radius:12px;font-size:12px}
-.tab-bar{display:flex;background:#ede9fe;border-bottom:2px solid #7c3aed}
-.tab-btn{flex:1;padding:10px 4px;border:none;background:transparent;font-size:13px;font-weight:600;color:#5b21b6;cursor:pointer;border-bottom:3px solid transparent;transition:all .2s}
-.tab-btn.active{background:#fff;color:#7c3aed;border-bottom-color:#7c3aed}
+.tab-bar{display:flex;background:#dcfce7;border-bottom:2px solid #16a34a}
+.tab-btn{flex:1;padding:10px 4px;border:none;background:transparent;font-size:13px;font-weight:600;color:#15803d;cursor:pointer;border-bottom:3px solid transparent;transition:all .2s}
+.tab-btn.active{background:#fff;color:#16a34a;border-bottom-color:#16a34a}
 .tab-content{display:none;padding:16px;max-width:720px;margin:0 auto}
 .tab-content.active{display:block}
-.card{background:#fff;border-radius:12px;padding:16px;margin-bottom:16px;box-shadow:0 1px 4px rgba(124,58,237,.1)}
-.card-title{font-size:14px;font-weight:700;color:#7c3aed;border-bottom:2px solid #ede9fe;padding-bottom:6px;margin-bottom:12px}
-.formula-box{background:#f5f3ff;border:2px solid #7c3aed;border-radius:10px;padding:14px 16px;margin:12px 0;text-align:center}
+.card{background:#fff;border-radius:12px;padding:16px;margin-bottom:16px;box-shadow:0 1px 4px rgba(22,163,74,.1)}
+.card-title{font-size:14px;font-weight:700;color:#16a34a;border-bottom:2px solid #dcfce7;padding-bottom:6px;margin-bottom:12px}
+.formula-box{background:#f0fdf4;border:2px solid #16a34a;border-radius:10px;padding:14px 16px;margin:12px 0;text-align:center}
 .formula-box .ftitle{font-size:12px;font-weight:700;color:#6d28d9;margin-bottom:8px}
-.prob-box{background:#faf5ff;border:1px solid #c4b5fd;border-radius:8px;padding:12px 14px;margin:10px 0;font-size:13px;line-height:1.9}
-.prob-label{font-size:11px;font-weight:700;color:#7c3aed;margin-bottom:6px}
-.step-box{background:#fff;border-left:3px solid #7c3aed;padding:8px 12px;margin:8px 0;border-radius:0 6px 6px 0;font-size:13px;line-height:1.9}
-.ans-btn{background:#7c3aed;color:#fff;border:none;padding:6px 14px;border-radius:16px;cursor:pointer;font-size:12px;font-weight:600;margin-top:8px}
+.prob-box{background:#f0fdf4;border:1px solid #86efac;border-radius:8px;padding:12px 14px;margin:10px 0;font-size:13px;line-height:1.9}
+.prob-label{font-size:11px;font-weight:700;color:#16a34a;margin-bottom:6px}
+.step-box{background:#fff;border-left:3px solid #16a34a;padding:8px 12px;margin:8px 0;border-radius:0 6px 6px 0;font-size:13px;line-height:1.9}
+.ans-btn{background:#16a34a;color:#fff;border:none;padding:6px 14px;border-radius:16px;cursor:pointer;font-size:12px;font-weight:600;margin-top:8px}
 .ans-btn:hover{background:#6d28d9}
 .ans-body{display:none;margin-top:8px}
 .ans-body.open{display:block}
@@ -34,32 +34,32 @@ body{font-family:'BIZ UDPGothic',sans-serif;background:#f5f3ff;color:#1e1b4b;min
 .note-box{background:#f0fdf4;border-left:4px solid #10b981;padding:10px 12px;border-radius:0 8px 8px 0;margin:10px 0;font-size:13px;line-height:1.8}
 .calc-note{background:#fffbeb;border-left:3px solid #f59e0b;border-radius:0 6px 6px 0;padding:5px 10px;margin:4px 0;font-size:12px;color:#92400e;line-height:1.8}
 /* ミニテストボタン */
-.mt-btn{padding:8px 16px;border:2px solid #c4b5fd;background:#f5f3ff;border-radius:8px;font-size:14px;cursor:pointer;transition:all .15s;color:#1e1b4b}
-.mt-btn:hover{background:#ede9fe}
+.mt-btn{padding:8px 16px;border:2px solid #86efac;background:#f0fdf4;border-radius:8px;font-size:14px;cursor:pointer;transition:all .15s;color:#14532d}
+.mt-btn:hover{background:#dcfce7}
 .mt-btn.correct{background:#d1fae5;border-color:#059669;color:#065f46;font-weight:700}
 .mt-btn.wrong{background:#fee2e2;border-color:#dc2626;color:#991b1b}
 .fig-wrap{text-align:center;margin:12px 0}
 .fig-caption{font-size:12px;color:#6b7280;margin-top:4px}
-.dnum{display:inline-block;background:#7c3aed;color:#fff;border-radius:50%;width:22px;height:22px;text-align:center;line-height:22px;font-size:12px;font-weight:700;margin-right:6px;vertical-align:middle}
+.dnum{display:inline-block;background:#16a34a;color:#fff;border-radius:50%;width:22px;height:22px;text-align:center;line-height:22px;font-size:12px;font-weight:700;margin-right:6px;vertical-align:middle}
 .choice-list{list-style:none;margin:8px 0}
-.choice-list li{padding:8px 12px;margin:5px 0;background:#f5f3ff;border-radius:8px;cursor:pointer;font-size:14px;line-height:1.6;transition:background .15s}
-.choice-list li:hover{background:#ede9fe}
+.choice-list li{padding:8px 12px;margin:5px 0;background:#f0fdf4;border-radius:8px;cursor:pointer;font-size:14px;line-height:1.6;transition:background .15s}
+.choice-list li:hover{background:#dcfce7}
 .choice-list li.correct{background:#d1fae5;color:#065f46}
 .choice-list li.wrong{background:#fee2e2;color:#991b1b}
 .result-msg{font-size:13px;margin-top:8px;min-height:20px;line-height:1.8}
 .progress-bar{height:5px;background:#ddd6fe;border-radius:3px;overflow:hidden;margin:8px 0 2px}
-.progress-fill{height:100%;background:#7c3aed;transition:width .3s}
-.progress-label{font-size:11px;color:#7c3aed;text-align:right;margin-bottom:10px}
-.pass-btn{display:block;width:100%;background:#7c3aed;color:#fff;border:none;padding:12px;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;margin-top:16px}
+.progress-fill{height:100%;background:#16a34a;transition:width .3s}
+.progress-label{font-size:11px;color:#16a34a;text-align:right;margin-bottom:10px}
+.pass-btn{display:block;width:100%;background:#16a34a;color:#fff;border:none;padding:12px;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;margin-top:16px}
 .pass-btn:hover{background:#6d28d9}
 /* 証明アコーディオン */
-.proof-toggle{background:#ede9fe;border:none;width:100%;text-align:left;padding:9px 12px;border-radius:8px;cursor:pointer;font-size:13px;color:#5b21b6;font-weight:600;display:flex;justify-content:space-between;align-items:center;margin-top:10px;gap:8px;line-height:1.5}
+.proof-toggle{background:#dcfce7;border:none;width:100%;text-align:left;padding:9px 12px;border-radius:8px;cursor:pointer;font-size:13px;color:#15803d;font-weight:600;display:flex;justify-content:space-between;align-items:center;margin-top:10px;gap:8px;line-height:1.5}
 .proof-toggle:hover{background:#ddd6fe}
 .proof-arrow{transition:transform .3s;display:inline-block;flex-shrink:0}
-.proof-body{display:none;background:#faf9ff;border:1px solid #ddd6fe;border-radius:0 0 8px 8px;padding:12px 14px;font-size:13px;line-height:1.9}
+.proof-body{display:none;background:#f0fdf4;border:1px solid #ddd6fe;border-radius:0 0 8px 8px;padding:12px 14px;font-size:13px;line-height:1.9}
 .proof-body.open{display:block}
 .area-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:12px 0}
-.area-cell{background:#f5f3ff;border:1px solid #c4b5fd;border-radius:8px;padding:10px 8px;text-align:center;font-size:12px}
+.area-cell{background:#f0fdf4;border:1px solid #86efac;border-radius:8px;padding:10px 8px;text-align:center;font-size:12px}
 .area-cell .ac-label{color:#b91c1c;font-weight:700;font-size:11px;margin-bottom:4px}
 </style>
 </head>
@@ -118,7 +118,7 @@ body{font-family:'BIZ UDPGothic',sans-serif;background:#f5f3ff;color:#1e1b4b;min
       <div id="proof-steps" style="line-height:2;font-size:13px"></div>
 
       <div class="note-box" style="margin-top:8px">
-        証明は読むだけでOKです。高認では証明問題は出題されません。
+        証明は読むだけでOKです。公務員試験では証明問題は出題されません。
       </div>
     </div>
   </div>
@@ -253,31 +253,31 @@ function drawMain(){
   const A={x:90,y:20}, B={x:25,y:175}, C={x:270,y:175};
   // 三角形
   ctx.beginPath(); ctx.moveTo(A.x,A.y); ctx.lineTo(B.x,B.y); ctx.lineTo(C.x,C.y); ctx.closePath();
-  ctx.fillStyle='rgba(124,58,237,0.06)'; ctx.fill();
-  ctx.strokeStyle='#1e1b4b'; ctx.lineWidth=2; ctx.stroke();
+  ctx.fillStyle='rgba(22,163,74,0.06)'; ctx.fill();
+  ctx.strokeStyle='#14532d'; ctx.lineWidth=2; ctx.stroke();
   // 高さh（AからBCへ垂線）
   const Hpt={x:A.x, y:B.y};
   ctx.beginPath(); ctx.moveTo(A.x,A.y); ctx.lineTo(Hpt.x,Hpt.y);
-  ctx.strokeStyle='#7c3aed'; ctx.lineWidth=1.5; ctx.setLineDash([3,2]); ctx.stroke();
+  ctx.strokeStyle='#16a34a'; ctx.lineWidth=1.5; ctx.setLineDash([3,2]); ctx.stroke();
   ctx.setLineDash([]);
   // 直角マーク
   ctx.beginPath(); ctx.moveTo(Hpt.x+8,Hpt.y); ctx.lineTo(Hpt.x+8,Hpt.y-8); ctx.lineTo(Hpt.x,Hpt.y-8);
-  ctx.strokeStyle='#7c3aed'; ctx.lineWidth=1; ctx.stroke();
+  ctx.strokeStyle='#16a34a'; ctx.lineWidth=1; ctx.stroke();
   // 辺ラベル（赤）
   ctx.font='bold 13px sans-serif'; ctx.fillStyle='#b91c1c';
   ctx.fillText('a', (B.x+C.x)/2-4, B.y+16);
   ctx.fillText('b', (C.x+A.x)/2+8, (C.y+A.y)/2+2);
   ctx.fillText('c', (A.x+B.x)/2-18, (A.y+B.y)/2+2);
   // 高さラベル
-  ctx.font='bold 12px sans-serif'; ctx.fillStyle='#7c3aed';
+  ctx.font='bold 12px sans-serif'; ctx.fillStyle='#16a34a';
   ctx.fillText('h', Hpt.x+4, (A.y+Hpt.y)/2);
   // 頂点ラベル
-  ctx.font='bold 14px sans-serif'; ctx.fillStyle='#1e1b4b';
+  ctx.font='bold 14px sans-serif'; ctx.fillStyle='#14532d';
   ctx.fillText('A', A.x-6, A.y-8);
   ctx.fillText('B', B.x-20, B.y+5);
   ctx.fillText('C', C.x+6, C.y+5);
   // 角Bマーク
-  ctx.font='bold 11px sans-serif'; ctx.fillStyle='#7c3aed';
+  ctx.font='bold 11px sans-serif'; ctx.fillStyle='#16a34a';
   ctx.fillText('B', B.x+18, B.y-8);
 }
 
@@ -289,17 +289,17 @@ function drawProbTri(id, cfg){
   ctx.clearRect(0,0,cvs.width,cvs.height);
   const {vA,vB,vC}=cfg;
   ctx.beginPath(); ctx.moveTo(vA.x,vA.y); ctx.lineTo(vB.x,vB.y); ctx.lineTo(vC.x,vC.y); ctx.closePath();
-  ctx.fillStyle='rgba(124,58,237,0.06)'; ctx.fill();
-  ctx.strokeStyle='#1e1b4b'; ctx.lineWidth=2; ctx.stroke();
+  ctx.fillStyle='rgba(22,163,74,0.06)'; ctx.fill();
+  ctx.strokeStyle='#14532d'; ctx.lineWidth=2; ctx.stroke();
   // 辺ラベル（赤）
   ctx.font='bold 13px sans-serif'; ctx.fillStyle='#b91c1c';
   if(cfg.sides) cfg.sides.forEach(s=>ctx.fillText(s.label,s.lx,s.ly));
   // 頂点ラベル（黒）
-  ctx.font='bold 14px sans-serif'; ctx.fillStyle='#1e1b4b';
+  ctx.font='bold 14px sans-serif'; ctx.fillStyle='#14532d';
   if(cfg.vLabels) cfg.vLabels.forEach(v=>ctx.fillText(v.text,v.x,v.y));
   // 角度ラベル（紫）
   if(cfg.aLabel){
-    ctx.font='bold 12px sans-serif'; ctx.fillStyle='#7c3aed';
+    ctx.font='bold 12px sans-serif'; ctx.fillStyle='#16a34a';
     ctx.fillText(cfg.aLabel.text, cfg.aLabel.x, cfg.aLabel.y);
   }
   // S=?ラベル（中央・緑）
@@ -454,7 +454,7 @@ const DRILL = [
     qFn: () => '三角形ABCで ' + k('A=120°,\\;b=2,\\;c=4') + ' のとき、面積 S は？',
     ch: [k('S=\\sqrt{3}'), k('S=2\\sqrt{3}'), k('S=4\\sqrt{3}'), k('S=4')],
     ans: 1,
-    expFn: () => '<span style="color:#7c3aed;font-size:12px">💡 sin120°＝sin(180°−60°)＝sin60°＝√3/2</span><br>' + k('S=\\dfrac{1}{2}\\times b\\times c\\times\\sin A') + '<br>' + '① 数字を入れる：&emsp;' + k('=\\dfrac{1}{2}\\times 2\\times 4\\times\\sin 120°') + '<br>' + '② sin 120° の値：&emsp;' + k('\\sin 120°=\\dfrac{\\sqrt{3}}{2}') + '<br>' + '③ 計算する：&emsp;' + k('=\\dfrac{1}{2}\\times 2\\times 4\\times\\dfrac{\\sqrt{3}}{2}=4\\times\\dfrac{\\sqrt{3}}{2}=2\\sqrt{3}') + '<br>' + '<strong style="color:#059669">答え：S = 2√3</strong>'
+    expFn: () => '<span style="color:#16a34a;font-size:12px">💡 sin120°＝sin(180°−60°)＝sin60°＝√3/2</span><br>' + k('S=\\dfrac{1}{2}\\times b\\times c\\times\\sin A') + '<br>' + '① 数字を入れる：&emsp;' + k('=\\dfrac{1}{2}\\times 2\\times 4\\times\\sin 120°') + '<br>' + '② sin 120° の値：&emsp;' + k('\\sin 120°=\\dfrac{\\sqrt{3}}{2}') + '<br>' + '③ 計算する：&emsp;' + k('=\\dfrac{1}{2}\\times 2\\times 4\\times\\dfrac{\\sqrt{3}}{2}=4\\times\\dfrac{\\sqrt{3}}{2}=2\\sqrt{3}') + '<br>' + '<strong style="color:#059669">答え：S = 2√3</strong>'
   }
 ];
 
@@ -485,7 +485,7 @@ const CHECK = [
     qFn: () => '三角形ABCで ' + k('A=120°,\\;b=3,\\;c=4') + ' のとき、面積 S は？',
     ch: [k('S=2\\sqrt{3}'), k('S=3\\sqrt{3}'), k('S=4\\sqrt{3}'), k('S=6\\sqrt{3}')],
     ans: 1,
-    expFn: () => '<span style="color:#7c3aed;font-size:12px">💡 sin120°＝sin(180°−60°)＝sin60°＝√3/2</span><br>' + k('S=\\dfrac{1}{2}\\times b\\times c\\times\\sin A') + '<br>' + '① 数字を入れる：&emsp;' + k('=\\dfrac{1}{2}\\times 3\\times 4\\times\\sin 120°') + '<br>' + '② sin 120° の値：&emsp;' + k('\\sin 120°=\\dfrac{\\sqrt{3}}{2}') + '<br>' + '③ 計算する：&emsp;' + k('=\\dfrac{1}{2}\\times 3\\times 4\\times\\dfrac{\\sqrt{3}}{2}=6\\times\\dfrac{\\sqrt{3}}{2}=3\\sqrt{3}') + '<br>' + '<strong style="color:#059669">答え：S = 3√3</strong>'
+    expFn: () => '<span style="color:#16a34a;font-size:12px">💡 sin120°＝sin(180°−60°)＝sin60°＝√3/2</span><br>' + k('S=\\dfrac{1}{2}\\times b\\times c\\times\\sin A') + '<br>' + '① 数字を入れる：&emsp;' + k('=\\dfrac{1}{2}\\times 3\\times 4\\times\\sin 120°') + '<br>' + '② sin 120° の値：&emsp;' + k('\\sin 120°=\\dfrac{\\sqrt{3}}{2}') + '<br>' + '③ 計算する：&emsp;' + k('=\\dfrac{1}{2}\\times 3\\times 4\\times\\dfrac{\\sqrt{3}}{2}=6\\times\\dfrac{\\sqrt{3}}{2}=3\\sqrt{3}') + '<br>' + '<strong style="color:#059669">答え：S = 3√3</strong>'
   }
 ];
 
@@ -549,17 +549,17 @@ function drawProofCanvas(){
 
   // 三角形塗り
   ctx.beginPath(); ctx.moveTo(A.x,A.y); ctx.lineTo(B.x,B.y); ctx.lineTo(C.x,C.y); ctx.closePath();
-  ctx.fillStyle='rgba(124,58,237,0.06)'; ctx.fill();
+  ctx.fillStyle='rgba(22,163,74,0.06)'; ctx.fill();
 
   // 底辺 BC
   ctx.beginPath(); ctx.moveTo(B.x,B.y); ctx.lineTo(C.x,C.y);
-  ctx.strokeStyle='#1e1b4b'; ctx.lineWidth=2; ctx.stroke();
+  ctx.strokeStyle='#14532d'; ctx.lineWidth=2; ctx.stroke();
   // 斜辺 AB（= c）
   ctx.beginPath(); ctx.moveTo(A.x,A.y); ctx.lineTo(B.x,B.y);
-  ctx.strokeStyle='#1e1b4b'; ctx.lineWidth=2; ctx.stroke();
+  ctx.strokeStyle='#14532d'; ctx.lineWidth=2; ctx.stroke();
   // 斜辺 AC（= b）
   ctx.beginPath(); ctx.moveTo(A.x,A.y); ctx.lineTo(C.x,C.y);
-  ctx.strokeStyle='#1e1b4b'; ctx.lineWidth=2; ctx.stroke();
+  ctx.strokeStyle='#14532d'; ctx.lineWidth=2; ctx.stroke();
 
   // 高さ h（赤い破線）
   ctx.beginPath(); ctx.moveTo(A.x,A.y); ctx.lineTo(Hpt.x,Hpt.y);
@@ -580,13 +580,13 @@ function drawProofCanvas(){
   ctx.fillText('h',  Hpt.x+5,  (A.y+Hpt.y)/2);  // 高さ h（赤）
 
   // 頂点ラベル
-  ctx.font='bold 14px sans-serif'; ctx.fillStyle='#1e1b4b';
+  ctx.font='bold 14px sans-serif'; ctx.fillStyle='#14532d';
   ctx.fillText('A', A.x-6,  A.y-8);
   ctx.fillText('B', B.x-20, B.y+5);
   ctx.fillText('C', C.x+6,  C.y+5);
 
   // 角Bマーク（紫）
-  ctx.font='bold 11px sans-serif'; ctx.fillStyle='#7c3aed';
+  ctx.font='bold 11px sans-serif'; ctx.fillStyle='#16a34a';
   ctx.fillText('B', B.x+20, B.y-6);
 }
 
@@ -600,7 +600,7 @@ function renderProofSteps(){
   + '&emsp;' + k('S = \\dfrac{1}{2}\\times a\\times h') + '<br><br>'
   + '④　② で求めた ' + k('h = c\\sin B') + ' を代入：<br>'
   + '&emsp;' + k('S = \\dfrac{1}{2}\\times a\\times c\\sin B = \\dfrac{1}{2}ac\\sin B') + '<br><br>'
-  + '<div style="background:#f5f3ff;border:2px solid #7c3aed;border-radius:8px;padding:10px 14px;text-align:center;margin-top:6px">'
+  + '<div style="background:#f0fdf4;border:2px solid #16a34a;border-radius:8px;padding:10px 14px;text-align:center;margin-top:6px">'
   + '「高さがわからなくても、隣の辺 c と角 B から ' + k('h = c\\sin B') + ' で高さが求まる」<br>'
   + 'これが公式 ' + k('S=\\dfrac{1}{2}ac\\sin B') + ' の正体です。'
   + '</div>';
@@ -622,7 +622,7 @@ const MINI = [
     qFn: () => '三角形ABCで ' + k('A=120°,\\;b=2,\\;c=2') + ' のとき、面積 S は？',
     ch: [k('S=\\sqrt{3}'), k('S=2\\sqrt{3}'), k('S=3\\sqrt{3}'), k('S=2')],
     ans: 0,
-    expFn: () => '<span style="color:#7c3aed;font-size:12px">💡 sin120°＝sin(180°−60°)＝sin60°＝√3/2</span><br>' + k('S=\\dfrac{1}{2}\\times b\\times c\\times\\sin A') + '<br>' + '① 数字を入れる：&emsp;' + k('=\\dfrac{1}{2}\\times 2\\times 2\\times\\sin 120°') + '<br>' + '② sin 120° の値：&emsp;' + k('\\sin 120°=\\dfrac{\\sqrt{3}}{2}') + '<br>' + '③ 計算する：&emsp;' + k('=\\dfrac{1}{2}\\times 2\\times 2\\times\\dfrac{\\sqrt{3}}{2}=2\\times\\dfrac{\\sqrt{3}}{2}=\\sqrt{3}') + '<br>' + '<strong style="color:#059669">答え：S = √3</strong>'
+    expFn: () => '<span style="color:#16a34a;font-size:12px">💡 sin120°＝sin(180°−60°)＝sin60°＝√3/2</span><br>' + k('S=\\dfrac{1}{2}\\times b\\times c\\times\\sin A') + '<br>' + '① 数字を入れる：&emsp;' + k('=\\dfrac{1}{2}\\times 2\\times 2\\times\\sin 120°') + '<br>' + '② sin 120° の値：&emsp;' + k('\\sin 120°=\\dfrac{\\sqrt{3}}{2}') + '<br>' + '③ 計算する：&emsp;' + k('=\\dfrac{1}{2}\\times 2\\times 2\\times\\dfrac{\\sqrt{3}}{2}=2\\times\\dfrac{\\sqrt{3}}{2}=\\sqrt{3}') + '<br>' + '<strong style="color:#059669">答え：S = √3</strong>'
   }
 ];
 
@@ -672,6 +672,5 @@ window.addEventListener('load', () => {
     () => { document.getElementById('pass-btn').style.display = 'block'; });
 });
 </script>
-<script src="https://realizefield.github.io/gamba-kounin-seito/gamba-ai.js" defer></script>
 </body>
 </html>

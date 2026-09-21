@@ -3,37 +3,37 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TR08 正弦定理 | GAMBA高認数学</title>
+<title>TR08 正弦定理 | GAMBA公務員数学</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
 <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'BIZ UDPGothic',sans-serif;background:#f5f3ff;color:#1e1b4b;min-height:100vh}
-.site-header{background:#7c3aed;color:#fff;padding:10px 16px;display:flex;align-items:center;gap:10px}
+body{font-family:'BIZ UDPGothic',sans-serif;background:#f0fdf4;color:#14532d;min-height:100vh}
+.site-header{background:#16a34a;color:#fff;padding:10px 16px;display:flex;align-items:center;gap:10px}
 .back-btn{background:rgba(255,255,255,.2);border:none;color:#fff;padding:5px 12px;border-radius:6px;cursor:pointer;font-size:13px}
 .site-header h1{font-size:16px;font-weight:700}
 .unit-badge{margin-left:auto;background:rgba(255,255,255,.25);padding:3px 10px;border-radius:12px;font-size:12px}
-.tab-bar{display:flex;background:#ede9fe;border-bottom:2px solid #7c3aed}
-.tab-btn{flex:1;padding:10px 4px;border:none;background:transparent;font-size:13px;font-weight:600;color:#5b21b6;cursor:pointer;border-bottom:3px solid transparent;transition:all .2s}
-.tab-btn.active{background:#fff;color:#7c3aed;border-bottom-color:#7c3aed}
+.tab-bar{display:flex;background:#dcfce7;border-bottom:2px solid #16a34a}
+.tab-btn{flex:1;padding:10px 4px;border:none;background:transparent;font-size:13px;font-weight:600;color:#15803d;cursor:pointer;border-bottom:3px solid transparent;transition:all .2s}
+.tab-btn.active{background:#fff;color:#16a34a;border-bottom-color:#16a34a}
 .tab-content{display:none;padding:16px;max-width:720px;margin:0 auto}
 .tab-content.active{display:block}
-.card{background:#fff;border-radius:12px;padding:16px;margin-bottom:16px;box-shadow:0 1px 4px rgba(124,58,237,.1)}
-.card-title{font-size:14px;font-weight:700;color:#7c3aed;border-bottom:2px solid #ede9fe;padding-bottom:6px;margin-bottom:12px}
-.sec-label{font-size:12px;font-weight:700;color:#6d28d9;background:#f5f3ff;border-left:3px solid #7c3aed;padding:4px 10px;margin:12px 0 8px;border-radius:0 6px 6px 0}
-.formula-box{background:#f5f3ff;border:2px solid #7c3aed;border-radius:10px;padding:14px 16px;margin:12px 0;text-align:center}
+.card{background:#fff;border-radius:12px;padding:16px;margin-bottom:16px;box-shadow:0 1px 4px rgba(22,163,74,.1)}
+.card-title{font-size:14px;font-weight:700;color:#16a34a;border-bottom:2px solid #dcfce7;padding-bottom:6px;margin-bottom:12px}
+.sec-label{font-size:12px;font-weight:700;color:#6d28d9;background:#f0fdf4;border-left:3px solid #16a34a;padding:4px 10px;margin:12px 0 8px;border-radius:0 6px 6px 0}
+.formula-box{background:#f0fdf4;border:2px solid #16a34a;border-radius:10px;padding:14px 16px;margin:12px 0;text-align:center}
 .formula-box .ftitle{font-size:12px;font-weight:700;color:#6d28d9;margin-bottom:8px}
-.proof-toggle{background:#ede9fe;border:none;width:100%;text-align:left;padding:8px 12px;border-radius:8px;cursor:pointer;font-size:13px;color:#5b21b6;font-weight:600;display:flex;justify-content:space-between;align-items:center;margin-top:8px}
+.proof-toggle{background:#dcfce7;border:none;width:100%;text-align:left;padding:8px 12px;border-radius:8px;cursor:pointer;font-size:13px;color:#15803d;font-weight:600;display:flex;justify-content:space-between;align-items:center;margin-top:8px}
 .proof-toggle:hover{background:#ddd6fe}
 .proof-arrow{transition:transform .3s;display:inline-block}
 .proof-toggle.open .proof-arrow{transform:rotate(180deg)}
-.proof-body{display:none;background:#faf9ff;border:1px solid #ddd6fe;border-radius:0 0 8px 8px;padding:12px 14px;font-size:13px;line-height:1.9}
+.proof-body{display:none;background:#f0fdf4;border:1px solid #ddd6fe;border-radius:0 0 8px 8px;padding:12px 14px;font-size:13px;line-height:1.9}
 .proof-body.open{display:block}
-.prob-box{background:#faf5ff;border:1px solid #c4b5fd;border-radius:8px;padding:12px 14px;margin:10px 0;font-size:13px;line-height:1.9}
-.prob-label{font-size:11px;font-weight:700;color:#7c3aed;margin-bottom:6px;text-transform:uppercase}
-.step-box{background:#fff;border-left:3px solid #7c3aed;padding:8px 12px;margin:8px 0;border-radius:0 6px 6px 0;font-size:13px;line-height:1.9}
-.ans-btn{background:#7c3aed;color:#fff;border:none;padding:6px 14px;border-radius:16px;cursor:pointer;font-size:12px;font-weight:600;margin-top:8px}
+.prob-box{background:#f0fdf4;border:1px solid #86efac;border-radius:8px;padding:12px 14px;margin:10px 0;font-size:13px;line-height:1.9}
+.prob-label{font-size:11px;font-weight:700;color:#16a34a;margin-bottom:6px;text-transform:uppercase}
+.step-box{background:#fff;border-left:3px solid #16a34a;padding:8px 12px;margin:8px 0;border-radius:0 6px 6px 0;font-size:13px;line-height:1.9}
+.ans-btn{background:#16a34a;color:#fff;border:none;padding:6px 14px;border-radius:16px;cursor:pointer;font-size:12px;font-weight:600;margin-top:8px}
 .ans-btn:hover{background:#6d28d9}
 .ans-body{display:none;margin-top:8px}
 .ans-body.open{display:block}
@@ -41,17 +41,17 @@ body{font-family:'BIZ UDPGothic',sans-serif;background:#f5f3ff;color:#1e1b4b;min
 .note-box{background:#f0fdf4;border-left:4px solid #10b981;padding:10px 12px;border-radius:0 8px 8px 0;margin:10px 0;font-size:13px;line-height:1.8}
 .fig-wrap{text-align:center;margin:12px 0}
 .fig-caption{font-size:12px;color:#6b7280;margin-top:4px}
-.dnum{display:inline-block;background:#7c3aed;color:#fff;border-radius:50%;width:22px;height:22px;text-align:center;line-height:22px;font-size:12px;font-weight:700;margin-right:6px;vertical-align:middle}
+.dnum{display:inline-block;background:#16a34a;color:#fff;border-radius:50%;width:22px;height:22px;text-align:center;line-height:22px;font-size:12px;font-weight:700;margin-right:6px;vertical-align:middle}
 .choice-list{list-style:none;margin:8px 0}
-.choice-list li{padding:8px 12px;margin:5px 0;background:#f5f3ff;border-radius:8px;cursor:pointer;font-size:14px;line-height:1.6;transition:background .15s}
-.choice-list li:hover{background:#ede9fe}
+.choice-list li{padding:8px 12px;margin:5px 0;background:#f0fdf4;border-radius:8px;cursor:pointer;font-size:14px;line-height:1.6;transition:background .15s}
+.choice-list li:hover{background:#dcfce7}
 .choice-list li.correct{background:#d1fae5;color:#065f46}
 .choice-list li.wrong{background:#fee2e2;color:#991b1b}
 .result-msg{font-size:13px;margin-top:8px;min-height:20px;line-height:1.8}
 .progress-bar{height:5px;background:#ddd6fe;border-radius:3px;overflow:hidden;margin:8px 0 2px}
-.progress-fill{height:100%;background:#7c3aed;transition:width .3s}
-.progress-label{font-size:11px;color:#7c3aed;text-align:right;margin-bottom:10px}
-.pass-btn{display:block;width:100%;background:#7c3aed;color:#fff;border:none;padding:12px;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;margin-top:16px}
+.progress-fill{height:100%;background:#16a34a;transition:width .3s}
+.progress-label{font-size:11px;color:#16a34a;text-align:right;margin-bottom:10px}
+.pass-btn{display:block;width:100%;background:#16a34a;color:#fff;border:none;padding:12px;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;margin-top:16px}
 .pass-btn:hover{background:#6d28d9}
 </style>
 </head>
@@ -86,7 +86,7 @@ body{font-family:'BIZ UDPGothic',sans-serif;background:#f5f3ff;color:#1e1b4b;min
     <div class="formula-box">
       <div class="ftitle">🔷 正弦定理</div>
       <div id="f-main"></div>
-      <div style="font-size:12px;color:#5b21b6;margin-top:8px">R ＝ この三角形の外接円の半径</div>
+      <div style="font-size:12px;color:#15803d;margin-top:8px">R ＝ この三角形の外接円の半径</div>
     </div>
     <div class="hint-box">
       💡 <strong>「辺」と「向かいの角」のペアを意識しよう</strong><br>
@@ -108,7 +108,7 @@ body{font-family:'BIZ UDPGothic',sans-serif;background:#f5f3ff;color:#1e1b4b;min
       <div id="pf-formula" style="text-align:center;margin:8px 0"></div>
       <p>これをすべての辺・角ペアに適用すると、正弦定理が成立します。</p>
       <div class="note-box" style="margin-top:8px">
-        証明の詳細よりも<strong>公式の使い方を覚えること</strong>が大切です。高認では証明問題は出題されません。
+        証明の詳細よりも<strong>公式の使い方を覚えること</strong>が大切です。公務員試験では証明問題は出題されません。
       </div>
     </div>
   </div>
@@ -142,7 +142,7 @@ body{font-family:'BIZ UDPGothic',sans-serif;background:#f5f3ff;color:#1e1b4b;min
     <div class="formula-box" id="f-radius"></div>
     <div class="note-box">
       「辺 ÷（2 × 向かいの角の sin）」と覚えましょう。<br>
-      高認過去問で「外接円の半径を求めよ」という問題が出題されています。
+      過去問で「外接円の半径を求めよ」という問題が出題されています。
     </div>
   </div>
 
@@ -253,15 +253,15 @@ function drawTriangle(){
 
   // 外接円（実線・黒）
   ctx.beginPath(); ctx.arc(ox,oy,R,0,2*Math.PI);
-  ctx.strokeStyle='#1e1b4b'; ctx.lineWidth=1.8; ctx.stroke();
+  ctx.strokeStyle='#14532d'; ctx.lineWidth=1.8; ctx.stroke();
 
   // 三角形（薄い塗り＋黒枠）
   ctx.beginPath(); ctx.moveTo(A.x,A.y); ctx.lineTo(B.x,B.y); ctx.lineTo(C.x,C.y); ctx.closePath();
-  ctx.fillStyle='rgba(124,58,237,0.07)'; ctx.fill();
-  ctx.strokeStyle='#1e1b4b'; ctx.lineWidth=2; ctx.stroke();
+  ctx.fillStyle='rgba(22,163,74,0.07)'; ctx.fill();
+  ctx.strokeStyle='#14532d'; ctx.lineWidth=2; ctx.stroke();
 
   // 頂点ラベル（黒・太字）
-  ctx.font='bold 15px sans-serif'; ctx.fillStyle='#1e1b4b';
+  ctx.font='bold 15px sans-serif'; ctx.fillStyle='#14532d';
   ctx.fillText('A', A.x-7,  A.y-12);   // 上
   ctx.fillText('B', B.x-22, B.y+6);    // 左下
   ctx.fillText('C', C.x+8,  C.y+6);    // 右下
@@ -277,11 +277,11 @@ function drawTriangle(){
 
   // 中心点（黒丸のみ）
   ctx.beginPath(); ctx.arc(ox,oy,4,0,2*Math.PI);
-  ctx.fillStyle='#1e1b4b'; ctx.fill();
+  ctx.fillStyle='#14532d'; ctx.fill();
 
   // R ライン：中心 → C
   ctx.beginPath(); ctx.moveTo(ox,oy); ctx.lineTo(C.x,C.y);
-  ctx.strokeStyle='#1e1b4b'; ctx.lineWidth=1.2; ctx.stroke();
+  ctx.strokeStyle='#14532d'; ctx.lineWidth=1.2; ctx.stroke();
 
   // R ラベル
   ctx.font='bold 13px sans-serif'; ctx.fillStyle='#b91c1c';
@@ -310,22 +310,22 @@ function renderExplain(){
     + `</div>`;
 
   const tasukiSVG = `
-<div style="background:#faf5ff;border:1px solid #c4b5fd;border-radius:8px;padding:10px 16px;margin:8px 0;display:inline-block;min-width:240px">
-  <div style="font-size:12px;color:#5b21b6;text-align:center;margin-bottom:6px">たすき掛け</div>
+<div style="background:#f0fdf4;border:1px solid #86efac;border-radius:8px;padding:10px 16px;margin:8px 0;display:inline-block;min-width:240px">
+  <div style="font-size:12px;color:#15803d;text-align:center;margin-bottom:6px">たすき掛け</div>
   <div style="position:relative;display:flex;align-items:center;justify-content:center;gap:0">
-    <div style="text-align:center;z-index:2;position:relative;background:#faf5ff;padding:0 4px">
+    <div style="text-align:center;z-index:2;position:relative;background:#f0fdf4;padding:0 4px">
       ${k('\\dfrac{1}{\\sin 30°}')}
     </div>
     <svg width="60" height="56" style="flex-shrink:0;overflow:visible" viewBox="0 0 60 56">
-      <text x="30" y="31" text-anchor="middle" font-size="20" font-weight="700" fill="#1e1b4b">=</text>
+      <text x="30" y="31" text-anchor="middle" font-size="20" font-weight="700" fill="#14532d">=</text>
       <line x1="0" y1="8" x2="60" y2="48" stroke="#b91c1c" stroke-width="1.5"/>
       <line x1="0" y1="48" x2="60" y2="8" stroke="#b91c1c" stroke-width="1.5"/>
     </svg>
-    <div style="text-align:center;z-index:2;position:relative;background:#faf5ff;padding:0 4px">
+    <div style="text-align:center;z-index:2;position:relative;background:#f0fdf4;padding:0 4px">
       ${k('\\dfrac{b}{\\sin 45°}')}
     </div>
   </div>
-  <div style="font-size:13px;color:#1e1b4b;margin-top:6px;line-height:2">
+  <div style="font-size:13px;color:#14532d;margin-top:6px;line-height:2">
     ${k('b\\times\\sin 30°=1\\times\\sin 45°')}<br>
     ${k('b\\times\\dfrac{1}{2}=1\\times\\dfrac{\\sqrt{2}}{2}')}<br>
     ${k('b=\\dfrac{\\sqrt{2}}{2}\\div\\dfrac{1}{2}=\\sqrt{2}')}
@@ -348,22 +348,22 @@ function renderExplain(){
     '三角形ABCで ' + k('a=\\sqrt{2},\\;b=1,\\;A=45°') + ' のとき、角 ' + k('B') + ' を求める。';
 
   const tasukiSVG2 = `
-<div style="background:#faf5ff;border:1px solid #c4b5fd;border-radius:8px;padding:10px 16px;margin:8px 0;display:inline-block;min-width:240px">
-  <div style="font-size:12px;color:#5b21b6;text-align:center;margin-bottom:6px">たすき掛け</div>
+<div style="background:#f0fdf4;border:1px solid #86efac;border-radius:8px;padding:10px 16px;margin:8px 0;display:inline-block;min-width:240px">
+  <div style="font-size:12px;color:#15803d;text-align:center;margin-bottom:6px">たすき掛け</div>
   <div style="position:relative;display:flex;align-items:center;justify-content:center;gap:0">
-    <div style="text-align:center;z-index:2;position:relative;background:#faf5ff;padding:0 4px">
+    <div style="text-align:center;z-index:2;position:relative;background:#f0fdf4;padding:0 4px">
       ${k('\\dfrac{\\sqrt{2}}{\\sin 45°}')}
     </div>
     <svg width="60" height="56" style="flex-shrink:0;overflow:visible" viewBox="0 0 60 56">
-      <text x="30" y="31" text-anchor="middle" font-size="20" font-weight="700" fill="#1e1b4b">=</text>
+      <text x="30" y="31" text-anchor="middle" font-size="20" font-weight="700" fill="#14532d">=</text>
       <line x1="0" y1="8" x2="60" y2="48" stroke="#b91c1c" stroke-width="1.5"/>
       <line x1="0" y1="48" x2="60" y2="8" stroke="#b91c1c" stroke-width="1.5"/>
     </svg>
-    <div style="text-align:center;z-index:2;position:relative;background:#faf5ff;padding:0 4px">
+    <div style="text-align:center;z-index:2;position:relative;background:#f0fdf4;padding:0 4px">
       ${k('\\dfrac{1}{\\sin B}')}
     </div>
   </div>
-  <div style="font-size:13px;color:#1e1b4b;margin-top:6px;line-height:2">
+  <div style="font-size:13px;color:#14532d;margin-top:6px;line-height:2">
     ${k('\\sin B\\times\\sqrt{2}=1\\times\\sin 45°')}<br>
     ${k('\\sin B=\\dfrac{\\sin 45°}{\\sqrt{2}}=\\dfrac{\\dfrac{\\sqrt{2}}{2}}{\\sqrt{2}}=\\dfrac{1}{2}')}
     <div style="background:#fffbeb;border-left:3px solid #f59e0b;border-radius:0 6px 6px 0;padding:5px 10px;margin:4px 0;font-size:12px;color:#92400e;line-height:1.8">
@@ -595,6 +595,5 @@ window.addEventListener('load', () => {
   );
 });
 </script>
-<script src="https://realizefield.github.io/gamba-kounin-seito/gamba-ai.js" defer></script>
 </body>
 </html>
