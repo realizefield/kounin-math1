@@ -83,23 +83,23 @@ const QUIZ = [
     src: 'R6-1',
     choices: [
       '$(4, 1)$',
-      '$(2, -3)$',
-      '$(-2, -3)$',
       '$(2, 3)$'
-    ],
-    ans: 1,
+    ,
+      '$(-2, -3)$',
+      '$(2, -3)$'],
+    ans:3,
     exp: '$y=x^2-4x+1=(x^2-4x+4)-4+1=(x-2)^2-3$。頂点は $(2,-3)$。平方完成の手順：係数2を2乗して引く。'
   },
   {
     q: '$y=-(x+3)^2-2$ のグラフの特徴として正しいものはどれか。\n（R5-2 類題）',
     src: 'R5-2',
     choices: [
-      '頂点 $(3,-2)$、上に開く',
       '頂点 $(-3,-2)$、下に開く',
+      '頂点 $(3,-2)$、上に開く',
       '頂点 $(-3,2)$、上に開く',
       '頂点 $(3,2)$、下に開く'
     ],
-    ans: 1,
+    ans:0,
     exp: '$y=a(x-p)^2+q$ の形と比べると $p=-3,\\ q=-2$。頂点は $(-3,-2)$。$a=-1\lt 0$ なので下に開く（上に凸）。'
   },
   {
@@ -111,7 +111,7 @@ const QUIZ = [
       '$(3, 1)$',
       '$(3, -1)$'
     ],
-    ans: 2,
+    ans:2,
     exp: '$x$ 切片 $2$ と $4$ の中点 $\\Rightarrow$ 軸 $x=\\dfrac{2+4}{2}=3$。$y=-(3)^2+6(3)-8=-9+18-8=1$。頂点は $(3,1)$。'
   },
   {
@@ -119,11 +119,11 @@ const QUIZ = [
     src: 'R5-2',
     choices: [
       '$y=3(x+1)^2-2$',
-      '$y=-3(x-1)^2-2$',
       '$y=3(x-1)^2-2$',
+      '$y=-3(x-1)^2-2$',
       '$y=-3(x+1)^2+2$'
     ],
-    ans: 2,
+    ans:1,
     exp: '頂点 $(1,-2)$ より $y=m(x-1)^2-2$。$(0,1)$ を代入：$1=m(0-1)^2-2=m-2$ より $m=3$。$y=3(x-1)^2-2$。'
   },
   {
@@ -135,7 +135,7 @@ const QUIZ = [
       '$y=2(x-3)^2-4$',
       '$y=2(x-3)^2+4$'
     ],
-    ans: 3,
+    ans:3,
     exp: '$x$ 軸方向に $3$ 平行移動 $\\Rightarrow x$ を $x-3$ に置き換え。$y$ 軸方向に $4$ 平行移動 $\\Rightarrow +4$。$y=2(x-3)^2+4$。'
   }
 ];
@@ -168,22 +168,22 @@ function buildQuestion(idx) {
   <div class="q-wrap active" id="qWrap">
     <div class="q-header">第 ${idx+1} 問 / 全 ${QUIZ.length} 問</div>
     <div class="q-text math-render">
-      ${q.q.replace(/\n/g,'\lt br\gt ')}
-      \lt div class="source"\gt 出典：${q.src}</div>
+      ${q.q.replace(/\n/g,'< br> ')}
+      < div class="source"> 出典：${q.src}</div>
     </div>
     <div class="choices">
-      ${q.choices.map((c,ci)=\gt `
-        \lt button class="choice-btn math-render" onclick="onAnswer(${ci})">${c}\lt /button\gt 
+      ${q.choices.map((c,ci)=> `
+        < button class="choice-btn math-render" onclick="onAnswer(${ci})">${c}< /button> 
       `).join('')}
-    \lt /div\gt 
-    \lt div class="explanation math-render" id="expBox"\gt 
-      \lt div class="ex-title"\gt 📝 解説\lt /div\gt 
+    < /div> 
+    < div class="explanation math-render" id="expBox"> 
+      < div class="ex-title"> 📝 解説< /div> 
       ${q.exp}
     </div>
     <button class="next-btn" id="nextBtn" onclick="nextQ()">
-      ${idx \lt  QUIZ.length-1 ? '次の問題へ →' : '結果を見る →'}
-    \lt /button\gt 
-  \lt /div\gt `;
+      ${idx <  QUIZ.length-1 ? '次の問題へ →' : '結果を見る →'}
+    < /button> 
+  < /div> `;
   answered = false;
   updateProg(idx);
   doRender();
@@ -194,7 +194,7 @@ function onAnswer(ci) {
   answered = true;
   const q = QUIZ[order[cur]];
   const btns = document.querySelectorAll('.choice-btn');
-  btns.forEach((b,i) =\gt  {
+  btns.forEach((b,i) =>  {
     b.disabled = true;
     if (i === q.ans) b.classList.add(ci === q.ans ? 'correct' : 'show-correct');
     if (i === ci && ci !== q.ans) b.classList.add('wrong');
@@ -208,7 +208,7 @@ function onAnswer(ci) {
 
 function nextQ() {
   cur++;
-  if (cur \gt = QUIZ.length) { showResult(); return; }
+  if (cur >= QUIZ.length) { showResult(); return; }
   buildQuestion(cur);
 }
 
@@ -223,25 +223,25 @@ function showResult() {
   const rs = document.getElementById('resultScreen');
   rs.classList.add('active');
   const pct = Math.round(correct / QUIZ.length * 100);
-  const pass = correct \gt = 4;
+  const pass = correct >= 4;
   let msg, sub;
   if (correct === QUIZ.length) { msg = '🎉 満点！完璧です！'; sub = '二次関数の過去問はバッチリです！'; }
-  else if (correct \gt = 4)       { msg = '👍 合格！よくできました'; sub = 'もう少し練習すれば完璧です！'; }
-  else if (correct \gt = 3)       { msg = '📖 もう少し！'; sub = '解説をよく読んでもう一度挑戦しよう。'; }
+  else if (correct >= 4)       { msg = '👍 合格！よくできました'; sub = 'もう少し練習すれば完璧です！'; }
+  else if (correct >= 3)       { msg = '📖 もう少し！'; sub = '解説をよく読んでもう一度挑戦しよう。'; }
   else                         { msg = '💪 復習が必要です'; sub = 'practice.html で各問題をもう一度確認しよう。'; }
 
   rs.innerHTML = `
-    \lt div class="result-circle"\gt 
-      \lt div class="result-score"\gt ${correct}</div>
-      <div class="result-total">/ ${QUIZ.length}\lt /div\gt 
-    \lt /div\gt 
-    \lt div class="result-msg"\gt ${msg}</div>
-    <div class="result-sub">${sub}\lt /div\gt 
-    \lt div class="btn-row"\gt 
-      \lt button class="btn-retry" onclick="retry()"\gt 🔁 もう一度\lt /button\gt 
-      \lt a class="btn-back" href="practice.html"\gt ← 演習に戻る\lt /a\gt 
-      \lt a class="btn-back" href="../gamba_kounin.html"\gt 🏠 メニューへ\lt /a\gt 
-    \lt /div\gt `;
+    < div class="result-circle"> 
+      < div class="result-score"> ${correct}</div>
+      <div class="result-total">/ ${QUIZ.length}< /div> 
+    < /div> 
+    < div class="result-msg"> ${msg}</div>
+    <div class="result-sub">${sub}< /div> 
+    < div class="btn-row"> 
+      < button class="btn-retry" onclick="retry()"> 🔁 もう一度< /button> 
+      < a class="btn-back" href="practice.html"> ← 演習に戻る< /a> 
+      < a class="btn-back" href="https://realizefield.github.io/gamba-kounin-seito/gamba-kounin-seito.html"> 🏠 メニューへ< /a> 
+    < /div> `;
 
   if (pass) {
     if (typeof markPassed === 'function') markPassed('QU05');
@@ -259,7 +259,7 @@ function retry() {
 // 花吹雪
 function launchConfetti() {
   const colors = ['#d97706','#f59e0b','#fbbf24','#059669','#0284c7','#9333ea'];
-  for (let i = 0; i \lt  60; i++) {
+  for (let i = 0; i <  60; i++) {
     const el = document.createElement('div');
     el.className = 'confetti-piece';
     el.style.cssText = `
@@ -277,5 +277,6 @@ document.head.appendChild(style);
 
 buildQuestion(0);
 </script>
+<script src="https://realizefield.github.io/gamba-kounin-seito/gamba-ai.js" defer></script>
 </body>
 </html>

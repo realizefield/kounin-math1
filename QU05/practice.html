@@ -88,12 +88,12 @@ const YEARS = [
         num:1, type:'最大値・最小値',
         text:'二次関数 $y=-2(x-1)^2+4$ について、正しいものを選べ。',
         choices:[
-          '頂点は $(1, 4)$ で、グラフは上に開く',
           '頂点は $(1, 4)$ で、グラフは下に開く',
+          '頂点は $(1, 4)$ で、グラフは上に開く',
           '頂点は $(-1, 4)$ で、グラフは下に開く',
           '頂点は $(1, -4)$ で、グラフは上に開く'
         ],
-        ans:1,
+        ans:0,
         exp:'$y=a(x-p)^2+q$ の形より、頂点は $(p,q)=(1,4)$。$a=-2\lt 0$ なのでグラフは下に開く（上に凸）。最大値は $x=1$ のとき $y=4$。'
       },
       {
@@ -170,12 +170,12 @@ const YEARS = [
         num:1, type:'二次関数の識別',
         text:'次のうち、二次関数のグラフが「上に開く」ものはどれか。',
         choices:[
-          '$y=-x^2+2$',
-          '$y=-(x-1)^2$',
           '$y=2(x+3)^2-1$',
+          '$y=-(x-1)^2$',
+          '$y=-x^2+2$',
           '$y=-3x^2+x$'
         ],
-        ans:2,
+        ans:0,
         exp:'$a\gt 0$ なら上に開く（下が細い）。$y=2(x+3)^2-1$ は $a=2\gt 0$ なので上に開く。他はすべて $a\lt 0$ で下に開く。'
       },
       {
@@ -212,11 +212,11 @@ const YEARS = [
         text:'縦の長さが $x$、横の長さが $(10-x)$ の長方形の面積 $S$ を式で表すと？',
         choices:[
           '$S=x(10+x)$',
-          '$S=x(10-x)$',
-          '$S=10x-x$',
           '$S=(10-x)^2$'
-        ],
-        ans:1,
+        ,
+          '$S=10x-x$',
+          '$S=x(10-x)$'],
+        ans:3,
         exp:'面積 $=$ 縦 $\\times$ 横 $= x(10-x) = 10x - x^2$。これは $x$ についての二次関数。'
       },
       {
@@ -294,11 +294,11 @@ const YEARS = [
         text:'$a\gt 0,\\ p\gt 0$ のとき、$y=a(x-p)^2$ のグラフの特徴はどれか。',
         choices:[
           '頂点は原点にある',
-          '頂点は $x$ 軸上の正の部分にあり、上に開く',
-          '頂点は $y$ 軸上にある',
           '頂点は第3象限にある'
-        ],
-        ans:1,
+        ,
+          '頂点は $y$ 軸上にある',
+          '頂点は $x$ 軸上の正の部分にあり、上に開く'],
+        ans:3,
         exp:'$y=a(x-p)^2+0$ より頂点は $(p, 0)$。$p\gt 0$ なので $x$ 軸の正の部分。$a\gt 0$ なのでグラフは上に開く。'
       },
       {
@@ -335,11 +335,11 @@ const YEARS = [
         text:'$y=2x^2$ を $x$ 軸方向に $3$、$y$ 軸方向に $4$ だけ平行移動した式はどれか。',
         choices:[
           '$y=2(x+3)^2+4$',
-          '$y=2(x-3)^2+4$',
           '$y=2(x-3)^2-4$',
+          '$y=2(x-3)^2+4$',
           '$y=2x^2+4$'
         ],
-        ans:1,
+        ans:2,
         exp:'$x$ 軸方向に $p$、$y$ 軸方向に $q$ 平行移動 $\\Rightarrow$ $y=2(x-3)^2+4$。$x$ を $x-3$ に置き換え、$+4$ を加える。'
       },
       {
@@ -463,19 +463,19 @@ function buildUI() {
     div.id = 'sec_' + year.id;
 
     let html = `<div class="year-title">📅 ${year.label}</div>`;
-    year.qs.forEach((q, qi) =\gt  {
+    year.qs.forEach((q, qi) =>  {
       const s = state[year.id][qi];
       html += `
-      \lt div class="q-card" id="card_${year.id}_${qi}"\gt 
+      < div class="q-card" id="card_${year.id}_${qi}"> 
         <div class="q-head"><div class="q-num">${q.num}</div>
           <div class="q-type">${q.type}</div>
         </div>
         <div class="q-body"><div class="q-text math-render">${q.text}</div>
           <div class="choices" id="choices_${year.id}_${qi}">
-            ${q.choices.map((c, ci) =\gt  `
-              \lt button class="choice-btn math-render" onclick="answer('${year.id}',${qi},${ci})">${c}</button>`).join('')}
+            ${q.choices.map((c, ci) =>  `
+              < button class="choice-btn math-render" onclick="answer('${year.id}',${qi},${ci})">${c}</button>`).join('')}
           </div>
-          \lt div class="explanation math-render" id="exp_${year.id}_${qi}"\gt 
+          < div class="explanation math-render" id="exp_${year.id}_${qi}"> 
             <div class="ex-title">📝 解説</div>
             ${q.exp}
           </div>
@@ -535,5 +535,6 @@ function updateProgress() {
 
 buildUI();
 </script>
+<script src="https://realizefield.github.io/gamba-kounin-seito/gamba-ai.js" defer></script>
 </body>
 </html>

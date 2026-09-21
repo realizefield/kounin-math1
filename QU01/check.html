@@ -123,8 +123,8 @@ header .sub{font-size:.78em;opacity:.88;margin-top:2px}
   <div class="choices">
     <button class="choice" data-i="0" onclick="select(this,2)">① p＝3, q＝4</button>
     <button class="choice" data-i="1" onclick="select(this,2)">② p＝3, q＝－4</button>
-    <button class="choice" data-i="2" onclick="select(this,2)">③ p＝－3, q＝4</button>
-    <button class="choice" data-i="3" onclick="select(this,2)">④ p＝－3, q＝－4</button>
+    <button class="choice" data-i="2" onclick="select(this,2)">③ p＝－3, q＝－4</button>
+    <button class="choice" data-i="3" onclick="select(this,2)">④ p＝－3, q＝4</button>
   </div>
   <div class="feedback" id="fb-2"></div>
 </div>
@@ -169,8 +169,8 @@ header .sub{font-size:.78em;opacity:.88;margin-top:2px}
     二次関数 y＝－2(χ－1)²＋3 のグラフは、二次関数 <b>ア</b> のグラフを平行移動したものである。<b>ア</b> として正しいものを選べ。
   </div>
   <div class="choices">
-    <button class="choice" data-i="0" onclick="select(this,4)">① y＝－2χ²</button>
-    <button class="choice" data-i="1" onclick="select(this,4)">② y＝2χ²</button>
+    <button class="choice" data-i="0" onclick="select(this,4)">① y＝2χ²</button>
+    <button class="choice" data-i="1" onclick="select(this,4)">② y＝－2χ²</button>
     <button class="choice" data-i="2" onclick="select(this,4)">③ y＝－2χ²＋3</button>
     <button class="choice" data-i="3" onclick="select(this,4)">④ y＝－2(χ－1)²</button>
   </div>
@@ -187,8 +187,8 @@ header .sub{font-size:.78em;opacity:.88;margin-top:2px}
     二次関数 y＝－(χ＋1)²＋2 の頂点の座標と、グラフの向きの組み合わせとして正しいものを選べ。
   </div>
   <div class="choices">
-    <button class="choice" data-i="0" onclick="select(this,5)">① 頂点(1, 2)・下に凸</button>
-    <button class="choice" data-i="1" onclick="select(this,5)">② 頂点(－1, 2)・上に凸</button>
+    <button class="choice" data-i="0" onclick="select(this,5)">① 頂点(－1, 2)・上に凸</button>
+    <button class="choice" data-i="1" onclick="select(this,5)">② 頂点(1, 2)・下に凸</button>
     <button class="choice" data-i="2" onclick="select(this,5)">③ 頂点(1, 2)・上に凸</button>
     <button class="choice" data-i="3" onclick="select(this,5)">④ 頂点(－1, 2)・下に凸</button>
   </div>
@@ -207,7 +207,7 @@ header .sub{font-size:.78em;opacity:.88;margin-top:2px}
 
 <div class="nav">
   <a href="./drill.html" class="btn btn-back">← 演習へ戻る</a>
-  <a href="../gamba_kounin.html" class="btn btn-next">単元一覧へ →</a>
+  <a href="../kounin_math_index.html" class="btn btn-next">単元一覧へ →</a>
 </div>
 
 </div>
@@ -308,15 +308,14 @@ window.addEventListener('load', function() {
 const ANSWERS = {
   1: { ans:1, type:'graph',
     exp:'y＝－(χ＋3)² → a＝－1＜0 なので<b>上に凸</b>。p＝－3（「＋3」なのでマイナス）→ 頂点は <b>(－3, 0)</b>。χ軸より左に頂点がある上に凸のグラフ → <b>①</b>' },
-  2: { ans:2, type:'normal',
-    exp:'χ軸方向に 3（右に3）→ y＝2(χ－3)² の形 → y＝2(χ＋p)² と比べると p＝<b>－3</b>。<br>y軸方向に 4（上に4）→ ＋4 → q＝<b>4</b>。よって <b>p＝－3, q＝4（③）</b>' },
+  2: { ans:3, type:'normal',
+    exp:'χ軸方向に 3（右に3）→ y＝2(χ－3)² の形 → y＝2(χ＋p)² と比べると p＝<b>－3</b>。<br>y軸方向に 4（上に4）→ ＋4 → q＝<b>4</b>。よって <b>p＝－3, q＝4（④）</b>' },
   3: { ans:1, type:'graph',
     exp:'y＝2(χ－1)²＋2 → a＝2＞0 なので<b>下に凸</b>。p＝1, q＝2 → 頂点 <b>(1, 2)</b>。第1象限に頂点がある下に凸 → <b>①</b>' },
-  4: { ans:0, type:'normal',
-    exp:'y＝a(χ－p)²＋q を y＝aχ² に戻す → 係数 a だけ残す。<br>y＝－2(χ－1)²＋3 の係数は a＝<b>－2</b> → 元の式は <b>y＝－2χ²（①）</b>' },
-  5: { ans:1, type:'normal',
-    exp:'y＝－(χ＋1)²＋2 → a＝－1＜0 なので<b>上に凸</b>。p＝－1（「＋1」なのでマイナス）, q＝2 → 頂点 <b>(－1, 2)</b> → <b>②</b>' },
-};
+  4: { ans:1, type:'normal',
+    exp:'y＝a(χ－p)²＋q を y＝aχ² に戻す → 係数 a だけ残す。<br>y＝－2(χ－1)²＋3 の係数は a＝<b>－2</b> → 元の式は <b>y＝－2χ²（②）</b>' },
+  5: { ans:0, type:'normal',
+    exp:'y＝－(χ＋1)²＋2 → a＝－1＜0 なので<b>上に凸</b>。p＝－1（「＋1」なのでマイナス）, q＝2 → 頂点 <b>(－1, 2)</b> → <b>①</b>' }};
 
 function select(btn, qIdx) {
   const card = btn.closest('.q-card');
@@ -403,5 +402,6 @@ function markPassed(code) {
   } catch(e) {}
 }
 </script>
+<script src="https://realizefield.github.io/gamba-kounin-seito/gamba-ai.js" defer></script>
 </body>
 </html>

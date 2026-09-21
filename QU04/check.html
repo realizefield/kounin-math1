@@ -68,10 +68,10 @@ header .sub{font-size:.78em;opacity:.88;margin-top:2px}
     二次関数 y＝χ²＋4kχ－k（k は定数）のグラフが点(0, 3)を通るとき、k の値は<b>イウ</b>である。
   </div>
   <div class="choices">
-    <button class="choice" data-i="0" onclick="sel(this,1)">① k＝－3</button>
+    <button class="choice" data-i="0" onclick="sel(this,1)">① k＝－１</button>
     <button class="choice" data-i="1" onclick="sel(this,1)">② k＝3</button>
     <button class="choice" data-i="2" onclick="sel(this,1)">③ k＝１</button>
-    <button class="choice" data-i="3" onclick="sel(this,1)">④ k＝－１</button>
+    <button class="choice" data-i="3" onclick="sel(this,1)">④ k＝－3</button>
   </div>
   <div class="feedback" id="fb-1"></div>
 </div>
@@ -83,8 +83,8 @@ header .sub{font-size:.78em;opacity:.88;margin-top:2px}
     二次関数 y＝a(χ＋1)²－2（a は定数）のグラフが点(1, 6)を通るとき、a の値は<b>イ</b>である。
   </div>
   <div class="choices">
-    <button class="choice" data-i="0" onclick="sel(this,2)">① a＝1</button>
-    <button class="choice" data-i="1" onclick="sel(this,2)">② a＝2</button>
+    <button class="choice" data-i="0" onclick="sel(this,2)">① a＝2</button>
+    <button class="choice" data-i="1" onclick="sel(this,2)">② a＝1</button>
     <button class="choice" data-i="2" onclick="sel(this,2)">③ a＝3</button>
     <button class="choice" data-i="3" onclick="sel(this,2)">④ a＝4</button>
   </div>
@@ -103,9 +103,9 @@ header .sub{font-size:.78em;opacity:.88;margin-top:2px}
     <div style="flex:1;min-width:200px">
       <div class="choices" style="margin-top:0">
         <button class="choice" data-i="0" onclick="sel(this,3)">① y＝(χ－1)²＋2</button>
-        <button class="choice" data-i="1" onclick="sel(this,3)">② y＝(χ－1)²－2</button>
+        <button class="choice" data-i="1" onclick="sel(this,3)">② y＝3(χ－1)²－2</button>
         <button class="choice" data-i="2" onclick="sel(this,3)">③ y＝3(χ－1)²＋2</button>
-        <button class="choice" data-i="3" onclick="sel(this,3)">④ y＝3(χ－1)²－2</button>
+        <button class="choice" data-i="3" onclick="sel(this,3)">④ y＝(χ－1)²－2</button>
       </div>
     </div>
   </div>
@@ -125,8 +125,8 @@ header .sub{font-size:.78em;opacity:.88;margin-top:2px}
       <div class="choices" style="margin-top:0">
         <button class="choice" data-i="0" onclick="sel(this,4)">① y＝－(χ＋1)²＋3</button>
         <button class="choice" data-i="1" onclick="sel(this,4)">② y＝－(χ－1)²＋3</button>
-        <button class="choice" data-i="2" onclick="sel(this,4)">③ y＝－3(χ＋1)²＋3</button>
-        <button class="choice" data-i="3" onclick="sel(this,4)">④ y＝－3(χ－1)²＋3</button>
+        <button class="choice" data-i="2" onclick="sel(this,4)">③ y＝－3(χ－1)²＋3</button>
+        <button class="choice" data-i="3" onclick="sel(this,4)">④ y＝－3(χ＋1)²＋3</button>
       </div>
     </div>
   </div>
@@ -140,8 +140,8 @@ header .sub{font-size:.78em;opacity:.88;margin-top:2px}
     二次関数 y＝a(χ－2)²＋1 のグラフが点(4, 9)を通るとき、a の値は？
   </div>
   <div class="choices">
-    <button class="choice" data-i="0" onclick="sel(this,5)">① a＝1</button>
-    <button class="choice" data-i="1" onclick="sel(this,5)">② a＝2</button>
+    <button class="choice" data-i="0" onclick="sel(this,5)">① a＝2</button>
+    <button class="choice" data-i="1" onclick="sel(this,5)">② a＝1</button>
     <button class="choice" data-i="2" onclick="sel(this,5)">③ a＝3</button>
     <button class="choice" data-i="3" onclick="sel(this,5)">④ a＝4</button>
   </div>
@@ -158,7 +158,7 @@ header .sub{font-size:.78em;opacity:.88;margin-top:2px}
 </div>
 <div class="nav">
   <a href="./drill.html" class="btn btn-back">← 演習へ戻る</a>
-  <a href="../gamba_kounin.html" class="btn btn-next">単元一覧へ →</a>
+  <a href="../kounin_math_index.html" class="btn btn-next">単元一覧へ →</a>
 </div>
 </div>
 
@@ -206,12 +206,11 @@ window.addEventListener('load',function(){
 });
 
 const ANSWERS={
-  1:{ans:0,exp:'χ＝0、y＝3を代入：3＝0＋0－k ＝ <b>－k</b> → k＝<b>－3</b>（①）'},
-  2:{ans:1,exp:'χ＝1、y＝6を代入：6＝a(1＋1)²－2＝4a－2 → 4a＝8 → a＝<b>2</b>（②）'},
-  3:{ans:3,exp:'y＝m(χ－1)²－2として(0,1)代入：1＝m－2 → m＝3 → <b>y＝3(χ－1)²－2</b>（④）'},
-  4:{ans:3,exp:'y＝m(χ－1)²＋3として(0,0)代入：0＝m＋3 → m＝－3 → <b>y＝－3(χ－1)²＋3</b>（④）'},
-  5:{ans:1,exp:'χ＝4、y＝9を代入：9＝a(4－2)²＋1＝4a＋1 → 4a＝8 → a＝<b>2</b>（②）'},
-};
+  1:{ans:3,exp:'χ＝0、y＝3を代入：3＝0＋0－k ＝ <b>－k</b> → k＝<b>－3</b>（④）'},
+  2:{ans:0,exp:'χ＝1、y＝6を代入：6＝a(1＋1)²－2＝4a－2 → 4a＝8 → a＝<b>2</b>（①）'},
+  3:{ans:1,exp:'y＝m(χ－1)²－2として(0,1)代入：1＝m－2 → m＝3 → <b>y＝3(χ－1)²－2</b>（②）'},
+  4:{ans:2,exp:'y＝m(χ－1)²＋3として(0,0)代入：0＝m＋3 → m＝－3 → <b>y＝－3(χ－1)²＋3</b>（③）'},
+  5:{ans:0,exp:'χ＝4、y＝9を代入：9＝a(4－2)²＋1＝4a＋1 → 4a＝8 → a＝<b>2</b>（①）'}};
 
 function sel(btn,qIdx){
   const card=btn.closest('.q-card');if(card.dataset.chosen)return;
@@ -260,5 +259,6 @@ function markPassed(code){
   try{const k='gamba_passed';const d=JSON.parse(localStorage.getItem(k)||'{}');d[code]=true;localStorage.setItem(k,JSON.stringify(d));}catch(e){}
 }
 </script>
+<script src="https://realizefield.github.io/gamba-kounin-seito/gamba-ai.js" defer></script>
 </body>
 </html>

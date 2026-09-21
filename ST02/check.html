@@ -215,7 +215,7 @@ sup{font-size:.7em;vertical-align:super}
 </div>
 
 <!-- Q7：過去問2 -->
-<div class="q-card" data-q="7" data-ans="3">
+<div class="q-card" data-q="7" data-ans="2">
   <span class="year-tag">実戦問題3型</span><span class="q-num">問7</span>
   <div class="q-body">
     次の2つの命題 (P)、(Q) がある。
@@ -225,8 +225,8 @@ sup{font-size:.7em;vertical-align:super}
   </div>
   <div class="choices">
     <button class="choice" data-i="1">① (P) 真、(Q) 真</button>
-    <button class="choice" data-i="2">② (P) 真、(Q) 偽</button>
-    <button class="choice" data-i="3">③ (P) 偽、(Q) 真</button>
+    <button class="choice" data-i="2">② (P) 偽、(Q) 真</button>
+    <button class="choice" data-i="3">③ (P) 真、(Q) 偽</button>
     <button class="choice" data-i="4">④ (P) 偽、(Q) 偽</button>
   </div>
   <div class="feedback"></div>
@@ -244,13 +244,13 @@ sup{font-size:.7em;vertical-align:super}
 
 <div class="nav">
   <a href="./drill.html" class="btn btn-back">← 演習に戻る</a>
-  <a href="../gamba_kounin.html" class="btn btn-next">単元一覧へ →</a>
+  <a href="../kounin_math_index.html" class="btn btn-next">単元一覧へ →</a>
 </div>
 
 </div>
 
 <script>
-const answers = {1:'2', 2:'1', 3:'2', 4:'1', 5:'2', 6:'3', 7:'3'};
+const answers = {1:'2', 2:'1', 3:'2', 4:'1', 5:'2', 6:'3', 7:'2'};
 const explanations = {
   1: '【基礎】χ<sup>2</sup>＝25 の解は χ＝5 と χ＝－5 の2つ。χ＝－5 が反例なので <span class="false-tag">偽</span>（②）',
   2: '【基礎】10の倍数（10, 20, 30…）はすべて5で割れる。反例なし → <span class="true-tag">真</span>（①）',
@@ -258,7 +258,7 @@ const explanations = {
   4: '【苦手対策・倍数】4の倍数（4, 8, 12, 16…）はすべて2で割れる → 偶数。反例なし → <span class="true-tag">真</span>（①）',
   5: '【苦手対策・多解】χ<sup>2</sup>－2χ＝0 を解くと χ(χ－2)＝0 → χ＝0、χ＝2 の2つ。χ＝0 が反例 → <span class="false-tag">偽</span>（②）',
   6: '【実戦問題1型】(P)：内角が全て等しい四角形は<b>長方形</b>（正方形とは限らない） → <span class="false-tag">偽</span>。(Q)：4の倍数は必ず2でも割れる → <span class="true-tag">真</span>。組み合わせは「(P)偽、(Q)真」（③）',
-  7: '【実戦問題3型】(P)：二等辺三角形は2辺が等しいだけで、正三角形とは限らない → <span class="false-tag">偽</span>。(Q)：12の倍数（12, 24, 36…）は必ず4で割れる → <span class="true-tag">真</span>。組み合わせは「(P)偽、(Q)真」（③）'
+  7: '【実戦問題3型】(P)：二等辺三角形は2辺が等しいだけで、正三角形とは限らない → <span class="false-tag">偽</span>。(Q)：12の倍数（12, 24, 36…）は必ず4で割れる → <span class="true-tag">真</span>。組み合わせは「(P)偽、(Q)真」（②）'
 };
 const selections = {};
 
@@ -355,5 +355,6 @@ function markPassed(unitCode){
   }catch(e){}
 }
 </script>
+<script src="https://realizefield.github.io/gamba-kounin-seito/gamba-ai.js" defer></script>
 </body>
 </html>
