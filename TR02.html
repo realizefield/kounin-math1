@@ -10,58 +10,58 @@
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
-body{font-family:'BIZ UDPGothic',sans-serif;background:#f0fdf4;color:#14532d;min-height:100vh;}
+body{font-family:'BIZ UDPGothic',sans-serif;background:#f5f3ff;color:#1e1b4b;min-height:100vh;}
 
-.header{background:linear-gradient(135deg,#16a34a,#15803d);color:#fff;padding:16px 20px;display:flex;align-items:center;gap:12px;}
+.header{background:linear-gradient(135deg,#7c3aed,#5b21b6);color:#fff;padding:16px 20px;display:flex;align-items:center;gap:12px;}
 .header-icon{font-size:28px;}
 .header-title{font-size:18px;font-weight:700;}
 .header-sub{font-size:12px;opacity:.8;margin-top:2px;}
 
-.step-nav{display:flex;background:#fff;border-bottom:2px solid #dcfce7;overflow:hidden;}
+.step-nav{display:flex;background:#fff;border-bottom:2px solid #ede9fe;overflow:hidden;}
 .step-btn{flex:1;padding:10px 4px;border:none;background:transparent;font-family:'BIZ UDPGothic',sans-serif;font-size:12px;color:#6b7280;cursor:pointer;transition:.2s;display:flex;flex-direction:column;align-items:center;gap:3px;}
-.step-btn.active{background:#16a34a;color:#fff;}
-.step-btn.done{background:#dcfce7;color:#15803d;}
+.step-btn.active{background:#7c3aed;color:#fff;}
+.step-btn.done{background:#ede9fe;color:#5b21b6;}
 .step-icon{font-size:16px;}
 
 .content{padding:16px;max-width:640px;margin:0 auto;}
 
-.card{background:#fff;border-radius:12px;padding:18px;margin-bottom:14px;box-shadow:0 2px 8px rgba(22,163,74,.08);}
-.card-title{font-size:14px;font-weight:700;color:#15803d;margin-bottom:12px;display:flex;align-items:center;gap:6px;}
+.card{background:#fff;border-radius:12px;padding:18px;margin-bottom:14px;box-shadow:0 2px 8px rgba(124,58,237,.08);}
+.card-title{font-size:14px;font-weight:700;color:#5b21b6;margin-bottom:12px;display:flex;align-items:center;gap:6px;}
 
 .explain{font-size:14px;line-height:1.8;color:#374151;}
-.point-box{background:#f0fdf4;border-left:4px solid #16a34a;padding:12px 14px;border-radius:0 8px 8px 0;margin:12px 0;}
-.point-box .label{font-size:11px;font-weight:700;color:#16a34a;margin-bottom:4px;}
+.point-box{background:#f5f3ff;border-left:4px solid #7c3aed;padding:12px 14px;border-radius:0 8px 8px 0;margin:12px 0;}
+.point-box .label{font-size:11px;font-weight:700;color:#7c3aed;margin-bottom:4px;}
 
 .fig-wrap{display:flex;justify-content:center;margin:12px 0;gap:16px;flex-wrap:wrap;}
 
 /* 三角比表 */
 .tri-table{width:100%;border-collapse:collapse;font-size:14px;margin:10px 0;}
-.tri-table th{background:#16a34a;color:#fff;padding:8px 10px;text-align:center;font-weight:700;}
-.tri-table td{padding:10px 10px;text-align:center;border:1px solid #dcfce7;}
-.tri-table tr:nth-child(even) td{background:#f0fdf4;}
-.tri-table .row-label{font-weight:700;color:#15803d;background:#f0fdf4 !important;}
+.tri-table th{background:#7c3aed;color:#fff;padding:8px 10px;text-align:center;font-weight:700;}
+.tri-table td{padding:10px 10px;text-align:center;border:1px solid #ede9fe;}
+.tri-table tr:nth-child(even) td{background:#faf5ff;}
+.tri-table .row-label{font-weight:700;color:#5b21b6;background:#f5f3ff !important;}
 .val-sin{color:#dc2626;font-weight:700;}
 .val-cos{color:#2563eb;font-weight:700;}
 .val-tan{color:#059669;font-weight:700;}
 
 /* 重要ボックス */
-.important{background:#16a34a;color:#fff;border-radius:10px;padding:14px 16px;margin:12px 0;}
+.important{background:#7c3aed;color:#fff;border-radius:10px;padding:14px 16px;margin:12px 0;}
 .important .imp-title{font-size:12px;font-weight:700;opacity:.85;margin-bottom:8px;}
 
 /* ドリル */
 .drill-intro{font-size:13px;color:#6b7280;margin-bottom:14px;}
 .set-tabs{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;}
-.set-tab{padding:6px 14px;border-radius:20px;border:2px solid #dcfce7;background:#fff;font-family:'BIZ UDPGothic',sans-serif;font-size:13px;cursor:pointer;color:#6b7280;transition:.2s;}
-.set-tab.active{background:#16a34a;border-color:#16a34a;color:#fff;font-weight:700;}
+.set-tab{padding:6px 14px;border-radius:20px;border:2px solid #ede9fe;background:#fff;font-family:'BIZ UDPGothic',sans-serif;font-size:13px;cursor:pointer;color:#6b7280;transition:.2s;}
+.set-tab.active{background:#7c3aed;border-color:#7c3aed;color:#fff;font-weight:700;}
 
-.q-block{background:#fff;border-radius:10px;padding:14px;margin-bottom:10px;border:2px solid #dcfce7;}
+.q-block{background:#fff;border-radius:10px;padding:14px;margin-bottom:10px;border:2px solid #ede9fe;}
 .q-block.correct{border-color:#10b981;}
 .q-block.wrong{border-color:#ef4444;}
 .q-num{font-size:11px;color:#9ca3af;margin-bottom:6px;}
 .q-text{font-size:14px;margin-bottom:10px;line-height:1.7;}
 .choices{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
 .choice{padding:8px 10px;border-radius:8px;border:2px solid #e5e7eb;background:#fff;font-family:'BIZ UDPGothic',sans-serif;font-size:13px;cursor:pointer;text-align:left;transition:.15s;line-height:1.5;}
-.choice:hover{border-color:#16a34a;background:#f0fdf4;}
+.choice:hover{border-color:#7c3aed;background:#f5f3ff;}
 .choice.selected-correct{background:#d1fae5;border-color:#10b981;color:#065f46;}
 .choice.selected-wrong{background:#fee2e2;border-color:#ef4444;color:#991b1b;}
 .choice.show-correct{background:#d1fae5;border-color:#10b981;}
@@ -70,14 +70,14 @@ body{font-family:'BIZ UDPGothic',sans-serif;background:#f0fdf4;color:#14532d;min
 .feedback.ng{background:#fee2e2;color:#991b1b;}
 
 .drill-action{display:flex;justify-content:center;margin-top:14px;}
-.btn-check{background:#16a34a;color:#fff;border:none;padding:12px 32px;border-radius:24px;font-family:'BIZ UDPGothic',sans-serif;font-size:15px;font-weight:700;cursor:pointer;}
+.btn-check{background:#7c3aed;color:#fff;border:none;padding:12px 32px;border-radius:24px;font-family:'BIZ UDPGothic',sans-serif;font-size:15px;font-weight:700;cursor:pointer;}
 .btn-check:disabled{opacity:.5;cursor:default;}
 
-.score-box{background:#fff;border-radius:12px;padding:16px;text-align:center;margin-bottom:14px;border:2px solid #dcfce7;}
-.score-circle{width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,#16a34a,#15803d);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;margin:0 auto 10px;font-size:24px;font-weight:700;}
+.score-box{background:#fff;border-radius:12px;padding:16px;text-align:center;margin-bottom:14px;border:2px solid #ede9fe;}
+.score-circle{width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,#7c3aed,#5b21b6);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;margin:0 auto 10px;font-size:24px;font-weight:700;}
 .score-label{font-size:11px;opacity:.8;}
 
-.check-q{background:#fff;border-radius:10px;padding:14px;margin-bottom:10px;border:2px solid #dcfce7;}
+.check-q{background:#fff;border-radius:10px;padding:14px;margin-bottom:10px;border:2px solid #ede9fe;}
 .check-q.correct{border-color:#10b981;}
 .check-q.wrong{border-color:#ef4444;}
 
@@ -85,19 +85,19 @@ body{font-family:'BIZ UDPGothic',sans-serif;background:#f0fdf4;color:#14532d;min
 .confetti-piece{position:absolute;width:10px;height:10px;top:-10px;opacity:0;}
 
 .nav-row{display:flex;gap:10px;justify-content:center;margin-top:16px;}
-.btn-nav{padding:10px 24px;border-radius:20px;border:2px solid #16a34a;background:#fff;color:#16a34a;font-family:'BIZ UDPGothic',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:.2s;}
-.btn-nav.primary{background:#16a34a;color:#fff;}
+.btn-nav{padding:10px 24px;border-radius:20px;border:2px solid #7c3aed;background:#fff;color:#7c3aed;font-family:'BIZ UDPGothic',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:.2s;}
+.btn-nav.primary{background:#7c3aed;color:#fff;}
 .btn-nav:hover{opacity:.85;}
 
 .back-link{display:block;text-align:center;margin-top:16px;color:#9ca3af;font-size:13px;text-decoration:none;}
-.back-link:hover{color:#16a34a;}
+.back-link:hover{color:#7c3aed;}
 
 .exp-text{font-size:13px;color:#6b7280;margin-top:6px;line-height:1.6;}
 
 /* details/summary プルダウン */
 details>summary{list-style:none;}
 details>summary::-webkit-details-marker{display:none;}
-details[open]>summary{color:#15803d;}
+details[open]>summary{color:#5b21b6;}
 details[open]>summary::before{content:'▼ ';}
 details:not([open])>summary::before{content:'▶ ';}
 
@@ -109,7 +109,7 @@ details:not([open])>summary::before{content:'▶ ';}
 .feedback .frac .num,.feedback .frac .den{font-size:.85em;}
 
 /* 参照表カード（sticky） */
-.ref-table-card{background:#fff;border-radius:12px;padding:14px 16px;margin-bottom:14px;box-shadow:0 2px 8px rgba(22,163,74,.08);border:2px solid #dcfce7;}
+.ref-table-card{background:#fff;border-radius:12px;padding:14px 16px;margin-bottom:14px;box-shadow:0 2px 8px rgba(124,58,237,.08);border:2px solid #ede9fe;}
 .ref-table-card .card-title{margin-bottom:8px;}
 
 /* 暗記ヒント */
@@ -117,15 +117,15 @@ details:not([open])>summary::before{content:'▶ ';}
 .hint-box .label{font-size:11px;font-weight:700;color:#92400e;margin-bottom:3px;}
 
 /* 語群チップ */
-.word-chip{display:inline-flex;align-items:center;justify-content:center;padding:6px 14px;border-radius:20px;border:2px solid #16a34a;background:#fff;font-family:'BIZ UDPGothic',sans-serif;font-size:13px;font-weight:700;color:#15803d;cursor:pointer;transition:.15s;-webkit-tap-highlight-color:transparent;user-select:none;}
-.word-chip:hover{background:#dcfce7;}
-.word-chip.selected{background:#16a34a;color:#fff;border-color:#15803d;}
+.word-chip{display:inline-flex;align-items:center;justify-content:center;padding:6px 14px;border-radius:20px;border:2px solid #7c3aed;background:#fff;font-family:'BIZ UDPGothic',sans-serif;font-size:13px;font-weight:700;color:#5b21b6;cursor:pointer;transition:.15s;-webkit-tap-highlight-color:transparent;user-select:none;}
+.word-chip:hover{background:#ede9fe;}
+.word-chip.selected{background:#7c3aed;color:#fff;border-color:#5b21b6;}
 .word-chip.used{opacity:.35;pointer-events:none;}
 
 /* 穴埋めセル */
-.drop-cell{min-width:52px;min-height:36px;border:2px dashed #86efac;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:#15803d;cursor:pointer;transition:.15s;padding:4px 6px;background:#f0fdf4;}
-.drop-cell:hover{border-color:#16a34a;background:#dcfce7;}
-.drop-cell.filled{border-style:solid;border-color:#16a34a;background:#f0fdf4;}
+.drop-cell{min-width:52px;min-height:36px;border:2px dashed #c4b5fd;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:#5b21b6;cursor:pointer;transition:.15s;padding:4px 6px;background:#faf5ff;}
+.drop-cell:hover{border-color:#7c3aed;background:#ede9fe;}
+.drop-cell.filled{border-style:solid;border-color:#7c3aed;background:#f5f3ff;}
 .drop-cell.correct-cell{background:#d1fae5;border-color:#10b981;color:#065f46;}
 .drop-cell.wrong-cell{background:#fee2e2;border-color:#ef4444;color:#991b1b;}
 </style>
@@ -368,13 +368,13 @@ details:not([open])>summary::before{content:'▶ ';}
     <!-- 30°三角形まとめ図 -->
     <div style="text-align:center;">
       <canvas id="cm-30" width="130" height="130"></canvas>
-      <div style="font-size:12px;color:#15803d;font-weight:700;margin-top:4px;">30°・60°の三角形</div>
+      <div style="font-size:12px;color:#5b21b6;font-weight:700;margin-top:4px;">30°・60°の三角形</div>
       <div style="font-size:11px;color:#6b7280;">最短辺：1　斜辺：2　残り：√3</div>
     </div>
     <!-- 45°三角形まとめ図 -->
     <div style="text-align:center;">
       <canvas id="cm-45" width="130" height="130"></canvas>
-      <div style="font-size:12px;color:#15803d;font-weight:700;margin-top:4px;">45°の三角形</div>
+      <div style="font-size:12px;color:#5b21b6;font-weight:700;margin-top:4px;">45°の三角形</div>
       <div style="font-size:11px;color:#6b7280;">2辺：1　斜辺：√2</div>
     </div>
   </div>
@@ -513,8 +513,8 @@ details:not([open])>summary::before{content:'▶ ';}
   <p class="explain" style="font-size:13px;margin-bottom:10px;">語群から正しい値を選んで，表の空欄を埋めましょう。</p>
 
   <!-- 語群 -->
-  <div style="background:#f0fdf4;border-radius:8px;padding:10px 12px;margin-bottom:12px;">
-    <div style="font-size:11px;font-weight:700;color:#16a34a;margin-bottom:6px;">【語群】</div>
+  <div style="background:#f5f3ff;border-radius:8px;padding:10px 12px;margin-bottom:12px;">
+    <div style="font-size:11px;font-weight:700;color:#7c3aed;margin-bottom:6px;">【語群】</div>
     <div style="display:flex;flex-wrap:wrap;gap:8px;" id="word-bank"></div>
   </div>
 
@@ -555,7 +555,7 @@ details:not([open])>summary::before{content:'▶ ';}
 <div class="nav-row">
   <button class="btn-nav primary" onclick="goStep('example')">例題へ →</button>
 </div>
-<a href="../gamba_kounin.html" class="back-link">← 単元一覧に戻る</a>
+<a href="kounin_math_index.html" class="back-link">← 単元一覧に戻る</a>
 </div><!-- /intro -->
 
 
@@ -606,7 +606,7 @@ details:not([open])>summary::before{content:'▶ ';}
   <button class="btn-nav" onclick="goStep('intro')">← 説明に戻る</button>
   <button class="btn-nav primary" onclick="goStep('drill')">練習へ →</button>
 </div>
-<a href="../gamba_kounin.html" class="back-link">← 単元一覧に戻る</a>
+<a href="kounin_math_index.html" class="back-link">← 単元一覧に戻る</a>
 </div><!-- /example -->
 
 
@@ -663,7 +663,7 @@ details:not([open])>summary::before{content:'▶ ';}
   <button class="btn-nav" onclick="goStep('example')">← 例題に戻る</button>
   <button class="btn-nav primary" onclick="goStep('check')">確認テストへ →</button>
 </div>
-<a href="../gamba_kounin.html" class="back-link">← 単元一覧に戻る</a>
+<a href="kounin_math_index.html" class="back-link">← 単元一覧に戻る</a>
 </div><!-- /drill -->
 
 
@@ -714,7 +714,7 @@ details:not([open])>summary::before{content:'▶ ';}
   <button class="btn-nav" onclick="goStep('drill')">← 練習に戻る</button>
   <button class="btn-nav primary" onclick="goStep('calc')">計算練習へ →</button>
 </div>
-<a href="../gamba_kounin.html" class="back-link">← 単元一覧に戻る</a>
+<a href="kounin_math_index.html" class="back-link">← 単元一覧に戻る</a>
 </div><!-- /check -->
 
 <!-- ===== CALC ===== -->
@@ -749,14 +749,13 @@ details:not([open])>summary::before{content:'▶ ';}
 <div class="nav-row">
   <button class="btn-nav" onclick="goStep('check')">← 確認テストに戻る</button>
 </div>
-<a href="../gamba_kounin.html" class="back-link">← 単元一覧に戻る</a>
+<a href="kounin_math_index.html" class="back-link">← 単元一覧に戻る</a>
 </div><!-- /calc -->
 
 </div><!-- /content -->
 
+<script src="../gamba_support.js"></script>
 <script>
-// スタブ（外部jsなし環境用）
-function markPassed(id){ try{localStorage.setItem('passed_'+id,'1');}catch(e){} }
 // ===== KaTeX =====
 let _katexReady=false;
 function waitKatex(fn){if(_katexReady){fn();return;}const t=setInterval(()=>{if(typeof katex!=='undefined'){_katexReady=true;clearInterval(t);fn();}},50);}
@@ -799,62 +798,62 @@ const drillSets=[
   // Aセット：表の読み取り（sin・cos・tan）
   [
     {q:'sin 30° の値は？',
-     choices:[F(1,2),F('√3',2),F(1,'√2'),'√3'],
-     ans:0,exp:`sin 30° = ${F(1,2)}`},
+     choices:[F(1,'√2'),F('√3',2),F(1,2),'√3'],
+     ans:2,exp:`sin 30° = ${F(1,2)}`},
     {q:'cos 60° の値は？',
-     choices:[F('√3',2),F(1,2),F(1,'√2'),'1'],
-     ans:1,exp:`cos 60° = ${F(1,2)}`},
+     choices:[F('√3',2),'1',F(1,'√2'),F(1,2)],
+     ans:3,exp:`cos 60° = ${F(1,2)}`},
     {q:'sin 45° の値は？',
-     choices:[F(1,2),F('√3',2),F(1,'√2'),'√2'],
-     ans:2,exp:`sin 45° = ${F(1,'√2')}`},
+     choices:[F(1,'√2'),F('√3',2),F(1,2),'√2'],
+     ans:0,exp:`sin 45° = ${F(1,'√2')}`},
     {q:'tan 60° の値は？',
-     choices:[F(1,'√3'),'1','√3',F('√3',2)],
-     ans:2,exp:'tan 60° = √3'}
+     choices:[F(1,'√3'),'√3','1',F('√3',2)],
+     ans:1,exp:'tan 60° = √3'}
   ],
   // Bセット：cos・tan の読み取り
   [
     {q:'cos 30° の値は？',
-     choices:[F(1,2),F('√3',2),F(1,'√2'),F('√3',3)],
-     ans:1,exp:`cos 30° = ${F('√3',2)}`},
+     choices:[F(1,2),F(1,'√2'),F('√3',2),F('√3',3)],
+     ans:2,exp:`cos 30° = ${F('√3',2)}`},
     {q:'tan 30° の値は？',
-     choices:[F(1,'√3'),'1','√3',F('√3',2)],
-     ans:0,exp:`tan 30° = ${F(1,'√3')}`},
+     choices:[F('√3',2),'1','√3',F(1,'√3')],
+     ans:3,exp:`tan 30° = ${F(1,'√3')}`},
     {q:'cos 45° の値は？',
-     choices:[F(1,2),F('√3',2),F(1,'√2'),'1'],
-     ans:2,exp:`cos 45° = ${F(1,'√2')}`},
+     choices:[F(1,2),F(1,'√2'),F('√3',2),'1'],
+     ans:1,exp:`cos 45° = ${F(1,'√2')}`},
     {q:'tan 45° の値は？',
-     choices:[F(1,'√3'),F(1,'√2'),'1','√3'],
-     ans:2,exp:'tan 45° = 1'}
+     choices:['1',F(1,'√2'),F(1,'√3'),'√3'],
+     ans:0,exp:'tan 45° = 1'}
   ],
   // Cセット：辺の長さを求める（斜辺→対辺・隣辺）
   [
     {q:'斜辺=10，θ=30° のとき，対辺（高さ）は？　斜辺×sin θ を計算しよう。',
-     choices:['5','5√3','5√2','10'],
-     ans:0,exp:`斜辺×sin 30° = 10×${F(1,2)} = 5`},
+     choices:['10','5√3','5√2','5'],
+     ans:3,exp:`斜辺×sin 30° = 10×${F(1,2)} = 5`},
     {q:'斜辺=8，θ=45° のとき，対辺（高さ）は？',
      choices:['4','4√2','4√3','8√2'],
      ans:1,exp:`斜辺×sin 45° = 8×${F(1,'√2')} = ${F(8,'√2')} = 4√2`},
     {q:'斜辺=6，θ=60° のとき，隣辺（底辺）は？　斜辺×cos θ を計算しよう。',
-     choices:['3','3√3','3√2','6'],
-     ans:0,exp:`斜辺×cos 60° = 6×${F(1,2)} = 3`},
+     choices:['3√2','3√3','3','6'],
+     ans:2,exp:`斜辺×cos 60° = 6×${F(1,2)} = 3`},
     {q:'斜辺=4，θ=30° のとき，隣辺（底辺）は？',
-     choices:['2','2√3','2√2','4'],
-     ans:1,exp:`斜辺×cos 30° = 4×${F('√3',2)} = 2√3`}
+     choices:['2√3','2','2√2','4'],
+     ans:0,exp:`斜辺×cos 30° = 4×${F('√3',2)} = 2√3`}
   ],
   // Dセット：値の大小・比較
   [
     {q:'次のうち，最も大きい値はどれ？',
-     choices:['sin 30°','sin 45°','sin 60°','cos 60°'],
-     ans:2,exp:`sin 60° = ${F('√3',2)} ≒ 0.866 が最大です。`},
+     choices:['sin 60°','sin 45°','sin 30°','cos 60°'],
+     ans:0,exp:`sin 60° = ${F('√3',2)} ≒ 0.866 が最大です。`},
     {q:'sin θ = cos θ となる θ は？',
-     choices:['30°','45°','60°','90°'],
-     ans:1,exp:`sin 45° = cos 45° = ${F(1,'√2')} で等しくなります。`},
+     choices:['30°','60°','45°','90°'],
+     ans:2,exp:`sin 45° = cos 45° = ${F(1,'√2')} で等しくなります。`},
     {q:'tan θ = 1 となる θ は？',
-     choices:['30°','45°','60°','90°'],
-     ans:1,exp:'tan 45° = 1 です。'},
+     choices:['30°','90°','60°','45°'],
+     ans:3,exp:'tan 45° = 1 です。'},
     {q:'sin 60° と cos 30° の関係は？',
-     choices:['sin 60° > cos 30°','sin 60° < cos 30°','sin 60° = cos 30°','比べられない'],
-     ans:2,exp:`どちらも ${F('√3',2)} で等しいです。sin 60° = cos 30° が成り立ちます。`}
+     choices:['sin 60° > cos 30°','sin 60° = cos 30°','sin 60° < cos 30°','比べられない'],
+     ans:1,exp:`どちらも ${F('√3',2)} で等しいです。sin 60° = cos 30° が成り立ちます。`}
   ]
 ];
 
@@ -864,11 +863,11 @@ const checkData=[
    choices:[F(1,2),F('√3',2),F(1,'√2'),'√3'],
    ans:1,exp:`sin 60° = ${F('√3',2)}`},
   {q:'cos 45° の値は？',
-   choices:[F(1,2),F('√3',2),F(1,'√2'),'1'],
-   ans:2,exp:`cos 45° = ${F(1,'√2')}`},
+   choices:[F(1,2),F('√3',2),'1',F(1,'√2')],
+   ans:3,exp:`cos 45° = ${F(1,'√2')}`},
   {q:'tan 30° の値は？',
-   choices:[F(1,'√3'),'1','√3',F('√3',2)],
-   ans:0,exp:`tan 30° = ${F(1,'√3')}`},
+   choices:['√3','1',F(1,'√3'),F('√3',2)],
+   ans:2,exp:`tan 30° = ${F(1,'√3')}`},
   {q:'斜辺=10，θ=60° のとき，対辺（高さ）は？',
    choices:['5','5√3','5√2','10√3'],
    ans:1,exp:`斜辺×sin 60° = 10×${F('√3',2)} = 5√3`},
@@ -909,8 +908,8 @@ function selectDrill(qi,ci){
   if(drillSubmitted)return;
   drillAnswers[qi]=ci;
   document.querySelectorAll(`#dc-${qi} .choice`).forEach((b,i)=>{
-    b.style.background=i===ci?'#dcfce7':'';
-    b.style.borderColor=i===ci?'#16a34a':'';
+    b.style.background=i===ci?'#ede9fe':'';
+    b.style.borderColor=i===ci?'#7c3aed':'';
   });
 }
 
@@ -938,7 +937,7 @@ function submitDrill(){
   res.style.display='block';
   res.innerHTML=`<div class="score-box">
     <div class="score-circle">${correct}<div class="score-label">/ 4</div></div>
-    <div style="font-size:14px;font-weight:700;color:#15803d;">${correct===4?'全問正解！🎉':'もう一度チャレンジしてみよう'}</div>
+    <div style="font-size:14px;font-weight:700;color:#5b21b6;">${correct===4?'全問正解！🎉':'もう一度チャレンジしてみよう'}</div>
   </div>`;
   if(correct===4)fireConfetti();
 }
@@ -969,8 +968,8 @@ function selectCheck(qi,ci){
   if(checkSubmitted)return;
   checkAnswers[qi]=ci;
   document.querySelectorAll(`#cc-${qi} .choice`).forEach((b,i)=>{
-    b.style.background=i===ci?'#dcfce7':'';
-    b.style.borderColor=i===ci?'#16a34a':'';
+    b.style.background=i===ci?'#ede9fe':'';
+    b.style.borderColor=i===ci?'#7c3aed':'';
   });
 }
 
@@ -997,7 +996,7 @@ function submitCheck(){
   res.style.display='block';
   res.innerHTML=`<div class="score-box">
     <div class="score-circle">${correct}<div class="score-label">/ 5</div></div>
-    <div style="font-size:14px;font-weight:700;color:#15803d;">${correct===5?'全問正解！🎉':correct>=3?'あと少し！復習してみよう':'もう一度説明から確認しよう'}</div>
+    <div style="font-size:14px;font-weight:700;color:#5b21b6;">${correct===5?'全問正解！🎉':correct>=3?'あと少し！復習してみよう':'もう一度説明から確認しよう'}</div>
   </div>`;
   if(correct===5){fireConfetti();markPassed('TR02');}
 }
@@ -1008,43 +1007,43 @@ const calcAllQuestions = [
   {
     q: 'sin 30° × cos 30°',
     // 1/2 × √3/2 = √3/4
-    choices: [F('√3','4'), F('1','4'), F('√3','2'), F('1','2')],
-    ans: 0,
+    choices: [ F('√3','2'), F('1','4'),F('√3','4'), F('1','2')],
+    ans:2,
     exp: F(1,2)+'×'+F('√3',2)+'= '+F('√3','4')
   },
   {
     q: 'cos 30° × tan 30°',
     // √3/2 × 1/√3 = 1/2
-    choices: [F('√3','2'), F(1,2), F(1,'√3'), '1'],
-    ans: 1,
+    choices: [F('√3','2'), '1', F(1,'√3'), F(1,2)],
+    ans:3,
     exp: F('√3',2)+'×'+F(1,'√3')+'= '+F('√3','2√3')+'= '+F(1,2)
   },
   {
     q: 'sin 60° × cos 60°',
     // √3/2 × 1/2 = √3/4
-    choices: [F(1,2), F('√3',2), F('√3','4'), F(1,'4')],
-    ans: 2,
+    choices: [F(1,2), F('√3','4'), F('√3',2), F(1,'4')],
+    ans:1,
     exp: F('√3',2)+'×'+F(1,2)+'= '+F('√3','4')
   },
   {
     q: 'cos 60° × tan 60°',
     // 1/2 × √3 = √3/2
-    choices: [F(1,2), F('√3','4'), F('√3',2), '√3'],
-    ans: 2,
+    choices: [ F('√3',2), F('√3','4'),F(1,2), '√3'],
+    ans:0,
     exp: F(1,2)+'× √3 = '+F('√3',2)
   },
   {
     q: 'sin 45° × cos 45°',
     // 1/√2 × 1/√2 = 1/2
     choices: [F(1,'√2'), F(1,2), F('√2',2), F(1,'4')],
-    ans: 1,
+    ans:1,
     exp: F(1,'√2')+'×'+F(1,'√2')+'= '+F(1,2)
   },
   {
     q: 'cos 45° × tan 45°',
     // 1/√2 × 1 = 1/√2
     choices: ['1', F(1,2), F(1,'√2'), F('√2',2)],
-    ans: 2,
+    ans:2,
     exp: F(1,'√2')+'× 1 = '+F(1,'√2')
   }
 ];
@@ -1064,7 +1063,7 @@ function initCalc(){
     const block=document.createElement('div');
     block.className='q-block';block.id='calq-'+qi;
     block.innerHTML=`<div class="q-num">問${qi+1}</div>
-      <div class="q-text" style="font-size:15px;font-weight:700;color:#15803d;">${q.q} ＝ ？</div>
+      <div class="q-text" style="font-size:15px;font-weight:700;color:#5b21b6;">${q.q} ＝ ？</div>
       <div class="choices" id="calc-c-${qi}">
         ${q.choices.map((c,ci)=>`<button class="choice" onclick="selectCalc(${qi},${ci})">${['①','②','③','④'][ci]} ${c}</button>`).join('')}
       </div>`;
@@ -1076,8 +1075,8 @@ function selectCalc(qi,ci){
   if(calcSubmitted)return;
   calcAnswers[qi]=ci;
   document.querySelectorAll(`#calc-c-${qi} .choice`).forEach((b,i)=>{
-    b.style.background=i===ci?'#dcfce7':'';
-    b.style.borderColor=i===ci?'#16a34a':'';
+    b.style.background=i===ci?'#ede9fe':'';
+    b.style.borderColor=i===ci?'#7c3aed':'';
   });
 }
 
@@ -1104,13 +1103,13 @@ function submitCalc(){
   res.style.display='block';
   res.innerHTML=`<div class="score-box">
     <div class="score-circle">${correct}<div class="score-label">/ 5</div></div>
-    <div style="font-size:14px;font-weight:700;color:#15803d;">${correct===5?'全問正解！🎉':correct>=3?'もう少し！':'表を見ながら確認しよう'}</div>
+    <div style="font-size:14px;font-weight:700;color:#5b21b6;">${correct===5?'全問正解！🎉':correct>=3?'もう少し！':'表を見ながら確認しよう'}</div>
   </div>`;
   if(correct===5)fireConfetti();
 }
 function fireConfetti(){
   const wrap=document.createElement('div');wrap.className='confetti-wrap';document.body.appendChild(wrap);
-  const colors=['#16a34a','#15803d','#4ade80','#86efac','#f59e0b','#10b981'];
+  const colors=['#7c3aed','#5b21b6','#a78bfa','#c4b5fd','#f59e0b','#10b981'];
   for(let i=0;i<60;i++){
     const p=document.createElement('div');p.className='confetti-piece';
     const c=colors[Math.floor(Math.random()*colors.length)];
@@ -1133,17 +1132,17 @@ function draw30(){
   const B={x:20,y:130},C={x:90,y:130},A={x:90,y:9};
   // 三角形
   ctx.beginPath();ctx.moveTo(B.x,B.y);ctx.lineTo(C.x,C.y);ctx.lineTo(A.x,A.y);ctx.closePath();
-  ctx.fillStyle='#f0fdf4';ctx.fill();ctx.strokeStyle='#16a34a';ctx.lineWidth=2;ctx.stroke();
+  ctx.fillStyle='#f5f3ff';ctx.fill();ctx.strokeStyle='#7c3aed';ctx.lineWidth=2;ctx.stroke();
   // 直角マーク（C）
   const sq=9;
   ctx.beginPath();ctx.moveTo(C.x-sq,C.y);ctx.lineTo(C.x-sq,C.y-sq);ctx.lineTo(C.x,C.y-sq);
-  ctx.strokeStyle='#16a34a';ctx.lineWidth=1.5;ctx.stroke();
+  ctx.strokeStyle='#7c3aed';ctx.lineWidth=1.5;ctx.stroke();
   // θ=30°弧（B左下）
   const ang=Math.atan2(A.y-B.y, C.x-B.x); // ≈ -60°
   ctx.beginPath();ctx.arc(B.x,B.y,20,ang,0);
-  ctx.strokeStyle='#16a34a';ctx.lineWidth=1.5;ctx.stroke();
+  ctx.strokeStyle='#7c3aed';ctx.lineWidth=1.5;ctx.stroke();
   // 角度ラベル
-  ctx.fillStyle='#16a34a';ctx.font='bold 12px "BIZ UDPGothic",sans-serif';
+  ctx.fillStyle='#7c3aed';ctx.font='bold 12px "BIZ UDPGothic",sans-serif';
   ctx.fillText('30°',B.x+23,B.y-5);
   ctx.fillStyle='#9ca3af';ctx.font='11px "BIZ UDPGothic",sans-serif';
   ctx.fillText('60°',A.x-34,A.y+14);
@@ -1171,17 +1170,17 @@ function draw60(){
   const ctx=cv.getContext('2d');ctx.clearRect(0,0,150,145);
   const B={x:20,y:130},C={x:90,y:130},A={x:90,y:9};
   ctx.beginPath();ctx.moveTo(B.x,B.y);ctx.lineTo(C.x,C.y);ctx.lineTo(A.x,A.y);ctx.closePath();
-  ctx.fillStyle='#f0fdf4';ctx.fill();ctx.strokeStyle='#16a34a';ctx.lineWidth=2;ctx.stroke();
+  ctx.fillStyle='#f5f3ff';ctx.fill();ctx.strokeStyle='#7c3aed';ctx.lineWidth=2;ctx.stroke();
   const sq=9;
   ctx.beginPath();ctx.moveTo(C.x-sq,C.y);ctx.lineTo(C.x-sq,C.y-sq);ctx.lineTo(C.x,C.y-sq);
-  ctx.strokeStyle='#16a34a';ctx.lineWidth=1.5;ctx.stroke();
+  ctx.strokeStyle='#7c3aed';ctx.lineWidth=1.5;ctx.stroke();
   // θ=60°弧（A右上）：A→C方向（下）からA→B方向（左下斜め）まで
   const angDown=Math.PI/2;                            // 真下 = A→C
   const angToB=Math.atan2(B.y-A.y, B.x-A.x);         // ≈120°（左下）
   ctx.beginPath();ctx.arc(A.x,A.y,20,angDown,angToB,false);
-  ctx.strokeStyle='#16a34a';ctx.lineWidth=1.5;ctx.stroke();
+  ctx.strokeStyle='#7c3aed';ctx.lineWidth=1.5;ctx.stroke();
   // 角度ラベル
-  ctx.fillStyle='#16a34a';ctx.font='bold 12px "BIZ UDPGothic",sans-serif';
+  ctx.fillStyle='#7c3aed';ctx.font='bold 12px "BIZ UDPGothic",sans-serif';
   ctx.fillText('60°',A.x-52,A.y+26);
   ctx.fillStyle='#9ca3af';ctx.font='11px "BIZ UDPGothic",sans-serif';
   ctx.fillText('30°',B.x+23,B.y-5);
@@ -1205,16 +1204,16 @@ function draw45(){
   const ctx=cv.getContext('2d');ctx.clearRect(0,0,150,145);
   const B={x:20,y:120},C={x:90,y:120},A={x:90,y:50};
   ctx.beginPath();ctx.moveTo(B.x,B.y);ctx.lineTo(C.x,C.y);ctx.lineTo(A.x,A.y);ctx.closePath();
-  ctx.fillStyle='#f0fdf4';ctx.fill();ctx.strokeStyle='#16a34a';ctx.lineWidth=2;ctx.stroke();
+  ctx.fillStyle='#f5f3ff';ctx.fill();ctx.strokeStyle='#7c3aed';ctx.lineWidth=2;ctx.stroke();
   const sq=9;
   ctx.beginPath();ctx.moveTo(C.x-sq,C.y);ctx.lineTo(C.x-sq,C.y-sq);ctx.lineTo(C.x,C.y-sq);
-  ctx.strokeStyle='#16a34a';ctx.lineWidth=1.5;ctx.stroke();
+  ctx.strokeStyle='#7c3aed';ctx.lineWidth=1.5;ctx.stroke();
   // θ=45°弧（B左下）
   const ang=Math.atan2(A.y-B.y, C.x-B.x); // ≈ -45°
   ctx.beginPath();ctx.arc(B.x,B.y,20,ang,0);
-  ctx.strokeStyle='#16a34a';ctx.lineWidth=1.5;ctx.stroke();
+  ctx.strokeStyle='#7c3aed';ctx.lineWidth=1.5;ctx.stroke();
   // 角度ラベル
-  ctx.fillStyle='#16a34a';ctx.font='bold 12px "BIZ UDPGothic",sans-serif';
+  ctx.fillStyle='#7c3aed';ctx.font='bold 12px "BIZ UDPGothic",sans-serif';
   ctx.fillText('45°',B.x+23,B.y-10);
   ctx.fillStyle='#9ca3af';ctx.font='11px "BIZ UDPGothic",sans-serif';
   ctx.fillText('45°',A.x-36,A.y+15);
@@ -1240,11 +1239,11 @@ function drawMini(id, type){
     // 底辺=60px, 高さ=60×√3≈104px → B(15,118), C(75,118), A(75,14)
     const B={x:15,y:115},C={x:75,y:115},A={x:75,y:11};
     ctx.beginPath();ctx.moveTo(B.x,B.y);ctx.lineTo(C.x,C.y);ctx.lineTo(A.x,A.y);ctx.closePath();
-    ctx.fillStyle='#f0fdf4';ctx.fill();ctx.strokeStyle='#16a34a';ctx.lineWidth=1.8;ctx.stroke();
-    const sq=8;ctx.beginPath();ctx.moveTo(C.x-sq,C.y);ctx.lineTo(C.x-sq,C.y-sq);ctx.lineTo(C.x,C.y-sq);ctx.strokeStyle='#16a34a';ctx.lineWidth=1.3;ctx.stroke();
+    ctx.fillStyle='#f5f3ff';ctx.fill();ctx.strokeStyle='#7c3aed';ctx.lineWidth=1.8;ctx.stroke();
+    const sq=8;ctx.beginPath();ctx.moveTo(C.x-sq,C.y);ctx.lineTo(C.x-sq,C.y-sq);ctx.lineTo(C.x,C.y-sq);ctx.strokeStyle='#7c3aed';ctx.lineWidth=1.3;ctx.stroke();
     const ang=Math.atan2(A.y-B.y,C.x-B.x);
-    ctx.beginPath();ctx.arc(B.x,B.y,16,ang,0);ctx.strokeStyle='#16a34a';ctx.lineWidth=1.3;ctx.stroke();
-    ctx.fillStyle='#16a34a';ctx.font='bold 11px "BIZ UDPGothic",sans-serif';ctx.fillText('30°',B.x+18,B.y-4);
+    ctx.beginPath();ctx.arc(B.x,B.y,16,ang,0);ctx.strokeStyle='#7c3aed';ctx.lineWidth=1.3;ctx.stroke();
+    ctx.fillStyle='#7c3aed';ctx.font='bold 11px "BIZ UDPGothic",sans-serif';ctx.fillText('30°',B.x+18,B.y-4);
     ctx.fillStyle='#9ca3af';ctx.font='10px "BIZ UDPGothic",sans-serif';ctx.fillText('60°',A.x-28,A.y+13);
     ctx.fillStyle='#dc2626';ctx.font='bold 13px "BIZ UDPGothic",sans-serif';ctx.fillText('2',(B.x+A.x)/2-13,(B.y+A.y)/2);
     ctx.fillStyle='#059669';ctx.font='bold 12px "BIZ UDPGothic",sans-serif';ctx.fillText('√3',A.x+3,(A.y+C.y)/2+4);
@@ -1253,11 +1252,11 @@ function drawMini(id, type){
     // 45°: 底辺=高さ=60px → B(15,105), C(75,105), A(75,45)
     const B={x:15,y:105},C={x:75,y:105},A={x:75,y:45};
     ctx.beginPath();ctx.moveTo(B.x,B.y);ctx.lineTo(C.x,C.y);ctx.lineTo(A.x,A.y);ctx.closePath();
-    ctx.fillStyle='#f0fdf4';ctx.fill();ctx.strokeStyle='#16a34a';ctx.lineWidth=1.8;ctx.stroke();
-    const sq=8;ctx.beginPath();ctx.moveTo(C.x-sq,C.y);ctx.lineTo(C.x-sq,C.y-sq);ctx.lineTo(C.x,C.y-sq);ctx.strokeStyle='#16a34a';ctx.lineWidth=1.3;ctx.stroke();
+    ctx.fillStyle='#f5f3ff';ctx.fill();ctx.strokeStyle='#7c3aed';ctx.lineWidth=1.8;ctx.stroke();
+    const sq=8;ctx.beginPath();ctx.moveTo(C.x-sq,C.y);ctx.lineTo(C.x-sq,C.y-sq);ctx.lineTo(C.x,C.y-sq);ctx.strokeStyle='#7c3aed';ctx.lineWidth=1.3;ctx.stroke();
     const ang=Math.atan2(A.y-B.y,C.x-B.x);
-    ctx.beginPath();ctx.arc(B.x,B.y,16,ang,0);ctx.strokeStyle='#16a34a';ctx.lineWidth=1.3;ctx.stroke();
-    ctx.fillStyle='#16a34a';ctx.font='bold 11px "BIZ UDPGothic",sans-serif';ctx.fillText('45°',B.x+18,B.y-8);
+    ctx.beginPath();ctx.arc(B.x,B.y,16,ang,0);ctx.strokeStyle='#7c3aed';ctx.lineWidth=1.3;ctx.stroke();
+    ctx.fillStyle='#7c3aed';ctx.font='bold 11px "BIZ UDPGothic",sans-serif';ctx.fillText('45°',B.x+18,B.y-8);
     ctx.fillStyle='#9ca3af';ctx.font='10px "BIZ UDPGothic",sans-serif';ctx.fillText('45°',A.x-30,A.y+14);
     ctx.fillStyle='#dc2626';ctx.font='bold 13px "BIZ UDPGothic",sans-serif';ctx.fillText('√2',(B.x+A.x)/2-18,(B.y+A.y)/2);
     ctx.fillStyle='#059669';ctx.font='bold 12px "BIZ UDPGothic",sans-serif';ctx.fillText('1',A.x+3,(A.y+C.y)/2+4);
@@ -1268,19 +1267,19 @@ function drawMini(id, type){
 // ===== 辺の選択問題Canvas =====
 // 共通バッジ描画
 function badge(ctx,x,y,n){
-  ctx.fillStyle='#16a34a';ctx.beginPath();ctx.arc(x,y,11,0,2*Math.PI);ctx.fill();
+  ctx.fillStyle='#7c3aed';ctx.beginPath();ctx.arc(x,y,11,0,2*Math.PI);ctx.fill();
   ctx.fillStyle='#fff';ctx.font='bold 12px "BIZ UDPGothic",sans-serif';
   ctx.textAlign='center';ctx.fillText(n,x,y+4);ctx.textAlign='left';
 }
 // 共通：直角三角形＋バッジ
 function drawSideBase(ctx,B,C,A,deg){
   ctx.beginPath();ctx.moveTo(B.x,B.y);ctx.lineTo(C.x,C.y);ctx.lineTo(A.x,A.y);ctx.closePath();
-  ctx.fillStyle='#f0fdf4';ctx.fill();ctx.strokeStyle='#16a34a';ctx.lineWidth=2;ctx.stroke();
+  ctx.fillStyle='#f5f3ff';ctx.fill();ctx.strokeStyle='#7c3aed';ctx.lineWidth=2;ctx.stroke();
   const sq=9;ctx.beginPath();ctx.moveTo(C.x-sq,C.y);ctx.lineTo(C.x-sq,C.y-sq);ctx.lineTo(C.x,C.y-sq);
-  ctx.strokeStyle='#16a34a';ctx.lineWidth=1.5;ctx.stroke();
+  ctx.strokeStyle='#7c3aed';ctx.lineWidth=1.5;ctx.stroke();
   const ang=Math.atan2(A.y-B.y,C.x-B.x);
-  ctx.beginPath();ctx.arc(B.x,B.y,18,ang,0);ctx.strokeStyle='#16a34a';ctx.lineWidth=1.4;ctx.stroke();
-  ctx.fillStyle='#16a34a';ctx.font='bold 11px "BIZ UDPGothic",sans-serif';
+  ctx.beginPath();ctx.arc(B.x,B.y,18,ang,0);ctx.strokeStyle='#7c3aed';ctx.lineWidth=1.4;ctx.stroke();
+  ctx.fillStyle='#7c3aed';ctx.font='bold 11px "BIZ UDPGothic",sans-serif';
   ctx.fillText(deg+'°',B.x+21,B.y-4);
 }
 
@@ -1338,8 +1337,8 @@ function selectSide(qi,si,ci){
   if(sideSubmitted[qi])return;
   sideSelArr[qi][si]=ci;
   document.querySelectorAll(`#sdc-${qi}-${si} .choice`).forEach((b,i)=>{
-    b.style.background=i===ci?'#dcfce7':'';
-    b.style.borderColor=i===ci?'#16a34a':'';
+    b.style.background=i===ci?'#ede9fe':'';
+    b.style.borderColor=i===ci?'#7c3aed':'';
   });
 }
 
@@ -1482,7 +1481,7 @@ function submitFill(){
   res.style.display='block';
   res.innerHTML=`<div class="score-box">
     <div class="score-circle">${correct}<div class="score-label">/ ${total}</div></div>
-    <div style="font-size:14px;font-weight:700;color:#15803d;">${correct===total?'全問正解！表を完璧に覚えた！🎉':correct>=6?'あと少し！もう一度表を見直そう':'説明ページに戻って表を確認しよう'}</div>
+    <div style="font-size:14px;font-weight:700;color:#5b21b6;">${correct===total?'全問正解！表を完璧に覚えた！🎉':correct>=6?'あと少し！もう一度表を見直そう':'説明ページに戻って表を確認しよう'}</div>
   </div>`;
   if(correct===total)fireConfetti();
 }
@@ -1493,16 +1492,16 @@ function drawExpTri(id, B, C, A, thetaDeg, sides){
   const ctx=cv.getContext('2d');
   ctx.clearRect(0,0,cv.width,cv.height);
   ctx.beginPath();ctx.moveTo(B.x,B.y);ctx.lineTo(C.x,C.y);ctx.lineTo(A.x,A.y);ctx.closePath();
-  ctx.fillStyle='#f0fdf4';ctx.fill();ctx.strokeStyle='#16a34a';ctx.lineWidth=2;ctx.stroke();
+  ctx.fillStyle='#f5f3ff';ctx.fill();ctx.strokeStyle='#7c3aed';ctx.lineWidth=2;ctx.stroke();
   const sq=9;
   ctx.beginPath();ctx.moveTo(C.x-sq,C.y);ctx.lineTo(C.x-sq,C.y-sq);ctx.lineTo(C.x,C.y-sq);
-  ctx.strokeStyle='#16a34a';ctx.lineWidth=1.5;ctx.stroke();
+  ctx.strokeStyle='#7c3aed';ctx.lineWidth=1.5;ctx.stroke();
   const ang=Math.atan2(A.y-B.y,C.x-B.x);
-  ctx.beginPath();ctx.arc(B.x,B.y,20,ang,0);ctx.strokeStyle='#16a34a';ctx.lineWidth=1.5;ctx.stroke();
-  ctx.fillStyle='#16a34a';ctx.font='bold 12px "BIZ UDPGothic",sans-serif';
+  ctx.beginPath();ctx.arc(B.x,B.y,20,ang,0);ctx.strokeStyle='#7c3aed';ctx.lineWidth=1.5;ctx.stroke();
+  ctx.fillStyle='#7c3aed';ctx.font='bold 12px "BIZ UDPGothic",sans-serif';
   ctx.fillText(thetaDeg+'°',B.x+23,B.y-5);
   // 斜辺：呼び出し元から位置を渡す
-  ctx.fillStyle='#16a34a';ctx.font='bold 13px "BIZ UDPGothic",sans-serif';
+  ctx.fillStyle='#7c3aed';ctx.font='bold 13px "BIZ UDPGothic",sans-serif';
   ctx.fillText(sides.hyp, sides.hypX, sides.hypY);
   // 対辺：右辺の右外
   ctx.fillStyle='#dc2626';ctx.font='bold 13px "BIZ UDPGothic",sans-serif';
@@ -1553,5 +1552,6 @@ window.addEventListener('load',()=>{
   initWordBank();
 });
 </script>
+<script src="https://realizefield.github.io/gamba-kounin-seito/gamba-ai.js" defer></script>
 </body>
 </html>

@@ -10,35 +10,35 @@
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
-body{font-family:'BIZ UDPGothic',sans-serif;background:#f0fdf4;color:#14532d;min-height:100vh;}
-.header{background:linear-gradient(135deg,#16a34a,#15803d);color:#fff;padding:16px 20px;display:flex;align-items:center;gap:12px;}
+body{font-family:'BIZ UDPGothic',sans-serif;background:#f5f3ff;color:#1e1b4b;min-height:100vh;}
+.header{background:linear-gradient(135deg,#7c3aed,#5b21b6);color:#fff;padding:16px 20px;display:flex;align-items:center;gap:12px;}
 .header-icon{font-size:28px;}
 .header-title{font-size:18px;font-weight:700;}
 .header-sub{font-size:12px;opacity:.8;margin-top:2px;}
-.step-nav{display:flex;background:#fff;border-bottom:2px solid #dcfce7;overflow:hidden;}
+.step-nav{display:flex;background:#fff;border-bottom:2px solid #ede9fe;overflow:hidden;}
 .step-btn{flex:1;padding:10px 4px;border:none;background:transparent;font-family:'BIZ UDPGothic',sans-serif;font-size:12px;color:#6b7280;cursor:pointer;transition:.2s;display:flex;flex-direction:column;align-items:center;gap:3px;}
-.step-btn.active{background:#16a34a;color:#fff;}
-.step-btn.done{background:#dcfce7;color:#15803d;}
+.step-btn.active{background:#7c3aed;color:#fff;}
+.step-btn.done{background:#ede9fe;color:#5b21b6;}
 .step-icon{font-size:16px;}
 .content{padding:16px;max-width:640px;margin:0 auto;}
-.card{background:#fff;border-radius:12px;padding:18px;margin-bottom:14px;box-shadow:0 2px 8px rgba(22,163,74,.08);}
-.card-title{font-size:14px;font-weight:700;color:#15803d;margin-bottom:12px;}
+.card{background:#fff;border-radius:12px;padding:18px;margin-bottom:14px;box-shadow:0 2px 8px rgba(124,58,237,.08);}
+.card-title{font-size:14px;font-weight:700;color:#5b21b6;margin-bottom:12px;}
 .explain{font-size:14px;line-height:1.8;color:#374151;}
-.point-box{background:#f0fdf4;border-left:4px solid #16a34a;padding:12px 14px;border-radius:0 8px 8px 0;margin:12px 0;}
-.point-box .label{font-size:11px;font-weight:700;color:#16a34a;margin-bottom:6px;}
+.point-box{background:#f5f3ff;border-left:4px solid #7c3aed;padding:12px 14px;border-radius:0 8px 8px 0;margin:12px 0;}
+.point-box .label{font-size:11px;font-weight:700;color:#7c3aed;margin-bottom:6px;}
 .fig-wrap{display:flex;justify-content:center;margin:12px 0;gap:16px;flex-wrap:wrap;}
-.important{background:#16a34a;color:#fff;border-radius:10px;padding:14px 16px;margin:12px 0;}
+.important{background:#7c3aed;color:#fff;border-radius:10px;padding:14px 16px;margin:12px 0;}
 .important .imp-title{font-size:12px;font-weight:700;opacity:.85;margin-bottom:10px;}
 .imp-row{display:flex;align-items:center;gap:10px;margin-bottom:8px;font-size:14px;font-weight:700;}
 .imp-row:last-child{margin-bottom:0;}
 .imp-label{background:rgba(255,255,255,.25);border-radius:6px;padding:3px 10px;font-size:13px;min-width:40px;text-align:center;}
 
 /* 判断ボックス */
-.judge-box{border:2px solid #dcfce7;border-radius:10px;padding:12px 14px;margin:10px 0;background:#f0fdf4;}
+.judge-box{border:2px solid #ede9fe;border-radius:10px;padding:12px 14px;margin:10px 0;background:#faf5ff;}
 .judge-row{display:flex;align-items:center;gap:8px;margin-bottom:8px;font-size:13px;}
 .judge-row:last-child{margin-bottom:0;}
-.judge-arrow{color:#16a34a;font-weight:700;font-size:16px;}
-.judge-key{background:#16a34a;color:#fff;border-radius:6px;padding:2px 10px;font-weight:700;font-size:13px;}
+.judge-arrow{color:#7c3aed;font-weight:700;font-size:16px;}
+.judge-key{background:#7c3aed;color:#fff;border-radius:6px;padding:2px 10px;font-weight:700;font-size:13px;}
 
 /* hint */
 .hint-box{background:#fefce8;border-left:4px solid #f59e0b;padding:10px 14px;border-radius:0 8px 8px 0;margin:10px 0;font-size:13px;line-height:1.9;}
@@ -47,9 +47,9 @@ body{font-family:'BIZ UDPGothic',sans-serif;background:#f0fdf4;color:#14532d;min
 /* ドリル */
 .drill-intro{font-size:13px;color:#6b7280;margin-bottom:14px;}
 .set-tabs{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;}
-.set-tab{padding:6px 14px;border-radius:20px;border:2px solid #dcfce7;background:#fff;font-family:'BIZ UDPGothic',sans-serif;font-size:13px;cursor:pointer;color:#6b7280;transition:.2s;}
-.set-tab.active{background:#16a34a;border-color:#16a34a;color:#fff;font-weight:700;}
-.q-block{background:#fff;border-radius:10px;padding:14px;margin-bottom:10px;border:2px solid #dcfce7;}
+.set-tab{padding:6px 14px;border-radius:20px;border:2px solid #ede9fe;background:#fff;font-family:'BIZ UDPGothic',sans-serif;font-size:13px;cursor:pointer;color:#6b7280;transition:.2s;}
+.set-tab.active{background:#7c3aed;border-color:#7c3aed;color:#fff;font-weight:700;}
+.q-block{background:#fff;border-radius:10px;padding:14px;margin-bottom:10px;border:2px solid #ede9fe;}
 .q-block.correct{border-color:#10b981;}
 .q-block.wrong{border-color:#ef4444;}
 .q-num{font-size:11px;color:#9ca3af;margin-bottom:6px;}
@@ -57,7 +57,7 @@ body{font-family:'BIZ UDPGothic',sans-serif;background:#f0fdf4;color:#14532d;min
 .q-fig{display:flex;justify-content:center;margin:8px 0;}
 .choices{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
 .choice{padding:8px 10px;border-radius:8px;border:2px solid #e5e7eb;background:#fff;font-family:'BIZ UDPGothic',sans-serif;font-size:13px;cursor:pointer;text-align:left;transition:.15s;line-height:1.6;}
-.choice:hover{border-color:#16a34a;background:#f0fdf4;}
+.choice:hover{border-color:#7c3aed;background:#f5f3ff;}
 .choice.selected-correct{background:#d1fae5;border-color:#10b981;color:#065f46;}
 .choice.selected-wrong{background:#fee2e2;border-color:#ef4444;color:#991b1b;}
 .choice.show-correct{background:#d1fae5;border-color:#10b981;}
@@ -65,17 +65,17 @@ body{font-family:'BIZ UDPGothic',sans-serif;background:#f0fdf4;color:#14532d;min
 .feedback.ok{background:#d1fae5;color:#065f46;}
 .feedback.ng{background:#fee2e2;color:#991b1b;}
 .drill-action{display:flex;justify-content:center;margin-top:14px;}
-.btn-check{background:#16a34a;color:#fff;border:none;padding:12px 32px;border-radius:24px;font-family:'BIZ UDPGothic',sans-serif;font-size:15px;font-weight:700;cursor:pointer;}
+.btn-check{background:#7c3aed;color:#fff;border:none;padding:12px 32px;border-radius:24px;font-family:'BIZ UDPGothic',sans-serif;font-size:15px;font-weight:700;cursor:pointer;}
 .btn-check:disabled{opacity:.5;cursor:default;}
-.score-box{background:#fff;border-radius:12px;padding:16px;text-align:center;margin-bottom:14px;border:2px solid #dcfce7;}
-.score-circle{width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,#16a34a,#15803d);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;margin:0 auto 10px;font-size:24px;font-weight:700;}
+.score-box{background:#fff;border-radius:12px;padding:16px;text-align:center;margin-bottom:14px;border:2px solid #ede9fe;}
+.score-circle{width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,#7c3aed,#5b21b6);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;margin:0 auto 10px;font-size:24px;font-weight:700;}
 .score-label{font-size:11px;opacity:.8;}
 .nav-row{display:flex;gap:10px;justify-content:center;margin-top:16px;}
-.btn-nav{padding:10px 24px;border-radius:20px;border:2px solid #16a34a;background:#fff;color:#16a34a;font-family:'BIZ UDPGothic',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:.2s;}
-.btn-nav.primary{background:#16a34a;color:#fff;}
+.btn-nav{padding:10px 24px;border-radius:20px;border:2px solid #7c3aed;background:#fff;color:#7c3aed;font-family:'BIZ UDPGothic',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:.2s;}
+.btn-nav.primary{background:#7c3aed;color:#fff;}
 .btn-nav:hover{opacity:.85;}
 .back-link{display:block;text-align:center;margin-top:16px;color:#9ca3af;font-size:13px;text-decoration:none;}
-.back-link:hover{color:#16a34a;}
+.back-link:hover{color:#7c3aed;}
 .confetti-wrap{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:999;}
 
 /* 縦型分数 */
@@ -87,10 +87,10 @@ body{font-family:'BIZ UDPGothic',sans-serif;background:#f0fdf4;color:#14532d;min
 
 /* 三角比表（参照用） */
 .tri-table{width:100%;border-collapse:collapse;font-size:13px;margin:8px 0;}
-.tri-table th{background:#16a34a;color:#fff;padding:6px 8px;text-align:center;}
-.tri-table td{padding:7px 8px;text-align:center;border:1px solid #dcfce7;}
-.tri-table tr:nth-child(even) td{background:#f0fdf4;}
-.tri-table .row-label{font-weight:700;color:#15803d;background:#f0fdf4 !important;}
+.tri-table th{background:#7c3aed;color:#fff;padding:6px 8px;text-align:center;}
+.tri-table td{padding:7px 8px;text-align:center;border:1px solid #ede9fe;}
+.tri-table tr:nth-child(even) td{background:#faf5ff;}
+.tri-table .row-label{font-weight:700;color:#5b21b6;background:#f5f3ff !important;}
 </style>
 </head>
 <body>
@@ -146,8 +146,8 @@ body{font-family:'BIZ UDPGothic',sans-serif;background:#f0fdf4;color:#14532d;min
 
   <!-- なぜそうなるか -->
   <details style="margin-top:10px;">
-    <summary style="font-size:12px;color:#16a34a;cursor:pointer;font-weight:700;">▶ どうしてこの式になるの？</summary>
-    <div style="background:#f0fdf4;border-radius:8px;padding:14px;margin-top:8px;font-size:13px;line-height:2.6;">
+    <summary style="font-size:12px;color:#7c3aed;cursor:pointer;font-weight:700;">▶ どうしてこの式になるの？</summary>
+    <div style="background:#f5f3ff;border-radius:8px;padding:14px;margin-top:8px;font-size:13px;line-height:2.6;">
 
       <!-- sin -->
       <div style="margin-bottom:14px;">
@@ -161,7 +161,7 @@ body{font-family:'BIZ UDPGothic',sans-serif;background:#f0fdf4;color:#14532d;min
           斜辺 × sin θ ＝ <span class="frac"><span class="num">対辺</span><span class="den">斜辺</span></span> × 斜辺
         </div>
         右辺の「斜辺 ÷ 斜辺 ＝ 1」なので消えて：<br>
-        <div style="margin:6px 0 6px 16px;color:#16a34a;font-weight:700;">
+        <div style="margin:6px 0 6px 16px;color:#7c3aed;font-weight:700;">
           斜辺 × sin θ ＝ 対辺（高さ）　✓
         </div>
       </div>
@@ -178,7 +178,7 @@ body{font-family:'BIZ UDPGothic',sans-serif;background:#f0fdf4;color:#14532d;min
           斜辺 × cos θ ＝ <span class="frac"><span class="num">隣辺</span><span class="den">斜辺</span></span> × 斜辺
         </div>
         右辺の「斜辺 ÷ 斜辺 ＝ 1」なので消えて：<br>
-        <div style="margin:6px 0 6px 16px;color:#16a34a;font-weight:700;">
+        <div style="margin:6px 0 6px 16px;color:#7c3aed;font-weight:700;">
           斜辺 × cos θ ＝ 隣辺（底辺）　✓
         </div>
       </div>
@@ -195,7 +195,7 @@ body{font-family:'BIZ UDPGothic',sans-serif;background:#f0fdf4;color:#14532d;min
           隣辺 × tan θ ＝ <span class="frac"><span class="num">対辺</span><span class="den">隣辺</span></span> × 隣辺
         </div>
         右辺の「隣辺 ÷ 隣辺 ＝ 1」なので消えて：<br>
-        <div style="margin:6px 0 6px 16px;color:#16a34a;font-weight:700;">
+        <div style="margin:6px 0 6px 16px;color:#7c3aed;font-weight:700;">
           隣辺 × tan θ ＝ 対辺（高さ）　✓
         </div>
       </div>
@@ -247,9 +247,9 @@ body{font-family:'BIZ UDPGothic',sans-serif;background:#f0fdf4;color:#14532d;min
   <div class="point-box">
     <div class="label">【解き方】隣辺 × tan θ ＝ 対辺（高さ）</div>
     <p class="explain" style="font-size:13px;line-height:2.4;">
-      ㋐ 20√3 × tan 30° ＝ 20√3 × <span class="frac"><span class="num">1</span><span class="den">√3</span></span> ＝ <b style="color:#16a34a;">60 m</b><br>
-      ㋑ 18 × tan 45° ＝ 18 × 1 ＝ <b style="color:#16a34a;">18 m</b><br>
-      ㋒ 12 × tan 60° ＝ 12 × √3 ＝ <b style="color:#16a34a;">12√3 m</b>
+      ㋐ 20√3 × tan 30° ＝ 20√3 × <span class="frac"><span class="num">1</span><span class="den">√3</span></span> ＝ <b style="color:#7c3aed;">60 m</b><br>
+      ㋑ 18 × tan 45° ＝ 18 × 1 ＝ <b style="color:#7c3aed;">18 m</b><br>
+      ㋒ 12 × tan 60° ＝ 12 × √3 ＝ <b style="color:#7c3aed;">12√3 m</b>
     </p>
   </div>
 </div>
@@ -257,7 +257,7 @@ body{font-family:'BIZ UDPGothic',sans-serif;background:#f0fdf4;color:#14532d;min
 <div class="nav-row">
   <button class="btn-nav primary" onclick="goStep('example')">例題へ →</button>
 </div>
-<a href="../gamba_kounin.html" class="back-link">← 単元一覧に戻る</a>
+<a href="kounin_math_index.html" class="back-link">← 単元一覧に戻る</a>
 </div><!-- /intro -->
 
 
@@ -308,7 +308,7 @@ body{font-family:'BIZ UDPGothic',sans-serif;background:#f0fdf4;color:#14532d;min
 </div>
 
 <!-- ミニテスト1 -->
-<div class="card" style="border:2px solid #16a34a;">
+<div class="card" style="border:2px solid #7c3aed;">
   <div class="card-title">🖊️ ミニテスト①　やってみよう！</div>
   <p class="explain" style="margin-bottom:8px;">
     斜辺の長さが 10 m，角度 θ＝60° のとき，高さ（対辺）はいくらですか？
@@ -340,7 +340,7 @@ body{font-family:'BIZ UDPGothic',sans-serif;background:#f0fdf4;color:#14532d;min
 </div>
 
 <!-- ミニテスト2 -->
-<div class="card" style="border:2px solid #16a34a;">
+<div class="card" style="border:2px solid #7c3aed;">
   <div class="card-title">🖊️ ミニテスト②　やってみよう！</div>
   <p class="explain" style="margin-bottom:8px;">
     底辺（隣辺）が 15 m，角度 θ＝45° のとき，高さ（対辺）はいくらですか？
@@ -373,7 +373,7 @@ body{font-family:'BIZ UDPGothic',sans-serif;background:#f0fdf4;color:#14532d;min
 </div>
 
 <!-- ミニテスト3 -->
-<div class="card" style="border:2px solid #16a34a;">
+<div class="card" style="border:2px solid #7c3aed;">
   <div class="card-title">🖊️ ミニテスト③　やってみよう！</div>
   <p class="explain" style="margin-bottom:8px;">
     斜辺の長さが 20 m，角度 θ＝41° のとき，高さ BC はおよそ何ｍですか？<br>
@@ -396,7 +396,7 @@ body{font-family:'BIZ UDPGothic',sans-serif;background:#f0fdf4;color:#14532d;min
   <button class="btn-nav" onclick="goStep('intro')">← 説明に戻る</button>
   <button class="btn-nav primary" onclick="goStep('drill')">練習へ →</button>
 </div>
-<a href="../gamba_kounin.html" class="back-link">← 単元一覧に戻る</a>
+<a href="kounin_math_index.html" class="back-link">← 単元一覧に戻る</a>
 </div><!-- /example -->
 
 
@@ -447,7 +447,7 @@ body{font-family:'BIZ UDPGothic',sans-serif;background:#f0fdf4;color:#14532d;min
   <button class="btn-nav" onclick="goStep('example')">← 例題に戻る</button>
   <button class="btn-nav primary" onclick="goStep('check')">確認テストへ →</button>
 </div>
-<a href="../gamba_kounin.html" class="back-link">← 単元一覧に戻る</a>
+<a href="kounin_math_index.html" class="back-link">← 単元一覧に戻る</a>
 </div><!-- /drill -->
 
 
@@ -491,14 +491,13 @@ body{font-family:'BIZ UDPGothic',sans-serif;background:#f0fdf4;color:#14532d;min
 <div class="nav-row">
   <button class="btn-nav" onclick="goStep('drill')">← 練習に戻る</button>
 </div>
-<a href="../gamba_kounin.html" class="back-link">← 単元一覧に戻る</a>
+<a href="kounin_math_index.html" class="back-link">← 単元一覧に戻る</a>
 </div><!-- /check -->
 
 </div><!-- /content -->
 
+<script src="../gamba_support.js"></script>
 <script>
-// スタブ（外部jsなし環境用）
-function markPassed(id){ try{localStorage.setItem('passed_'+id,'1');}catch(e){} }
 // ===== KaTeX =====
 let _katexReady=false;
 function waitKatex(fn){if(_katexReady){fn();return;}const t=setInterval(()=>{if(typeof katex!=='undefined'){_katexReady=true;clearInterval(t);fn();}},50);}
@@ -529,15 +528,15 @@ function F(num,den){return `<span class="frac"><span class="num">${num}</span><s
 function drawRightTri(ctx,B,C,A,theta,labels){
   // 三角形塗り
   ctx.beginPath();ctx.moveTo(B.x,B.y);ctx.lineTo(C.x,C.y);ctx.lineTo(A.x,A.y);ctx.closePath();
-  ctx.fillStyle='#f0fdf4';ctx.fill();ctx.strokeStyle='#16a34a';ctx.lineWidth=2;ctx.stroke();
+  ctx.fillStyle='#f5f3ff';ctx.fill();ctx.strokeStyle='#7c3aed';ctx.lineWidth=2;ctx.stroke();
   // 直角マーク
   const sq=9;
   ctx.beginPath();ctx.moveTo(C.x-sq,C.y);ctx.lineTo(C.x-sq,C.y-sq);ctx.lineTo(C.x,C.y-sq);
-  ctx.strokeStyle='#16a34a';ctx.lineWidth=1.5;ctx.stroke();
+  ctx.strokeStyle='#7c3aed';ctx.lineWidth=1.5;ctx.stroke();
   // θ弧（B左下）
   const ang=Math.atan2(A.y-B.y,C.x-B.x);
-  ctx.beginPath();ctx.arc(B.x,B.y,20,ang,0);ctx.strokeStyle='#16a34a';ctx.lineWidth=1.5;ctx.stroke();
-  ctx.fillStyle='#16a34a';ctx.font='bold 12px "BIZ UDPGothic",sans-serif';
+  ctx.beginPath();ctx.arc(B.x,B.y,20,ang,0);ctx.strokeStyle='#7c3aed';ctx.lineWidth=1.5;ctx.stroke();
+  ctx.fillStyle='#7c3aed';ctx.font='bold 12px "BIZ UDPGothic",sans-serif';
   ctx.fillText(theta,B.x+23,B.y-5);
   // 辺ラベル
   if(labels.hyp){
@@ -628,14 +627,14 @@ function drawChimney(id,base,theta,label){
   ctx.beginPath();ctx.moveTo(5,125);ctx.lineTo(150,125);ctx.stroke();
   // 三角形
   ctx.beginPath();ctx.moveTo(B.x,B.y);ctx.lineTo(C.x,C.y);ctx.lineTo(A.x,A.y);ctx.closePath();
-  ctx.fillStyle='rgba(245,243,255,.7)';ctx.fill();ctx.strokeStyle='#16a34a';ctx.lineWidth=1.8;ctx.stroke();
+  ctx.fillStyle='rgba(245,243,255,.7)';ctx.fill();ctx.strokeStyle='#7c3aed';ctx.lineWidth=1.8;ctx.stroke();
   // 直角マーク
   const sq=8;ctx.beginPath();ctx.moveTo(C.x-sq,C.y);ctx.lineTo(C.x-sq,C.y-sq);ctx.lineTo(C.x,C.y-sq);
-  ctx.strokeStyle='#16a34a';ctx.lineWidth=1.3;ctx.stroke();
+  ctx.strokeStyle='#7c3aed';ctx.lineWidth=1.3;ctx.stroke();
   // θ弧
   const ang=Math.atan2(A.y-B.y,C.x-B.x);
-  ctx.beginPath();ctx.arc(B.x,B.y,18,ang,0);ctx.strokeStyle='#16a34a';ctx.lineWidth=1.3;ctx.stroke();
-  ctx.fillStyle='#16a34a';ctx.font='bold 11px "BIZ UDPGothic",sans-serif';
+  ctx.beginPath();ctx.arc(B.x,B.y,18,ang,0);ctx.strokeStyle='#7c3aed';ctx.lineWidth=1.3;ctx.stroke();
+  ctx.fillStyle='#7c3aed';ctx.font='bold 11px "BIZ UDPGothic",sans-serif';
   ctx.fillText(theta,B.x+20,B.y-3);
   // 煙突（赤）
   ctx.strokeStyle='#dc2626';ctx.lineWidth=4;
@@ -686,11 +685,11 @@ function drawEx3(){
 function renderExample(){
   waitKatex(()=>{
     document.getElementById('ex1-sol').innerHTML=
-      'AC ＝ AB × sin 30° ＝ 8 × '+K('\\dfrac{1}{2}')+' ＝ <b style="color:#16a34a">4 m</b>';
+      'AC ＝ AB × sin 30° ＝ 8 × '+K('\\dfrac{1}{2}')+' ＝ <b style="color:#7c3aed">4 m</b>';
     document.getElementById('ex2-sol').innerHTML=
-      'AC ＝ BC × tan 60° ＝ 20 × '+K('\\sqrt{3}')+' ＝ <b style="color:#16a34a">20√3 m</b>';
+      'AC ＝ BC × tan 60° ＝ 20 × '+K('\\sqrt{3}')+' ＝ <b style="color:#7c3aed">20√3 m</b>';
     document.getElementById('ex3-sol').innerHTML=
-      'BC ＝ AB × cos 37° ＝ 10 × 0.7986 ＝ 7.986 ≒ <b style="color:#16a34a">8.0 m</b>';
+      'BC ＝ AB × cos 37° ＝ 10 × 0.7986 ＝ 7.986 ≒ <b style="color:#7c3aed">8.0 m</b>';
     drawEx1();drawEx2();drawEx3();
     drawMiniCanvas();
   });
@@ -732,8 +731,8 @@ function selectMini(n,ci){
   if(miniDone[n])return;
   miniSel[n]=ci;
   document.querySelectorAll(`#mt${n}-choices .choice`).forEach((b,i)=>{
-    b.style.background=i===ci?'#dcfce7':'';
-    b.style.borderColor=i===ci?'#16a34a':'';
+    b.style.background=i===ci?'#ede9fe':'';
+    b.style.borderColor=i===ci?'#7c3aed':'';
   });
 }
 
@@ -766,32 +765,29 @@ const drillSets=[
     {q:'斜辺＝6，θ＝30° のとき，隣辺（底辺）は？',canvasId:'dq-c1',drawFn:()=>drawDrillFig('dq-c1',{B:{x:20,y:110},C:{x:110,y:110},A:{x:110,y:55},theta:'30°',hypLabel:'6',askLabel:'底辺=?',askSide:'adj'}),
      choices:['3','3√3','3√2','6'],ans:1,exp:'斜辺×cos 30° = 6×'+F('√3',2)+' = 3√3'},
     {q:'斜辺＝8，θ＝45° のとき，対辺（高さ）は？',canvasId:'dq-c2',drawFn:()=>drawDrillFig('dq-c2',{B:{x:20,y:110},C:{x:100,y:110},A:{x:100,y:30},theta:'45°',hypLabel:'8',askLabel:'高さ=?',askSide:'opp'}),
-     choices:['4','4√2','4√3','8√2'],ans:1,exp:'斜辺×sin 45° = 8×'+F(1,'√2')+' = '+F(8,'√2')+' = 4√2'},
+     choices:['4','8√2','4√3','4√2'],ans:3,exp:'斜辺×sin 45° = 8×'+F(1,'√2')+' = '+F(8,'√2')+' = 4√2'},
     {q:'隣辺＝10，θ＝45° のとき，対辺（高さ）は？',canvasId:'dq-c3',drawFn:()=>drawDrillFig('dq-c3',{B:{x:20,y:110},C:{x:100,y:110},A:{x:100,y:30},theta:'45°',adjLabel:'10',askLabel:'高さ=?',askSide:'opp'}),
-     choices:['10','10√2','5','5√2'],ans:0,exp:'隣辺×tan 45° = 10×1 = 10'},
-  ],
+     choices:['5','10√2','10','5√2'],ans:2,exp:'隣辺×tan 45° = 10×1 = 10'}],
   // Bセット：60°・tan を含む
   [
     {q:'斜辺＝10，θ＝60° のとき，対辺（高さ）は？',canvasId:'dq-c0',drawFn:()=>drawDrillFig('dq-c0',{B:{x:30,y:110},C:{x:90,y:110},A:{x:90,y:22},theta:'60°',hypLabel:'10',askLabel:'高さ=?',askSide:'opp'}),
-     choices:['5','5√3','5√2','10√3'],ans:1,exp:'斜辺×sin 60° = 10×'+F('√3',2)+' = 5√3'},
+     choices:['5√3','5','5√2','10√3'],ans:0,exp:'斜辺×sin 60° = 10×'+F('√3',2)+' = 5√3'},
     {q:'斜辺＝10，θ＝60° のとき，隣辺（底辺）は？',canvasId:'dq-c1',drawFn:()=>drawDrillFig('dq-c1',{B:{x:30,y:110},C:{x:90,y:110},A:{x:90,y:22},theta:'60°',hypLabel:'10',askLabel:'底辺=?',askSide:'adj'}),
-     choices:['5','5√3','5√2','10√3'],ans:0,exp:'斜辺×cos 60° = 10×'+F(1,2)+' = 5'},
+     choices:['10√3','5√3','5√2','5'],ans:3,exp:'斜辺×cos 60° = 10×'+F(1,2)+' = 5'},
     {q:'隣辺＝12，θ＝30° のとき，対辺（高さ）は？',canvasId:'dq-c2',drawFn:()=>drawDrillFig('dq-c2',{B:{x:20,y:110},C:{x:110,y:110},A:{x:110,y:57},theta:'30°',adjLabel:'12',askLabel:'高さ=?',askSide:'opp'}),
-     choices:[F(12,'√3'),'12√3','6','12'],ans:0,exp:'隣辺×tan 30° = 12×'+F(1,'√3')+' = '+F(12,'√3')},
+     choices:['12√3',F(12,'√3'),'6','12'],ans:1,exp:'隣辺×tan 30° = 12×'+F(1,'√3')+' = '+F(12,'√3')},
     {q:'隣辺＝5，θ＝60° のとき，対辺（高さ）は？',canvasId:'dq-c3',drawFn:()=>drawDrillFig('dq-c3',{B:{x:30,y:110},C:{x:90,y:110},A:{x:90,y:22},theta:'60°',adjLabel:'5',askLabel:'高さ=?',askSide:'opp'}),
-     choices:['5','5√3','5√2',F(5,'√3')],ans:1,exp:'隣辺×tan 60° = 5×√3 = 5√3'},
-  ],
+     choices:['5','5√2','5√3',F(5,'√3')],ans:2,exp:'隣辺×tan 60° = 5×√3 = 5√3'}],
   // Cセット：公式の選択（sin/cos/tanどれを使うか）
   [
     {q:'斜辺と角θがわかっている。対辺（高さ）を求める式は？',canvasId:'dq-c0',drawFn:()=>drawJudgeFig('dq-c0','斜辺','高さ=?'),
-     choices:['斜辺×sinθ','斜辺×cosθ','隣辺×tanθ','斜辺×tanθ'],ans:0,exp:'斜辺×sinθ＝対辺（高さ）'},
+     choices:['斜辺×tanθ','斜辺×cosθ','隣辺×tanθ','斜辺×sinθ'],ans:3,exp:'斜辺×sinθ＝対辺（高さ）'},
     {q:'斜辺と角θがわかっている。隣辺（底辺）を求める式は？',canvasId:'dq-c1',drawFn:()=>drawJudgeFig('dq-c1','斜辺','底辺=?'),
-     choices:['斜辺×sinθ','斜辺×cosθ','隣辺×tanθ','斜辺×tanθ'],ans:1,exp:'斜辺×cosθ＝隣辺（底辺）'},
+     choices:['斜辺×sinθ','隣辺×tanθ','斜辺×cosθ','斜辺×tanθ'],ans:2,exp:'斜辺×cosθ＝隣辺（底辺）'},
     {q:'隣辺（底辺）と角θがわかっている。対辺（高さ）を求める式は？',canvasId:'dq-c2',drawFn:()=>drawJudgeFig('dq-c2','底辺','高さ=?'),
-     choices:['斜辺×sinθ','斜辺×cosθ','隣辺×tanθ','斜辺×sinθ'],ans:2,exp:'隣辺×tanθ＝対辺（高さ）'},
+     choices:['隣辺×tanθ','斜辺×cosθ','斜辺×sinθ','斜辺×sinθ'],ans:0,exp:'隣辺×tanθ＝対辺（高さ）'},
     {q:'斜辺＝4，θ＝30°のとき，高さは？　（使う公式は？）',canvasId:'dq-c3',drawFn:()=>drawDrillFig('dq-c3',{B:{x:20,y:110},C:{x:110,y:110},A:{x:110,y:55},theta:'30°',hypLabel:'4',askLabel:'高さ=?',askSide:'opp'}),
-     choices:['4×sin30°=2','4×cos30°=2√3','4×tan30°='+F(4,'√3'),'4÷sin30°=8'],ans:0,exp:'斜辺×sin30° = 4×'+F(1,2)+' = 2'},
-  ],
+     choices:['4×cos30°=2√3','4×sin30°=2','4×tan30°='+F(4,'√3'),'4÷sin30°=8'],ans:1,exp:'斜辺×sin30° = 4×'+F(1,2)+' = 2'}],
   // Dセット：三角比の表を使う（小数計算）
   [
     {q:'斜辺＝20 m，θ＝37° のとき，高さ BC はおよそ何ｍ？\nsin37°＝0.6018，cos37°＝0.7986，tan37°＝0.7536',canvasId:'dq-c0',drawFn:()=>drawDrillFig('dq-c0',{B:{x:20,y:110},C:{x:110,y:110},A:{x:110,y:40},theta:'37°',hypLabel:'20m',askLabel:'BC=?',askSide:'opp'}),
@@ -801,23 +797,21 @@ const drillSets=[
     {q:'底辺（隣辺）＝15 m，θ＝40° のとき，高さ BC はおよそ何ｍ？\nsin40°＝0.6428，cos40°＝0.7660，tan40°＝0.8391',canvasId:'dq-c2',drawFn:()=>drawDrillFig('dq-c2',{B:{x:20,y:110},C:{x:110,y:110},A:{x:110,y:38},theta:'40°',adjLabel:'15m',askLabel:'BC=?',askSide:'opp'}),
      choices:['9.6 m','11.5 m','12.6 m','13.4 m'],ans:2,exp:'15×tan40° = 15×0.8391 = 12.59 ≒ 12.6 m'},
     {q:'斜辺＝10 m，θ＝41° のとき，高さ BC はおよそ何ｍ？\nsin41°＝0.6561，cos41°＝0.7547，tan41°＝0.8693',canvasId:'dq-c3',drawFn:()=>drawDrillFig('dq-c3',{B:{x:20,y:110},C:{x:110,y:110},A:{x:110,y:40},theta:'41°',hypLabel:'10m',askLabel:'BC=?',askSide:'opp'}),
-     choices:['5.6 m','6.6 m','7.5 m','8.7 m'],ans:1,exp:'10×sin41° = 10×0.6561 = 6.561 ≒ 6.6 m'},
-  ]
+     choices:['6.6 m','5.6 m','7.5 m','8.7 m'],ans:0,exp:'10×sin41° = 10×0.6561 = 6.561 ≒ 6.6 m'}]
 ];
 
 // ===== チェックデータ =====
 const checkData=[
   {q:'斜辺＝12 m，θ＝30° のとき，対辺（高さ）は？',canvasId:'ck-c0',drawFn:()=>drawDrillFig('ck-c0',{B:{x:20,y:110},C:{x:110,y:110},A:{x:110,y:55},theta:'30°',hypLabel:'12',askLabel:'高さ=?',askSide:'opp'}),
-   choices:['6','6√3','6√2','12'],ans:0,exp:'斜辺×sin30° = 12×'+F(1,2)+' = 6'},
+   choices:['6√3','6','6√2','12'],ans:1,exp:'斜辺×sin30° = 12×'+F(1,2)+' = 6'},
   {q:'斜辺＝6 m，θ＝60° のとき，隣辺（底辺）は？',canvasId:'ck-c1',drawFn:()=>drawDrillFig('ck-c1',{B:{x:30,y:110},C:{x:90,y:110},A:{x:90,y:22},theta:'60°',hypLabel:'6',askLabel:'底辺=?',askSide:'adj'}),
-   choices:['3','3√3','3√2','6'],ans:0,exp:'斜辺×cos60° = 6×'+F(1,2)+' = 3'},
+   choices:['6','3√3','3√2','3'],ans:3,exp:'斜辺×cos60° = 6×'+F(1,2)+' = 3'},
   {q:'隣辺（底辺）＝20 m，θ＝45° のとき，対辺（高さ）は？',canvasId:'ck-c2',drawFn:()=>drawDrillFig('ck-c2',{B:{x:20,y:110},C:{x:100,y:110},A:{x:100,y:30},theta:'45°',adjLabel:'20',askLabel:'高さ=?',askSide:'opp'}),
-   choices:['10','20','20√2','10√2'],ans:1,exp:'隣辺×tan45° = 20×1 = 20'},
+   choices:['10','20√2','20','10√2'],ans:2,exp:'隣辺×tan45° = 20×1 = 20'},
   {q:'斜辺＝50 m，θ＝37° のとき，高さはおよそ何ｍ？\nsin37°＝0.6018，tan37°＝0.7536',canvasId:'ck-c3',drawFn:()=>drawDrillFig('ck-c3',{B:{x:20,y:110},C:{x:110,y:110},A:{x:110,y:40},theta:'37°',hypLabel:'50m',askLabel:'高さ=?',askSide:'opp'}),
    choices:['30.1 m','37.7 m','42.4 m','25.0 m'],ans:0,exp:'50×sin37° = 50×0.6018 = 30.09 ≒ 30.1 m'},
   {q:'底辺（隣辺）＝30 m，θ＝57° のとき，高さはおよそ何ｍ？\ntan57°＝1.5399',canvasId:'ck-c4',drawFn:()=>drawDrillFig('ck-c4',{B:{x:25,y:110},C:{x:85,y:110},A:{x:85,y:22},theta:'57°',adjLabel:'30m',askLabel:'高さ=?',askSide:'opp'}),
-   choices:['19.5 m','30.0 m','46.2 m','56.4 m'],ans:2,exp:'30×tan57° = 30×1.5399 = 46.197 ≒ 46.2 m'},
-];
+   choices:['46.2 m','30.0 m','19.5 m','56.4 m'],ans:0,exp:'30×tan57° = 30×1.5399 = 46.197 ≒ 46.2 m'}];
 
 // ===== ドリル用 Canvas描画 =====
 function drawDrillFig(id,opts){
@@ -826,12 +820,12 @@ function drawDrillFig(id,opts){
   const {B,C,A,theta,hypLabel,adjLabel,askLabel,askSide}=opts;
   // 三角形
   ctx.beginPath();ctx.moveTo(B.x,B.y);ctx.lineTo(C.x,C.y);ctx.lineTo(A.x,A.y);ctx.closePath();
-  ctx.fillStyle='#f0fdf4';ctx.fill();ctx.strokeStyle='#16a34a';ctx.lineWidth=2;ctx.stroke();
+  ctx.fillStyle='#f5f3ff';ctx.fill();ctx.strokeStyle='#7c3aed';ctx.lineWidth=2;ctx.stroke();
   const sq=8;ctx.beginPath();ctx.moveTo(C.x-sq,C.y);ctx.lineTo(C.x-sq,C.y-sq);ctx.lineTo(C.x,C.y-sq);
-  ctx.strokeStyle='#16a34a';ctx.lineWidth=1.5;ctx.stroke();
+  ctx.strokeStyle='#7c3aed';ctx.lineWidth=1.5;ctx.stroke();
   const ang=Math.atan2(A.y-B.y,C.x-B.x);
-  ctx.beginPath();ctx.arc(B.x,B.y,18,ang,0);ctx.strokeStyle='#16a34a';ctx.lineWidth=1.4;ctx.stroke();
-  ctx.fillStyle='#16a34a';ctx.font='bold 12px "BIZ UDPGothic",sans-serif';
+  ctx.beginPath();ctx.arc(B.x,B.y,18,ang,0);ctx.strokeStyle='#7c3aed';ctx.lineWidth=1.4;ctx.stroke();
+  ctx.fillStyle='#7c3aed';ctx.font='bold 12px "BIZ UDPGothic",sans-serif';
   ctx.fillText(theta,B.x+21,B.y-4);
   // 斜辺ラベル
   if(hypLabel){
@@ -867,12 +861,12 @@ function drawJudgeFig(id,knownSide,askLabel){
   const ctx=cv.getContext('2d');ctx.clearRect(0,0,cv.width,cv.height);
   const B={x:20,y:110},C={x:110,y:110},A={x:110,y:45};
   ctx.beginPath();ctx.moveTo(B.x,B.y);ctx.lineTo(C.x,C.y);ctx.lineTo(A.x,A.y);ctx.closePath();
-  ctx.fillStyle='#f0fdf4';ctx.fill();ctx.strokeStyle='#16a34a';ctx.lineWidth=2;ctx.stroke();
+  ctx.fillStyle='#f5f3ff';ctx.fill();ctx.strokeStyle='#7c3aed';ctx.lineWidth=2;ctx.stroke();
   const sq=8;ctx.beginPath();ctx.moveTo(C.x-sq,C.y);ctx.lineTo(C.x-sq,C.y-sq);ctx.lineTo(C.x,C.y-sq);
-  ctx.strokeStyle='#16a34a';ctx.lineWidth=1.5;ctx.stroke();
+  ctx.strokeStyle='#7c3aed';ctx.lineWidth=1.5;ctx.stroke();
   const ang=Math.atan2(A.y-B.y,C.x-B.x);
-  ctx.beginPath();ctx.arc(B.x,B.y,18,ang,0);ctx.strokeStyle='#16a34a';ctx.lineWidth=1.4;ctx.stroke();
-  ctx.fillStyle='#16a34a';ctx.font='bold 12px "BIZ UDPGothic",sans-serif';ctx.fillText('θ',B.x+21,B.y-4);
+  ctx.beginPath();ctx.arc(B.x,B.y,18,ang,0);ctx.strokeStyle='#7c3aed';ctx.lineWidth=1.4;ctx.stroke();
+  ctx.fillStyle='#7c3aed';ctx.font='bold 12px "BIZ UDPGothic",sans-serif';ctx.fillText('θ',B.x+21,B.y-4);
   ctx.fillStyle='#374151';ctx.font='bold 12px "BIZ UDPGothic",sans-serif';
   if(knownSide==='斜辺'){ctx.save();ctx.translate((B.x+A.x)/2-16,(B.y+A.y)/2-2);ctx.fillText('斜辺',0,0);ctx.restore();}
   if(knownSide==='底辺'){ctx.textAlign='center';ctx.fillText('底辺',(B.x+C.x)/2,C.y+16);ctx.textAlign='left';}
@@ -902,7 +896,7 @@ function loadDrill(setIdx){
     setTimeout(()=>q.drawFn&&q.drawFn(),50);
   });
 }
-function selectDrill(qi,ci){if(drillSubmitted)return;drillAnswers[qi]=ci;document.querySelectorAll(`#dc-${qi} .choice`).forEach((b,i)=>{b.style.background=i===ci?'#dcfce7':'';b.style.borderColor=i===ci?'#16a34a':'';}); }
+function selectDrill(qi,ci){if(drillSubmitted)return;drillAnswers[qi]=ci;document.querySelectorAll(`#dc-${qi} .choice`).forEach((b,i)=>{b.style.background=i===ci?'#ede9fe':'';b.style.borderColor=i===ci?'#7c3aed':'';}); }
 function submitDrill(){
   if(drillSubmitted)return;drillSubmitted=true;
   let correct=0;
@@ -919,7 +913,7 @@ function submitDrill(){
   });
   document.getElementById('drill-submit').disabled=true;
   const res=document.getElementById('drill-result');res.style.display='block';
-  res.innerHTML=`<div class="score-box"><div class="score-circle">${correct}<div class="score-label">/ 4</div></div><div style="font-size:14px;font-weight:700;color:#15803d;">${correct===4?'全問正解！🎉':'もう一度チャレンジしよう'}</div></div>`;
+  res.innerHTML=`<div class="score-box"><div class="score-circle">${correct}<div class="score-label">/ 4</div></div><div style="font-size:14px;font-weight:700;color:#5b21b6;">${correct===4?'全問正解！🎉':'もう一度チャレンジしよう'}</div></div>`;
   if(correct===4)fireConfetti();
 }
 
@@ -943,7 +937,7 @@ function initCheck(){
     setTimeout(()=>q.drawFn&&q.drawFn(),50);
   });
 }
-function selectCheck(qi,ci){if(checkSubmitted)return;checkAnswers[qi]=ci;document.querySelectorAll(`#cc-${qi} .choice`).forEach((b,i)=>{b.style.background=i===ci?'#dcfce7':'';b.style.borderColor=i===ci?'#16a34a':'';}); }
+function selectCheck(qi,ci){if(checkSubmitted)return;checkAnswers[qi]=ci;document.querySelectorAll(`#cc-${qi} .choice`).forEach((b,i)=>{b.style.background=i===ci?'#ede9fe':'';b.style.borderColor=i===ci?'#7c3aed':'';}); }
 function submitCheck(){
   if(checkSubmitted)return;checkSubmitted=true;
   let correct=0;
@@ -960,14 +954,14 @@ function submitCheck(){
   });
   document.getElementById('check-submit').disabled=true;
   const res=document.getElementById('check-result');res.style.display='block';
-  res.innerHTML=`<div class="score-box"><div class="score-circle">${correct}<div class="score-label">/ 5</div></div><div style="font-size:14px;font-weight:700;color:#15803d;">${correct===5?'全問正解！🎉':correct>=3?'あと少し！':'説明に戻って確認しよう'}</div></div>`;
+  res.innerHTML=`<div class="score-box"><div class="score-circle">${correct}<div class="score-label">/ 5</div></div><div style="font-size:14px;font-weight:700;color:#5b21b6;">${correct===5?'全問正解！🎉':correct>=3?'あと少し！':'説明に戻って確認しよう'}</div></div>`;
   if(correct===5){fireConfetti();markPassed('TR03');}
 }
 
 // ===== 花吹雪 =====
 function fireConfetti(){
   const wrap=document.createElement('div');wrap.className='confetti-wrap';document.body.appendChild(wrap);
-  const colors=['#16a34a','#15803d','#4ade80','#f59e0b','#10b981','#86efac'];
+  const colors=['#7c3aed','#5b21b6','#a78bfa','#f59e0b','#10b981','#c4b5fd'];
   for(let i=0;i<60;i++){
     const p=document.createElement('div');p.className='confetti-piece';
     const c=colors[Math.floor(Math.random()*colors.length)];
@@ -998,5 +992,6 @@ window.addEventListener('load',()=>{
   drawChimney('c-chimney3','12m','60°','㋒');
 });
 </script>
+<script src="https://realizefield.github.io/gamba-kounin-seito/gamba-ai.js" defer></script>
 </body>
 </html>
