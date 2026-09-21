@@ -79,9 +79,9 @@ body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background
   <button class="btn-retry" onclick="retry()">🔄 もう一度チャレンジ</button>
 </div>
 <div class="nav-btns">
-  <a href="../gamba_kounin.html" class="btn-nav btn-h">🏠 単元一覧へ</a>
+  <a href="../kounin_math_index.html" class="btn-nav btn-h">🏠 単元一覧へ</a>
   <a href="drill.html" class="btn-nav btn-b">← 演習</a>
-  <a href="../gamba_kounin.html" class="btn-nav btn-f">🎓 単元一覧へ</a>
+  <a href="../kounin_math_index.html" class="btn-nav btn-f">🎓 単元一覧へ</a>
 </div>
 </main>
 
@@ -112,12 +112,12 @@ const QS=[
   {
     q:"$(3x-4)(2x-5)$ を展開すると？",
     choices:[
-      "$6x^2 - 23x + 20$",
+      "$6x^2 - 23x - 20$"
+    ,
       "$6x^2 + 23x + 20$",
       "$6x^2 - 7x + 20$",
-      "$6x^2 - 23x - 20$"
-    ],
-    ans:0,
+      "$6x^2 - 23x + 20$"],
+    ans:3,
     exp:"両端：$6x^2, +20$（マイナス×マイナス）。真ん中：$-15x - 8x = -23x$"
   },
   {
@@ -134,15 +134,14 @@ const QS=[
   {
     q:"$(7x+2y)(x-3y)$ を展開すると？",
     choices:[
-      "$7x^2 - 19xy - 6y^2$",
+      "$7x^2 + 23xy + 6y^2$"
+    ,
       "$7x^2 + 19xy + 6y^2$",
       "$7x^2 - 23xy - 6y^2$",
-      "$7x^2 + 23xy + 6y^2$"
-    ],
-    ans:0,
+      "$7x^2 - 19xy - 6y^2$"],
+    ans:3,
     exp:"両端：$7x^2, -6y^2$。真ん中：$-21xy + 2xy = -19xy$"
-  },
-];
+  }];
 
 let answers=[];
 let answered=new Array(QS.length).fill(false);

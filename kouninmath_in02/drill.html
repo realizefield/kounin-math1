@@ -95,30 +95,30 @@ section{background:#fff;padding:24px;border-radius:0 0 12px 12px;border:2px soli
 const problems = {
   // タイプ1：基本（プラス、反転なし）
   type1: [
-    {q:'$2x + 3 \\leqq 9$', choices:['$x \\leqq 3$','$x \\geqq 3$','$x \\leqq 6$','$x \\geqq 6$'], correct:0, expl:'$2x \\leqq 6$ → $x \\leqq 3$'},
-    {q:'$3x + 4 < 13$', choices:['$x < 3$','$x > 3$','$x < 9$','$x > 9$'], correct:0, expl:'$3x < 9$ → $x < 3$'},
-    {q:'$5x + 2 \\geqq 17$', choices:['$x \\geqq 3$','$x \\leqq 3$','$x \\geqq 15$','$x \\leqq 15$'], correct:0, expl:'$5x \\geqq 15$ → $x \\geqq 3$'},
+    {q:'$2x + 3 \\leqq 9$', choices:['$x \\leqq 6$','$x \\geqq 3$','$x \\leqq 3$','$x \\geqq 6$'], correct:2, expl:'$2x \\leqq 6$ → $x \\leqq 3$'},
+    {q:'$3x + 4 < 13$', choices:['$x > 3$','$x < 3$','$x < 9$','$x > 9$'], correct:1, expl:'$3x < 9$ → $x < 3$'},
+    {q:'$5x + 2 \\geqq 17$', choices:['$x \\leqq 15$','$x \\leqq 3$','$x \\geqq 15$','$x \\geqq 3$'], correct:3, expl:'$5x \\geqq 15$ → $x \\geqq 3$'},
     {q:'$4x + 1 > 9$', choices:['$x > 2$','$x < 2$','$x > 8$','$x < 8$'], correct:0, expl:'$4x > 8$ → $x > 2$'}
   ],
   // タイプ2：基本（マイナスからの移項）
   type2: [
     {q:'$3x - 5 \\geqq 4$', choices:['$x \\geqq 3$','$x \\leqq 3$','$x \\geqq 9$','$x \\leqq 9$'], correct:0, expl:'$3x \\geqq 9$ → $x \\geqq 3$'},
-    {q:'$2x - 7 < 1$', choices:['$x < 4$','$x > 4$','$x < 8$','$x > 8$'], correct:0, expl:'$2x < 8$ → $x < 4$'},
-    {q:'$5x - 6 > 9$', choices:['$x > 3$','$x < 3$','$x > 15$','$x < 15$'], correct:0, expl:'$5x > 15$ → $x > 3$'},
-    {q:'$4x - 3 \\leqq 13$', choices:['$x \\leqq 4$','$x \\geqq 4$','$x \\leqq 16$','$x \\geqq 16$'], correct:0, expl:'$4x \\leqq 16$ → $x \\leqq 4$'}
+    {q:'$2x - 7 < 1$', choices:['$x > 4$','$x < 4$','$x < 8$','$x > 8$'], correct:1, expl:'$2x < 8$ → $x < 4$'},
+    {q:'$5x - 6 > 9$', choices:['$x > 15$','$x < 3$','$x > 3$','$x < 15$'], correct:2, expl:'$5x > 15$ → $x > 3$'},
+    {q:'$4x - 3 \\leqq 13$', choices:['$x \\geqq 16$','$x \\geqq 4$','$x \\leqq 16$','$x \\leqq 4$'], correct:3, expl:'$4x \\leqq 16$ → $x \\leqq 4$'}
   ],
   // タイプ3：負の係数（反転）
   type3: [
-    {q:'$-2x \\geqq 8$', choices:['$x \\leqq -4$','$x \\geqq -4$','$x \\leqq 4$','$x \\geqq 4$'], correct:0, expl:'両辺を $-2$ で割って反転 → $x \\leqq -4$', warn:true},
-    {q:'$-3x < 9$', choices:['$x > -3$','$x < -3$','$x > 3$','$x < 3$'], correct:0, expl:'両辺を $-3$ で割って反転 → $x > -3$', warn:true},
+    {q:'$-2x \\geqq 8$', choices:['$x \\geqq -4$','$x \\leqq -4$','$x \\leqq 4$','$x \\geqq 4$'], correct:1, expl:'両辺を $-2$ で割って反転 → $x \\leqq -4$', warn:true},
+    {q:'$-3x < 9$', choices:['$x < 3$','$x < -3$','$x > 3$','$x > -3$'], correct:3, expl:'両辺を $-3$ で割って反転 → $x > -3$', warn:true},
     {q:'$-4x \\leqq 12$', choices:['$x \\geqq -3$','$x \\leqq -3$','$x \\geqq 3$','$x \\leqq 3$'], correct:0, expl:'両辺を $-4$ で割って反転 → $x \\geqq -3$', warn:true},
-    {q:'$-5x > 10$', choices:['$x < -2$','$x > -2$','$x < 2$','$x > 2$'], correct:0, expl:'両辺を $-5$ で割って反転 → $x < -2$', warn:true}
+    {q:'$-5x > 10$', choices:['$x < 2$','$x > -2$','$x < -2$','$x > 2$'], correct:2, expl:'両辺を $-5$ で割って反転 → $x < -2$', warn:true}
   ],
   // タイプ4：移項＋負の係数
   type4: [
-    {q:'$-2x + 5 \\leqq 1$', choices:['$x \\geqq 2$','$x \\leqq 2$','$x \\geqq -2$','$x \\leqq -2$'], correct:0, expl:'$-2x \\leqq -4$ → 両辺を $-2$ で割って反転 → $x \\geqq 2$', warn:true},
-    {q:'$-3x - 2 > 7$', choices:['$x < -3$','$x > -3$','$x < 3$','$x > 3$'], correct:0, expl:'$-3x > 9$ → 両辺を $-3$ で割って反転 → $x < -3$', warn:true},
-    {q:'$-4x + 6 \\geqq 14$', choices:['$x \\leqq -2$','$x \\geqq -2$','$x \\leqq 2$','$x \\geqq 2$'], correct:0, expl:'$-4x \\geqq 8$ → 両辺を $-4$ で割って反転 → $x \\leqq -2$', warn:true},
+    {q:'$-2x + 5 \\leqq 1$', choices:['$x \\geqq -2$','$x \\leqq 2$','$x \\geqq 2$','$x \\leqq -2$'], correct:2, expl:'$-2x \\leqq -4$ → 両辺を $-2$ で割って反転 → $x \\geqq 2$', warn:true},
+    {q:'$-3x - 2 > 7$', choices:['$x > -3$','$x < -3$','$x < 3$','$x > 3$'], correct:1, expl:'$-3x > 9$ → 両辺を $-3$ で割って反転 → $x < -3$', warn:true},
+    {q:'$-4x + 6 \\geqq 14$', choices:['$x \\geqq 2$','$x \\geqq -2$','$x \\leqq 2$','$x \\leqq -2$'], correct:3, expl:'$-4x \\geqq 8$ → 両辺を $-4$ で割って反転 → $x \\leqq -2$', warn:true},
     {q:'$-5x + 3 < -7$', choices:['$x > 2$','$x < 2$','$x > -2$','$x < -2$'], correct:0, expl:'$-5x < -10$ → 両辺を $-5$ で割って反転 → $x > 2$', warn:true}
   ]
 };

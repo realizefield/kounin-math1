@@ -79,9 +79,9 @@ body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background
   <button class="btn-retry" onclick="retry()">🔄 もう一度チャレンジ</button>
 </div>
 <div class="nav-btns">
-  <a href="../gamba_kounin.html" class="btn-nav btn-h">🏠 単元一覧へ</a>
+  <a href="../kounin_math_index.html" class="btn-nav btn-h">🏠 単元一覧へ</a>
   <a href="drill.html" class="btn-nav btn-b">← 演習</a>
-  <a href="../gamba_kounin.html" class="btn-nav btn-f">🎓 単元一覧へ</a>
+  <a href="../kounin_math_index.html" class="btn-nav btn-f">🎓 単元一覧へ</a>
 </div>
 </main>
 
@@ -91,33 +91,33 @@ const QS=[
     q:"$(x+y+3)(x+y+4)$ を展開すると？",
     choices:[
       "$x^2 + 7x + y^2 + 12$",
-      "$x^2 + 7xy + y^2 + 12$",
-      "$x^2 + 2xy + y^2 + 12$",
       "$x^2 + 2xy + y^2 + 7x + 7y + 12$"
-    ],
-    ans:3,
+    ,
+      "$x^2 + 2xy + y^2 + 12$",
+      "$x^2 + 7xy + y^2 + 12$"],
+    ans:1,
     exp:"$x+y=A$ → $(A+3)(A+4) = A^2+7A+12$。$A=x+y$ を戻して全部展開。"
   },
   {
     q:"$(a-2b+c)(a-2b-c)$ を展開すると？",
     choices:[
       "$a^2 - 4b^2 - c^2 - 4ab$",
-      "$a^2 + 4b^2 - c^2 - 4ab$",
       "$a^2 - 4b^2 - c^2 - 4bc$",
+      "$a^2 + 4b^2 - c^2 - 4ab$",
       "$a^2 + 4b^2 - c^2 - 4bc$"
     ],
-    ans:1,
+    ans:2,
     exp:"$a-2b=A$ → $(A+c)(A-c) = A^2-c^2 = (a-2b)^2-c^2 = a^2-4ab+4b^2-c^2$"
   },
   {
     q:"$(a+b+2c)(a+b-2c)$ を展開すると？",
     choices:[
       "$a^2 + b^2 - 4c$",
-      "$a^2 + 2ab + b^2 - 4c^2$",
-      "$a^2 - 2ab - b^2 - 4c^2$",
       "$a^2 + 2ab + b^2 + 4c^2$"
-    ],
-    ans:1,
+    ,
+      "$a^2 - 2ab - b^2 - 4c^2$",
+      "$a^2 + 2ab + b^2 - 4c^2$"],
+    ans:3,
     exp:"$a+b=A$ → $(A+2c)(A-2c) = A^2-4c^2 = a^2+2ab+b^2-4c^2$"
   },
   {
@@ -135,14 +135,13 @@ const QS=[
     q:"$(x+y+1)^2$ を展開すると？",
     choices:[
       "$x^2 + y^2 + 1$",
-      "$x^2 + 2xy + y^2 + 1$",
       "$x^2 + 2xy + y^2 + 2x + 2y + 1$",
+      "$x^2 + 2xy + y^2 + 1$",
       "$x^2 + 2xy + y^2 + x + y + 1$"
     ],
-    ans:2,
+    ans:1,
     exp:"$x+y=A$ → $(A+1)^2 = A^2+2A+1 = (x+y)^2+2(x+y)+1 = x^2+2xy+y^2+2x+2y+1$"
-  },
-];
+  }];
 
 let answers=[];
 let answered=new Array(QS.length).fill(false);
@@ -293,5 +292,6 @@ function launchConfetti(){
 buildQuiz();
 </script>
 <script src="../gamba_support.js"></script>
+<script src="https://realizefield.github.io/gamba-kounin-seito/gamba-ai.js" defer></script>
 </body>
 </html>

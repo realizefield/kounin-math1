@@ -79,9 +79,9 @@ body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background
   <button class="btn-retry" onclick="retry()">🔄 もう一度チャレンジ</button>
 </div>
 <div class="nav-btns">
-  <a href="../gamba_kounin.html" class="btn-nav btn-h">🏠 単元一覧へ</a>
+  <a href="../kounin_math_index.html" class="btn-nav btn-h">🏠 単元一覧へ</a>
   <a href="drill.html" class="btn-nav btn-b">← 演習</a>
-  <a href="../gamba_kounin.html" class="btn-nav btn-f">🎓 単元一覧へ</a>
+  <a href="../kounin_math_index.html" class="btn-nav btn-f">🎓 単元一覧へ</a>
 </div>
 </main>
 
@@ -89,8 +89,8 @@ body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background
 const QS=[
   {
     q:"$(x+5)^2$ を展開すると？",
-    choices:["$x^2+25$","$x^2+10x+25$","$x^2+5x+25$","$x^2+10x+5$"],
-    ans:1,
+    choices:["$x^2+25$","$x^2+10x+5$","$x^2+5x+25$","$x^2+10x+25$"],
+    ans:3,
     exp:"前を2乗 $x^2$，前後をかけて2倍 $10x$，後ろを2乗 $25$。よって $x^2+10x+25$。"
   },
   {
@@ -113,11 +113,10 @@ const QS=[
   },
   {
     q:"$(x+2y)^2$ を展開すると？",
-    choices:["$x^2+2xy+4y^2$","$x^2+4xy+2y^2$","$x^2+4xy+4y^2$","$x^2+4y^2$"],
-    ans:2,
+    choices:["$x^2+4xy+4y^2$","$x^2+4xy+2y^2$","$x^2+2xy+4y^2$","$x^2+4y^2$"],
+    ans:0,
     exp:"前を2乗 $x^2$，前後をかけて2倍 $4xy$，後ろを2乗 $(2y)^2=4y^2$。"
-  },
-];
+  }];
 
 let answers=[];
 let answered=new Array(QS.length).fill(false);
@@ -268,5 +267,6 @@ function launchConfetti(){
 buildQuiz();
 </script>
 <script src="../gamba_support.js"></script>
+<script src="https://realizefield.github.io/gamba-kounin-seito/gamba-ai.js" defer></script>
 </body>
 </html>

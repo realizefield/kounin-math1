@@ -79,9 +79,9 @@ body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background
   <button class="btn-retry" onclick="retry()">🔄 もう一度チャレンジ</button>
 </div>
 <div class="nav-btns">
-  <a href="../gamba_kounin.html" class="btn-nav btn-h">🏠 単元一覧へ</a>
+  <a href="../kounin_math_index.html" class="btn-nav btn-h">🏠 単元一覧へ</a>
   <a href="drill.html" class="btn-nav btn-b">← 演習</a>
-  <a href="../gamba_kounin.html" class="btn-nav btn-f">🎓 単元一覧へ</a>
+  <a href="../kounin_math_index.html" class="btn-nav btn-f">🎓 単元一覧へ</a>
 </div>
 </main>
 
@@ -89,20 +89,20 @@ body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background
 const QS=[
   {
     q:"$x^2 + 2x - 15$ を因数分解すると？",
-    choices:["$(x+3)(x-5)$","$(x-3)(x+5)$","$(x+5)(x+3)$","$(x-5)(x-3)$"],
-    ans:1,
+    choices:["$(x+3)(x-5)$","$(x+5)(x+3)$","$(x-3)(x+5)$","$(x-5)(x-3)$"],
+    ans:2,
     exp:"パターン3。かけて $15$，差 $2$ → $3, 5$。係数 $+2$ → 大きい $5$ がプラス → $(x+5)(x-3)$"
   },
   {
     q:"$x^2 - 3x - 10$ を因数分解すると？",
-    choices:["$(x-5)(x+2)$","$(x+5)(x-2)$","$(x-5)(x-2)$","$(x+5)(x+2)$"],
-    ans:0,
+    choices:["$(x+5)(x+2)$","$(x+5)(x-2)$","$(x-5)(x-2)$","$(x-5)(x+2)$"],
+    ans:3,
     exp:"パターン3。かけて $10$，差 $3$ → $2, 5$。係数 $-3$ → 大きい $5$ がマイナス → $(x-5)(x+2)$"
   },
   {
     q:"$x^2 + 4x - 21$ を因数分解すると？",
-    choices:["$(x-7)(x+3)$","$(x+7)(x-3)$","$(x+7)(x+3)$","$(x-7)(x-3)$"],
-    ans:1,
+    choices:["$(x+7)(x-3)$","$(x-7)(x+3)$","$(x+7)(x+3)$","$(x-7)(x-3)$"],
+    ans:0,
     exp:"パターン3。かけて $21$，差 $4$ → $3, 7$。係数 $+4$ → 大きい $7$ がプラス"
   },
   {
@@ -116,8 +116,7 @@ const QS=[
     choices:["$(x+6)(x-4)$","$(x-8)(x+3)$","$(x+8)(x-3)$","$(x+12)(x-2)$"],
     ans:2,
     exp:"パターン3。かけて $24$，差 $5$ → $3, 8$。係数 $+5$ → 大きい $8$ がプラス"
-  },
-];
+  }];
 
 let answers=[];
 let answered=new Array(QS.length).fill(false);
@@ -268,5 +267,6 @@ function launchConfetti(){
 buildQuiz();
 </script>
 <script src="../gamba_support.js"></script>
+<script src="https://realizefield.github.io/gamba-kounin-seito/gamba-ai.js" defer></script>
 </body>
 </html>

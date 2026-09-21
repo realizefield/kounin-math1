@@ -79,9 +79,9 @@ body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background
   <button class="btn-retry" onclick="retry()">🔄 もう一度チャレンジ</button>
 </div>
 <div class="nav-btns">
-  <a href="../gamba_kounin.html" class="btn-nav btn-h">🏠 単元一覧へ</a>
+  <a href="../kounin_math_index.html" class="btn-nav btn-h">🏠 単元一覧へ</a>
   <a href="drill.html" class="btn-nav btn-b">← 演習</a>
-  <a href="../gamba_kounin.html" class="btn-nav btn-f">🎓 単元一覧へ</a>
+  <a href="../kounin_math_index.html" class="btn-nav btn-f">🎓 単元一覧へ</a>
 </div>
 </main>
 
@@ -89,14 +89,14 @@ body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background
 const QS=[
   {
     q:"$x^2 + 4x + 4$ を因数分解すると？",
-    choices:["$(x+2)^2$","$(x-2)^2$","$(x+1)(x+4)$","$(x+2)(x-2)$"],
-    ans:0,
+    choices:["$(x+2)(x-2)$","$(x-2)^2$","$(x+1)(x+4)$","$(x+2)^2$"],
+    ans:3,
     exp:"$4 = 2^2$，$4 = 2 \\times 2$ → 完全平方 → $(x+2)^2$"
   },
   {
     q:"$x^2 - 10x + 25$ を因数分解すると？",
-    choices:["$(x+5)^2$","$(x-5)^2$","$(x-5)(x+5)$","$(x-1)(x-25)$"],
-    ans:1,
+    choices:["$(x-5)^2$","$(x+5)^2$","$(x-5)(x+5)$","$(x-1)(x-25)$"],
+    ans:0,
     exp:"$25 = 5^2$，$-10 = -(2 \\times 5)$ → 完全平方（マイナス）→ $(x-5)^2$"
   },
   {
@@ -107,17 +107,16 @@ const QS=[
   },
   {
     q:"$x^2 - 16x + 64$ を因数分解すると？",
-    choices:["$(x-4)(x-16)$","$(x-8)^2$","$(x+8)^2$","$(x-8)(x+8)$"],
-    ans:1,
+    choices:["$(x-4)(x-16)$","$(x-8)(x+8)$","$(x+8)^2$","$(x-8)^2$"],
+    ans:3,
     exp:"$64 = 8^2$，$-16 = -(2 \\times 8)$ → $(x-8)^2$"
   },
   {
     q:"$x^2 + 14x + 49$ を因数分解すると？",
-    choices:["$(x+7)^2$","$(x-7)^2$","$(x+7)(x-7)$","$(x+1)(x+14)$"],
-    ans:0,
+    choices:["$(x-7)^2$","$(x+7)^2$","$(x+7)(x-7)$","$(x+1)(x+14)$"],
+    ans:1,
     exp:"$49 = 7^2$，$14 = 2 \\times 7$ → $(x+7)^2$"
-  },
-];
+  }];
 
 let answers=[];
 let answered=new Array(QS.length).fill(false);
@@ -268,5 +267,6 @@ function launchConfetti(){
 buildQuiz();
 </script>
 <script src="../gamba_support.js"></script>
+<script src="https://realizefield.github.io/gamba-kounin-seito/gamba-ai.js" defer></script>
 </body>
 </html>

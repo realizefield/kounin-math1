@@ -79,9 +79,9 @@ body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background
   <button class="btn-retry" onclick="retry()">🔄 もう一度チャレンジ</button>
 </div>
 <div class="nav-btns">
-  <a href="../gamba_kounin.html" class="btn-nav btn-h">🏠 単元一覧へ</a>
+  <a href="../kounin_math_index.html" class="btn-nav btn-h">🏠 単元一覧へ</a>
   <a href="drill.html" class="btn-nav btn-b">← 演習</a>
-  <a href="../gamba_kounin.html" class="btn-nav btn-f">🎓 単元一覧へ</a>
+  <a href="../kounin_math_index.html" class="btn-nav btn-f">🎓 単元一覧へ</a>
 </div>
 </main>
 
@@ -89,26 +89,26 @@ body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background
 const QS=[
   {
     q:"$x^2 + 7x + 12$ を因数分解すると？",
-    choices:["$(x+1)(x+12)$","$(x+3)(x+4)$","$(x+2)(x+6)$","$(x-3)(x-4)$"],
-    ans:1,
+    choices:["$(x+1)(x+12)$","$(x+2)(x+6)$","$(x+3)(x+4)$","$(x-3)(x-4)$"],
+    ans:2,
     exp:"両プラス（パターン1）。たして $7$，かけて $12$ → $3$ と $4$"
   },
   {
     q:"$x^2 - 8x + 12$ を因数分解すると？",
-    choices:["$(x+2)(x+6)$","$(x-1)(x-12)$","$(x-2)(x-6)$","$(x+2)(x-6)$"],
-    ans:2,
+    choices:["$(x+2)(x+6)$","$(x-2)(x-6)$","$(x-1)(x-12)$","$(x+2)(x-6)$"],
+    ans:1,
     exp:"両マイナス（パターン2）。たして $-8$，かけて $+12$ → $-2$ と $-6$"
   },
   {
     q:"$x^2 + x - 12$ を因数分解すると？",
-    choices:["$(x+3)(x+4)$","$(x-3)(x-4)$","$(x+4)(x-3)$","$(x-4)(x+3)$"],
-    ans:2,
+    choices:["$(x+4)(x-3)$","$(x-3)(x-4)$","$(x+3)(x+4)$","$(x-4)(x+3)$"],
+    ans:0,
     exp:"符号が逆（パターン3）。たして $+1$，かけて $-12$ → $+4$ と $-3$"
   },
   {
     q:"$x^2 - 11x + 18$ を因数分解すると？",
-    choices:["$(x-2)(x-9)$","$(x+2)(x+9)$","$(x-3)(x-6)$","$(x-1)(x-18)$"],
-    ans:0,
+    choices:["$(x-1)(x-18)$","$(x+2)(x+9)$","$(x-3)(x-6)$","$(x-2)(x-9)$"],
+    ans:3,
     exp:"両マイナス。たして $-11$，かけて $+18$ → $-2$ と $-9$"
   },
   {
@@ -116,8 +116,7 @@ const QS=[
     choices:["$(x+4)(x-6)$","$(x-4)(x+6)$","$(x-2)(x-12)$","$(x+3)(x-8)$"],
     ans:0,
     exp:"符号が逆。たして $-2$，かけて $-24$ → $+4$ と $-6$（絶対値の大きい方が係数と同じ符号）"
-  },
-];
+  }];
 
 let answers=[];
 let answered=new Array(QS.length).fill(false);
@@ -268,5 +267,6 @@ function launchConfetti(){
 buildQuiz();
 </script>
 <script src="../gamba_support.js"></script>
+<script src="https://realizefield.github.io/gamba-kounin-seito/gamba-ai.js" defer></script>
 </body>
 </html>

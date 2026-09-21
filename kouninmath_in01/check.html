@@ -85,7 +85,7 @@ section{background:#fff;padding:24px;border-radius:0 0 12px 12px;border:2px soli
 
 <div class="nav">
   <a class="back" href="drill.html">← 演習へ戻る</a>
-  <a href="../gamba_kounin.html">単元一覧へ →</a>
+  <a href="../kounin_math_index.html">単元一覧へ →</a>
 </div>
 
 </section>
@@ -106,16 +106,16 @@ const questions = [
     type:'足し算',
     warn:false,
     q:'$a > b$ のとき、両辺に $7$ を足すと？',
-    choices:['$a + 7 < b + 7$','$a + 7 > b + 7$','$a + 7 = b + 7$','$a + 7 \\leqq b + 7$'],
-    correct:1,
+    choices:['$a + 7 < b + 7$','$a + 7 = b + 7$','$a + 7 > b + 7$','$a + 7 \\leqq b + 7$'],
+    correct:2,
     expl:'両辺に同じ数を足しても、不等号の向きは変わりません。'
   },
   {
     type:'正の数で割る',
     warn:false,
     q:'$3x \\leqq 12$ の両辺を $3$ で割ると？',
-    choices:['$x \\leqq 4$','$x \\geqq 4$','$x \\leqq 9$','$x \\geqq 9$'],
-    correct:0,
+    choices:['$x \\geqq 9$','$x \\geqq 4$','$x \\leqq 9$','$x \\leqq 4$'],
+    correct:3,
     expl:'$3$ は正の数なので向きは変わりません。$12 \\div 3 = 4$ なので $x \\leqq 4$。'
   },
   {

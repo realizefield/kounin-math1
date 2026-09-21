@@ -79,9 +79,9 @@ body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background
   <button class="btn-retry" onclick="retry()">🔄 もう一度チャレンジ</button>
 </div>
 <div class="nav-btns">
-  <a href="../gamba_kounin.html" class="btn-nav btn-h">🏠 単元一覧へ</a>
+  <a href="../kounin_math_index.html" class="btn-nav btn-h">🏠 単元一覧へ</a>
   <a href="drill.html" class="btn-nav btn-b">← 演習</a>
-  <a href="../gamba_kounin.html" class="btn-nav btn-f">🎓 単元一覧へ</a>
+  <a href="../kounin_math_index.html" class="btn-nav btn-f">🎓 単元一覧へ</a>
 </div>
 </main>
 
@@ -89,26 +89,26 @@ body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background
 const QS=[
   {
     q:"$(x+4)(x+9)$ を展開すると？",
-    choices:["$x^2+13x+36$","$x^2+13x+13$","$x^2+36x+13$","$x^2+5x+36$"],
-    ans:0,
+    choices:["$x^2+36x+13$","$x^2+13x+13$","$x^2+13x+36$","$x^2+5x+36$"],
+    ans:2,
     exp:"後ろが違う → <strong>公式①</strong>。たして $13$，かけて $36$。"
   },
   {
     q:"$(x-8)^2$ を展開すると？",
-    choices:["$x^2-64$","$x^2-16x-64$","$x^2-16x+64$","$x^2+16x+64$"],
-    ans:2,
+    choices:["$x^2-64$","$x^2-16x-64$","$x^2+16x+64$","$x^2-16x+64$"],
+    ans:3,
     exp:"$( \\ )^2$ → <strong>公式②</strong>。$x^2 - 16x + 64$。最後はプラス！"
   },
   {
     q:"$(x+7)(x-7)$ を展開すると？",
-    choices:["$x^2-49$","$x^2+49$","$x^2-14x-49$","$x^2-14x+49$"],
-    ans:0,
+    choices:["$x^2-14x-49$","$x^2+49$","$x^2-49$","$x^2-14x+49$"],
+    ans:2,
     exp:"和と差の積 → <strong>公式③</strong>。$x^2 - 49$。"
   },
   {
     q:"$(2x+5)^2$ を展開すると？",
-    choices:["$4x^2+25$","$4x^2+10x+25$","$4x^2+20x+25$","$2x^2+20x+25$"],
-    ans:2,
+    choices:["$4x^2+25$","$4x^2+20x+25$","$4x^2+10x+25$","$2x^2+20x+25$"],
+    ans:1,
     exp:"<strong>公式②</strong>。$(2x)^2=4x^2$，$2 \\times 2x \\times 5 = 20x$，$5^2=25$。"
   },
   {
@@ -116,8 +116,7 @@ const QS=[
     choices:["$9a^2-4b^2$","$9a^2+4b^2$","$3a^2-2b^2$","$9a^2-12ab-4b^2$"],
     ans:0,
     exp:"和と差の積 → <strong>公式③</strong>。$(3a)^2 - (2b)^2 = 9a^2 - 4b^2$。"
-  },
-];
+  }];
 
 let answers=[];
 let answered=new Array(QS.length).fill(false);
@@ -268,5 +267,6 @@ function launchConfetti(){
 buildQuiz();
 </script>
 <script src="../gamba_support.js"></script>
+<script src="https://realizefield.github.io/gamba-kounin-seito/gamba-ai.js" defer></script>
 </body>
 </html>

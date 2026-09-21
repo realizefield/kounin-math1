@@ -79,9 +79,9 @@ body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background
   <button class="btn-retry" onclick="retry()">🔄 もう一度チャレンジ</button>
 </div>
 <div class="nav-btns">
-  <a href="../gamba_kounin.html" class="btn-nav btn-h">🏠 単元一覧へ</a>
+  <a href="../kounin_math_index.html" class="btn-nav btn-h">🏠 単元一覧へ</a>
   <a href="drill.html" class="btn-nav btn-b">← 演習</a>
-  <a href="../gamba_kounin.html" class="btn-nav btn-f">🎓 単元一覧へ</a>
+  <a href="../kounin_math_index.html" class="btn-nav btn-f">🎓 単元一覧へ</a>
 </div>
 </main>
 
@@ -90,59 +90,58 @@ const QS=[
   {
     q:"$(x+y)^2 + 6(x+y) + 8$ を因数分解すると？",
     choices:[
-      "$(x+y+2)(x+y+4)$",
+      "$(x+y+2)^2$"
+    ,
       "$(x+y+1)(x+y+8)$",
       "$(x+y-2)(x+y-4)$",
-      "$(x+y+2)^2$"
-    ],
-    ans:0,
+      "$(x+y+2)(x+y+4)$"],
+    ans:3,
     exp:"$x+y=A$ → $A^2+6A+8 = (A+2)(A+4)$ → $(x+y+2)(x+y+4)$"
   },
   {
     q:"$(x+y)^2 - 25$ を因数分解すると？",
     choices:[
-      "$(x+y)^2 - 5^2$",
       "$(x+y+5)(x+y-5)$",
+      "$(x+y)^2 - 5^2$",
       "$(x+y+5)^2$",
       "$(x+y-5)^2$"
     ],
-    ans:1,
+    ans:0,
     exp:"$x+y=A$ → $A^2-25 = (A+5)(A-5)$ → $(x+y+5)(x+y-5)$"
   },
   {
     q:"$(x-1)^2 + 4(x-1) + 4$ を因数分解すると？",
     choices:[
-      "$(x+1)^2$",
-      "$(x-3)^2$",
       "$(x+3)(x-1)$",
+      "$(x-3)^2$",
+      "$(x+1)^2$",
       "$(x-1+2)^2$"
     ],
-    ans:0,
+    ans:2,
     exp:"$x-1=A$ → $A^2+4A+4 = (A+2)^2$ → $(x-1+2)^2 = (x+1)^2$"
   },
   {
     q:"$(x-1)^2 + 3(x-1) - 10$ を因数分解すると？",
     choices:[
-      "$(x+4)(x-3)$",
       "$(x-4)(x+3)$",
+      "$(x+4)(x-3)$",
       "$(x+5)(x-2)$",
       "$(x-5)(x+2)$"
     ],
-    ans:0,
+    ans:1,
     exp:"$x-1=A$ → $A^2+3A-10 = (A+5)(A-2) = (x-1+5)(x-1-2) = (x+4)(x-3)$"
   },
   {
     q:"$ax + ay + 3x + 3y$ を因数分解すると？",
     choices:[
-      "$(x+y)(a+3)$",
       "$(a+x)(y+3)$",
+      "$(x+y)(a+3)$",
       "$(x+3)(a+y)$",
       "$a(x+y) + 3(x+y)$"
     ],
-    ans:0,
+    ans:1,
     exp:"$a(x+y) + 3(x+y) = (x+y)(a+3)$"
-  },
-];
+  }];
 
 let answers=[];
 let answered=new Array(QS.length).fill(false);
@@ -293,5 +292,6 @@ function launchConfetti(){
 buildQuiz();
 </script>
 <script src="../gamba_support.js"></script>
+<script src="https://realizefield.github.io/gamba-kounin-seito/gamba-ai.js" defer></script>
 </body>
 </html>

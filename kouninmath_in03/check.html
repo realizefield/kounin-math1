@@ -253,7 +253,7 @@ section{
 
 <div class="nav">
   <a class="back" href="drill.html">← 演習へ戻る</a>
-  <a href="../gamba_kounin.html">単元一覧へ →</a>
+  <a href="../kounin_math_index.html">単元一覧へ →</a>
 </div>
 
 </section>
@@ -266,32 +266,32 @@ const questions = [
     type:'両辺に文字',
     warn:false,
     q:'次の不等式を解きなさい。<br>$4x + 9 \\geqq 6x - 1$',
-    choices:['$x \\leqq -5$','$x \\geqq -5$','$x \\leqq 5$','$x \\geqq 5$'],
-    correct:2,
+    choices:['$x \\leqq -5$','$x \\geqq -5$','$x \\geqq 5$','$x \\leqq 5$'],
+    correct:3,
     expl:'$4x - 6x \\geqq -1 - 9$ → $-2x \\geqq -10$ → 両辺を $-2$ で割って反転 → $x \\leqq 5$'
   },
   {
     type:'分数',
     warn:true,
     q:'次の不等式を解きなさい。<br>$3 - x \\geqq \\dfrac{x-1}{2}$',
-    choices:['$x \\geqq \\dfrac{7}{3}$','$x \\leqq \\dfrac{7}{3}$','$x \\geqq -\\dfrac{7}{3}$','$x \\leqq -\\dfrac{7}{3}$'],
-    correct:1,
+    choices:['$x \\geqq \\dfrac{7}{3}$','$x \\geqq -\\dfrac{7}{3}$','$x \\leqq \\dfrac{7}{3}$','$x \\leqq -\\dfrac{7}{3}$'],
+    correct:2,
     expl:'両辺×2 → $2(3-x) \\geqq x-1$ → $6-2x \\geqq x-1$ → $-3x \\geqq -7$ → $x \\leqq \\dfrac{7}{3}$（反転）'
   },
   {
     type:'小数',
     warn:false,
     q:'次の不等式を解きなさい。<br>$0.6x + 1.3 > 2.5 + x$',
-    choices:['$x > 3$','$x < 3$','$x > -3$','$x < -3$'],
-    correct:3,
+    choices:['$x > 3$','$x < -3$','$x > -3$','$x < 3$'],
+    correct:1,
     expl:'両辺×10 → $6x+13 > 25+10x$ → $-4x > 12$ → $x < -3$（反転）'
   },
   {
     type:'両辺に文字（応用）',
     warn:true,
     q:'次の不等式を解きなさい。<br>$-5x < 2x - 21$',
-    choices:['$x < -3$','$x > -3$','$x < 3$','$x > 3$'],
-    correct:3,
+    choices:['$x > 3$','$x > -3$','$x < 3$','$x < -3$'],
+    correct:0,
     expl:'$-5x - 2x < -21$ → $-7x < -21$ → 両辺を $-7$ で割って反転 → $x > 3$'
   },
   {
