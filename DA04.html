@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DA04 データの相関</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=BIZ+UDPGothic:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'BIZ UDPGothic',sans-serif;background:#fff7ed;color:#431407;min-height:100vh;}
+.header{background:linear-gradient(135deg,#ea580c,#9a3412);color:#fff;padding:16px 20px;display:flex;align-items:center;gap:12px;}
+.header-icon{font-size:28px;}
+.header-title{font-size:18px;font-weight:700;}
+.header-sub{font-size:12px;opacity:.8;margin-top:2px;}
+.step-nav{display:flex;background:#fff;border-bottom:2px solid #fed7aa;overflow:hidden;}
+.step-btn{flex:1;padding:10px 4px;border:none;background:transparent;font-family:'BIZ UDPGothic',sans-serif;font-size:12px;color:#6b7280;cursor:pointer;transition:.2s;display:flex;flex-direction:column;align-items:center;gap:3px;}
+.step-btn.active{background:#ea580c;color:#fff;}
+.step-btn.done{background:#ffedd5;color:#9a3412;}
+.step-icon{font-size:16px;}
+.content{padding:16px;max-width:640px;margin:0 auto;}
+.card{background:#fff;border-radius:12px;padding:18px;margin-bottom:14px;box-shadow:0 2px 8px rgba(234,88,12,.08);}
+.card-title{font-size:14px;font-weight:700;color:#9a3412;margin-bottom:12px;}
+.explain{font-size:14px;line-height:1.8;color:#374151;}
+.point-box{background:#fff7ed;border-left:4px solid #ea580c;padding:12px 14px;border-radius:0 8px 8px 0;margin:12px 0;}
+.point-box .label{font-size:11px;font-weight:700;color:#ea580c;margin-bottom:6px;}
+.important{background:#ea580c;color:#fff;border-radius:10px;padding:14px 16px;margin:12px 0;}
+.important .imp-title{font-size:12px;font-weight:700;opacity:.85;margin-bottom:10px;}
+.imp-row{display:flex;align-items:center;gap:10px;margin-bottom:8px;font-size:14px;font-weight:700;}
+.imp-row:last-child{margin-bottom:0;}
+.imp-label{background:rgba(255,255,255,.25);border-radius:6px;padding:3px 10px;font-size:13px;min-width:32px;text-align:center;}
+.hint-box{background:#fefce8;border-left:4px solid #f59e0b;padding:10px 14px;border-radius:0 8px 8px 0;margin:10px 0;font-size:13px;line-height:1.9;}
+.hint-box .label{font-size:11px;font-weight:700;color:#92400e;margin-bottom:3px;}
+.frac{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;margin:0 2px;line-height:1.2;}
+.frac .num{border-bottom:1.5px solid currentColor;padding:0 3px 1px;text-align:center;font-size:.95em;}
+.frac .den{padding:1px 3px 0;text-align:center;font-size:.95em;}
+.drill-intro{font-size:13px;color:#6b7280;margin-bottom:14px;}
+.set-tabs{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;}
+.set-tab{padding:6px 14px;border-radius:20px;border:2px solid #fed7aa;background:#fff;font-family:'BIZ UDPGothic',sans-serif;font-size:13px;cursor:pointer;color:#6b7280;transition:.2s;}
+.set-tab.active{background:#ea580c;border-color:#ea580c;color:#fff;font-weight:700;}
+.q-block{background:#fff;border-radius:10px;padding:14px;margin-bottom:10px;border:2px solid #fed7aa;}
+.q-block.correct{border-color:#10b981;}
+.q-block.wrong{border-color:#ef4444;}
+.q-num{font-size:11px;color:#9ca3af;margin-bottom:6px;}
+.q-text{font-size:14px;margin-bottom:10px;line-height:1.8;font-weight:700;}
+.q-given{font-size:13px;color:#6b7280;background:#f9fafb;border-radius:6px;padding:9px 10px;margin-bottom:10px;line-height:1.9;}
+.choices{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.choice{padding:8px 10px;border-radius:8px;border:2px solid #e5e7eb;background:#fff;font-family:'BIZ UDPGothic',sans-serif;font-size:13px;cursor:pointer;text-align:left;transition:.15s;line-height:1.6;}
+.choice:hover{border-color:#ea580c;background:#fff7ed;}
+.choice.selected-correct{background:#d1fae5;border-color:#10b981;color:#065f46;}
+.choice.selected-wrong{background:#fee2e2;border-color:#ef4444;color:#991b1b;}
+.choice.show-correct{background:#d1fae5;border-color:#10b981;}
+.feedback{font-size:13px;margin-top:8px;padding:8px 10px;border-radius:6px;line-height:1.8;}
+.feedback.ok{background:#d1fae5;color:#065f46;}
+.feedback.ng{background:#fee2e2;color:#991b1b;}
+.drill-action{display:flex;justify-content:center;margin-top:14px;}
+.btn-check{background:#ea580c;color:#fff;border:none;padding:12px 32px;border-radius:24px;font-family:'BIZ UDPGothic',sans-serif;font-size:15px;font-weight:700;cursor:pointer;}
+.btn-check:disabled{opacity:.5;cursor:default;}
+.score-box{background:#fff;border-radius:12px;padding:16px;text-align:center;margin-bottom:14px;border:2px solid #fed7aa;}
+.score-circle{width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,#ea580c,#9a3412);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;margin:0 auto 10px;font-size:24px;font-weight:700;}
+.score-label{font-size:11px;opacity:.8;}
+.nav-row{display:flex;gap:10px;justify-content:center;margin-top:16px;flex-wrap:wrap;}
+.btn-nav{padding:10px 24px;border-radius:20px;border:2px solid #ea580c;background:#fff;color:#ea580c;font-family:'BIZ UDPGothic',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:.2s;}
+.btn-nav.primary{background:#ea580c;color:#fff;}
+.btn-nav:hover{opacity:.85;}
+.back-link{display:block;text-align:center;margin-top:16px;color:#9ca3af;font-size:13px;text-decoration:none;}
+.back-link:hover{color:#ea580c;}
+.confetti-wrap{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:999;}
+.mini-card{background:#fff;border:2px solid #ea580c;border-radius:12px;padding:16px;margin-bottom:14px;}
+.use-box{border:2px solid #fed7aa;border-radius:10px;padding:12px 14px;margin:10px 0;background:#fff7ed;}
+.use-row{display:flex;align-items:flex-start;gap:8px;margin-bottom:8px;font-size:13px;}
+.use-row:last-child{margin-bottom:0;}
+.use-key{background:#ea580c;color:#fff;border-radius:6px;padding:2px 10px;font-weight:700;font-size:12px;white-space:nowrap;}
+/* 散布図 */
+.scatter-row{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0;justify-content:center;}
+.scatter-box{background:#fff;border:1px solid #fed7aa;border-radius:10px;padding:8px;text-align:center;flex:1;min-width:130px;max-width:200px;}
+.scatter-box svg{width:100%;height:auto;display:block;}
+.scatter-label{font-size:12px;font-weight:700;color:#9a3412;margin-top:4px;}
+.scatter-sub{font-size:11px;color:#6b7280;margin-top:1px;}
+.r-scale{display:flex;flex-direction:column;gap:4px;margin:10px 0;}
+.r-scale-row{display:flex;align-items:center;gap:8px;font-size:13px;}
+.r-scale-tag{background:#ea580c;color:#fff;border-radius:6px;padding:2px 10px;font-weight:700;font-size:12px;min-width:90px;text-align:center;white-space:nowrap;}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-icon">📈</div>
+  <div>
+    <div class="header-title">DA04　データの相関</div>
+    <div class="header-sub">散布図と相関係数 ― 2つのデータの関係を読み解く</div>
+  </div>
+</div>
+
+<nav class="step-nav">
+  <button class="step-btn active" id="nav-intro" onclick="goStep('intro')">
+    <span class="step-icon">📖</span>説明
+  </button>
+  <button class="step-btn" id="nav-example" onclick="goStep('example')">
+    <span class="step-icon">💡</span>例題
+  </button>
+  <button class="step-btn" id="nav-drill" onclick="goStep('drill')">
+    <span class="step-icon">✏️</span>練習
+  </button>
+  <button class="step-btn" id="nav-check" onclick="goStep('check')">
+    <span class="step-icon">✅</span>確認
+  </button>
+</nav>
+
+<div class="content">
+
+<!-- ===== INTRO ===== -->
+<div id="step-intro">
+
+<div class="card">
+  <div class="card-title">📖 散布図と相関</div>
+  <p class="explain">
+    2つの量（たとえば「英語の点数」と「数学の点数」）の関係を、点をプロットして表した図を
+    <strong>散布図</strong>といいます。点の並び方によって、2つの量の間に次のような関係が見えてきます。
+  </p>
+  <div class="scatter-row">
+    <div class="scatter-box">
+      <svg viewBox="0 0 160 120">
+        <line x1="15" y1="10" x2="15" y2="110" stroke="#d1d5db" stroke-width="1.5"/>
+        <line x1="15" y1="110" x2="150" y2="110" stroke="#d1d5db" stroke-width="1.5"/>
+        <circle cx="25" cy="98" r="4" fill="#ea580c"/><circle cx="40" cy="90" r="4" fill="#ea580c"/>
+        <circle cx="48" cy="82" r="4" fill="#ea580c"/><circle cx="58" cy="76" r="4" fill="#ea580c"/>
+        <circle cx="68" cy="66" r="4" fill="#ea580c"/><circle cx="78" cy="58" r="4" fill="#ea580c"/>
+        <circle cx="88" cy="52" r="4" fill="#ea580c"/><circle cx="98" cy="44" r="4" fill="#ea580c"/>
+        <circle cx="110" cy="36" r="4" fill="#ea580c"/><circle cx="120" cy="28" r="4" fill="#ea580c"/>
+        <circle cx="132" cy="20" r="4" fill="#ea580c"/>
+      </svg>
+      <div class="scatter-label">正の相関</div>
+      <div class="scatter-sub">xが増えるとyも増える</div>
+    </div>
+    <div class="scatter-box">
+      <svg viewBox="0 0 160 120">
+        <line x1="15" y1="10" x2="15" y2="110" stroke="#d1d5db" stroke-width="1.5"/>
+        <line x1="15" y1="110" x2="150" y2="110" stroke="#d1d5db" stroke-width="1.5"/>
+        <circle cx="25" cy="35" r="4" fill="#6b7280"/><circle cx="38" cy="85" r="4" fill="#6b7280"/>
+        <circle cx="52" cy="22" r="4" fill="#6b7280"/><circle cx="62" cy="98" r="4" fill="#6b7280"/>
+        <circle cx="75" cy="55" r="4" fill="#6b7280"/><circle cx="85" cy="18" r="4" fill="#6b7280"/>
+        <circle cx="95" cy="72" r="4" fill="#6b7280"/><circle cx="107" cy="42" r="4" fill="#6b7280"/>
+        <circle cx="118" cy="92" r="4" fill="#6b7280"/><circle cx="128" cy="28" r="4" fill="#6b7280"/>
+        <circle cx="138" cy="62" r="4" fill="#6b7280"/>
+      </svg>
+      <div class="scatter-label">相関がない</div>
+      <div class="scatter-sub">点がばらばらに散らばる</div>
+    </div>
+    <div class="scatter-box">
+      <svg viewBox="0 0 160 120">
+        <line x1="15" y1="10" x2="15" y2="110" stroke="#d1d5db" stroke-width="1.5"/>
+        <line x1="15" y1="110" x2="150" y2="110" stroke="#d1d5db" stroke-width="1.5"/>
+        <circle cx="25" cy="18" r="4" fill="#2563eb"/><circle cx="38" cy="28" r="4" fill="#2563eb"/>
+        <circle cx="48" cy="34" r="4" fill="#2563eb"/><circle cx="58" cy="44" r="4" fill="#2563eb"/>
+        <circle cx="68" cy="52" r="4" fill="#2563eb"/><circle cx="80" cy="60" r="4" fill="#2563eb"/>
+        <circle cx="90" cy="68" r="4" fill="#2563eb"/><circle cx="100" cy="78" r="4" fill="#2563eb"/>
+        <circle cx="112" cy="86" r="4" fill="#2563eb"/><circle cx="122" cy="94" r="4" fill="#2563eb"/>
+        <circle cx="134" cy="104" r="4" fill="#2563eb"/>
+      </svg>
+      <div class="scatter-label">負の相関</div>
+      <div class="scatter-sub">xが増えるとyは減る</div>
+    </div>
+  </div>
+  <div class="point-box">
+    <div class="label">【相関の強さ】点が直線に近いほど「強い」相関</div>
+    <p class="explain" style="font-size:13px;">
+      点が1本の直線のまわりにぴったり集まっていれば「強い相関」、直線から離れて広く散らばっていれば「弱い相関」といいます。
+    </p>
+  </div>
+  <div class="scatter-row">
+    <div class="scatter-box">
+      <svg viewBox="0 0 160 120">
+        <line x1="15" y1="10" x2="15" y2="110" stroke="#d1d5db" stroke-width="1.5"/>
+        <line x1="15" y1="110" x2="150" y2="110" stroke="#d1d5db" stroke-width="1.5"/>
+        <circle cx="25" cy="96" r="4" fill="#ea580c"/><circle cx="40" cy="88" r="4" fill="#ea580c"/>
+        <circle cx="50" cy="80" r="4" fill="#ea580c"/><circle cx="60" cy="72" r="4" fill="#ea580c"/>
+        <circle cx="70" cy="64" r="4" fill="#ea580c"/><circle cx="82" cy="55" r="4" fill="#ea580c"/>
+        <circle cx="92" cy="48" r="4" fill="#ea580c"/><circle cx="104" cy="38" r="4" fill="#ea580c"/>
+        <circle cx="115" cy="30" r="4" fill="#ea580c"/><circle cx="128" cy="20" r="4" fill="#ea580c"/>
+      </svg>
+      <div class="scatter-label">正の相関が強い</div>
+    </div>
+    <div class="scatter-box">
+      <svg viewBox="0 0 160 120">
+        <line x1="15" y1="10" x2="15" y2="110" stroke="#d1d5db" stroke-width="1.5"/>
+        <line x1="15" y1="110" x2="150" y2="110" stroke="#d1d5db" stroke-width="1.5"/>
+        <circle cx="25" cy="90" r="4" fill="#ea580c"/><circle cx="38" cy="55" r="4" fill="#ea580c"/>
+        <circle cx="48" cy="80" r="4" fill="#ea580c"/><circle cx="58" cy="48" r="4" fill="#ea580c"/>
+        <circle cx="70" cy="75" r="4" fill="#ea580c"/><circle cx="80" cy="40" r="4" fill="#ea580c"/>
+        <circle cx="92" cy="65" r="4" fill="#ea580c"/><circle cx="104" cy="35" r="4" fill="#ea580c"/>
+        <circle cx="115" cy="55" r="4" fill="#ea580c"/><circle cx="128" cy="20" r="4" fill="#ea580c"/>
+      </svg>
+      <div class="scatter-label">正の相関が弱い</div>
+    </div>
+  </div>
+</div>
+
+<!-- ミニテスト1 -->
+<div class="mini-card">
+  <div class="card-title">🖊️ ミニテスト①　散布図から相関を読み取ろう！</div>
+  <div id="mt1-qs"></div>
+  <div class="drill-action"><button class="btn-check" id="mt1-btn" onclick="submitMini(1)">答え合わせ</button></div>
+  <div id="mt1-fb" style="display:none;"></div>
+</div>
+
+<div class="card">
+  <div class="card-title">📖 相関係数とは</div>
+  <p class="explain">
+    「点が直線に近いかどうか」を、<strong>見た目</strong>だけでなく<strong>数値</strong>でハッキリ表したものが
+    「相関係数」（記号：<strong>r</strong>）です。むずかしい計算式を覚える必要はありません。まずは
+    「どんな数値か」「何が分かるか」を感覚でつかみましょう。
+  </p>
+  <div class="important">
+    <div class="imp-title">【重要】相関係数rの範囲</div>
+    <p class="explain" style="color:#fff;font-size:14px;line-height:2.2;">
+      相関係数 r は必ず <strong>-1 ≦ r ≦ 1</strong> の範囲におさまります。
+    </p>
+  </div>
+  <div class="r-scale">
+    <div class="r-scale-row"><span class="r-scale-tag">r ＝ 1</span><span>完全な正の相関（すべての点が右上がりの1本の直線上）</span></div>
+    <div class="r-scale-row"><span class="r-scale-tag">r が 1 に近い</span><span>強い正の相関（右上がりで、直線にとても近い）</span></div>
+    <div class="r-scale-row"><span class="r-scale-tag">r が 0 に近い</span><span>相関はほとんどない（点がばらばら）</span></div>
+    <div class="r-scale-row"><span class="r-scale-tag">r が -1 に近い</span><span>強い負の相関（右下がりで、直線にとても近い）</span></div>
+    <div class="r-scale-row"><span class="r-scale-tag">r ＝ -1</span><span>完全な負の相関（すべての点が右下がりの1本の直線上）</span></div>
+  </div>
+  <div class="hint-box">
+    <div class="label">【つまり】</div>
+    「<strong>絶対値（｜r｜）が1に近いほど相関が強い</strong>」「<strong>0に近いほど相関が弱い（ない）</strong>」
+    「<strong>プラスなら正の相関、マイナスなら負の相関</strong>」の3点だけ覚えれば十分です。
+  </div>
+</div>
+
+<!-- ミニテスト2 -->
+<div class="mini-card">
+  <div class="card-title">🖊️ ミニテスト②　相関係数の値から関係を読み取ろう！</div>
+  <div id="mt2-qs"></div>
+  <div class="drill-action"><button class="btn-check" id="mt2-btn" onclick="submitMini(2)">答え合わせ</button></div>
+  <div id="mt2-fb" style="display:none;"></div>
+</div>
+
+<div class="nav-row">
+  <button class="btn-nav primary" onclick="goStep('example')">例題へ →</button>
+</div>
+<a href="kounin_math_index.html" class="back-link">← 単元一覧に戻る</a>
+</div><!-- /intro -->
+
+
+<!-- ===== EXAMPLE ===== -->
+<div id="step-example" style="display:none;">
+
+<div class="card">
+  <div class="card-title">💡 例題：どちらの相関が強い？</div>
+  <p class="explain" style="margin-bottom:10px;">
+    下の2つの散布図Ａ・Ｂは、どちらも「正の相関」がある（右上がりの傾向がある）データである。相関係数の絶対値が大きい（相関が強い）のはどちらか。
+  </p>
+  <div class="scatter-row">
+    <div class="scatter-box">
+      <svg viewBox="0 0 160 120">
+        <line x1="15" y1="10" x2="15" y2="110" stroke="#d1d5db" stroke-width="1.5"/>
+        <line x1="15" y1="110" x2="150" y2="110" stroke="#d1d5db" stroke-width="1.5"/>
+        <circle cx="25" cy="98" r="4" fill="#ea580c"/><circle cx="40" cy="90" r="4" fill="#ea580c"/>
+        <circle cx="48" cy="82" r="4" fill="#ea580c"/><circle cx="58" cy="76" r="4" fill="#ea580c"/>
+        <circle cx="68" cy="66" r="4" fill="#ea580c"/><circle cx="78" cy="58" r="4" fill="#ea580c"/>
+        <circle cx="88" cy="52" r="4" fill="#ea580c"/><circle cx="98" cy="44" r="4" fill="#ea580c"/>
+        <circle cx="110" cy="36" r="4" fill="#ea580c"/><circle cx="120" cy="28" r="4" fill="#ea580c"/>
+      </svg>
+      <div class="scatter-label">Ａ</div>
+    </div>
+    <div class="scatter-box">
+      <svg viewBox="0 0 160 120">
+        <line x1="15" y1="10" x2="15" y2="110" stroke="#d1d5db" stroke-width="1.5"/>
+        <line x1="15" y1="110" x2="150" y2="110" stroke="#d1d5db" stroke-width="1.5"/>
+        <circle cx="25" cy="90" r="4" fill="#ea580c"/><circle cx="38" cy="55" r="4" fill="#ea580c"/>
+        <circle cx="48" cy="80" r="4" fill="#ea580c"/><circle cx="58" cy="48" r="4" fill="#ea580c"/>
+        <circle cx="70" cy="75" r="4" fill="#ea580c"/><circle cx="80" cy="40" r="4" fill="#ea580c"/>
+        <circle cx="92" cy="65" r="4" fill="#ea580c"/><circle cx="104" cy="35" r="4" fill="#ea580c"/>
+        <circle cx="115" cy="55" r="4" fill="#ea580c"/><circle cx="128" cy="20" r="4" fill="#ea580c"/>
+      </svg>
+      <div class="scatter-label">Ｂ</div>
+    </div>
+  </div>
+  <div class="point-box">
+    <div class="label">【考え方】点が直線にどれだけ近いかを見る</div>
+    <p class="explain" style="font-size:14px;line-height:2.2;">
+      Ａは点がほぼ一直線上に並んでいて、直線からのズレがほとんどありません。<br>
+      Ｂは全体としては右上がりですが、1つ1つの点が直線から大きくズレています。<br>
+      → 直線に近い<strong>Ａの方が相関が強い</strong>（相関係数の絶対値がＡの方が大きい）。
+    </p>
+  </div>
+  <div class="hint-box">
+    <div class="label">【まとめ】</div>
+    相関の強さを比べるときは、右上がり・右下がりの「向き」だけでなく、点が直線からどれくらいズレているか（散らばり方）に注目しましょう。
+  </div>
+</div>
+
+<!-- ミニテスト4 -->
+<div class="mini-card">
+  <div class="card-title">🖊️ ミニテスト④　相関の強さを比べよう！</div>
+  <div id="mt4-qs"></div>
+  <div class="drill-action"><button class="btn-check" id="mt4-btn" onclick="submitMini(4)">答え合わせ</button></div>
+  <div id="mt4-fb" style="display:none;"></div>
+</div>
+
+<div class="nav-row">
+  <button class="btn-nav" onclick="goStep('intro')">← 説明に戻る</button>
+  <button class="btn-nav primary" onclick="goStep('drill')">練習へ →</button>
+</div>
+<a href="kounin_math_index.html" class="back-link">← 単元一覧に戻る</a>
+</div><!-- /example -->
+
+
+<!-- ===== DRILL ===== -->
+<div id="step-drill" style="display:none;">
+
+<div class="card">
+  <div class="card-title">✏️ 練習問題</div>
+  <p class="drill-intro">セットを選んで4問解きましょう。相関の「向き」と「強さ」を区別して考えよう。</p>
+  <div class="set-tabs">
+    <button class="set-tab active" onclick="loadDrill(0)">Aセット</button>
+    <button class="set-tab" onclick="loadDrill(1)">Bセット</button>
+  </div>
+  <div id="drill-questions"></div>
+  <div class="drill-action">
+    <button class="btn-check" id="drill-submit" onclick="submitDrill()">採点する</button>
+  </div>
+</div>
+<div id="drill-result" style="display:none;"></div>
+
+<div class="nav-row">
+  <button class="btn-nav" onclick="goStep('example')">← 例題に戻る</button>
+  <button class="btn-nav primary" onclick="goStep('check')">確認テストへ →</button>
+</div>
+<a href="kounin_math_index.html" class="back-link">← 単元一覧に戻る</a>
+</div><!-- /drill -->
+
+
+<!-- ===== CHECK ===== -->
+<div id="step-check" style="display:none;">
+
+<div class="card">
+  <div class="card-title">✅ 確認テスト（6問）</div>
+  <p class="drill-intro">高認過去問（令和5年度〜7年度）を含む形式です。じっくり考えて解こう！</p>
+  <div id="check-questions"></div>
+  <div class="drill-action">
+    <button class="btn-check" id="check-submit" onclick="submitCheck()">採点する</button>
+  </div>
+</div>
+<div id="check-result" style="display:none;"></div>
+
+<div class="nav-row">
+  <button class="btn-nav" onclick="goStep('drill')">← 練習に戻る</button>
+</div>
+<a href="kounin_math_index.html" class="back-link">← 単元一覧に戻る</a>
+</div><!-- /check -->
+
+</div><!-- /content -->
+
+<script src="gamba_support.js"></script>
+<script>
+// ===== 縦型分数 =====
+function F(n,d){return `<span class="frac"><span class="num">${n}</span><span class="den">${d}</span></span>`;}
+
+// ===== ステップ管理 =====
+const stepOrder=['intro','example','drill','check'];
+function goStep(s){
+  stepOrder.forEach(id=>{
+    document.getElementById('step-'+id).style.display=(id===s)?'':'none';
+    const nb=document.getElementById('nav-'+id);
+    nb.classList.remove('active','done');
+    if(id===s) nb.classList.add('active');
+    else if(stepOrder.indexOf(id)<stepOrder.indexOf(s)) nb.classList.add('done');
+  });
+  if(s==='example') buildMinis([4]);
+  if(s==='drill') initDrill();
+  if(s==='check') initCheck();
+  window.scrollTo(0,0);
+}
+
+// ===== ミニテストデータ =====
+const MT1 = [
+  {q:`散布図で、点が右上がりの直線の近くに集まっているとき、これを何というか。`,
+   ch:['① 正の相関','② 相関がない','③ 負の相関','④ 無関係'],
+   a:0, exp:`xが増えるとyも増える右上がりの傾向は「正の相関」。`},
+  {q:`散布図で、点が右下がりの直線の近くに集まっているとき、これを何というか。`,
+   ch:['① 正の相関','② 負の相関','③ 相関がない','④ 完全な相関'],
+   a:1, exp:`xが増えるとyは減る右下がりの傾向は「負の相関」。`},
+  {q:`散布図で、点がまったくばらばらに散らばっていて、右上がり・右下がりのどちらの傾向も見られないとき、これを何というか。`,
+   ch:['① 強い正の相関','② 強い負の相関','③ 相関がない','④ 弱い正の相関'],
+   a:2, exp:`傾向が見られず点がばらばらなら「相関がない（無相関）」。`},
+];
+const MT2 = [
+  {q:`相関係数 r が -1 ≦ r ≦ 1 の範囲で、最も強い正の相関を表す値はどれか。`,
+   ch:['① r＝1','② r＝0','③ r＝-1','④ r＝0.1'],
+   a:0, exp:`rが1に近いほど正の相関が強い。最も強いのはr＝1。`},
+  {q:`相関係数が r＝0.05 であるとき、2つのデータの関係として最も適切なものはどれか。`,
+   ch:['① 強い正の相関がある','② 強い負の相関がある','③ ほとんど相関がない','④ 完全な相関がある'],
+   a:2, exp:`0.05は0にとても近いので、相関はほとんどない。`},
+  {q:`相関係数が r＝-0.9 であるとき、2つのデータの関係として最も適切なものはどれか。`,
+   ch:['① 強い正の相関がある','② 強い負の相関がある','③ 相関はない','④ 弱い正の相関がある'],
+   a:1, exp:`-0.9は-1にとても近い（絶対値が大きい）ので、強い負の相関がある。`},
+  {q:`2つの相関係数 r＝0.3 と r＝-0.8 を比べたとき、相関がより強いのはどちらか。`,
+   ch:['① r＝0.3の方が強い','② r＝-0.8の方が強い','③ どちらも同じ強さ','④ 比べられない'],
+   a:1, exp:`相関の強さは絶対値で比べる。｜0.3｜＝0.3、｜-0.8｜＝0.8なので、r＝-0.8の方が相関が強い。`},
+];
+const MT4 = [
+  {q:`ある散布図の相関係数が r＝0.97 だった。別の散布図の相関係数は r＝0.4 だった。相関が強いのはどちらか。`,
+   ch:['① r＝0.97の方','② r＝0.4の方','③ 同じ強さ','④ 判断できない'],
+   a:0, exp:`絶対値が1に近い方が相関が強い。｜0.97｜＞｜0.4｜なので、r＝0.97の方が強い。`},
+];
+const allMT={1:MT1,2:MT2,4:MT4};
+const mtAns={},mtDone={};
+function buildMinis(indices){
+  indices.forEach(n=>{
+    mtAns[n]=new Array(allMT[n].length).fill(-1);
+    mtDone[n]=false;
+    document.getElementById(`mt${n}-fb`).style.display='none';
+    document.getElementById(`mt${n}-btn`).disabled=false;
+    const c=document.getElementById(`mt${n}-qs`);c.innerHTML='';
+    allMT[n].forEach((d,i)=>{
+      const b=document.createElement('div');b.className='q-block';b.id=`mt${n}q${i}`;
+      b.innerHTML=`<div class="q-num">問${i+1}</div>
+        <div class="q-text">${d.q}</div>
+        <div class="choices" id="mt${n}c${i}">
+          ${d.ch.map((ch,ci)=>`<button class="choice" onclick="selMT(${n},${i},${ci})">${ch}</button>`).join('')}
+        </div>`;
+      c.appendChild(b);
+    });
+  });
+}
+function selMT(n,qi,ci){if(mtDone[n])return;mtAns[n][qi]=ci;
+  document.querySelectorAll(`#mt${n}c${qi} .choice`).forEach((b,i)=>{b.style.background=i===ci?'#ffedd5':'';b.style.borderColor=i===ci?'#ea580c':'';});}
+function submitMini(n){
+  if(mtDone[n])return;mtDone[n]=true;
+  const data=allMT[n];let correct=0;
+  data.forEach((d,qi)=>{
+    const ua=mtAns[n][qi];
+    document.querySelectorAll(`#mt${n}c${qi} .choice`).forEach((b,i)=>{
+      if(i===d.a)b.classList.add('show-correct');
+      if(i===ua&&ua===d.a){b.classList.add('selected-correct');correct++;}
+      else if(i===ua)b.classList.add('selected-wrong');
+    });
+    document.getElementById(`mt${n}q${qi}`).classList.add(ua===d.a?'correct':'wrong');
+    const fb=document.createElement('div');fb.className='feedback '+(ua===d.a?'ok':'ng');
+    fb.innerHTML=(ua===d.a?'✓ 正解！ ':'✗ 不正解。')+d.exp;
+    document.getElementById(`mt${n}q${qi}`).appendChild(fb);
+  });
+  document.getElementById(`mt${n}-btn`).disabled=true;
+  const fb=document.getElementById(`mt${n}-fb`);fb.style.display='block';
+  fb.innerHTML=`<div class="score-box"><div class="score-circle">${correct}<div class="score-label">/ ${data.length}</div></div>
+    <div style="font-size:14px;font-weight:700;color:#9a3412;">${correct===data.length?'全問正解！🎉':correct>=1?'もう少し！':'説明を見直そう'}</div></div>`;
+  if(correct===data.length)fireConfetti();
+}
+
+// ===== 練習問題データ（2セット×4問）=====
+const drillSets=[
+  [
+    {q:`散布図の点が、右上がりの1本の直線にぴったり重なるように並んでいるとき、相関係数rの値として最も適切なものはどれか。`,
+     ch:['① r＝1','② r＝0','③ r＝-1','④ r＝0.1'],
+     ans:0, exp:`点が完全に右上がりの直線上にあるので、完全な正の相関 → r＝1。`},
+    {q:`散布図の点が、右下がりの1本の直線にぴったり重なるように並んでいるとき、相関係数rの値として最も適切なものはどれか。`,
+     ch:['① r＝1','② r＝0','③ r＝-1','④ r＝-0.1'],
+     ans:2, exp:`点が完全に右下がりの直線上にあるので、完全な負の相関 → r＝-1。`},
+    {q:`相関係数がr＝0.6のデータとr＝-0.7のデータがある。相関がより強いのはどちらか。`,
+     ch:['① r＝0.6の方','② r＝-0.7の方','③ どちらも同じ','④ 判断できない'],
+     ans:1, exp:`絶対値で比べる。｜0.6｜＝0.6、｜-0.7｜＝0.7なので、r＝-0.7の方が強い。`},
+    {q:`ある2つの変量について、xが増えるとyも増える傾向がはっきり見られたが、点は直線からかなり散らばっていた。この相関係数rとして最も適切なものはどれか。`,
+     ch:['① r＝0.98','② r＝0.4','③ r＝-0.9','④ r＝0'],
+     ans:1, exp:`正の傾向はあるが散らばりが大きい（弱い正の相関）ので、1に近すぎない中程度の値r＝0.4が適切。`},
+  ],
+  [
+    {q:`相関係数がr＝0のとき、2つのデータの関係として正しいものはどれか。`,
+     ch:['① 強い正の相関がある','② 強い負の相関がある','③ 直線的な相関はほとんどない','④ 完全な相関がある'],
+     ans:2, exp:`r＝0は0そのものなので、直線的な相関はほとんど（まったく）ない。`},
+    {q:`ある散布図に、他の点から大きく離れた「外れ値」を1つ追加したところ、それまで直線にぴったり並んでいた点の並びが乱れた。相関係数の絶対値はどう変化すると考えられるか。`,
+     ch:['① 大きくなる（1に近づく）','② 小さくなる（0に近づく）','③ 変化しない','④ 判断できない'],
+     ans:1, exp:`直線に近かった並びが外れ値によって乱れる（散らばりが増える）ので、相関係数の絶対値は小さくなる（0に近づく）。`},
+    {q:`相関係数r＝-0.85のデータの説明として最も適切なものはどれか。`,
+     ch:['① 強い正の相関がある','② 弱い正の相関がある','③ 強い負の相関がある','④ 相関はまったくない'],
+     ans:2, exp:`-0.85は-1にかなり近い（絶対値が大きい）ので、強い負の相関がある。`},
+    {q:`相関係数r＝0.15のデータの説明として最も適切なものはどれか。`,
+     ch:['① 強い正の相関がある','② ほとんど相関がない','③ 強い負の相関がある','④ 完全な正の相関がある'],
+     ans:1, exp:`0.15は0にかなり近いので、相関はほとんどない。`},
+  ],
+];
+let curDrillSet=0,drillAnswers=[],drillSubmitted=false;
+function loadDrill(setIdx){
+  curDrillSet=setIdx;drillAnswers=new Array(4).fill(-1);drillSubmitted=false;
+  document.querySelectorAll('.set-tab').forEach((t,i)=>t.classList.toggle('active',i===setIdx));
+  document.getElementById('drill-result').style.display='none';
+  document.getElementById('drill-submit').disabled=false;
+  const c=document.getElementById('drill-questions');c.innerHTML='';
+  drillSets[setIdx].forEach((d,qi)=>{
+    const b=document.createElement('div');b.className='q-block';b.id='dq'+qi;
+    b.innerHTML=`<div class="q-num">問${qi+1}</div>
+      <div class="q-text">${d.q}</div>
+      <div class="choices" id="dc${qi}">
+        ${d.ch.map((ch,ci)=>`<button class="choice" onclick="selDrill(${qi},${ci})">${ch}</button>`).join('')}
+      </div>`;
+    c.appendChild(b);
+  });
+}
+function selDrill(qi,ci){if(drillSubmitted)return;drillAnswers[qi]=ci;
+  document.querySelectorAll(`#dc${qi} .choice`).forEach((b,i)=>{b.style.background=i===ci?'#ffedd5':'';b.style.borderColor=i===ci?'#ea580c':'';});}
+function submitDrill(){
+  if(drillSubmitted)return;drillSubmitted=true;
+  let correct=0;
+  drillSets[curDrillSet].forEach((d,qi)=>{
+    const ua=drillAnswers[qi];
+    document.querySelectorAll(`#dc${qi} .choice`).forEach((b,i)=>{
+      if(i===d.ans)b.classList.add('show-correct');
+      if(i===ua&&ua===d.ans){b.classList.add('selected-correct');correct++;}
+      else if(i===ua)b.classList.add('selected-wrong');
+    });
+    document.getElementById('dq'+qi).classList.add(ua===d.ans?'correct':'wrong');
+    const fb=document.createElement('div');fb.className='feedback '+(ua===d.ans?'ok':'ng');
+    fb.innerHTML=(ua===d.ans?'✓ 正解！ ':'✗ 不正解。')+d.exp;
+    document.getElementById('dq'+qi).appendChild(fb);
+  });
+  document.getElementById('drill-submit').disabled=true;
+  const res=document.getElementById('drill-result');res.style.display='block';
+  res.innerHTML=`<div class="score-box"><div class="score-circle">${correct}<div class="score-label">/ 4</div></div>
+    <div style="font-size:14px;font-weight:700;color:#9a3412;">${correct===4?'全問正解！🎉':'もう一度チャレンジしよう'}</div></div>`;
+  if(correct===4)fireConfetti();
+}
+function initDrill(){loadDrill(0);}
+
+// ===== 確認テスト（6問・高認過去問を含む）=====
+const checkData=[
+  {q:`下の①〜④は、ある2つの変量x，yのデータについての散布図である。相関係数が最も小さいものはどれか。（高認過去問 R6-2）`,
+   given:`
+    <div class="scatter-row">
+      <div class="scatter-box"><svg viewBox="0 0 160 120">
+        <line x1="15" y1="10" x2="15" y2="110" stroke="#d1d5db" stroke-width="1.5"/><line x1="15" y1="110" x2="150" y2="110" stroke="#d1d5db" stroke-width="1.5"/>
+        <circle cx="25" cy="96" r="4" fill="#6b7280"/><circle cx="40" cy="88" r="4" fill="#6b7280"/><circle cx="50" cy="80" r="4" fill="#6b7280"/>
+        <circle cx="60" cy="72" r="4" fill="#6b7280"/><circle cx="70" cy="64" r="4" fill="#6b7280"/><circle cx="82" cy="55" r="4" fill="#6b7280"/>
+        <circle cx="92" cy="48" r="4" fill="#6b7280"/><circle cx="104" cy="38" r="4" fill="#6b7280"/><circle cx="115" cy="30" r="4" fill="#6b7280"/><circle cx="128" cy="20" r="4" fill="#6b7280"/>
+      </svg><div class="scatter-label">①</div></div>
+      <div class="scatter-box"><svg viewBox="0 0 160 120">
+        <line x1="15" y1="10" x2="15" y2="110" stroke="#d1d5db" stroke-width="1.5"/><line x1="15" y1="110" x2="150" y2="110" stroke="#d1d5db" stroke-width="1.5"/>
+        <circle cx="25" cy="18" r="4" fill="#6b7280"/><circle cx="38" cy="28" r="4" fill="#6b7280"/><circle cx="48" cy="34" r="4" fill="#6b7280"/>
+        <circle cx="58" cy="44" r="4" fill="#6b7280"/><circle cx="68" cy="52" r="4" fill="#6b7280"/><circle cx="80" cy="60" r="4" fill="#6b7280"/>
+        <circle cx="90" cy="68" r="4" fill="#6b7280"/><circle cx="100" cy="78" r="4" fill="#6b7280"/><circle cx="112" cy="86" r="4" fill="#6b7280"/><circle cx="122" cy="94" r="4" fill="#6b7280"/>
+      </svg><div class="scatter-label">②</div></div>
+      <div class="scatter-box"><svg viewBox="0 0 160 120">
+        <line x1="15" y1="10" x2="15" y2="110" stroke="#d1d5db" stroke-width="1.5"/><line x1="15" y1="110" x2="150" y2="110" stroke="#d1d5db" stroke-width="1.5"/>
+        <circle cx="25" cy="35" r="4" fill="#6b7280"/><circle cx="38" cy="85" r="4" fill="#6b7280"/><circle cx="52" cy="22" r="4" fill="#6b7280"/>
+        <circle cx="62" cy="98" r="4" fill="#6b7280"/><circle cx="75" cy="55" r="4" fill="#6b7280"/><circle cx="85" cy="18" r="4" fill="#6b7280"/>
+        <circle cx="95" cy="72" r="4" fill="#6b7280"/><circle cx="107" cy="42" r="4" fill="#6b7280"/><circle cx="118" cy="92" r="4" fill="#6b7280"/><circle cx="128" cy="28" r="4" fill="#6b7280"/>
+      </svg><div class="scatter-label">③</div></div>
+      <div class="scatter-box"><svg viewBox="0 0 160 120">
+        <line x1="15" y1="10" x2="15" y2="110" stroke="#d1d5db" stroke-width="1.5"/><line x1="15" y1="110" x2="150" y2="110" stroke="#d1d5db" stroke-width="1.5"/>
+        <circle cx="20" cy="20" r="4" fill="#6b7280"/><circle cx="35" cy="50" r="4" fill="#6b7280"/><circle cx="45" cy="35" r="4" fill="#6b7280"/>
+        <circle cx="55" cy="70" r="4" fill="#6b7280"/><circle cx="65" cy="45" r="4" fill="#6b7280"/><circle cx="75" cy="80" r="4" fill="#6b7280"/>
+        <circle cx="85" cy="55" r="4" fill="#6b7280"/><circle cx="95" cy="90" r="4" fill="#6b7280"/><circle cx="105" cy="60" r="4" fill="#6b7280"/><circle cx="125" cy="100" r="4" fill="#6b7280"/>
+      </svg><div class="scatter-label">④</div></div>
+    </div>`,
+   choices:['① ①','② ②','③ ③','④ ④'],
+   ans:1, exp:`相関係数は「小さい（マイナスに大きい）」ほど、右下がりの直線に強く集まる。②はほぼ一直線の右下がりでバラつきが最も少ないため、相関係数が最も小さい（-1に最も近い）→②`},
+  {q:`次の図は、1992年から2021年までの30年間について、日本全国の水稲の作付面積(ha)とその収穫量(t)を散布図で表したものである。Ａのデータを除いたときの作付面積と収穫量の相関係数は0.97である。このとき、Ａのデータを加えると、相関係数はどうなるか。（高認過去問 R6-1）`,
+   given:`
+    <div class="scatter-row">
+      <div class="scatter-box" style="max-width:260px;"><svg viewBox="0 0 160 120">
+        <line x1="15" y1="10" x2="15" y2="110" stroke="#d1d5db" stroke-width="1.5"/><line x1="15" y1="110" x2="150" y2="110" stroke="#d1d5db" stroke-width="1.5"/>
+        <circle cx="22" cy="96" r="4" fill="#ea580c"/><circle cx="35" cy="85" r="4" fill="#ea580c"/><circle cx="45" cy="78" r="4" fill="#ea580c"/>
+        <circle cx="55" cy="70" r="4" fill="#ea580c"/><circle cx="65" cy="62" r="4" fill="#ea580c"/><circle cx="75" cy="55" r="4" fill="#ea580c"/>
+        <circle cx="85" cy="48" r="4" fill="#ea580c"/><circle cx="95" cy="40" r="4" fill="#ea580c"/><circle cx="105" cy="32" r="4" fill="#ea580c"/><circle cx="115" cy="25" r="4" fill="#ea580c"/>
+        <circle cx="132" cy="78" r="5" fill="#fff" stroke="#374151" stroke-width="1.5"/>
+        <text x="132" y="95" font-size="11" text-anchor="middle" fill="#374151">A</text>
+      </svg><div class="scatter-label">水稲の作付面積と収穫量</div></div>
+    </div>`,
+   choices:['① 0.97より大きくなる','② 0.97より小さくなる','③ 変化しない','④ 変化するか判断できない'],
+   ans:1, exp:`Ａは他の点が作る直線的な並びから外れた位置にある。もともと0.97（1にかなり近い）という強い相関があった中に、直線に乗らない点を加えると、点全体の散らばりが増えるため、相関係数は0.97より小さくなる → ②`},
+  {q:`次のデータは、5粒のシャインマスカットの重さをそれぞれ測ったものである。相関係数や相関関係に関する記述について、誤っているものはどれか。（高認過去問 R5-2）`,
+   given:`
+    ① 相関係数をrとすると、-1≦r≦1である。<br>
+    ② 相関係数が0に近いほど、相関関係は弱くなる。<br>
+    ③ 相関係数が1に近いとき、強い正の相関関係がある。<br>
+    ④ 相関係数が-1に近いとき、弱い負の相関関係がある。`,
+   choices:['① ①', '② ②', '③ ③', '④ ④'],
+   ans:3, exp:`相関係数が-1に近いときは「強い」負の相関関係がある（弱いのではない）。よって④が誤り。①〜③はいずれも正しい記述。`},
+  {q:`下の図は、ある月の平日における平均気温(℃)とドリンク全体の販売個数のなかでのホットドリンクの割合(%)のデータを散布図として表したものである。この散布図の相関係数として、最も適切なものはどれか。（高認過去問 R5-1）`,
+   given:`
+    <div class="scatter-row">
+      <div class="scatter-box" style="max-width:220px;"><svg viewBox="0 0 160 120">
+        <line x1="15" y1="10" x2="15" y2="110" stroke="#d1d5db" stroke-width="1.5"/><line x1="15" y1="110" x2="150" y2="110" stroke="#d1d5db" stroke-width="1.5"/>
+        <circle cx="20" cy="25" r="4" fill="#2563eb"/><circle cx="30" cy="20" r="4" fill="#2563eb"/><circle cx="45" cy="50" r="4" fill="#2563eb"/>
+        <circle cx="55" cy="35" r="4" fill="#2563eb"/><circle cx="65" cy="70" r="4" fill="#2563eb"/><circle cx="75" cy="45" r="4" fill="#2563eb"/>
+        <circle cx="85" cy="80" r="4" fill="#2563eb"/><circle cx="95" cy="55" r="4" fill="#2563eb"/><circle cx="105" cy="90" r="4" fill="#2563eb"/><circle cx="125" cy="100" r="4" fill="#2563eb"/>
+      </svg><div class="scatter-label">平均気温とホットドリンクの割合</div></div>
+    </div>`,
+   choices:['① -0.86','② -0.15','③ 0.43','④ 0.87'],
+   ans:0, exp:`気温が上がるとホットドリンクの割合は下がる、はっきりした右下がりの傾向（負の相関）が見られる。かなり直線に近いので、絶対値が大きい負の値が適切 → -0.86`},
+  {q:`下の図は、生徒20人に対して行った英語のリスニングとライティングの小テストの結果を散布図で表したものである。ただし、横軸はリスニングの点数、縦軸はライティングの点数である。1名に対して採点ミスがあり、（リスニングの点数，ライティングの点数）がＡ(10,18)からＡ'(10,14)へ変更になった。このとき、リスニングの平均点は［Ⅰ］、ライティングの平均点は［Ⅱ］、相関係数は［Ⅲ］。［Ⅰ］と［Ⅱ］に当てはまる言葉の組合せとして正しいものは［エ］であり、［Ⅲ］に入る最も適切なものは［オ］である。（高認過去問 R7-2）`,
+   given:`
+    <div class="scatter-row">
+      <div class="scatter-box"><svg viewBox="0 0 160 120">
+        <line x1="15" y1="10" x2="15" y2="110" stroke="#d1d5db" stroke-width="1.5"/><line x1="15" y1="110" x2="150" y2="110" stroke="#d1d5db" stroke-width="1.5"/>
+        <circle cx="30" cy="85" r="4" fill="#ea580c"/><circle cx="45" cy="78" r="4" fill="#ea580c"/><circle cx="50" cy="70" r="4" fill="#ea580c"/>
+        <circle cx="60" cy="65" r="4" fill="#ea580c"/><circle cx="70" cy="72" r="4" fill="#ea580c"/><circle cx="75" cy="55" r="4" fill="#ea580c"/>
+        <circle cx="85" cy="60" r="4" fill="#ea580c"/><circle cx="90" cy="45" r="4" fill="#ea580c"/><circle cx="100" cy="50" r="4" fill="#ea580c"/>
+        <circle cx="110" cy="35" r="4" fill="#ea580c"/><circle cx="120" cy="40" r="4" fill="#ea580c"/><circle cx="130" cy="25" r="4" fill="#ea580c"/>
+        <circle cx="25" cy="30" r="5" fill="#fff" stroke="#374151" stroke-width="1.5"/><text x="25" y="22" font-size="10" text-anchor="middle" fill="#374151">A</text>
+      </svg><div class="scatter-label">変更前（Aの位置）</div></div>
+      <div class="scatter-box"><svg viewBox="0 0 160 120">
+        <line x1="15" y1="10" x2="15" y2="110" stroke="#d1d5db" stroke-width="1.5"/><line x1="15" y1="110" x2="150" y2="110" stroke="#d1d5db" stroke-width="1.5"/>
+        <circle cx="30" cy="85" r="4" fill="#ea580c"/><circle cx="45" cy="78" r="4" fill="#ea580c"/><circle cx="50" cy="70" r="4" fill="#ea580c"/>
+        <circle cx="60" cy="65" r="4" fill="#ea580c"/><circle cx="70" cy="72" r="4" fill="#ea580c"/><circle cx="75" cy="55" r="4" fill="#ea580c"/>
+        <circle cx="85" cy="60" r="4" fill="#ea580c"/><circle cx="90" cy="45" r="4" fill="#ea580c"/><circle cx="100" cy="50" r="4" fill="#ea580c"/>
+        <circle cx="110" cy="35" r="4" fill="#ea580c"/><circle cx="120" cy="40" r="4" fill="#ea580c"/><circle cx="130" cy="25" r="4" fill="#ea580c"/>
+        <circle cx="25" cy="75" r="5" fill="#fff" stroke="#374151" stroke-width="1.5"/><text x="25" y="90" font-size="10" text-anchor="middle" fill="#374151">A'</text>
+      </svg><div class="scatter-label">変更後（A'の位置）</div></div>
+    </div>
+    ［エ］の選択肢　①Ⅰ：変化せず　Ⅱ：変化せず　②Ⅰ：変化せず　Ⅱ：減少し　③Ⅰ：減少し　Ⅱ：変化せず　④Ⅰ：減少し　Ⅱ：減少し<br>
+    ［オ］の選択肢　①増加する　②減少する　③変化しない`,
+   choices:['① エ②・オ①','② エ①・オ②','③ エ②・オ②','④ エ④・オ①'],
+   ans:0, exp:`変更されたのはライティングの点数（縦軸のy）だけで、リスニングの点数（横軸のx）は変わっていないので、リスニングの平均点は変化しない（エのⅠは「変化せず」）。ライティングは18点だった生徒が14点に下がったので、ライティングの平均点は減少する（エのⅡは「減少し」）→エ②。また、Ａ(10,18)は他の点の右上がりの傾向から外れた「浮いた」点だったが、Ａ'(10,14)は全体の傾向に近づく。外れた点が傾向に近づくと直線的なまとまりが強くなるので、相関係数は増加する→オ①。よって エ②・オ① → ①`},
+  {q:`あるクラスで身長と体重のデータをとり散布図に表したところ、右上がりの傾向がはっきりと見られ、点は1本の直線のごく近くに集まっていた。この散布図から読み取れる相関係数として最も適切なものはどれか。`,
+   given:``,
+   choices:['① r＝0.95','② r＝0.2','③ r＝-0.9','④ r＝0'],
+   ans:0, exp:`右上がり（正の相関）で、かつ点が直線にごく近い（強い相関）ので、1に近い正の値r＝0.95が最も適切。`},
+];
+let checkAnswers=[],checkSubmitted=false;
+function initCheck(){
+  checkAnswers=new Array(checkData.length).fill(-1);checkSubmitted=false;
+  document.getElementById('check-result').style.display='none';
+  document.getElementById('check-submit').disabled=false;
+  const c=document.getElementById('check-questions');c.innerHTML='';
+  checkData.forEach((d,qi)=>{
+    const b=document.createElement('div');b.className='q-block';b.id='cq'+qi;
+    b.innerHTML=`<div class="q-num">問${qi+1}</div>
+      <div class="q-text">${d.q}</div>
+      ${d.given?`<div class="q-given">${d.given}</div>`:''}
+      <div class="choices" id="cc${qi}">
+        ${d.choices.map((ch,ci)=>`<button class="choice" onclick="selCheck(${qi},${ci})">${ch}</button>`).join('')}
+      </div>`;
+    c.appendChild(b);
+  });
+}
+function selCheck(qi,ci){if(checkSubmitted)return;checkAnswers[qi]=ci;
+  document.querySelectorAll(`#cc${qi} .choice`).forEach((b,i)=>{b.style.background=i===ci?'#ffedd5':'';b.style.borderColor=i===ci?'#ea580c':'';});}
+function submitCheck(){
+  if(checkSubmitted)return;checkSubmitted=true;
+  let correct=0;
+  checkData.forEach((d,qi)=>{
+    const ua=checkAnswers[qi];
+    document.querySelectorAll(`#cc${qi} .choice`).forEach((b,i)=>{
+      if(i===d.ans)b.classList.add('show-correct');
+      if(i===ua&&ua===d.ans){b.classList.add('selected-correct');correct++;}
+      else if(i===ua)b.classList.add('selected-wrong');
+    });
+    document.getElementById('cq'+qi).classList.add(ua===d.ans?'correct':'wrong');
+    const fb=document.createElement('div');fb.className='feedback '+(ua===d.ans?'ok':'ng');
+    fb.innerHTML=(ua===d.ans?'✓ 正解！ ':'✗ 不正解。')+d.exp;
+    document.getElementById('cq'+qi).appendChild(fb);
+  });
+  document.getElementById('check-submit').disabled=true;
+  const res=document.getElementById('check-result');res.style.display='block';
+  const pct=correct/checkData.length;
+  res.innerHTML=`<div class="score-box"><div class="score-circle">${correct}<div class="score-label">/ ${checkData.length}</div></div>
+    <div style="font-size:14px;font-weight:700;color:#9a3412;">${pct>=5/6?'合格！よくできました！🎉':pct>=0.5?'あと少し！':'説明に戻って確認しよう'}</div></div>`;
+  if(pct>=5/6){fireConfetti();if(typeof markPassed==='function')markPassed('DA04');}
+}
+
+// ===== 花吹雪 =====
+function fireConfetti(){
+  const wrap=document.createElement('div');wrap.className='confetti-wrap';document.body.appendChild(wrap);
+  const colors=['#ea580c','#9a3412','#fb923c','#f59e0b','#10b981','#fed7aa'];
+  for(let i=0;i<60;i++){
+    const p=document.createElement('div');
+    const c=colors[Math.floor(Math.random()*colors.length)];
+    const size=8+Math.random()*8;
+    p.style.cssText=`position:absolute;width:${size}px;height:${size}px;left:${Math.random()*100}%;top:-10px;background:${c};border-radius:${Math.random()>.5?'50%':'2px'};opacity:1;animation:fall${i} ${1.5+Math.random()*2}s ${Math.random()*1.5}s forwards;`;
+    wrap.appendChild(p);
+    const st=document.createElement('style');
+    const tx=(Math.random()-.5)*200;
+    st.textContent=`@keyframes fall${i}{0%{top:-10px;opacity:1;transform:rotate(0deg) translateX(0);}100%{top:110vh;opacity:0;transform:rotate(720deg) translateX(${tx}px);}}`;
+    document.head.appendChild(st);
+  }
+  setTimeout(()=>wrap.remove(),5000);
+}
+
+buildMinis([1,2]); // 説明ステップは初期表示なので、読み込み時にミニテスト①②を組み立てる
+</script>
+</body>
+</html>
