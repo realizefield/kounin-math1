@@ -168,22 +168,22 @@ function buildQuestion(idx) {
   <div class="q-wrap active" id="qWrap">
     <div class="q-header">第 ${idx+1} 問 / 全 ${QUIZ.length} 問</div>
     <div class="q-text math-render">
-      ${q.q.replace(/\n/g,'< br> ')}
-      < div class="source"> 出典：${q.src}</div>
+      ${q.q.replace(/\n/g,'<br> ')}
+      <div class="source"> 出典：${q.src}</div>
     </div>
     <div class="choices">
       ${q.choices.map((c,ci)=> `
-        < button class="choice-btn math-render" onclick="onAnswer(${ci})">${c}< /button> 
+        <button class="choice-btn math-render" onclick="onAnswer(${ci})">${c}</button> 
       `).join('')}
-    < /div> 
-    < div class="explanation math-render" id="expBox"> 
-      < div class="ex-title"> 📝 解説< /div> 
+    </div> 
+    <div class="explanation math-render" id="expBox"> 
+      <div class="ex-title"> 📝 解説</div> 
       ${q.exp}
     </div>
     <button class="next-btn" id="nextBtn" onclick="nextQ()">
       ${idx <  QUIZ.length-1 ? '次の問題へ →' : '結果を見る →'}
-    < /button> 
-  < /div> `;
+    </button> 
+  </div> `;
   answered = false;
   updateProg(idx);
   doRender();
@@ -231,17 +231,17 @@ function showResult() {
   else                         { msg = '💪 復習が必要です'; sub = 'practice.html で各問題をもう一度確認しよう。'; }
 
   rs.innerHTML = `
-    < div class="result-circle"> 
-      < div class="result-score"> ${correct}</div>
-      <div class="result-total">/ ${QUIZ.length}< /div> 
-    < /div> 
-    < div class="result-msg"> ${msg}</div>
-    <div class="result-sub">${sub}< /div> 
-    < div class="btn-row"> 
-      < button class="btn-retry" onclick="retry()"> 🔁 もう一度< /button> 
-      < a class="btn-back" href="practice.html"> ← 演習に戻る< /a> 
-      < a class="btn-back" href="https://realizefield.github.io/gamba-kounin-seito/gamba-kounin-seito.html"> 🏠 メニューへ< /a> 
-    < /div> `;
+    <div class="result-circle"> 
+      <div class="result-score"> ${correct}</div>
+      <div class="result-total">/ ${QUIZ.length}</div> 
+    </div> 
+    <div class="result-msg"> ${msg}</div>
+    <div class="result-sub">${sub}</div> 
+    <div class="btn-row"> 
+      <button class="btn-retry" onclick="retry()"> 🔁 もう一度</button> 
+      <a class="btn-back" href="practice.html"> ← 演習に戻る</a> 
+      <a class="btn-back" href="https://realizefield.github.io/gamba-kounin-seito/gamba-kounin-seito.html"> 🏠 メニューへ</a> 
+    </div> `;
 
   if (pass) {
     if (typeof markPassed === 'function') markPassed('QU05');
