@@ -466,16 +466,16 @@ function buildUI() {
     year.qs.forEach((q, qi) =>  {
       const s = state[year.id][qi];
       html += `
-      <div class="q-card" id="card_${year.id}_${qi}">
+      < div class="q-card" id="card_${year.id}_${qi}"> 
         <div class="q-head"><div class="q-num">${q.num}</div>
           <div class="q-type">${q.type}</div>
         </div>
         <div class="q-body"><div class="q-text math-render">${q.text}</div>
           <div class="choices" id="choices_${year.id}_${qi}">
             ${q.choices.map((c, ci) =>  `
-              <button class="choice-btn math-render" onclick="answer('${year.id}',${qi},${ci})">${c}</button>`).join('')}
+              < button class="choice-btn math-render" onclick="answer('${year.id}',${qi},${ci})">${c}</button>`).join('')}
           </div>
-          <div class="explanation math-render" id="exp_${year.id}_${qi}">
+          < div class="explanation math-render" id="exp_${year.id}_${qi}"> 
             <div class="ex-title">📝 解説</div>
             ${q.exp}
           </div>
